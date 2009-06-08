@@ -1,0 +1,1 @@
+<a href="javascript:void([[+quip.comopt.id]]);" onclick="Quip.removeComment([[+quip.comopt.id]]); return false;" title="delete comment">x</a>

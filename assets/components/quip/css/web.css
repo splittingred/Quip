@@ -1,0 +1,52 @@
+@import url(./error.css);
+
+.quip a { text-decoration: none; }
+.quip a:hover { text-decoration: underline; }
+
+.quip-comment {
+    background-color: #eaeaea;
+    border-color: #ccc;
+    border-width: 1px 0;
+    border-style: solid;
+    padding: .5em;
+}
+.quip-comment-alt {
+    background-color: #fafafa;
+}
+.quip-comment-rightstuff {
+    float: right;
+    text-align: right;
+}
+.quip-comment-createdon {
+    font-style: italic;
+    color: #777;
+}
+.quip-comment-author { color: #888; }
+.quip-comment-author strong { color: #333; }
+
+.quip-add-comment p {
+    color: #888;
+    margin-bottom: .2em;
+}
+.quip-add-comment .textarea{
+    width:auto;
+}
+.quip-add-comment textarea {
+    width: 100%;
+    padding:0;
+}
+
+.quip-comment button {
+    float: right;
+    border: 1px solid #aaa;
+    padding: .3em;
+    margin-left: .5em;
+    cursor: pointer;
+}
+.quip-comment-options {
+    text-align: right;
+}
+.quip-comment-report {
+    color: #888;
+    font-size: .8em;
+}

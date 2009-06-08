@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="quip" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM">
+    <object class="quipComment" table="quip_comments" extends="xPDOSimpleObject">
+        <field key="thread" dbtype="varchar" precision="255" phptype="string" null="false" default="" index="index" />
+        <field key="parent" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="author" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="body" dbtype="text" phptype="text" null="false" default="" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="approved" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="0" index="index" /> 
+        <field key="approvedon" dbtype="datetime" phptype="datetime" null="false" />
+        
+        <aggregate alias="Author" class="modUser" local="author" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+</model>
