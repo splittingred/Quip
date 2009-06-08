@@ -1,11 +1,33 @@
 <?php
 /**
+ * Quip
+ *
+ * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ *
+ * This file is part of Quip, a simpel commenting component for MODx Revolution.
+ *
+ * Quip is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+ * Suite 330, Boston, MA 02111-1307 USA
+ *
+ * @package quip
+ */
+/**
  * @package quip
  */
 $xpdo_meta_map['quipComment']= array (
   'package' => 'quip',
   'table' => 'quip_comments',
-  'fields' => 
+  'fields' =>
   array (
     'thread' => '',
     'parent' => 0,
@@ -16,9 +38,9 @@ $xpdo_meta_map['quipComment']= array (
     'approved' => 0,
     'approvedon' => NULL,
   ),
-  'fieldMeta' => 
+  'fieldMeta' =>
   array (
-    'thread' => 
+    'thread' =>
     array (
       'dbtype' => 'varchar',
       'precision' => '255',
@@ -27,7 +49,7 @@ $xpdo_meta_map['quipComment']= array (
       'default' => '',
       'index' => 'index',
     ),
-    'parent' => 
+    'parent' =>
     array (
       'dbtype' => 'integer',
       'precision' => '10',
@@ -37,7 +59,7 @@ $xpdo_meta_map['quipComment']= array (
       'default' => 0,
       'index' => 'index',
     ),
-    'author' => 
+    'author' =>
     array (
       'dbtype' => 'integer',
       'precision' => '10',
@@ -47,26 +69,26 @@ $xpdo_meta_map['quipComment']= array (
       'default' => 0,
       'index' => 'index',
     ),
-    'body' => 
+    'body' =>
     array (
       'dbtype' => 'text',
       'phptype' => 'text',
       'null' => false,
       'default' => '',
     ),
-    'createdon' => 
+    'createdon' =>
     array (
       'dbtype' => 'datetime',
       'phptype' => 'datetime',
       'null' => false,
     ),
-    'editedon' => 
+    'editedon' =>
     array (
       'dbtype' => 'datetime',
       'phptype' => 'datetime',
       'null' => false,
     ),
-    'approved' => 
+    'approved' =>
     array (
       'dbtype' => 'tinyint',
       'precision' => '1',
@@ -76,16 +98,16 @@ $xpdo_meta_map['quipComment']= array (
       'default' => 0,
       'index' => 'index',
     ),
-    'approvedon' => 
+    'approvedon' =>
     array (
       'dbtype' => 'datetime',
       'phptype' => 'datetime',
       'null' => false,
     ),
   ),
-  'aggregates' => 
+  'aggregates' =>
   array (
-    'Author' => 
+    'Author' =>
     array (
       'class' => 'modUser',
       'local' => 'author',

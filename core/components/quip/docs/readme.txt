@@ -2,8 +2,9 @@
 Snippet: Quip
 --------------------
 Version: 0.1
-Since: May 26th, 2009
+Since: June 8th, 2009
 Author: Shaun McCormick <shaun@collabpad.com>
+License: GNU GPLv2 (or later at your option)
 
 This component is a simple commenting system. It allows you to easily
 put comments anywhere on your site. It allows you to also manage them

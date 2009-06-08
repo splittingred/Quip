@@ -1,15 +1,61 @@
 <?php
 /**
- * @package quip
- */
-/**
- * Simple commenting component
+ * Quip
+ *
+ * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ *
+ * This file is part of Quip, a simpel commenting component for MODx Revolution.
+ *
+ * Quip is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+ * Suite 330, Boston, MA 02111-1307 USA
  *
  * @package quip
  */
+/**
+ * This file is the main class file for Quip.
+ *
+ * @copyright Copyright (C) 2009, Shaun McCormick <shaun@collabpad.com>
+ * @author Shaun McCormick <shaun@collabpad.com>
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
+ * @package quip
+ */
 class Quip {
+    /**
+     * @access protected
+     * @var array A collection of preprocessed chunk values.
+     */
     protected $chunks = array();
+    /**
+     * @access public
+     * @var modX A reference to the modX object.
+     */
+    public $modx = null;
+    /**
+     * @access public
+     * @var array A collection of properties to adjust Quip behaviour.
+     */
+    public $config = array();
 
+    /**
+     * The Quip Constructor.
+     *
+     * This method is used to create a new Quip object.
+     *
+     * @param modX &$modx A reference to the modX object.
+     * @param array $config A collection of properties that modify Quip
+     * behaviour.
+     * @return Quip A unique Quip instance.
+     */
     function __construct(modX &$modx,array $config = array()) {
         $this->modx =& $modx;
 
@@ -65,6 +111,13 @@ class Quip {
         }
     }
 
+    /**
+     * Initializes Quip based on a specific context.
+     *
+     * @access public
+     * @param string $ctx The context to initialize in.
+     * @return string The processed content.
+     */
     public function initialize($ctx = 'mgr') {
         $output = '';
         switch ($ctx) {
@@ -86,6 +139,20 @@ class Quip {
         return $output;
     }
 
+    /**
+     * Processes the content of a chunk in either of the following ways:
+     *
+     * - Should the property tpl+chunkName be set, uses that content
+     * - Otherwise, loads chunk from file
+     *
+     * Also caches the preprocessed chunk content to an array to speed loading
+     * times, especially when looping through collections.
+     *
+     * @access public
+     * @param string $name The name of the chunk to process
+     * @param array $properties (optional) An array of properties
+     * @return string The processed content string
+     */
     public function getChunk($name,$properties = array()) {
         /* first check internal cache */
         if (!isset($this->chunks[$name])) {
@@ -109,6 +176,13 @@ class Quip {
         return $chunk->process($properties);
     }
 
+    /**
+     * Creates a temporary modChunk object from a tpl file.
+     *
+     * @access private
+     * @param string $name The name of the chunk to load from file.
+     * @return modChunk The newly created modChunk object.
+     */
     private function _getTplChunk($name) {
         $chunk = false;
         $f = $this->config['chunks_path'].strtolower($name).'.chunk.tpl';
@@ -122,7 +196,18 @@ class Quip {
     }
 
 
-
+    /**
+     * Builds simple pagination markup. Not yet used.
+     *
+     * TODO: add tpl configurability to li/a tags.
+     *
+     * @access public
+     * @param integer $count The total number of records
+     * @param integer $limit The number to limit to
+     * @param integer $start The record to start on
+     * @param string $url The URL to prefix a hrefs with
+     * @return string The rendered template.
+     */
     public function buildPagination($count,$limit,$start,$url) {
         $pageCount = $count / $limit;
         $curPage = $start / $limit;
