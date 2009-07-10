@@ -19,7 +19,7 @@ Quip.page.Thread = function(config) {
         }]
         ,components: [{
             xtype: 'quip-panel-thread'
-            ,renderTo: 'quip-panel-thread'
+            ,renderTo: 'quip-panel-thread-div'
             ,thread: config.thread
         }]
     }); 

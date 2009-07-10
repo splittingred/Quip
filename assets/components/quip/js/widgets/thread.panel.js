@@ -17,7 +17,8 @@ Quip.panel.Thread = function(config) {
                     xtype: 'quip-grid-comments'
                     ,thread: config.thread
                     ,preventRender: true
-                    ,bodyStyle: ''
+                    ,width: '98%'
+                    ,bodyStyle: 'padding: 0'
                 }]
             }]
         }]
