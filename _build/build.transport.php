@@ -57,22 +57,22 @@ $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
-$builder->createPackage('quip','0.1','beta3');
+$builder->createPackage('quip','0.1','beta4');
 $builder->registerNamespace('quip',false,true,'{core_path}components/quip/');
 
 /* load action/menu */
-$action = include $sources['data'].'transport.action.php';
+$menu = include $sources['data'].'transport.menu.php';
 
-$vehicle= $builder->createVehicle($action,array (
-    XPDO_TRANSPORT_PRESERVE_KEYS => false,
+$vehicle= $builder->createVehicle($menu,array (
+    XPDO_TRANSPORT_PRESERVE_KEYS => true,
     XPDO_TRANSPORT_UPDATE_OBJECT => true,
-    XPDO_TRANSPORT_UNIQUE_KEY => array ('namespace','controller'),
+    XPDO_TRANSPORT_UNIQUE_KEY => 'text',
     XPDO_TRANSPORT_RELATED_OBJECTS => true,
     XPDO_TRANSPORT_RELATED_OBJECT_ATTRIBUTES => array (
-        'Menus' => array (
+        'Action' => array (
             XPDO_TRANSPORT_PRESERVE_KEYS => false,
             XPDO_TRANSPORT_UPDATE_OBJECT => true,
-            XPDO_TRANSPORT_UNIQUE_KEY => array ('action', 'text'),
+            XPDO_TRANSPORT_UNIQUE_KEY => array ('namespace','controller'),
         ),
     ),
 ));
@@ -119,7 +119,7 @@ $attr = array(
     XPDO_TRANSPORT_UPDATE_OBJECT => true,
     XPDO_TRANSPORT_RELATED_OBJECTS => true,
     XPDO_TRANSPORT_RELATED_OBJECT_ATTRIBUTES => array (
-        'modSnippet' => array(
+        'Snippets' => array(
             XPDO_TRANSPORT_PRESERVE_KEYS => false,
             XPDO_TRANSPORT_UPDATE_OBJECT => true,
             XPDO_TRANSPORT_UNIQUE_KEY => 'name',
