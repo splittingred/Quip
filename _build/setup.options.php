@@ -33,9 +33,9 @@ $values = array(
     'emailsFrom' => 'my@emailhere.com',
     'emailsReplyTo' => 'my@emailhere.com',
 );
-switch ($options[XPDO_TRANSPORT_PACKAGE_ACTION]) {
-    case XPDO_TRANSPORT_ACTION_INSTALL:
-    case XPDO_TRANSPORT_ACTION_UPGRADE:
+switch ($options[xPDOTransport::PACKAGE_ACTION]) {
+    case xPDOTransport::ACTION_INSTALL:
+    case xPDOTransport::ACTION_UPGRADE:
         $setting = $modx->getObject('modSystemSetting',array('key' => 'quip.emailsTo'));
         if ($setting != null) { $values['emailsTo'] = $setting->get('value'); }
         unset($setting);
@@ -48,7 +48,7 @@ switch ($options[XPDO_TRANSPORT_PACKAGE_ACTION]) {
         if ($setting != null) { $values['emailsReplyTo'] = $setting->get('value'); }
         unset($setting);
     break;
-    case XPDO_TRANSPORT_ACTION_UNINSTALL: break;
+    case xPDOTransport::ACTION_UNINSTALL: break;
 }
 
 $output = '<label for="quip-emailsTo">Emails To:</label>

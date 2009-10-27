@@ -31,9 +31,9 @@ require_once MODX_CORE_PATH . 'model/modx/modrequest.class.php';
  * @extends modRequest
  */
 class QuipControllerRequest extends modRequest {
-    var $quip = null;
-    var $actionVar = 'action';
-    var $defaultAction = 'home';
+    public $quip = null;
+    public $actionVar = 'action';
+    public $defaultAction = 'home';
 
     function __construct(Quip &$quip) {
         parent :: __construct($quip->modx);
@@ -52,7 +52,7 @@ class QuipControllerRequest extends modRequest {
         /* save page to manager object. allow custom actionVar choice for extending classes. */
         $this->action = isset($_REQUEST[$this->actionVar]) ? $_REQUEST[$this->actionVar] : $this->defaultAction;
 
-        return $this->_prepareResponse();
+        return $this->_respond();
     }
 
     /**
@@ -61,7 +61,7 @@ class QuipControllerRequest extends modRequest {
      * @access public
      * @return boolean True if the response is properly prepared.
      */
-    function _prepareResponse() {
+    private function _respond() {
         $modx =& $this->modx;
         $quip =& $this->quip;
         $viewHeader = include $this->quip->config['core_path'].'controllers/mgr/header.php';

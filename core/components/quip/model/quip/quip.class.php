@@ -98,7 +98,7 @@ class Quip {
         if ($this->modx->getOption('debug',$this->config,false)) {
             error_reporting(E_ALL); ini_set('display_errors',true);
             $this->modx->setLogTarget('HTML');
-            $this->modx->setLogLevel(MODX_LOG_LEVEL_ERROR);
+            $this->modx->setLogLevel(modX::LOG_LEVEL_ERROR);
 
             $debugUser = $this->config['debugUser'] == '' ? $this->modx->user->get('username') : 'anonymous';
             $user = $this->modx->getObject('modUser',array('username' => $debugUser));

@@ -52,7 +52,7 @@ require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
 
 $modx= new modX();
 $modx->initialize('mgr');
-$modx->setLogLevel(MODX_LOG_LEVEL_INFO);
+$modx->setLogLevel(modX::LOG_LEVEL_INFO);
 $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
@@ -64,15 +64,15 @@ $builder->registerNamespace('quip',false,true,'{core_path}components/quip/');
 $menu = include $sources['data'].'transport.menu.php';
 
 $vehicle= $builder->createVehicle($menu,array (
-    XPDO_TRANSPORT_PRESERVE_KEYS => true,
-    XPDO_TRANSPORT_UPDATE_OBJECT => true,
-    XPDO_TRANSPORT_UNIQUE_KEY => 'text',
-    XPDO_TRANSPORT_RELATED_OBJECTS => true,
-    XPDO_TRANSPORT_RELATED_OBJECT_ATTRIBUTES => array (
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::UNIQUE_KEY => 'text',
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
         'Action' => array (
-            XPDO_TRANSPORT_PRESERVE_KEYS => false,
-            XPDO_TRANSPORT_UPDATE_OBJECT => true,
-            XPDO_TRANSPORT_UNIQUE_KEY => array ('namespace','controller'),
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
         ),
     ),
 ));
@@ -84,9 +84,9 @@ $settings = array();
 include_once $sources['data'].'transport.settings.php';
 
 $attributes= array(
-    XPDO_TRANSPORT_UNIQUE_KEY => 'key',
-    XPDO_TRANSPORT_PRESERVE_KEYS => true,
-    XPDO_TRANSPORT_UPDATE_OBJECT => false,
+    xPDOTransport::UNIQUE_KEY => 'key',
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => false,
 );
 foreach ($settings as $setting) {
     $vehicle = $builder->createVehicle($setting,$attributes);
@@ -114,26 +114,26 @@ $category->addMany($snippet);
 
 /* create category vehicle */
 $attr = array(
-    XPDO_TRANSPORT_UNIQUE_KEY => 'category',
-    XPDO_TRANSPORT_PRESERVE_KEYS => false,
-    XPDO_TRANSPORT_UPDATE_OBJECT => true,
-    XPDO_TRANSPORT_RELATED_OBJECTS => true,
-    XPDO_TRANSPORT_RELATED_OBJECT_ATTRIBUTES => array (
+    xPDOTransport::UNIQUE_KEY => 'category',
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
         'Snippets' => array(
-            XPDO_TRANSPORT_PRESERVE_KEYS => false,
-            XPDO_TRANSPORT_UPDATE_OBJECT => true,
-            XPDO_TRANSPORT_UNIQUE_KEY => 'name',
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => 'name',
         ),
     )
 );
 $vehicle = $builder->createVehicle($category,$attr);
 $vehicle->resolve('file',array(
     'source' => $sources['source_core'],
-    'target' => "return MODX_CORE_PATH . 'components/';",
+    'target' => "return modX::CORE_PATH . 'components/';",
 ));
 $vehicle->resolve('file',array(
     'source' => $sources['source_assets'],
-    'target' => "return MODX_ASSETS_PATH . 'components/';",
+    'target' => "return modX::ASSETS_PATH . 'components/';",
 ));
 $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'setupoptions.resolver.php',
@@ -161,6 +161,6 @@ $tend= $mtime;
 $totalTime= ($tend - $tstart);
 $totalTime= sprintf("%2.4f s", $totalTime);
 
-$modx->log(MODX_LOG_LEVEL_INFO,"\n<br />Package Built.<br />\nExecution time: {$totalTime}\n");
+$modx->log(modX::LOG_LEVEL_INFO,"\n<br />Package Built.<br />\nExecution time: {$totalTime}\n");
 
 exit ();

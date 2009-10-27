@@ -58,11 +58,11 @@ $modx->getService('mail', 'mail.modPHPMailer');
 $emailFrom = $modx->getOption('quip.emailsFrom',null,$emailTo);
 $emailReplyTo = $modx->getOption('quip.emailsReplyTo',null,$emailFrom);
 
-$modx->mail->set(MODX_MAIL_BODY, $body);
-$modx->mail->set(MODX_MAIL_FROM, $emailFrom);
-$modx->mail->set(MODX_MAIL_FROM_NAME, 'Quip');
-$modx->mail->set(MODX_MAIL_SENDER, 'Quip');
-$modx->mail->set(MODX_MAIL_SUBJECT, $modx->lexicon('quip.spam_email_subject'));
+$modx->mail->set(modMail::MAIL_BODY, $body);
+$modx->mail->set(modMail::MAIL_FROM, $emailFrom);
+$modx->mail->set(modMail::MAIL_FROM_NAME, 'Quip');
+$modx->mail->set(modMail::MAIL_SENDER, 'Quip');
+$modx->mail->set(modMail::MAIL_SUBJECT, $modx->lexicon('quip.spam_email_subject'));
 $modx->mail->address('to',$emailTo);
 $modx->mail->address('reply-to',$emailReplyTo);
 $modx->mail->setHTML(true);
