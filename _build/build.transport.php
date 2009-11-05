@@ -57,7 +57,7 @@ $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
-$builder->createPackage('quip','0.1','beta4');
+$builder->createPackage('quip','0.2','beta1');
 $builder->registerNamespace('quip',false,true,'{core_path}components/quip/');
 
 /* load action/menu */
