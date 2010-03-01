@@ -136,6 +136,9 @@ $vehicle->resolve('file',array(
 $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'setupoptions.resolver.php',
 ));
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'tables.resolver.php',
+));
 $builder->putVehicle($vehicle);
 
 /* load lexicon strings */
