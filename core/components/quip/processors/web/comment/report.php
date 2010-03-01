@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -27,30 +27,34 @@
  * @package quip
  * @subpackage processors
  */
-if (!isset($_POST['id']) || $_POST['id'] == '') {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
+if (empty($_POST['id'])) {
+    $errors['message'] = $modx->lexicon('quip.comment_err_ns');
+    return $errors;
 }
+
 $c = $modx->newQuery('quipComment');
 $c->leftJoin('modUser','Author');
-$c->select('quipComment.*,
-    Author.username AS username
+$c->select('
+    `quipComment`.*,
+    `Author`.`username` AS `username`
 ');
 $c->where(array(
     'id' => $_POST['id'],
 ));
 $comment = $modx->getObject('quipComment',$c);
 if ($comment == null) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
+    $errors['message'] = $modx->lexicon('quip.comment_err_nf');
+    return $errors;
 }
-
 
 $emailTo = $modx->getOption('quip.emailsTo',null,$modx->getOption('emailsender'));
 if (empty($emailTo)) {
-    return $modx->error->failure($modx->lexicon('quip.no_email_to_specified'));
+    $errors['message'] = $modx->lexicon('quip.no_email_to_specified');
+    return $errors;
 }
 
 $properties = $comment->toArray(true);
-$properties['url'] = $_POST['url'];
+$properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
 $body = $modx->lexicon('quip.spam_email',$properties);
 
 $modx->getService('mail', 'mail.modPHPMailer');
@@ -67,8 +71,8 @@ $modx->mail->address('to',$emailTo);
 $modx->mail->address('reply-to',$emailReplyTo);
 $modx->mail->setHTML(true);
 if (!$modx->mail->send()) {
-    return $modx->error->failure($modx->lexicon('error_sending_email_to').$emailTo);
+    //$errors['message'] = $modx->lexicon('error_sending_email_to').': '.$emailTo;
 }
 $modx->mail->reset();
 
-return $modx->error->success();
+return $errors;

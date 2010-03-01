@@ -1,21 +1,12 @@
-<form id="quip-add-comment" action="[[+quip.self]]" method="post"> 
-
-<div class="quip-comment" id="quip-comment-preview-box" style="display: none;">
-    <span class="quip-comment-author">[[%quip.username_said? &username=`[[+quip.username]]`]]</span><br />
-
-    <p class="quip-comment-body" id="quip-comment-preview"></p>
-    
-    <button type="button" onclick="Quip.closePreview(); return false;">[[%quip.close]]</button>
-    <button type="button" onclick="Quip.postComment('[[+quip.thread]]','[[+quip.self]]'); return false;">[[%quip.post]]</button>
-    <br class="clear" />
-</div>
-
+<form id="quip-add-comment" action="[[+self]]" method="post">
 <div class="quip-comment quip-add-comment">
-    <p>[[%quip.comment_add_new]]</p>
+    <p><span class="quip-allowed-tags">[[%quip.allowed_tags? &tags=`[[++quip.allowed_tags:htmlent]]`]]</span>[[%quip.comment_add_new]] </p>
     
-    <textarea name="comment" id="quip-comment-box"></textarea>
+    <span class="quip-error">[[+error]]</span>
     
-    <button type="button" onclick="Quip.previewComment(); return false;">[[%quip.preview]]</button>
+    <textarea name="comment" id="quip-comment-box" rows="5">[[+comment]]</textarea>
+    
+    <button type="submit" name="quip-preview" value="1">[[%quip.preview]]</button>
     
     <br class="clear" />
 </div>

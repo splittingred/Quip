@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *

@@ -23,6 +23,28 @@
  */
 /**
  * @package quip
+ * @subpackage build
  */
-require_once (strtr(realpath(dirname(dirname(__FILE__))), '\\', '/') . '/quipcomment.class.php');
-class quipComment_mysql extends quipComment {}
+$snippets = array();
+
+$snippets[1]= $modx->newObject('modSnippet');
+$snippets[1]->fromArray(array(
+    'id' => 1,
+    'name' => 'Quip',
+    'description' => 'A simple commenting component.',
+    'snippet' => getSnippetContent($sources['source_core'].'/snippets/snippet.quip.php'),
+));
+$properties = include $sources['data'].'properties.quip.php';
+$snippets[1]->setProperties($properties);
+
+$snippets[2]= $modx->newObject('modSnippet');
+$snippets[2]->fromArray(array(
+    'id' => 2,
+    'name' => 'QuipCount',
+    'description' => 'An assistance snippet for getting thread/user comment counts.',
+    'snippet' => getSnippetContent($sources['source_core'].'/snippets/snippet.quipcount.php'),
+));
+$properties = include $sources['data'].'properties.quipcount.php';
+$snippets[2]->setProperties($properties);
+
+return $snippets;

@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -22,25 +22,13 @@
  * @package quip
  */
 /**
- * Quip Connector
- *
  * @package quip
+ * @subpackage build
  */
-/* Load custom Quip defines and modx object */
-require_once dirname(dirname(dirname(dirname(__FILE__)))).'/config.core.php';
-require_once MODX_CORE_PATH.'config/'.MODX_CONFIG_KEY.'.inc.php';
-require_once MODX_CONNECTORS_PATH.'index.php';
-
-require_once MODX_CORE_PATH.'components/quip/model/quip/quip.class.php';
-$modx->quip = new Quip($modx);
-
-if (isset($_REQUEST['resource'])) {
-    $modx->resource = $modx->getObject('modResource',$_REQUEST['resource']);
+function getSnippetContent($filename) {
+    $o = file_get_contents($filename);
+    $o = str_replace('<?php','',$o);
+    $o = str_replace('?>','',$o);
+    $o = trim($o);
+    return $o;
 }
-
-/* handle request */
-$path = $modx->getOption('processors_path',$modx->quip->config,$modx->getOption('core_path').'components/quip/processors/');
-$modx->request->handleRequest(array(
-    'processors_path' => $path,
-    'location' => '',
-));

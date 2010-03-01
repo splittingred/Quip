@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -27,16 +27,17 @@
  * @package quip
  * @subpackage processors
  */
-if (!isset($_POST['id']) || $_POST['id'] == '') {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
+$errors = array();
+if (empty($_POST['id'])) {
+    $errors['message'] = $modx->lexicon('quip.comment_err_ns');
+    return $errors;
 }
+
 $comment = $modx->getObject('quipComment',$_POST['id']);
-if ($comment == null) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
+if (empty($comment)) { $errors['message'] = $modx->lexicon('quip.comment_err_nf'); }
+
+if (empty($errors) && $comment->remove() === false) {
+    $errors['message'] = $modx->lexicon('quip.comment_err_remove');
 }
 
-if ($comment->remove() === false) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_remove'));
-}
-
-return $modx->error->success();
+return $errors;

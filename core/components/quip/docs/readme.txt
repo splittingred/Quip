@@ -2,7 +2,7 @@
 Snippet: Quip
 --------------------
 Version: 0.1
-Since: June 8th, 2009
+Since: June 8th, 2010
 Author: Shaun McCormick <shaun@collabpad.com>
 License: GNU GPLv2 (or later at your option)
 

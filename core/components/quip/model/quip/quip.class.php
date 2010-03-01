@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -24,7 +24,7 @@
 /**
  * This file is the main class file for Quip.
  *
- * @copyright Copyright (C) 2009, Shaun McCormick <shaun@collabpad.com>
+ * @copyright Copyright (C) 2010, Shaun McCormick <shaun@collabpad.com>
  * @author Shaun McCormick <shaun@collabpad.com>
  * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
  * @package quip
@@ -59,20 +59,24 @@ class Quip {
     function __construct(modX &$modx,array $config = array()) {
         $this->modx =& $modx;
 
-        $core = $this->modx->getOption('core_path').'components/quip/';
-        $assets_url = $this->modx->getOption('assets_url').'components/quip/';
-        $assets_path = $this->modx->getOption('assets_path').'components/quip/';
-        $this->config = array_merge(array(
-            'core_path' => $core,
-            'model_path' => $core.'model/',
-            'processors_path' => $core.'processors/',
-            'controllers_path' => $core.'controllers/',
-            'chunks_path' => $core.'chunks/',
+        /* allows you to set paths in different environments
+         * this allows for easier SVN management of files
+         */
+        $corePath = $this->modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/');
+        $assetsPath = $this->modx->getOption('quip.assets_path',null,$modx->getOption('assets_path').'components/quip/');
+        $assetsUrl = $this->modx->getOption('quip.assets_url',null,$modx->getOption('assets_url').'components/quip/');
 
-            'base_url' => $assets_url,
-            'css_url' => $assets_url.'css/',
-            'js_url' => $assets_url.'js/',
-            'connector_url' => $assets_url.'connector.php',
+        $this->config = array_merge(array(
+            'core_path' => $corePath,
+            'model_path' => $corePath.'model/',
+            'processors_path' => $corePath.'processors/',
+            'controllers_path' => $corePath.'controllers/',
+            'chunks_path' => $corePath.'chunks/',
+
+            'base_url' => $assetsUrl,
+            'css_url' => $assetsUrl.'css/',
+            'js_url' => $assetsUrl.'js/',
+            'connector_url' => $assetsUrl.'connector.php',
 
             'thread' => '',
 
@@ -128,46 +132,33 @@ class Quip {
                 $this->request = new QuipControllerRequest($this);
                 $output = $this->request->handleRequest();
                 break;
-            default:
-                if (!$this->modx->loadClass('quip.request.QuipViewRequest',$this->config['model_path'],true,true)) {
-                    return 'Could not load view request handler.';
-                }
-                $this->request = new QuipViewRequest($this);
-                $output = $this->request->handle();
-                break;
         }
         return $output;
     }
 
     /**
-     * Processes the content of a chunk in either of the following ways:
+     * Gets a Chunk and caches it; also falls back to file-based templates
+     * for easier debugging.
      *
-     * - Should the property tpl+chunkName be set, uses that content
-     * - Otherwise, loads chunk from file
-     *
-     * Also caches the preprocessed chunk content to an array to speed loading
-     * times, especially when looping through collections.
+     * Will always use the file-based chunk if $debug is set to true.
      *
      * @access public
-     * @param string $name The name of the chunk to process
-     * @param array $properties (optional) An array of properties
-     * @return string The processed content string
+     * @param string $name The name of the Chunk
+     * @param array $properties The properties for the Chunk
+     * @return string The processed content of the Chunk
      */
     public function getChunk($name,$properties = array()) {
-        /* first check internal cache */
+        $chunk = null;
         if (!isset($this->chunks[$name])) {
-            /* if specifying chunk value in snippet properties */
-            if (!empty($this->config['tpl'.$name])) {
-                $chunk = $this->modx->newObject('modChunk');
-                $chunk->setContent($this->config['tpl'.$name]);
+            if (!$this->modx->getOption('quip.debug',null,false)) {
+                $chunk = $this->modx->getObject('modChunk',array('name' => $name),true);
             }
-            /* if using default chunk names, defaulting to files */
             if (empty($chunk)) {
                 $chunk = $this->_getTplChunk($name);
-                if ($chunk == false) return false;
+                if ($chunk == $name) return $name;
             }
             $this->chunks[$name] = $chunk->getContent();
-        } else { /* load chunk from cache */
+        } else {
             $o = $this->chunks[$name];
             $chunk = $this->modx->newObject('modChunk');
             $chunk->setContent($o);
@@ -175,16 +166,16 @@ class Quip {
         $chunk->setCacheable(false);
         return $chunk->process($properties);
     }
-
     /**
-     * Creates a temporary modChunk object from a tpl file.
+     * Returns a modChunk object from a template file.
      *
      * @access private
-     * @param string $name The name of the chunk to load from file.
-     * @return modChunk The newly created modChunk object.
+     * @param string $name The name of the Chunk. Will parse to name.chunk.tpl
+     * @return modChunk/boolean Returns the modChunk object if found, otherwise
+     * false.
      */
     private function _getTplChunk($name) {
-        $chunk = false;
+        $chunk = $name;
         $f = $this->config['chunks_path'].strtolower($name).'.chunk.tpl';
         if (file_exists($f)) {
             $o = file_get_contents($f);

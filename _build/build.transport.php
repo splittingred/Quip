@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -47,17 +47,18 @@ $sources= array (
 unset($root);
 
 /* override with your own defines here (see build.config.sample.php) */
-require_once dirname(__FILE__) . '/build.config.php';
+require_once $sources['build'] . 'includes/functions.php';
+require_once $sources['build'] . 'build.config.php';
 require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
 
 $modx= new modX();
 $modx->initialize('mgr');
 $modx->setLogLevel(modX::LOG_LEVEL_INFO);
-$modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
+$modx->setLogTarget('ECHO'); echo '<pre>'; flush();
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
-$builder->createPackage('quip','0.2','beta1');
+$builder->createPackage('quip','0.3','beta1');
 $builder->registerNamespace('quip',false,true,'{core_path}components/quip/');
 
 /* load action/menu */
@@ -96,21 +97,17 @@ unset($settings,$setting,$attributes);
 
 
 /* create category */
+$modx->log(modX::LOG_LEVEL_INFO,'Creating category.'); flush();
 $category= $modx->newObject('modCategory');
 $category->set('id',1);
 $category->set('category','Quip');
 
-
-/* create the snippet */
-$snippet= $modx->newObject('modSnippet');
-$snippet->set('id',0);
-$snippet->set('name', 'Quip');
-$snippet->set('description', 'A simple commenting component.');
-$snippet->set('snippet',file_get_contents($sources['source_core'].'/snippet.quip.php'));
-
-$properties = include $sources['data'].'properties.inc.php';
-$snippet->setProperties($properties);
-$category->addMany($snippet);
+/* add snippets */
+$modx->log(modX::LOG_LEVEL_INFO,'Adding in base-level snippets.'); flush();
+$snippets = include $sources['data'].'transport.snippets.php';
+if (is_array($snippets)) {
+    $category->addMany($snippets,'Snippets');
+} else { $modx->log(modX::LOG_LEVEL_FATAL,'Adding base-level snippets failed.'); }
 
 /* create category vehicle */
 $attr = array(
@@ -127,6 +124,7 @@ $attr = array(
     )
 );
 $vehicle = $builder->createVehicle($category,$attr);
+$modx->log(modX::LOG_LEVEL_INFO,'Adding in resolvers.'); flush();
 $vehicle->resolve('file',array(
     'source' => $sources['source_core'],
     'target' => "return MODX_CORE_PATH . 'components/';",
@@ -141,9 +139,11 @@ $vehicle->resolve('php',array(
 $builder->putVehicle($vehicle);
 
 /* load lexicon strings */
+$modx->log(modX::LOG_LEVEL_INFO,'Adding in Lexicon.'); flush();
 $builder->buildLexicon($sources['lexicon']);
 
 /* now pack in the license file, readme and setup options */
+$modx->log(modX::LOG_LEVEL_INFO,'Adding in package attributes.'); flush();
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
@@ -152,6 +152,7 @@ $builder->setPackageAttributes(array(
     ),
 ));
 
+$modx->log(modX::LOG_LEVEL_INFO,'Packing...'); flush();
 $builder->pack();
 
 $mtime= microtime();

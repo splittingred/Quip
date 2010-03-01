@@ -28,6 +28,12 @@
     color: #888;
     margin-bottom: .2em;
 }
+span.quip-allowed-tags {
+    font-weight: normal;
+    font-size: 11px;
+    font-style: none;
+    float: right;
+    }
 .quip-add-comment .textarea{
     width:auto;
 }
@@ -36,7 +42,7 @@
     padding:0;
 }
 
-.quip-comment button {
+.quip-comment input[type=submit] {
     float: right;
     border: 1px solid #aaa;
     padding: .3em;
@@ -50,3 +56,5 @@
     color: #888;
     font-size: .8em;
 }
+
+.quip-error { color: red; }

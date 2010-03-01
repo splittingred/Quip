@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -51,6 +51,15 @@ $settings['quip.emailsReplyTo']->fromArray(array(
     'xtype' => 'textfield',
     'namespace' => 'quip',
     'area' => 'email',
+),'',true,true);
+
+$settings['quip.allowed_tags']= $modx->newObject('modSystemSetting');
+$settings['quip.allowed_tags']->fromArray(array(
+    'key' => 'quip.allowed_tags',
+    'value' => '<b><i><br>',
+    'xtype' => 'textfield',
+    'namespace' => 'quip',
+    'area' => 'Tags',
 ),'',true,true);
 
 return $settings;

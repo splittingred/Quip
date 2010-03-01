@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2009 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -50,6 +50,7 @@ $_lang['quip.no_email_to_specified'] = 'Quip cannot send a spam report email bec
 $_lang['quip.post'] = 'Post';
 $_lang['quip.postedon'] = 'Posted On';
 $_lang['quip.preview'] = 'Preview';
+$_lang['quip.remove'] = 'Remove';
 $_lang['quip.report_as_spam'] = 'Report as Spam';
 $_lang['quip.reported_as_spam'] = 'Reported as Spam';
 $_lang['quip.spam_email'] = '<p>Hello,</p>

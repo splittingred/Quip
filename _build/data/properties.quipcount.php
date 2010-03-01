@@ -22,33 +22,35 @@
  * @package quip
  */
 /**
- * Adds modActions and modMenus into package
+ * Default snippet properties for QuipCount
  *
  * @package quip
  * @subpackage build
  */
-$action= $modx->newObject('modAction');
-$action->fromArray(array(
-    'id' => 1,
-    'namespace' => 'quip',
-    'parent' => 0,
-    'controller' => 'index',
-    'haslayout' => 1,
-    'lang_topics' => 'quip:default,file',
-    'assets' => '',
-),'',true,true);
-
-/* load menu into action */
-$menu= $modx->newObject('modMenu');
-$menu->fromArray(array(
-    'parent' => 'components',
-    'text' => 'quip',
-    'description' => 'quip_desc',
-    'icon' => 'images/icons/plugin.gif',
-    'menuindex' => '0',
-    'params' => '',
-    'handler' => '',
-),'',true,true);
-$menu->addOne($action);
-
-return $menu;
+$properties = array(
+    array(
+        'name' => 'type',
+        'desc' => 'If set to Thread, will count the # of comments in a thread. If set to User, will grab # of total comments by a User.',
+        'type' => 'list',
+        'options' => array(
+            array('text' => 'Thread','value' => 'thread'),
+            array('text' => 'User','value' => 'user'),
+        ),
+        'value' => 'thread',
+    ),
+    array(
+        'name' => 'thread',
+        'desc' => 'The thread ID to pull from. Only if type is set to Thread.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+    ),
+    array(
+        'name' => 'user',
+        'desc' => 'The User ID or username to pull from. Only if type is set to User.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+    ),
+);
+return $properties;
