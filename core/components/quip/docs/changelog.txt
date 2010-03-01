@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 0.3 ($LastChangedRevision$, $LastChangedDate$)
 ====================================
+- Refactored build script
 - Added QuipCount snippet, an assistance snippet for counting comments in threads or by user
 - Added tag stripping support with setting to set which tags to strip
 - Added many, many options to the Quip snippet

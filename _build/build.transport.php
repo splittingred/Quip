@@ -37,11 +37,11 @@ $root = dirname(dirname(__FILE__)).'/';
 $sources= array (
     'root' => $root,
     'build' => $root .'_build/',
-    'lexicon' => $root . '_build/lexicon/',
     'resolvers' => $root . '_build/resolvers/',
     'data' => $root . '_build/data/',
     'source_core' => $root.'core/components/quip',
     'source_assets' => $root.'assets/components/quip',
+    'lexicon' => $root . 'core/components/quip/lexicon/',
     'docs' => $root.'core/components/quip/docs/',
 );
 unset($root);
@@ -81,14 +81,14 @@ $builder->putVehicle($vehicle);
 unset($vehicle,$action);
 
 /* load system settings */
-$settings = array();
-include_once $sources['data'].'transport.settings.php';
-
+$modx->log(modX::LOG_LEVEL_INFO,'Adding in system settings.'); flush();
+$settings = include_once $sources['data'].'transport.settings.php';
 $attributes= array(
     xPDOTransport::UNIQUE_KEY => 'key',
     xPDOTransport::PRESERVE_KEYS => true,
     xPDOTransport::UPDATE_OBJECT => false,
 );
+if (!is_array($settings)) { $modx->log(modX::LOG_LEVEL_FATAL,'Adding settings failed.'); }
 foreach ($settings as $setting) {
     $vehicle = $builder->createVehicle($setting,$attributes);
     $builder->putVehicle($vehicle);
