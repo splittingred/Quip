@@ -29,6 +29,7 @@
  */
 $_lang['quip'] = 'Quip';
 $_lang['quip_desc'] = 'A simple commenting component.';
+$_lang['quip.allowed_tags'] = 'Allowed tags: [[+tags]]';
 $_lang['quip.author'] = 'Author';
 $_lang['quip.back_to_threads'] = 'Back to Thread Listing';
 $_lang['quip.body'] = 'Body';

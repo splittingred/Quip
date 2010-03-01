@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 0.3 ($LastChangedRevision$, $LastChangedDate$)
 ====================================
+- Added in missing lexicon entry
 - Fixed bugs in build script
 - Refactored build script
 - Added QuipCount snippet, an assistance snippet for counting comments in threads or by user
