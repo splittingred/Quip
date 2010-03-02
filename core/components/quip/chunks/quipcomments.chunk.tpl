@@ -4,8 +4,8 @@
 	<div id="quip-topofcomments"></div>
 
 	[[+quip.comments]]
-	
-	[[+quip.addcomment]]
-	
+
     [[+preview]]
+	
+	[[+quip.addcomment]]	
 </div>

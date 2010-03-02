@@ -8,7 +8,7 @@
             [[+options]]
         </span>
     </div>
-    <span class="quip-comment-author">[[%quip.username_said? &username=`[[+username]]`]]</span><br />
+    <span class="quip-comment-author">[[%quip.username_said? &username=`[[+name]]`]]</span><br />
     
     <p class="quip-comment-body">[[+body]]</p>
 </form>

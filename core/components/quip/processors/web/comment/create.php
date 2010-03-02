@@ -28,7 +28,29 @@
  * @subpackage processors
  */
 $errors = array();
+/* verify a message was posted */
 if (empty($_POST['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
+if (empty($_POST['name'])) $errors[] = $modx->lexicon('quip.name_err_ns');
+if (empty($_POST['email'])) $errors[] = $modx->lexicon('quip.email_err_ns');
+
+if ($requireAuth && $_POST['author'] != $modx->user->get('id')) {
+    $errors['message'] = $modx->lexicon('quip.err_fraud_attempt');
+    return $errors;
+}
+
+/* verify against spam */
+if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['model_path'],true,true)) {
+    $sfspam = new StopForumSpam($modx);
+    $spamResult = $sfspam->check($_SERVER['REMOTE_ADDR'],$_POST['email']);
+    if (!empty($spamResult)) {
+        $spamFields = implode($modx->lexicon('quip.spam_marked')."\n<br />",$spamResult);
+        $errors['email'] = $modx->lexicon('quip.spam_blocked',array(
+            'fields' => $spamFields,
+        ));
+    }
+} else {
+    $modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Couldnt load StopForumSpam class.');
+}
 
 /* sanity checks - strip out iframe/javascript */
 $body = $_POST['comment'];
@@ -37,14 +59,23 @@ $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
 $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
 $body = strip_tags($body,$allowedTags);
 
-$comment = $modx->newObject('quipComment');
-$comment->set('body',$body);
-$comment->set('thread',$scriptProperties['thread']);
-$comment->set('createdon',strftime('%Y-%m-%d %H:%M:%S'));
-$comment->set('username',$modx->user->get('username'));
-$comment->set('author',$modx->user->get('id'));
+if (empty($errors)) {
+    $comment = $modx->newObject('quipComment');
+    $comment->fromArray($_POST);
+    $comment->set('body',$body);
+    $comment->set('thread',$scriptProperties['thread']);
+    $comment->set('createdon',strftime('%Y-%m-%d %H:%M:%S'));
 
-if ($comment->save() == false) {
-    $errors['message'] = $modx->lexicon('quip.comment_err_save');
+    if ($comment->save() == false) {
+        $errors['message'] = $modx->lexicon('quip.comment_err_save');
+    } elseif ($requireAuth) {
+        $profile = $modx->user->getOne('Profile');
+        if ($profile) {
+            $profile->set('fullname',$_POST['name']);
+            $profile->set('email',$_POST['email']);
+            $profile->set('website',$_POST['website']);
+            $profile->save();
+        }
+    }
 }
 return $errors;

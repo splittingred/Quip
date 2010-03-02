@@ -43,7 +43,6 @@ $modx->setLogLevel(modX::LOG_LEVEL_INFO);
 $modx->setLogTarget('ECHO');
 
 $root = dirname(dirname(__FILE__)).'/';
-$root = MODX_BASE_PATH;
 $sources = array(
     'root' => $root,
     'core' => $root.'core/components/quip/',

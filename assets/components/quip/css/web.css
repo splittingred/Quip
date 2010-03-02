@@ -34,13 +34,24 @@ span.quip-allowed-tags {
     font-style: none;
     float: right;
     }
-.quip-add-comment .textarea{
+.quip-add-comment .textarea {
     width:auto;
 }
 .quip-add-comment textarea {
     width: 100%;
     padding:0;
 }
+.quip-add-comment input[type=text] {
+    width: 50%;
+    float: left;
+    border: 1px solid #888;
+    padding: 5px;
+    }
+.quip-add-comment label {
+    width: 20%;
+    float: left;
+    }
+.quip-fld br { clear: both; }
 
 .quip-comment input[type=submit] {
     float: right;

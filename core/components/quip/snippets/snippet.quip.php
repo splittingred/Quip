@@ -46,17 +46,19 @@ unset($params['reported']);
 $placeholders['self'] = $modx->makeUrl($modx->resource->get('id'),'',$params);
 
 /* get default properties */
+$requireAuth = $modx->getOption('requireAuth',$scriptProperties,false);
 $commentTpl = $modx->getOption('tplComment',$scriptProperties,'quipComment');
 $commentOptionsTpl = $modx->getOption('tplCommentOptions',$scriptProperties,'quipCommentOptions');
 $commentsTpl = $modx->getOption('tplComments',$scriptProperties,'quipComments');
 $reportCommentTpl = $modx->getOption('tplReport',$scriptProperties,'quipReport');
 $addCommentTpl = $modx->getOption('tplAddComment',$scriptProperties,'quipAddComment');
 $loginToCommentTpl = $modx->getOption('tplLoginToComment',$scriptProperties,'quipLoginToComment');
-$previewTpl = $modx->getOption('tplPreview',$scriptProperties,'QuipPreviewComment');
+$previewTpl = $modx->getOption('tplPreview',$scriptProperties,'quipPreviewComment');
 
 $useCss = $modx->getOption('useCss',$scriptProperties,true);
 $altRowCss = $modx->getOption('altRowCss',$scriptProperties,'quip-comment-alt');
 $dateFormat = $modx->getOption('dateFormat',$scriptProperties,'%b %d, %Y at %I:%M %p');
+$showWebsite = $modx->getOption('showWebsite',$scriptProperties,true);
 
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'createdon');
 $sortByAlias = $modx->getOption('sortByAlias',$scriptProperties,'quipComment');
@@ -112,7 +114,7 @@ if ($useCss) {
 
 /* get comments */
 $c = $modx->newQuery('quipComment');
-$c->innerJoin('modUser','Author');
+$c->leftJoin('modUser','Author');
 $c->where(array(
     'quipComment.thread' => $scriptProperties['thread'],
 ));
@@ -148,19 +150,31 @@ foreach ($comments as $comment) {
         $commentArray['report'] = '';
     }
     $commentArray['self'] = $placeholders['self'];
+    if ($showWebsite && !empty($commentArray['website'])) {
+        $commentArray['name'] = '<a href="'.$commentArray['website'].'">'.$commentArray['name'].'</a>';
+    }
     $placeholders['comments'] .= $quip->getChunk($commentTpl,$commentArray);
     $alt = !$alt;
 }
 
 $placeholders['addcomment'] = '';
-if ($hasAuth && !$modx->getOption('closed',$scriptProperties,false)) {
-    $placeholders['addcomment'] = $quip->getChunk($addCommentTpl,array(
-        'self' => $placeholders['self'],
+if ((!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,false)) {
+    $phs = array_merge($placeholders,array(
         'username' => $modx->user->get('username'),
         'thread' => $scriptProperties['thread'],
-        'error' => $placeholders['error'],
-        'comment' => $placeholders['comment'],
     ));
+
+    /* prefill fields */
+    if ($requireAuth) {
+        $profile = $modx->user->getOne('Profile');
+        if ($profile) {
+            $phs['name'] = !empty($_POST['name']) ? $_POST['name'] : $profile->get('fullname');
+            $phs['email'] = !empty($_POST['email']) ? $_POST['email'] : $profile->get('email');
+            $phs['website'] = !empty($_POST['website']) ? $_POST['website'] : $profile->get('website');
+        }
+    }
+
+    $placeholders['addcomment'] = $quip->getChunk($addCommentTpl,$phs);
 } else {
     $placeholders['addcomment'] = $quip->getChunk($loginToCommentTpl,$placeholders);
 }
