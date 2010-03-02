@@ -1,7 +1,7 @@
 Changelog for Quip.
 
 Quip 0.3 ($LastChangedRevision$, $LastChangedDate$)
-====================================
+=====================================
 - Added in spam filtering via StopForumSpam
 - Added name, email, website fields
 - Changed default behavior to not require authorization unless &requireAuth=`1`

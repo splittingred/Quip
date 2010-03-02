@@ -29,6 +29,13 @@
  */
 $properties = array(
     array(
+        'name' => 'requireAuth',
+        'desc' => 'If set to true, only logged-in users can post comments.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+    ),
+    array(
         'name' => 'closed',
         'desc' => 'If set to true, the thread will not accept new comments.',
         'type' => 'combo-boolean',
