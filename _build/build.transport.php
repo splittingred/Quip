@@ -134,10 +134,13 @@ $vehicle->resolve('file',array(
     'target' => "return MODX_ASSETS_PATH . 'components/';",
 ));
 $vehicle->resolve('php',array(
-    'source' => $sources['resolvers'] . 'setupoptions.resolver.php',
+    'source' => $sources['resolvers'] . 'tables.resolver.php',
 ));
 $vehicle->resolve('php',array(
-    'source' => $sources['resolvers'] . 'tables.resolver.php',
+    'source' => $sources['resolvers'] . 'dbchanges.resolver.php',
+));
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'setupoptions.resolver.php',
 ));
 $builder->putVehicle($vehicle);
 
