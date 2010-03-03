@@ -1,11 +1,11 @@
 <div class="quip">
-	<h3>[[%quip.comments]] ([[+quip.total]])</h3>
+	<h3>[[%quip.comments]] ([[+total]])</h3>
 	
 	<div id="quip-topofcomments"></div>
 
-	[[+quip.comments]]
+	[[+comments]]
 
     [[+preview]]
 	
-	[[+quip.addcomment]]	
+	[[+addcomment]]	
 </div>
