@@ -7,7 +7,7 @@ Quip.grid.Comments = function(config) {
             action: 'mgr/comment/getList'
             ,thread: config.thread
         }
-        ,fields: ['id','author','username','body','createdon','menu']
+        ,fields: ['id','author','username','body','createdon','name','website','email','menu']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
@@ -83,6 +83,21 @@ Quip.window.UpdateComment = function(config) {
         ,fields: [{
             xtype: 'hidden'
             ,name: 'id'
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('quip.name')
+            ,name: 'name'
+            ,anchor: '90%'        
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('quip.email')
+            ,name: 'email'
+            ,anchor: '90%'        
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('quip.website')
+            ,name: 'website'
+            ,anchor: '90%'        
         },{
             xtype: 'textarea'
             ,hideLabel: true

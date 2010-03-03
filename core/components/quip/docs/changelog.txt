@@ -2,6 +2,8 @@ Changelog for Quip.
 
 Quip 0.3 ($LastChangedRevision$, $LastChangedDate$)
 ======================================
+- Added in fields to mgr ui for editing name,website,email in comments
+- Fixed connector for mgr ui
 - Fixing build script
 - Added in spam filtering via StopForumSpam
 - Added name, email, website fields
