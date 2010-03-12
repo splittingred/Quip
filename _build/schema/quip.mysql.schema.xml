@@ -10,9 +10,9 @@
         <field key="editedon" dbtype="datetime" phptype="datetime" null="false" />
         <field key="approved" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="1" index="index" /> 
         <field key="approvedon" dbtype="datetime" phptype="datetime" null="false" />
-        <field key="name" dbtype="varchar" precison="255" phptype="string" null="false" default="" />
-        <field key="email" dbtype="varchar" precison="255" phptype="string" null="false" default="" />
-        <field key="website" dbtype="varchar" precison="255" phptype="string" null="false" default="" />
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
+        <field key="email" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
+        <field key="website" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
         
         <aggregate alias="Author" class="modUser" local="author" foreign="id" cardinality="one" owner="foreign" />
     </object>

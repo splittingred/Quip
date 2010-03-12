@@ -88,7 +88,7 @@ $xpdo_meta_map['quipComment']= array (
     'name' => 
     array (
       'dbtype' => 'varchar',
-      'precison' => '255',
+      'precision' => '255',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
@@ -96,7 +96,7 @@ $xpdo_meta_map['quipComment']= array (
     'email' => 
     array (
       'dbtype' => 'varchar',
-      'precison' => '255',
+      'precision' => '255',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
@@ -104,7 +104,7 @@ $xpdo_meta_map['quipComment']= array (
     'website' => 
     array (
       'dbtype' => 'varchar',
-      'precison' => '255',
+      'precision' => '255',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
