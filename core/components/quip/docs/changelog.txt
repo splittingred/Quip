@@ -2,6 +2,8 @@ Changelog for Quip.
 
 Quip 0.3 ($LastChangedRevision$, $LastChangedDate$)
 ======================================
+- Fixed issues where Quip could only be run once on a page, now can be run multiple times
+- Fixed bugs where quip wasn't prefilling fields for logged in users
 - Fixed bug in build script setup options handler
 - Fixed typo in model that was causing install errors
 - Fixed placeholders in quipComments chunk

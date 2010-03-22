@@ -1,5 +1,6 @@
 <div class="quip-comment [[+alt]]" id="qcom[[+id]]">
 <form action="[[+self]]" method="post">
+    <input type="hidden" name="thread" value="[[+thread]]" />
     <input type="hidden" name="id" value="[[+id]]" />
     <div class="quip-comment-rightstuff">
         <span class="quip-comment-createdon">[[+createdon]]</span><br />

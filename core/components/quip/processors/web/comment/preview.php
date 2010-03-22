@@ -44,7 +44,7 @@ if (empty($errors)) {
         'comment' => $body,
         'createdon' => strftime($dateFormat,time()),
     ));
-    if (!$requireAuth) {
+    if (!$modx->user->hasSessionContext($modx->context->get('key')) && !$requireAuth) {
         $preview['username'] = $_POST['name'];
         $preview['author'] = 0;
     } else {

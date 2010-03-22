@@ -1,6 +1,7 @@
 <br />
 <div class="quip-comment" id="quip-comment-preview-box">
 <form action="[[+self]]" method="post">
+    <input type="hidden" name="thread" value="[[+thread]]" />
     <input type="hidden" name="author" value="[[+author]]" />
     <input type="hidden" name="comment" value="[[+comment]]" />
     <input type="hidden" name="name" value="[[+name]]" />

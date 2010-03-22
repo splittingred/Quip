@@ -66,7 +66,7 @@ $sortDir = $modx->getOption('sortDir',$scriptProperties,'DESC');
 
 
 /* handle POSTs */
-if (!empty($_POST)) {
+if (!empty($_POST) && $_POST['thread'] == $scriptProperties['thread']) {
     /* setup POST-only options */
     $removeAction = $modx->getOption('removeAction',$scriptProperties,'quip-remove');
     $previewAction = $modx->getOption('previewAction',$scriptProperties,'quip-preview');
@@ -83,9 +83,6 @@ if (!empty($_POST)) {
         }
         $placeholders['error'] = implode("<br />\n",$errors);
 
-    } else if (!empty($_POST[$previewAction])) {
-        $errors = include_once $quip->config['processors_path'].'web/comment/preview.php';
-
     } else if (!empty($_POST[$postAction])) {
         $errors = include_once $quip->config['processors_path'].'web/comment/create.php';
         if (empty($errors)) {
@@ -94,6 +91,11 @@ if (!empty($_POST)) {
             $modx->sendRedirect($url);
         }
         $placeholders['error'] = implode("<br />\n",$errors);
+        $_POST[$previewAction] = true;
+    }
+
+    if (!empty($_POST[$previewAction])) {
+        $errors = include_once $quip->config['processors_path'].'web/comment/preview.php';
 
     } else if (!empty($_POST[$reportAction])) {
         $errors = include_once $quip->config['processors_path'].'web/comment/report.php';
@@ -165,13 +167,11 @@ if ((!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,
     ));
 
     /* prefill fields */
-    if ($requireAuth) {
-        $profile = $modx->user->getOne('Profile');
-        if ($profile) {
-            $phs['name'] = !empty($_POST['name']) ? $_POST['name'] : $profile->get('fullname');
-            $phs['email'] = !empty($_POST['email']) ? $_POST['email'] : $profile->get('email');
-            $phs['website'] = !empty($_POST['website']) ? $_POST['website'] : $profile->get('website');
-        }
+    $profile = $modx->user->getOne('Profile');
+    if ($profile) {
+        $phs['name'] = !empty($_POST['name']) ? $_POST['name'] : $profile->get('fullname');
+        $phs['email'] = !empty($_POST['email']) ? $_POST['email'] : $profile->get('email');
+        $phs['website'] = !empty($_POST['website']) ? $_POST['website'] : $profile->get('website');
     }
 
     $placeholders['addcomment'] = $quip->getChunk($addCommentTpl,$phs);

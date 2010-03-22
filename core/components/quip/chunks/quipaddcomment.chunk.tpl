@@ -1,4 +1,7 @@
 <form id="quip-add-comment" action="[[+self]]" method="post">
+<input type="hidden" name="nospam" value="" />
+<input type="hidden" name="thread" value="[[+thread]]" />
+
 <div class="quip-comment quip-add-comment">
     <span class="quip-error">[[+error]]</span>
     
