@@ -1,5 +1,3 @@
-@import url(./error.css);
-
 .quip a { text-decoration: none; }
 .quip a:hover { text-decoration: underline; }
 
@@ -21,7 +19,7 @@
     font-style: italic;
     color: #777;
 }
-.quip-comment-author { color: #888; }
+.quip-comment-author { color: #888; font-weight: bold; }
 .quip-comment-author strong { color: #333; }
 
 .quip-add-comment p {
@@ -55,9 +53,8 @@ span.quip-allowed-tags {
 
 .quip-comment input[type=submit] {
     float: right;
-    border: 1px solid #aaa;
-    padding: .3em;
-    margin-left: .5em;
+    padding: 3px;
+    margin-left: 5px;
     cursor: pointer;
 }
 .quip-comment-options {
@@ -65,7 +62,7 @@ span.quip-allowed-tags {
 }
 .quip-comment-report {
     color: #888;
-    font-size: .8em;
+    font-size: 10px;
 }
 
 .quip-error { color: red; }
