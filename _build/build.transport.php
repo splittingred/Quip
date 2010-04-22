@@ -63,7 +63,6 @@ $builder->registerNamespace('quip',false,true,'{core_path}components/quip/');
 
 /* load action/menu */
 $menu = include $sources['data'].'transport.menu.php';
-
 $vehicle= $builder->createVehicle($menu,array (
     xPDOTransport::PRESERVE_KEYS => true,
     xPDOTransport::UPDATE_OBJECT => true,
@@ -79,6 +78,19 @@ $vehicle= $builder->createVehicle($menu,array (
 ));
 $builder->putVehicle($vehicle);
 unset($vehicle,$action);
+
+/* add reCaptcha namespace */
+$modx->log(modX::LOG_LEVEL_INFO,'Adding in reCaptcha namespace.'); flush();
+$namespace = $modx->newObject('modNamespace');
+$namespace->set('name','recaptcha');
+$namespace->set('path','{core_path}components/recaptcha/');
+$vehicle = $builder->createVehicle($namespace,array(
+    xPDOTransport::UNIQUE_KEY => 'name',
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => true,
+));
+$builder->putVehicle($vehicle);
+unset($vehicle,$namespace);
 
 /* load system settings */
 $modx->log(modX::LOG_LEVEL_INFO,'Adding in system settings.'); flush();
