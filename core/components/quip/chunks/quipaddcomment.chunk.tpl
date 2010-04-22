@@ -1,4 +1,4 @@
-<form id="quip-add-comment" action="[[+self]]" method="post">
+<form id="quip-add-comment" action="[[+self]]#quip-comment-preview-box" method="post">
 <input type="hidden" name="nospam" value="" />
 <input type="hidden" name="thread" value="[[+thread]]" />
 

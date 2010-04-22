@@ -71,6 +71,13 @@ $properties = array(
         'value' => '',
     ),
     array(
+        'name' => 'recaptcha',
+        'desc' => 'If true, will enable reCaptcha support.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+    ),
+    array(
         'name' => 'sortBy',
         'desc' => 'The field to sort by.',
         'type' => 'textfield',
