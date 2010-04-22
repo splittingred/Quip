@@ -10,7 +10,7 @@ Quip.panel.Threads = function(config) {
         },{
             layout: 'form'
             ,defaults: {
-                style: 'padding: 1.5em 1em .5em;'
+                style: 'padding: 15px 10px 5px;'
             }
             ,items: [{
                 html: '<p>'+_('quip.intro_msg')+'</p>'

@@ -27,31 +27,35 @@
  * @package quip
  * @subpackage processors
  */
-$limit = isset($_REQUEST['limit']);
-$combo = isset($_REQUEST['combo']);
-if (!isset($_REQUEST['start'])) $_REQUEST['start'] = 0;
-if (!isset($_REQUEST['limit'])) $_REQUEST['limit'] = 20;
-if (!isset($_REQUEST['sort'])) $_REQUEST['sort'] = 'name';
-if (!isset($_REQUEST['dir'])) $_REQUEST['dir'] = 'ASC';
+/* setup default properties */
+$isLimit = !empty($scriptProperties['limit']);
+$isCombo = !empty($scriptProperties['combo']);
+$start = $modx->getOption('start',$scriptProperties,0);
+$limit = $modx->getOption('limit',$scriptProperties,20);
+$sort = $modx->getOption('sort',$scriptProperties,'name');
+$dir = $modx->getOption('dir',$scriptProperties,'ASC');
 
+/* build query */
 $c = $modx->newQuery('quipComment');
-if ($combo || $limit) {
-    $c->limit($_REQUEST['limit'], $_REQUEST['start']);
-}
 $c->groupby('thread');
-$c->sortby('thread','ASC');
 $count = $modx->getCount('quipComment',$c);
-$c->select('quipComment.*,
+
+if ($isCombo || $isLimit) {
+    $c->limit($limit,$start);
+}
+$c->sortby('thread','ASC');
+$c->select('
+    `quipComment`.*,
     (SELECT COUNT(*) FROM '.$modx->getTableName('quipComment').'
-     WHERE thread = quipComment.thread) AS comments
+     WHERE `thread` = `quipComment`.`thread`) AS `comments`
 ');
 $threads = $modx->getCollection('quipComment', $c);
 
 $list = array();
 foreach ($threads as $thread) {
-    $la = $thread->toArray();
+    $threadArray = $thread->toArray();
 
-    $la['menu'] = array(
+    $threadArray['menu'] = array(
         array(
             'text' => $modx->lexicon('quip.thread_manage'),
             'handler' => 'this.manageThread',
@@ -62,6 +66,6 @@ foreach ($threads as $thread) {
             'handler' => 'this.truncateThread',
         )
     );
-    $list[]= $la;
+    $list[]= $threadArray;
 }
 return $this->outputArray($list,$count);

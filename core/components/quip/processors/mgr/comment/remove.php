@@ -25,10 +25,10 @@
  * @package quip
  * @subpackage processors
  */
-if (!isset($_POST['id']) || $_POST['id'] == '') {
+if (empty($scriptProperties['id'])) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
 }
-$comment = $modx->getObject('quipComment',$_POST['id']);
+$comment = $modx->getObject('quipComment',$scriptProperties['id']);
 if ($comment == null) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
 }

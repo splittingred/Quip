@@ -27,10 +27,10 @@
  * @package quip
  * @subpackage processors
  */
-if (empty($_POST['id'])) {
+if (empty($scriptProperties['id'])) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
 }
-$comment = $modx->getObject('quipComment',$_POST['id']);
+$comment = $modx->getObject('quipComment',$scriptProperties['id']);
 if ($comment == null) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
 }
@@ -40,8 +40,9 @@ $body = $_POST['body'];
 $body = preg_replace("/<script(.*)<\/script>/i",'',$body);
 $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
 $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
+$body = nl2br($body);
 
-$comment->fromArray($_POST);
+$comment->fromArray($scriptProperties);
 $comment->set('editedon',strftime('%Y-%m-%d %H:%M:%S'));
 $comment->set('body',$body);
 

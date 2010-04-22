@@ -27,10 +27,11 @@
  * @package quip
  * @subpackage processors
  */
+if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
 
 $c = $modx->newQuery('quipComment');
 $c->where(array(
-    'thread' => $_REQUEST['thread'],
+    'thread' => $scriptProperties['thread'],
 ));
 $comments = $modx->getCollection('quipComment',$c);
 

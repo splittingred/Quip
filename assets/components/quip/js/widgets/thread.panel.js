@@ -10,16 +10,16 @@ Quip.panel.Thread = function(config) {
             ,id: 'rm-package-name'
             ,cls: 'modx-page-header'
         },{
-            xtype: 'portal'
+            layout: 'form'
+            ,defaults: {
+                style: 'padding: 15px 10px 5px;'
+            }
             ,items: [{
-                columnWidth: 1.0
-                ,items: [{
-                    xtype: 'quip-grid-comments'
-                    ,thread: config.thread
-                    ,preventRender: true
-                    ,width: '98%'
-                    ,bodyStyle: 'padding: 0'
-                }]
+                xtype: 'quip-grid-comments'
+                ,thread: config.thread
+                ,preventRender: true
+                ,width: '98%'
+                ,bodyStyle: 'padding: 0'
             }]
         }]
     });

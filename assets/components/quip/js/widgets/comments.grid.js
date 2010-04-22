@@ -105,6 +105,7 @@ Quip.window.UpdateComment = function(config) {
             ,width: 550
             ,grow: true
         }]
+        ,keys: []
     });
     Quip.window.UpdateComment.superclass.constructor.call(this,config);
 };
