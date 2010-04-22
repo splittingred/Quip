@@ -7,6 +7,7 @@
     <input type="hidden" name="name" value="[[+name]]" />
     <input type="hidden" name="email" value="[[+email]]" />
     <input type="hidden" name="website" value="[[+website]]" />
+    <input type="hidden" name="notify" value="[[+notify]]" />
     
     <div class="quip-comment-rightstuff">
         <span class="quip-comment-createdon">[[+createdon]]</span><br />

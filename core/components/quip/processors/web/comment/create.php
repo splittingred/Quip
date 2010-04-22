@@ -99,12 +99,58 @@ if (!empty($notifyEmails)) {
         $modx->mail->set(modMail::MAIL_FROM, $emailFrom);
         $modx->mail->set(modMail::MAIL_FROM_NAME, 'Quip');
         $modx->mail->set(modMail::MAIL_SENDER, 'Quip');
-        $modx->mail->set(modMail::MAIL_SUBJECT, $modx->lexicon('quip.spam_email_subject'));
+        $modx->mail->set(modMail::MAIL_SUBJECT, $modx->lexicon('quip.notify_subject'));
         $modx->mail->address('to',$email);
         $modx->mail->address('reply-to',$emailReplyTo);
         $modx->mail->setHTML(true);
         $modx->mail->send();
         $modx->mail->reset();
+    }
+}
+
+/* send notifications to notifiees */
+$notifiees = $modx->getCollection('quipCommentNotify',array(
+    'thread' => $comment->get('thread'),
+));
+if (is_array($notifiees) && !empty($notifiees)) {
+    $properties = $comment->toArray(true);
+    $properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
+    $body = $modx->lexicon('quip.notify_email',$properties);
+
+    $modx->getService('mail', 'mail.modPHPMailer');
+    $emailFrom = $modx->getOption('quip.emailsFrom',null,$emailTo);
+    $emailReplyTo = $modx->getOption('quip.emailsReplyTo',null,$emailFrom);
+    foreach ($notifiees as $notified) {
+        $email = $notified->get('email');
+        if (empty($email) || strpos($email,'@') == false) {
+            $notified->remove();
+            continue;
+        }
+
+        $modx->mail->set(modMail::MAIL_BODY, $body);
+        $modx->mail->set(modMail::MAIL_FROM, $emailFrom);
+        $modx->mail->set(modMail::MAIL_FROM_NAME, 'Quip');
+        $modx->mail->set(modMail::MAIL_SENDER, 'Quip');
+        $modx->mail->set(modMail::MAIL_SUBJECT, $modx->lexicon('quip.notify_subject'));
+        $modx->mail->address('to',$email);
+        $modx->mail->address('reply-to',$emailReplyTo);
+        $modx->mail->setHTML(true);
+        $modx->mail->send();
+        $modx->mail->reset();
+    }
+}
+
+/* if notify is set to true, add user to quipCommentNotify table */
+if (!empty($_POST['notify'])) {
+    $quipCommentNotify = $modx->getObject('quipCommentNotify',array(
+        'thread' => $comment->get('thread'),
+        'email' => $_POST['email'],
+    ));
+    if (empty($quipCommentNotify)) {
+        $quipCommentNotify = $modx->newObject('quipCommentNotify');
+        $quipCommentNotify->set('thread',$comment->get('thread'));
+        $quipCommentNotify->set('email',$_POST['email']);
+        $quipCommentNotify->save();
     }
 }
 

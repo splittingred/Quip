@@ -67,6 +67,8 @@ comment\'s ID is: <strong>[[+id]]</strong></p>
 Thanks,<br />
 <em>Quip</em>
 </p>';
+$_lang['quip.notify_me'] = 'Notify of New Replies';
+$_lang['quip.notify_subject'] = '[Quip] New Reply Posted';
 $_lang['quip.post'] = 'Post';
 $_lang['quip.postedon'] = 'Posted On';
 $_lang['quip.preview'] = 'Preview';

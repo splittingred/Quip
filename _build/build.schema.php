@@ -33,6 +33,21 @@ $mtime = $mtime[1] + $mtime[0];
 $tstart = $mtime;
 set_time_limit(0);
 
+/* define package name and sources */
+define('PKG_NAME','Quip');
+define('PKG_NAME_LOWER','quip');
+define('PKG_VERSION','0.4');
+define('PKG_RELEASE','rc1');
+
+$root = dirname(dirname(__FILE__)).'/';
+$sources = array(
+    'root' => $root,
+    'core' => $root.'core/components/'.PKG_NAME_LOWER.'/',
+    'model' => $root.'core/components/'.PKG_NAME_LOWER.'/model/',
+    'assets' => $root.'assets/components/'.PKG_NAME_LOWER.'/',
+);
+
+/* load modx and configs */
 require_once dirname(__FILE__) . '/build.config.php';
 include_once MODX_CORE_PATH . 'model/modx/modx.class.php';
 $modx= new modX();
@@ -42,13 +57,6 @@ echo '<pre>'; /* used for nice formatting of log messages */
 $modx->setLogLevel(modX::LOG_LEVEL_INFO);
 $modx->setLogTarget('ECHO');
 
-$root = dirname(dirname(__FILE__)).'/';
-$sources = array(
-    'root' => $root,
-    'core' => $root.'core/components/quip/',
-    'model' => $root.'core/components/quip/model/',
-    'assets' => $root.'assets/components/quip/',
-);
 $manager= $modx->getManager();
 $generator= $manager->getGenerator();
 
@@ -75,7 +83,7 @@ $generator->mapHeader= <<<EOD
  * [+phpdoc-package+]
  */
 EOD;
-$generator->parseSchema(dirname(__FILE__) . '/schema/quip.mysql.schema.xml', $sources['model']);
+$generator->parseSchema($sources['model'] . 'schema/quip.mysql.schema.xml', $sources['model']);
 
 
 $mtime= microtime();

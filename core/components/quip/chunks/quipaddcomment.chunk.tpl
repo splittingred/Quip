@@ -22,6 +22,12 @@
         <input type="text" name="website" id="quip-comment-website" value="[[+website]]" />
         <br />
     </div>
+
+    <div class="quip-fld">
+        <label for="quip-comment-notify">[[%quip.notify_me]]: </label>
+        <input type="checkbox" value="1" name="notify" id="quip-comment-notify" [[+notify:if=`[[+notify]]`:eq=`1`:then=`checked="checked"`]] />
+        <br />
+    </div>
     
     
     <p><span class="quip-allowed-tags">[[%quip.allowed_tags? &tags=`[[++quip.allowed_tags:htmlent]]`]]</span>[[%quip.comment_add_new]] </p>
