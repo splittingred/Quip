@@ -3,7 +3,7 @@
 <form action="[[+self]]" method="post">
     <input type="hidden" name="thread" value="[[+thread]]" />
     <input type="hidden" name="author" value="[[+author]]" />
-    <input type="hidden" name="comment" value="[[+comment]]" />
+    <input type="hidden" name="comment" value="[[+body]]" />
     <input type="hidden" name="name" value="[[+name]]" />
     <input type="hidden" name="email" value="[[+email]]" />
     <input type="hidden" name="website" value="[[+website]]" />

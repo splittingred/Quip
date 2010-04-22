@@ -37,11 +37,13 @@ $body = preg_replace("/<script(.*)<\/script>/i",'',$body);
 $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
 $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
 $body = strip_tags($body,$allowedTags);
+$formattedBody = nl2br($body);
 
 /* if no errors, add preview field */
 if (empty($errors)) {
     $preview = array_merge($_POST,array(
-        'comment' => $body,
+        'body' => $body,
+        'comment' => $formattedBody,
         'createdon' => strftime($dateFormat,time()),
     ));
     if (!$modx->user->hasSessionContext($modx->context->get('key')) && !$requireAuth) {

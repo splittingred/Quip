@@ -58,6 +58,7 @@ $body = preg_replace("/<script(.*)<\/script>/i",'',$body);
 $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
 $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
 $body = strip_tags($body,$allowedTags);
+$body = str_replace(array('<br><br>','<br /><br />'),'',nl2br($body));
 
 if (empty($errors)) {
     $comment = $modx->newObject('quipComment');
@@ -68,7 +69,7 @@ if (empty($errors)) {
 
     if ($comment->save() == false) {
         $errors['message'] = $modx->lexicon('quip.comment_err_save');
-    } elseif ($requireAuth) {
+    } elseif ($requireAuth) { /* if requireAuth, update user profile */
         $profile = $modx->user->getOne('Profile');
         if ($profile) {
             $profile->set('fullname',$_POST['name']);
@@ -78,4 +79,33 @@ if (empty($errors)) {
         }
     }
 }
+
+/* if notifyEmails is set, email users about new comment */
+$notifyEmails = $modx->getOption('notifyEmails',$scriptProperties,'');
+if (!empty($notifyEmails)) {
+    $properties = $comment->toArray(true);
+    $properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
+    $body = $modx->lexicon('quip.notify_email',$properties);
+
+    $modx->getService('mail', 'mail.modPHPMailer');
+    $emailFrom = $modx->getOption('quip.emailsFrom',null,$emailTo);
+    $emailReplyTo = $modx->getOption('quip.emailsReplyTo',null,$emailFrom);
+
+    $notifyEmails = explode(',',$notifyEmails);
+    foreach ($notifyEmails as $email) {
+        if (empty($email) || strpos($email,'@') == false) continue;
+
+        $modx->mail->set(modMail::MAIL_BODY, $body);
+        $modx->mail->set(modMail::MAIL_FROM, $emailFrom);
+        $modx->mail->set(modMail::MAIL_FROM_NAME, 'Quip');
+        $modx->mail->set(modMail::MAIL_SENDER, 'Quip');
+        $modx->mail->set(modMail::MAIL_SUBJECT, $modx->lexicon('quip.spam_email_subject'));
+        $modx->mail->address('to',$email);
+        $modx->mail->address('reply-to',$emailReplyTo);
+        $modx->mail->setHTML(true);
+        $modx->mail->send();
+        $modx->mail->reset();
+    }
+}
+
 return $errors;

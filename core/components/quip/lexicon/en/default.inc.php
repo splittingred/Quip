@@ -54,6 +54,19 @@ $_lang['quip.message_err_ns'] = 'Please specify a message to post.';
 $_lang['quip.name'] = 'Name';
 $_lang['quip.name_err_ns'] = 'Please specify a name.';
 $_lang['quip.no_email_to_specified'] = 'Quip cannot send a spam report email because no admin email was specified.';
+$_lang['quip.notify_email'] = '<p>Hello,</p>
+
+<p>A new comment by [[+username]] has been posted at:</p>
+
+<p><a href="[[+url]]">[[+url]]</a></p>
+
+<p>This is an automated email. Please do not reply directly. The
+comment\'s ID is: <strong>[[+id]]</strong></p>
+
+<p>
+Thanks,<br />
+<em>Quip</em>
+</p>';
 $_lang['quip.post'] = 'Post';
 $_lang['quip.postedon'] = 'Posted On';
 $_lang['quip.preview'] = 'Preview';

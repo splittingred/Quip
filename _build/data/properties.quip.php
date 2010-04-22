@@ -64,6 +64,13 @@ $properties = array(
         'value' => 'quip-comment-alt',
     ),
     array(
+        'name' => 'notifyEmails',
+        'desc' => 'A comma-separated list of email addresses to send a notification email to when a new post is made on this thread.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+    ),
+    array(
         'name' => 'sortBy',
         'desc' => 'The field to sort by.',
         'type' => 'textfield',

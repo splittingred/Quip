@@ -74,6 +74,7 @@ if (!empty($_POST) && $_POST['thread'] == $scriptProperties['thread']) {
     $reportAction = $modx->getOption('reportAction',$scriptProperties,'quip-report');
     $allowedTags = $modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
 
+    /* handle remove post */
     if (!empty($_POST[$removeAction])) {
         $errors = include_once $quip->config['processors_path'].'web/comment/remove.php';
         if (empty($errors)) {
@@ -83,6 +84,7 @@ if (!empty($_POST) && $_POST['thread'] == $scriptProperties['thread']) {
         }
         $placeholders['error'] = implode("<br />\n",$errors);
 
+    /* handle post new */
     } else if (!empty($_POST[$postAction])) {
         $errors = include_once $quip->config['processors_path'].'web/comment/create.php';
         if (empty($errors)) {
@@ -94,9 +96,11 @@ if (!empty($_POST) && $_POST['thread'] == $scriptProperties['thread']) {
         $_POST[$previewAction] = true;
     }
 
+    /* handle preview */
     if (!empty($_POST[$previewAction])) {
         $errors = include_once $quip->config['processors_path'].'web/comment/preview.php';
 
+    /* handle report spam */
     } else if (!empty($_POST[$reportAction])) {
         $errors = include_once $quip->config['processors_path'].'web/comment/report.php';
         if (empty($errors)) {
