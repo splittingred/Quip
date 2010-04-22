@@ -24,10 +24,29 @@ if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['model_path'],t
     $modx->log(modX::LOG_LEVEL_ERROR,'[Quip] '.$modx->lexicon('quip.sfs_err_load'));
 }
 
+/* if requireAuth */
 if ($requireAuth) {
     if ($modx->user->hasSessionContext($modx->context->get('key'))) {
         $errors['message'] = $modx->lexicon('quip.err_not_logged_in');
         return $errors;
+    }
+}
+
+/* if using reCaptcha */
+if ($modx->getOption('recaptcha',$scriptProperties,false)) {
+    $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['model_path'].'recaptcha/');
+    if (!($recaptcha instanceof reCaptcha)) {
+        $errors['recaptcha'] = $modx->lexicon('quip.recaptcha_err_load');
+    } elseif (empty($recaptcha->config[reCaptcha::OPT_PRIVATE_KEY])) {
+        $errors['recaptcha'] = $modx->lexicon('recaptcha.no_api_key');
+    } else {
+        $response = $recaptcha->checkAnswer($_SERVER['REMOTE_ADDR'],$_POST['recaptcha_challenge_field'],$_POST['recaptcha_response_field']);
+
+        if (!$response->is_valid) {
+            $errors['recaptcha'] = $modx->lexicon('recaptcha.incorrect',array(
+                'error' => $response->error != 'incorrect-captcha-sol' ? $response->error : '',
+            ));
+        }
     }
 }
 

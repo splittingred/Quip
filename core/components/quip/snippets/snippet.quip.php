@@ -118,6 +118,17 @@ if ($useCss) {
     $modx->regClientCSS($quip->config['css_url'].'web.css');
 }
 
+/* if using recaptcha, load recaptcha html */
+if ($modx->getOption('recaptcha',$scriptProperties,false)) {
+    $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['model_path'].'recaptcha/');
+    if ($recaptcha instanceof reCaptcha) {
+        $html = $recaptcha->getHtml();
+        $modx->setPlaceholder('quip.recaptcha_html',$html);
+    } else {
+        return $modx->lexicon('quip.recaptcha_err_load');
+    }
+}
+
 /* get comments */
 $c = $modx->newQuery('quipComment');
 $c->leftJoin('modUser','Author');

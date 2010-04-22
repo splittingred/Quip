@@ -28,6 +28,10 @@
         <input type="checkbox" value="1" name="notify" id="quip-comment-notify" [[+notify:if=`[[+notify]]`:eq=`1`:then=`checked="checked"`]] />
         <br />
     </div>
+
+    <div class="quip-fld">
+    [[+quip.recaptcha_html]]
+    </div>
     
     
     <p><span class="quip-allowed-tags">[[%quip.allowed_tags? &tags=`[[++quip.allowed_tags:htmlent]]`]]</span>[[%quip.comment_add_new]] </p>

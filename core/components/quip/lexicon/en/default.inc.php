@@ -72,6 +72,7 @@ $_lang['quip.notify_subject'] = '[Quip] New Reply Posted';
 $_lang['quip.post'] = 'Post';
 $_lang['quip.postedon'] = 'Posted On';
 $_lang['quip.preview'] = 'Preview';
+$_lang['quip.recaptcha_err_load'] = 'Could not load reCaptcha service class.';
 $_lang['quip.remove'] = 'Remove';
 $_lang['quip.report_as_spam'] = 'Report as Spam';
 $_lang['quip.reported_as_spam'] = 'Reported as Spam';
