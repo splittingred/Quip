@@ -84,6 +84,7 @@ if (empty($errors)) {
 $notifyEmails = $modx->getOption('notifyEmails',$scriptProperties,'');
 if (!empty($notifyEmails)) {
     $properties = $comment->toArray();
+    $properties['username']= $_POST['name'];
     $properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
     $body = $modx->lexicon('quip.notify_email',$properties);
 
@@ -115,6 +116,7 @@ $notifiees = $modx->getCollection('quipCommentNotify',array(
 if (is_array($notifiees) && !empty($notifiees)) {
     $properties = $comment->toArray();
     $properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
+    $properties['username']= $_POST['name'];
     $body = $modx->lexicon('quip.notify_email',$properties);
 
     $modx->getService('mail', 'mail.modPHPMailer');
