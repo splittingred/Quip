@@ -60,6 +60,12 @@ $_lang['quip.notify_email'] = '<p>Hello,</p>
 
 <p><a href="[[+url]]">[[+url]]</a></p>
 
+----------------------------------------------------
+
+[[+body]]
+
+----------------------------------------------------
+
 <p>This is an automated email. Please do not reply directly. The
 comment\'s ID is: <strong>[[+id]]</strong></p>
 

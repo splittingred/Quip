@@ -121,4 +121,15 @@ $xpdo_meta_map['quipComment']= array (
       'owner' => 'foreign',
     ),
   ),
+  'composites' => 
+  array (
+    'Notifies' => 
+    array (
+      'class' => 'quipCommentNotify',
+      'local' => 'thread',
+      'foreign' => 'thread',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+  ),
 );

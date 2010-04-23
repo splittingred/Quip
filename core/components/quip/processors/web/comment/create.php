@@ -83,7 +83,7 @@ if (empty($errors)) {
 /* if notifyEmails is set, email users about new comment */
 $notifyEmails = $modx->getOption('notifyEmails',$scriptProperties,'');
 if (!empty($notifyEmails)) {
-    $properties = $comment->toArray(true);
+    $properties = $comment->toArray();
     $properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
     $body = $modx->lexicon('quip.notify_email',$properties);
 
@@ -113,7 +113,7 @@ $notifiees = $modx->getCollection('quipCommentNotify',array(
     'thread' => $comment->get('thread'),
 ));
 if (is_array($notifiees) && !empty($notifiees)) {
-    $properties = $comment->toArray(true);
+    $properties = $comment->toArray();
     $properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
     $body = $modx->lexicon('quip.notify_email',$properties);
 
