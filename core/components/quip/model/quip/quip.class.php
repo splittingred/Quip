@@ -216,4 +216,56 @@ class Quip {
             'quip.pages' => $pages,
         ));
     }
+
+    /**
+     * Gets a properly formatted "time ago" from a specified timestamp
+     */
+    public function getTimeAgo($time = '') {
+        if (empty($time)) return false;
+        
+        $agoTS = $this->timesince($time);
+        $ago = array();
+        if (!empty($agoTS['days'])) {
+            $ago[] = $this->modx->lexicon('quip.ago_days',$agoTS);
+        }
+        if (!empty($agoTS['hours'])) {
+            $ago[] = $this->modx->lexicon('quip.ago_hours',$agoTS);
+        }
+        if (!empty($agoTS['minutes']) && empty($agoTS['days'])) {
+            $ago[] = $this->modx->lexicon('quip.ago_minutes',$agoTS);
+        }
+        if (empty($ago)) { /* handle <1 min */
+            $ago[] = $this->modx->lexicon('quip.ago_seconds',$agoTS);
+        }
+        return implode(', ',$ago).' '.$this->modx->lexicon('ago');
+    }
+
+    /**
+     * Gets a proper array of time since a timestamp
+     */
+    public function timesince($input) {
+        $output = '';
+        $uts['start'] = strtotime($input);
+        $uts['end'] = time();
+        if( $uts['start']!==-1 && $uts['end']!==-1 ) {
+            if( $uts['end'] >= $uts['start'] ) {
+                $diff = $uts['end'] - $uts['start'];
+                $days = intval((floor($diff/86400)));
+                if ($days) $diff = $diff % 86400;
+                $hours = intval((floor($diff/3600)));
+                if ($hours) $diff = $diff % 3600;
+                $minutes = intval((floor($diff/60)));
+                if ($minutes) $diff = $diff % 60;
+
+                $diff = intval($diff);
+                $output = array(
+                    'days' => $days
+                    ,'hours' => $hours
+                    ,'minutes' => $minutes
+                    ,'seconds' => $diff
+                );
+            }
+        }
+        return $output;
+    }
 }

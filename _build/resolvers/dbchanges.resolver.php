@@ -43,6 +43,12 @@ if ($object->xpdo) {
             /* make sure approved default is 1 */
             $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} CHANGE `approved` `approved` TINYINT(1) UNSIGNED NOT NULL DEFAULT  '1'");
 
+            /* add resource mapping changes */
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `resource` INT(10) unsigned NOT NULL default '0'");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `idprefix` VARCHAR(255) NOT NULL default 'qcom'");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `existing_params` TEXT");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `resource` (`resource`)");
+
             break;
     }
 }

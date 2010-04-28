@@ -182,6 +182,13 @@ $properties = array(
         'value' => 'quip-remove',
     ),
     array(
+        'name' => 'idPrefix',
+        'desc' => 'If you want to use multiple Quip instances on a page, change this ID prefix.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'qcom',
+    ),
+    array(
         'name' => 'debug',
         'desc' => 'Set to true to turn on debug mode. Not recommended for production sites.',
         'type' => 'combo-boolean',

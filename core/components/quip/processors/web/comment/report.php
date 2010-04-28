@@ -53,8 +53,9 @@ if (empty($emailTo)) {
     return $errors;
 }
 
-$properties = $comment->toArray(true);
-$properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
+$properties = $comment->toArray();
+$properties['url'] = $comment->makeUrl('','',array('scheme' => 'full'));
+if (empty($properties['username'])) $properties['username'] = $comment->get('name');
 $body = $modx->lexicon('quip.spam_email',$properties);
 
 $modx->getService('mail', 'mail.modPHPMailer');

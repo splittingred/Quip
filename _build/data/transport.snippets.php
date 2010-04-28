@@ -47,4 +47,14 @@ $snippets[2]->fromArray(array(
 $properties = include $sources['data'].'properties.quipcount.php';
 $snippets[2]->setProperties($properties);
 
+$snippets[3]= $modx->newObject('modSnippet');
+$snippets[3]->fromArray(array(
+    'id' => 3,
+    'name' => 'QuipLatestComments',
+    'description' => 'An assistance snippet for getting the latest comments for the whole site or a thread or user.',
+    'snippet' => getSnippetContent($sources['source_core'].'/snippets/snippet.quiplatestcomments.php'),
+));
+$properties = include $sources['data'].'properties.quiplatestcomments.php';
+$snippets[3]->setProperties($properties);
+
 return $snippets;

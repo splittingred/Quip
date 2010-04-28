@@ -60,12 +60,15 @@ $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
 $body = strip_tags($body,$allowedTags);
 $body = str_replace(array('<br><br>','<br /><br />'),'',nl2br($body));
 
+/* if no errors, save comment */
 if (empty($errors)) {
     $comment = $modx->newObject('quipComment');
     $comment->fromArray($_POST);
     $comment->set('body',$body);
     $comment->set('thread',$scriptProperties['thread']);
     $comment->set('createdon',strftime('%Y-%m-%d %H:%M:%S'));
+    $comment->set('resource',!empty($scriptProperties['resource']) ? $scriptProperties['resource'] : $modx->resource->get('id'));
+    $comment->set('idprefix',!empty($scriptProperties['idPrefix']) ? $scriptProperties['idPrefix'] : 'qcom');
 
     if ($comment->save() == false) {
         $errors['message'] = $modx->lexicon('quip.comment_err_save');
@@ -85,7 +88,7 @@ $notifyEmails = $modx->getOption('notifyEmails',$scriptProperties,'');
 if (!empty($notifyEmails)) {
     $properties = $comment->toArray();
     $properties['username']= $_POST['name'];
-    $properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
+    $properties['url'] = $comment->makeUrl('','',array('scheme' => 'full'));
     $body = $modx->lexicon('quip.notify_email',$properties);
 
     $modx->getService('mail', 'mail.modPHPMailer');
@@ -115,7 +118,7 @@ $notifiees = $modx->getCollection('quipCommentNotify',array(
 ));
 if (is_array($notifiees) && !empty($notifiees)) {
     $properties = $comment->toArray();
-    $properties['url'] = $modx->makeUrl($modx->resource->get('id'),'',array(),'full');
+    $properties['url'] = $comment->makeUrl('','',array('scheme' => 'full'));
     $properties['username']= $_POST['name'];
     $body = $modx->lexicon('quip.notify_email',$properties);
 

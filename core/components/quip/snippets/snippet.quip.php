@@ -43,7 +43,6 @@ $placeholders = array(
 );
 $params = $modx->request->getParameters();
 unset($params['reported']);
-$placeholders['self'] = $modx->makeUrl($modx->resource->get('id'),'',$params);
 
 /* get default properties */
 $requireAuth = $modx->getOption('requireAuth',$scriptProperties,false);
@@ -55,10 +54,11 @@ $addCommentTpl = $modx->getOption('tplAddComment',$scriptProperties,'quipAddComm
 $loginToCommentTpl = $modx->getOption('tplLoginToComment',$scriptProperties,'quipLoginToComment');
 $previewTpl = $modx->getOption('tplPreview',$scriptProperties,'quipPreviewComment');
 
-$useCss = $modx->getOption('useCss',$scriptProperties,true);
 $altRowCss = $modx->getOption('altRowCss',$scriptProperties,'quip-comment-alt');
 $dateFormat = $modx->getOption('dateFormat',$scriptProperties,'%b %d, %Y at %I:%M %p');
 $showWebsite = $modx->getOption('showWebsite',$scriptProperties,true);
+$idPrefix = $modx->getOption('idPrefix',$scriptProperties,'qcom');
+$resource = $modx->getOption('resource',$scriptProperties,'');
 
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'createdon');
 $sortByAlias = $modx->getOption('sortByAlias',$scriptProperties,'quipComment');
@@ -114,7 +114,7 @@ if (!empty($_POST) && $_POST['thread'] == $scriptProperties['thread']) {
 }
 
 /* if css, output */
-if ($useCss) {
+if ($modx->getOption('useCss',$scriptProperties,true)) {
     $modx->regClientCSS($quip->config['css_url'].'web.css');
 }
 
@@ -148,10 +148,35 @@ $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->
 $placeholders['comments'] = '';
 $alt = false;
 foreach ($comments as $comment) {
+    if (!empty($idPrefix)) { /* autoset changed idprefix */
+        if ($comment->get('idprefix') != $idPrefix) {
+            $comment->set('idprefix',$idPrefix);
+            $comment->save();
+        }
+    }
+    /* persist existing GET params */
+    if ($comment->get('existing_params') == '') {
+        $p = $_GET;
+        unset($p[$modx->getOption('request_param_alias',null,'q')]);
+        unset($p['reported']);
+        $comment->set('existing_params',$p);
+        $comment->save();
+        unset($p);
+    }
+
+    /* fix to set resource field from older versions to map comment to a resource */
+    if ($comment->get('resource') == 0) {
+        if (empty($resource)) $resource = $modx->resource->get('id');
+        $comment->set('resource',$resource);
+        $comment->save();
+    }
+
     $commentArray = $comment->toArray();
     if ($alt) { $commentArray['alt'] = $altRowCss; }
     $commentArray['createdon'] = strftime($dateFormat,strtotime($comment->get('createdon')));
+    $commentArray['url'] = $comment->makeUrl();
 
+    /* check for auth */
     if ($hasAuth) {
         if (!empty($_GET['reported']) && $_GET['reported'] == $comment->get('id')) {
             $commentArray['reported'] = 1;
@@ -166,7 +191,6 @@ foreach ($comments as $comment) {
     } else {
         $commentArray['report'] = '';
     }
-    $commentArray['self'] = $placeholders['self'];
     if ($showWebsite && !empty($commentArray['website'])) {
         $commentArray['name'] = '<a href="'.$commentArray['website'].'">'.$commentArray['name'].'</a>';
     }

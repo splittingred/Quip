@@ -24,4 +24,18 @@
 /**
  * @package quip
  */
-class quipComment extends xPDOSimpleObject {}
+class quipComment extends xPDOSimpleObject {
+    public function makeUrl($resource = 0,array $params = array(),array $options = array()) {
+        if (empty($resource)) $resource = $this->get('resource');
+        if (empty($params)) $params = $this->get('existing_params');
+        if (empty($params)) $params = array();
+
+        $params = http_build_query($params);
+
+        $scheme= $this->xpdo->getOption('scheme',$options,'');
+        $idprefix = $this->xpdo->getOption('idprefix',$options,$this->get('idprefix'));
+        return $this->xpdo->makeUrl($resource,'','',$scheme).'#'.$idprefix.$this->get('id')
+                .(!empty($params) ? '?'.$params : '');
+    }
+
+}
