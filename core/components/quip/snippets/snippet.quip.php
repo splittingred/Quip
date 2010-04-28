@@ -156,9 +156,7 @@ foreach ($comments as $comment) {
     }
     /* persist existing GET params */
     if ($comment->get('existing_params') == '') {
-        $p = $_GET;
-        unset($p[$modx->getOption('request_param_alias',null,'q')]);
-        unset($p['reported']);
+        $p = $modx->request->getParameters();
         $comment->set('existing_params',$p);
         $comment->save();
         unset($p);
@@ -217,6 +215,11 @@ if ((!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,
 } else {
     $placeholders['addcomment'] = $quip->getChunk($loginToCommentTpl,$placeholders);
 }
+
+$p = $modx->request->getParameters();
+unset($p['reported']);
+$placeholders['url'] = $modx->makeUrl($modx->resource->get('id'),'',$p);
+
 $modx->toPlaceholders($placeholders,'quip');
 if ($modx->getOption('useWrapper',$scriptProperties,true)) {
     $output = $quip->getChunk($commentsTpl,$placeholders);

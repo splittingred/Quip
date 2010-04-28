@@ -69,6 +69,9 @@ if (empty($errors)) {
     $comment->set('createdon',strftime('%Y-%m-%d %H:%M:%S'));
     $comment->set('resource',!empty($scriptProperties['resource']) ? $scriptProperties['resource'] : $modx->resource->get('id'));
     $comment->set('idprefix',!empty($scriptProperties['idPrefix']) ? $scriptProperties['idPrefix'] : 'qcom');
+    $p = $modx->request->getParameters();
+    unset($p['reported']);
+    $comment->set('existing_params',$p);
 
     if ($comment->save() == false) {
         $errors['message'] = $modx->lexicon('quip.comment_err_save');
