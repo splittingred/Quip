@@ -33,11 +33,11 @@ $properties = array(
         'desc' => 'Whether to grab a list from all comments, per thread, or per user.',
         'type' => 'list',
         'options' => array(
-            array('text' => 'All','value' => 'all'),
-            array('text' => 'Thread','value' => 'thread'),
-            array('text' => 'User','value' => 'user'),
+            array('name' => 'All','value' => 'all'),
+            array('name' => 'Thread','value' => 'thread'),
+            array('name' => 'User','value' => 'user'),
         ),
-        'value' => 'thread',
+        'value' => 'all',
     ),
     array(
         'name' => 'tpl',
