@@ -49,6 +49,10 @@ if ($object->xpdo) {
             $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `existing_params` TEXT");
             $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `resource` (`resource`)");
 
+            /* add threaded changes */
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `ip` VARCHAR(255) NOT NULL default '0.0.0.0' AFTER `website`");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `rank` TINYTEXT AFTER `parent`");
+
             break;
     }
 }

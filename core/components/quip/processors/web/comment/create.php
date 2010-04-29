@@ -65,13 +65,21 @@ if (empty($errors)) {
     $comment = $modx->newObject('quipComment');
     $comment->fromArray($_POST);
     $comment->set('body',$body);
-    $comment->set('thread',$scriptProperties['thread']);
-    $comment->set('createdon',strftime('%Y-%m-%d %H:%M:%S'));
-    $comment->set('resource',!empty($scriptProperties['resource']) ? $scriptProperties['resource'] : $modx->resource->get('id'));
-    $comment->set('idprefix',!empty($scriptProperties['idPrefix']) ? $scriptProperties['idPrefix'] : 'qcom');
-    $p = $modx->request->getParameters();
-    unset($p['reported']);
-    $comment->set('existing_params',$p);
+
+    if (!empty($_POST['parent'])) { /* for threaded comments, persist the parents URL */
+        $parentComment = $modx->getObject('quipComment',$_POST['parent']);
+        if ($parentComment) {
+            $comment->set('resource',$parentComment->get('resource'));
+            $comment->set('idprefix',$parentComment->get('idprefix'));
+            $comment->set('existing_params',$parentComment->get('existing_params'));
+        }
+    } else {
+        $comment->set('resource',$modx->getOption('resource',$scriptProperties,$modx->resource->get('id')));
+        $comment->set('idprefix',$modx->getOption('idPrefix',$scriptProperties,'qcom'));
+        $p = $modx->request->getParameters();
+        unset($p['reported']);
+        $comment->set('existing_params',$p);
+    }
 
     if ($comment->save() == false) {
         $errors['message'] = $modx->lexicon('quip.comment_err_save');
@@ -162,4 +170,4 @@ if (!empty($_POST['notify'])) {
     }
 }
 
-return $errors;
+return $comment;

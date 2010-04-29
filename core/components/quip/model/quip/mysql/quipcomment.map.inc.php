@@ -18,6 +18,8 @@ $xpdo_meta_map['quipComment']= array (
     'name' => '',
     'email' => '',
     'website' => '',
+    'ip' => '0.0.0.0',
+    'rank' => NULL,
     'resource' => 0,
     'idprefix' => 'qcom',
     'existing_params' => '{}',
@@ -112,6 +114,19 @@ $xpdo_meta_map['quipComment']= array (
       'null' => false,
       'default' => '',
     ),
+    'ip' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '0.0.0.0',
+    ),
+    'rank' => 
+    array (
+      'dbtype' => 'tinytext',
+      'phptype' => 'string',
+    ),
     'resource' => 
     array (
       'dbtype' => 'int',
@@ -154,6 +169,41 @@ $xpdo_meta_map['quipComment']= array (
       'foreign' => 'id',
       'cardinality' => 'one',
       'owner' => 'foreign',
+    ),
+    'Parent' => 
+    array (
+      'class' => 'quipComment',
+      'local' => 'parent',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
+  ),
+  'composites' => 
+  array (
+    'Children' => 
+    array (
+      'class' => 'quipComment',
+      'local' => 'id',
+      'foreign' => 'parent',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+    'Ancestors' => 
+    array (
+      'class' => 'quipCommentClosure',
+      'local' => 'id',
+      'foreign' => 'ancestor',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+    'Descendants' => 
+    array (
+      'class' => 'quipCommentClosure',
+      'local' => 'id',
+      'foreign' => 'descendant',
+      'cardinality' => 'many',
+      'owner' => 'local',
     ),
   ),
 );

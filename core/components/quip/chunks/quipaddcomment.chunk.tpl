@@ -1,6 +1,9 @@
+[[+preview]]
+
 <form id="quip-add-comment" action="[[+url]]#quip-comment-preview-box" method="post">
 <input type="hidden" name="nospam" value="" />
 <input type="hidden" name="thread" value="[[+thread]]" />
+<input type="hidden" name="parent" value="[[+parent]]" />
 
 <div class="quip-comment quip-add-comment">
     <span class="quip-error">[[+error]]</span>
@@ -29,7 +32,7 @@
         <br />
     </div>
 
-    <div class="quip-fld">
+    <div class="quip-fld recaptcha">
     [[+quip.recaptcha_html]]
     </div>
     

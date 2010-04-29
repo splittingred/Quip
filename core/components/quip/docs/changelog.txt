@@ -2,6 +2,9 @@ Changelog for Quip.
 
 Quip 0.4 (LastChangedRevision: 741, LastChangedDate: 2010-03-22 10:36:31 -0500 (Mon, 22 Mar 2010))
 ======================================
+- Added nested threading support
+- Extrapolated the reply form into a new snippet, quipReply, and adjusted properties accordingly
+- Adjusted CSS styles to be more muted
 - Fixed incorrect default property for QuipLatestComments snippet
 - Fixed bugs with redirects and url mapping
 - Added QuipLatestComments snippet

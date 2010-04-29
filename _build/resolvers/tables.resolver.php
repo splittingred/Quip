@@ -39,6 +39,7 @@ if ($object->xpdo) {
             $modx->setLogLevel(modX::LOG_LEVEL_ERROR);
             $manager->createObjectContainer('quipComment');
             $manager->createObjectContainer('quipCommentNotify');
+            $manager->createObjectContainer('quipCommentClosure');
             $modx->setLogLevel(modX::LOG_LEVEL_INFO);
             break;
     }

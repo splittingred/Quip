@@ -4,7 +4,7 @@
  *
  * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
  *
- * This file is part of Quip, a simpel commenting component for MODx Revolution.
+ * This file is part of Quip, a simple commenting component for MODx Revolution.
  *
  * Quip is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -58,7 +58,7 @@ $modx->setLogTarget('ECHO'); echo '<pre>'; flush();
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
-$builder->createPackage('quip','0.4','rc3');
+$builder->createPackage('quip','0.4','pl');
 $builder->registerNamespace('quip',false,true,'{core_path}components/quip/');
 
 /* load action/menu */
@@ -150,6 +150,9 @@ $vehicle->resolve('php',array(
 ));
 $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'dbchanges.resolver.php',
+));
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'fixranks.resolver.php',
 ));
 $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'setupoptions.resolver.php',

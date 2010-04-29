@@ -30,7 +30,6 @@
  * @author Shaun McCormick <shaun@collabpad.com>
  * @package quip
  */
-if (empty($scriptProperties['thread'])) { return ''; }
 $quip = $modx->getService('quip','Quip',$modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/quip/',$scriptProperties);
 if (!($quip instanceof Quip)) return '';
 
@@ -45,14 +44,14 @@ $params = $modx->request->getParameters();
 unset($params['reported']);
 
 /* get default properties */
-$requireAuth = $modx->getOption('requireAuth',$scriptProperties,false);
+$parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
+$thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$scriptProperties,''));
+if (empty($thread)) return '';
+
 $commentTpl = $modx->getOption('tplComment',$scriptProperties,'quipComment');
 $commentOptionsTpl = $modx->getOption('tplCommentOptions',$scriptProperties,'quipCommentOptions');
 $commentsTpl = $modx->getOption('tplComments',$scriptProperties,'quipComments');
 $reportCommentTpl = $modx->getOption('tplReport',$scriptProperties,'quipReport');
-$addCommentTpl = $modx->getOption('tplAddComment',$scriptProperties,'quipAddComment');
-$loginToCommentTpl = $modx->getOption('tplLoginToComment',$scriptProperties,'quipLoginToComment');
-$previewTpl = $modx->getOption('tplPreview',$scriptProperties,'quipPreviewComment');
 
 $altRowCss = $modx->getOption('altRowCss',$scriptProperties,'quip-comment-alt');
 $dateFormat = $modx->getOption('dateFormat',$scriptProperties,'%b %d, %Y at %I:%M %p');
@@ -60,19 +59,21 @@ $showWebsite = $modx->getOption('showWebsite',$scriptProperties,true);
 $idPrefix = $modx->getOption('idPrefix',$scriptProperties,'qcom');
 $resource = $modx->getOption('resource',$scriptProperties,'');
 
-$sortBy = $modx->getOption('sortBy',$scriptProperties,'createdon');
+$threaded = $modx->getOption('threaded',$scriptProperties,true);
+$threadedPostMargin = $modx->getOption('threadedPostMargin',$scriptProperties,15);
+$maxDepth = $modx->getOption('maxDepth',$scriptProperties,5);
+$replyResourceId = !empty($scriptProperties['replyResourceId']) ? $scriptProperties['replyResourceId'] : $modx->resource->get('id');
+
+$sortBy = $modx->getOption('sortBy',$scriptProperties,'rank');
 $sortByAlias = $modx->getOption('sortByAlias',$scriptProperties,'quipComment');
-$sortDir = $modx->getOption('sortDir',$scriptProperties,'DESC');
+$sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
 
 
 /* handle POSTs */
-if (!empty($_POST) && $_POST['thread'] == $scriptProperties['thread']) {
+if (!empty($_POST) && $_POST['thread'] == $thread) {
     /* setup POST-only options */
     $removeAction = $modx->getOption('removeAction',$scriptProperties,'quip-remove');
-    $previewAction = $modx->getOption('previewAction',$scriptProperties,'quip-preview');
-    $postAction = $modx->getOption('postAction',$scriptProperties,'quip-post');
     $reportAction = $modx->getOption('reportAction',$scriptProperties,'quip-report');
-    $allowedTags = $modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
 
     /* handle remove post */
     if (!empty($_POST[$removeAction])) {
@@ -83,25 +84,9 @@ if (!empty($_POST) && $_POST['thread'] == $scriptProperties['thread']) {
             $modx->sendRedirect($url);
         }
         $placeholders['error'] = implode("<br />\n",$errors);
-
-    /* handle post new */
-    } else if (!empty($_POST[$postAction])) {
-        $errors = include_once $quip->config['processors_path'].'web/comment/create.php';
-        if (empty($errors)) {
-            $params = $modx->request->getParameters();
-            $url = $modx->makeUrl($modx->resource->get('id'),'',$params);
-            $modx->sendRedirect($url);
-        }
-        $placeholders['error'] = implode("<br />\n",$errors);
-        $_POST[$previewAction] = true;
     }
-
-    /* handle preview */
-    if (!empty($_POST[$previewAction])) {
-        $errors = include_once $quip->config['processors_path'].'web/comment/preview.php';
-
     /* handle report spam */
-    } else if (!empty($_POST[$reportAction])) {
+    if (!empty($_POST[$reportAction])) {
         $errors = include_once $quip->config['processors_path'].'web/comment/report.php';
         if (empty($errors)) {
             $params = $modx->request->getParameters();
@@ -118,26 +103,23 @@ if ($modx->getOption('useCss',$scriptProperties,true)) {
     $modx->regClientCSS($quip->config['css_url'].'web.css');
 }
 
-/* if using recaptcha, load recaptcha html */
-if ($modx->getOption('recaptcha',$scriptProperties,false)) {
-    $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['model_path'].'recaptcha/');
-    if ($recaptcha instanceof reCaptcha) {
-        $html = $recaptcha->getHtml();
-        $modx->setPlaceholder('quip.recaptcha_html',$html);
-    } else {
-        return $modx->lexicon('quip.recaptcha_err_load');
-    }
-}
-
 /* get comments */
 $c = $modx->newQuery('quipComment');
+$c->leftJoin('quipCommentClosure','Descendants','`Descendants`.`descendant` = `quipComment`.`id` AND `Descendants`.`ancestor` = 0');
+$c->leftJoin('quipCommentClosure','Ancestors');
 $c->leftJoin('modUser','Author');
 $c->where(array(
-    'quipComment.thread' => $scriptProperties['thread'],
+    'quipComment.thread' => $thread,
 ));
+if (!empty($parent)) {
+    $c->where(array(
+        'Ancestors.descendant' => $parent,
+    ));
+}
 $placeholders['total'] = $modx->getCount('quipComment',$c);
 $c->select('
     `quipComment`.*,
+    `Descendants`.`depth` AS `depth`,
     `Author`.`username` AS `username`
 ');
 $c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
@@ -147,6 +129,7 @@ $comments = $modx->getCollection('quipComment',$c);
 $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 $placeholders['comments'] = '';
 $alt = false;
+$idx = 0;
 foreach ($comments as $comment) {
     if (!empty($idPrefix)) { /* autoset changed idprefix */
         if ($comment->get('idprefix') != $idPrefix) {
@@ -173,6 +156,10 @@ foreach ($comments as $comment) {
     if ($alt) { $commentArray['alt'] = $altRowCss; }
     $commentArray['createdon'] = strftime($dateFormat,strtotime($comment->get('createdon')));
     $commentArray['url'] = $comment->makeUrl();
+    $commentArray['idx'] = $idx;
+    $commentArray['threaded'] = $threaded;
+    $commentArray['depth'] = $comment->get('depth');
+    $commentArray['depth_margin'] = (int)($threadedPostMargin * $comment->get('depth'))+7;
 
     /* check for auth */
     if ($hasAuth) {
@@ -192,33 +179,18 @@ foreach ($comments as $comment) {
     if ($showWebsite && !empty($commentArray['website'])) {
         $commentArray['name'] = '<a href="'.$commentArray['website'].'">'.$commentArray['name'].'</a>';
     }
+
+    if ($threaded && $comment->get('depth') < $maxDepth && (!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,false)) {
+        $commentArray['replyUrl'] = $modx->makeUrl($replyResourceId,'',array(
+            'quip_thread' => $comment->get('thread'),
+            'quip_parent' => $comment->get('id'),
+        ));
+    }
     $placeholders['comments'] .= $quip->getChunk($commentTpl,$commentArray);
     $alt = !$alt;
+    $idx++;
+    unset($commentArray);
 }
-
-$placeholders['addcomment'] = '';
-if ((!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,false)) {
-    $phs = array_merge($placeholders,array(
-        'username' => $modx->user->get('username'),
-        'thread' => $scriptProperties['thread'],
-    ));
-
-    /* prefill fields */
-    $profile = $modx->user->getOne('Profile');
-    if ($profile) {
-        $phs['name'] = !empty($_POST['name']) ? $_POST['name'] : $profile->get('fullname');
-        $phs['email'] = !empty($_POST['email']) ? $_POST['email'] : $profile->get('email');
-        $phs['website'] = !empty($_POST['website']) ? $_POST['website'] : $profile->get('website');
-    }
-
-    $placeholders['addcomment'] = $quip->getChunk($addCommentTpl,$phs);
-} else {
-    $placeholders['addcomment'] = $quip->getChunk($loginToCommentTpl,$placeholders);
-}
-
-$p = $modx->request->getParameters();
-unset($p['reported']);
-$placeholders['url'] = $modx->makeUrl($modx->resource->get('id'),'',$p);
 
 $modx->toPlaceholders($placeholders,'quip');
 if ($modx->getOption('useWrapper',$scriptProperties,true)) {

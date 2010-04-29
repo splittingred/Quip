@@ -2,8 +2,9 @@
 <model package="quip" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM">
     <object class="quipComment" table="quip_comments" extends="xPDOSimpleObject">
         <field key="thread" dbtype="varchar" precision="255" phptype="string" null="false" default="" index="index" />
-        
         <field key="parent" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="rank" dbtype="tinytext" phptype="string" />
+        
         <field key="author" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
         <field key="body" dbtype="text" phptype="text" null="false" default="" />
         <field key="createdon" dbtype="datetime" phptype="datetime" null="false" />
@@ -13,13 +14,28 @@
         <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
         <field key="email" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
         <field key="website" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
-
+        <field key="ip" dbtype="varchar" precision="255" phptype="string" null="false" default="0.0.0.0" />
+        
         <field key="resource" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
         <field key="idprefix" dbtype="varchar" precision="255" phptype="string" null="false" default="qcom" />
         <field key="existing_params" dbtype="text" phptype="json" default="{}" />
         
         <aggregate alias="Author" class="modUser" local="author" foreign="id" cardinality="one" owner="foreign" />
         <aggregate alias="Resource" class="modResource" local="resource" foreign="id" cardinality="one" owner="foreign" />
+
+        <aggregate alias="Parent" class="quipComment" local="parent" foreign="id" cardinality="one" owner="foreign" />
+        <composite alias="Children" class="quipComment" local="id" foreign="parent" cardinality="many" owner="local" />
+        <composite alias="Ancestors" class="quipCommentClosure" local="id" foreign="ancestor" cardinality="many" owner="local" />
+        <composite alias="Descendants" class="quipCommentClosure" local="id" foreign="descendant" cardinality="many" owner="local" />
+    </object>
+
+    <object class="quipCommentClosure" table="quip_comments_closure" extends="xPDOObject">
+        <field key="ancestor" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="pk" />
+        <field key="descendant" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="pk" />
+        <field key="depth" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+
+        <aggregate alias="Ancestor" class="quipComment" local="ancestor" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Descendant" class="quipComment" local="descendant" foreign="id" cardinality="one" owner="foreign" />
     </object>
 
     <object class="quipCommentNotify" table="quip_comment_notify" extends="xPDOSimpleObject">
