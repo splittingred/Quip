@@ -18,6 +18,9 @@ $xpdo_meta_map['quipComment']= array (
     'name' => '',
     'email' => '',
     'website' => '',
+    'resource' => 0,
+    'idprefix' => 'qcom',
+    'existing_params' => '{}',
   ),
   'fieldMeta' => 
   array (
@@ -109,6 +112,30 @@ $xpdo_meta_map['quipComment']= array (
       'null' => false,
       'default' => '',
     ),
+    'resource' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '10',
+      'phptype' => 'integer',
+      'attributes' => 'unsigned',
+      'null' => false,
+      'default' => 0,
+      'index' => 'index',
+    ),
+    'idprefix' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => 'qcom',
+    ),
+    'existing_params' => 
+    array (
+      'dbtype' => 'text',
+      'phptype' => 'json',
+      'default' => '{}',
+    ),
   ),
   'aggregates' => 
   array (
@@ -120,16 +147,13 @@ $xpdo_meta_map['quipComment']= array (
       'cardinality' => 'one',
       'owner' => 'foreign',
     ),
-  ),
-  'composites' => 
-  array (
-    'Notifies' => 
+    'Resource' => 
     array (
-      'class' => 'quipCommentNotify',
-      'local' => 'thread',
-      'foreign' => 'thread',
-      'cardinality' => 'many',
-      'owner' => 'local',
+      'class' => 'modResource',
+      'local' => 'resource',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
     ),
   ),
 );
