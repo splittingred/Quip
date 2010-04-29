@@ -1,8 +1,8 @@
 --------------------
 Snippet: Quip
 --------------------
-Version: 0.1
-Since: June 8th, 2010
+Version: 0.4
+Since: April 29th, 2010
 Author: Shaun McCormick <shaun@collabpad.com>
 License: GNU GPLv2 (or later at your option)
 
@@ -10,19 +10,23 @@ This component is a simple commenting system. It allows you to easily
 put comments anywhere on your site. It allows you to also manage them
 via the backend management interface.
 
-To comment, users must be logged in to the context they are in. Quip
-does not provide the login tools; you must set that up on your own.
 
-Parameters:
+Usage:
+To load a comment thread on a page, with a reply form for bottom-level comments,
+and point the threaded reply form to resource with ID 563:
 
-- &thread (string) The name of the thread to start.
-- &closed (boolean) If set to 1, no comments will be allowed.  
-- &dateFormat (string) The default date format to display on dates. 
-    Defaults to %b %d, %Y at %I:%M %p
-    
-Example:
-Load a comment thread on each page.
-[[Quip? &thread=`page[[*id]]`]]
+[[!Quip? &thread=`page[[*id]]` &replyResourceId=`563`]]
+<br />
+[[!QuipReply]]
+
+Then, in your reply page (id 563), add this:
+<h2>Reply to Thread</h2>
+[[!Quip]
+<br />
+[[!QuipReply]]
+
+This reply page will act as a standard reply page for your comments. You don't
+need to specify the thread, as your comments page will do that for you.
 
 
 Also, Quip allows users to report comments as Spam. This will send
