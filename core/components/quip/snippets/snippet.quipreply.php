@@ -42,6 +42,7 @@ $previewTpl = $modx->getOption('tplPreview',$scriptProperties,'quipPreviewCommen
 $thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$scriptProperties,''));
 if (empty($thread)) return '';
 $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
+$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 
 /* setup default placeholders */
 $placeholders = array();
