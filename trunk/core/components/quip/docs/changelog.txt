@@ -1,0 +1,45 @@
+Changelog for Quip.
+
+Quip 0.4 (LastChangedRevision: 741, LastChangedDate: 2010-03-22 10:36:31 -0500 (Mon, 22 Mar 2010))
+======================================
+- Updated readme for 0.4pl release
+- Added nested threading support
+- Extrapolated the reply form into a new snippet, quipReply, and adjusted properties accordingly
+- Adjusted CSS styles to be more muted
+- Fixed incorrect default property for QuipLatestComments snippet
+- Fixed bugs with redirects and url mapping
+- Added QuipLatestComments snippet
+- Added resource mapping for comments so that they can have URLs generated for them for linking purposes
+- Fixed bug with notification username not being sent
+- Fixed formatting on notification email
+- Fixed bug with notification emails that prevented correct data to be emailed
+- Added anchor tag to preview post so that it scrolls correctly on preview
+- Added missing recaptcha property info to quip snippet properties
+- Added reCaptcha support, settings
+- Cleaned up processors for mgr ui
+- Added notifications ability to comments, allowing commentors to subscribe to the thread
+- Tweaked default css, markup
+- Added notifyEmails property, which sends notification email for new posts to emails specified in property
+- Added nl2br to comments
+
+Quip 0.3 ($LastChangedRevision$, $LastChangedDate$)
+======================================
+- Fixed issues where Quip could only be run once on a page, now can be run multiple times
+- Fixed bugs where quip wasn't prefilling fields for logged in users
+- Fixed bug in build script setup options handler
+- Fixed typo in model that was causing install errors
+- Fixed placeholders in quipComments chunk
+- Added in fields to mgr ui for editing name,website,email in comments
+- Fixed connector for mgr ui
+- Fixing build script
+- Added in spam filtering via StopForumSpam
+- Added name, email, website fields
+- Changed default behavior to not require authorization unless &requireAuth=`1`
+- Added in missing lexicon entry
+- Fixed bugs in build script
+- Refactored build script
+- Added QuipCount snippet, an assistance snippet for counting comments in threads or by user
+- Added tag stripping support with setting to set which tags to strip
+- Added many, many options to the Quip snippet
+- Refactored to not use Javascript
+- Created changelog
