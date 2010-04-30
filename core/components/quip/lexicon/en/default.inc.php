@@ -35,6 +35,7 @@ $_lang['quip.ago_hours'] = '[[+hours]] hrs';
 $_lang['quip.ago_minutes'] = '[[+minutes]] min';
 $_lang['quip.ago_seconds'] = '[[+seconds]] sec';
 $_lang['quip.allowed_tags'] = 'Allowed tags: [[+tags]]';
+$_lang['quip.anonymous'] = 'Anonymous';
 $_lang['quip.author'] = 'Author';
 $_lang['quip.back_to_threads'] = 'Back to Thread Listing';
 $_lang['quip.body'] = 'Body';

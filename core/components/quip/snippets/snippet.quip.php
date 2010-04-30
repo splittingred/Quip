@@ -163,7 +163,12 @@ foreach ($comments as $comment) {
 
     /* check for auth */
     if ($hasAuth) {
-        $commentArray['allowRemove'] = $modx->getOption('allowRemove',$scriptProperties,false);
+        $commentArray['allowRemove'] = $modx->getOption('allowRemove',$scriptProperties,true);
+        $removeThreshold = $modx->getOption('removeThreshold',$scriptPropeties,3);
+        if (!empty($removeThreshold)) {
+            $diff = time() - strtotime($comment->get('createdon'));
+            if ($diff > ($removeThreshold * 60)) $commentArray['allowRemove'] = false;
+        }
         
         if (!empty($_GET['reported']) && $_GET['reported'] == $comment->get('id')) {
             $commentArray['reported'] = 1;
@@ -180,9 +185,15 @@ foreach ($comments as $comment) {
     } else {
         $commentArray['report'] = '';
     }
+    /* get author display name */
     $nameField = $modx->getOption('nameField',$scriptProperties,'username');
-    if (empty($commentArray[$nameField])) $nameField = 'name';
-    $commentArray['authorName'] = $commentArray[$nameField];
+    if (empty($commentArray[$nameField])) {
+        $commentArray['authorName'] = $modx->getOption('showAnonymousName',$scriptProperties,false)
+            ? $modx->getOption('anonymousName',$scriptProperties,$modx->lexicon('quip.anonymous'))
+            : $commentArray['name'];
+    } else {
+        $commentArray['authorName'] = $commentArray[$nameField];
+    }
 
     if ($showWebsite && !empty($commentArray['website'])) {
         $commentArray['authorName'] = '<a href="'.$commentArray['website'].'">'.$commentArray['authorName'].'</a>';
