@@ -180,8 +180,12 @@ foreach ($comments as $comment) {
     } else {
         $commentArray['report'] = '';
     }
+    $nameField = $modx->getOption('nameField',$scriptProperties,'username');
+    if (empty($commentArray[$nameField])) $nameField = 'name';
+    $commentArray['authorName'] = $commentArray[$nameField];
+
     if ($showWebsite && !empty($commentArray['website'])) {
-        $commentArray['name'] = '<a href="'.$commentArray['website'].'">'.$commentArray['name'].'</a>';
+        $commentArray['authorName'] = '<a href="'.$commentArray['website'].'">'.$commentArray['authorName'].'</a>';
     }
 
     if ($threaded && $comment->get('depth') < $maxDepth && (!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,false)) {

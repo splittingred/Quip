@@ -9,7 +9,7 @@
             [[+options]]
         </span>
     </div>
-    <span class="quip-comment-author">[[+name]]:</span><br />
+    <span class="quip-comment-author">[[+authorName]]:</span><br />
     
     <p class="quip-comment-body">[[+body]]</p>
 
