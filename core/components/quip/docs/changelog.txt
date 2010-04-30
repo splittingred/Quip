@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 0.5 ($LastChangedRevision$, $LastChangedDate$)
 ======================================
+- Fixed incorrect if statement that prevented commenting when requireAuth was set to true
 - Added missing auth line that prevented requireAuth parameter from working in QuipReply snippet
 
 Quip 0.4 (LastChangedRevision: 793, LastChangedDate: 2010-04-29 14:24:02 -0500 (Thu, 29 Apr 2010))

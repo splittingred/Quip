@@ -26,7 +26,7 @@ if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['model_path'],t
 
 /* if requireAuth */
 if ($requireAuth) {
-    if ($modx->user->hasSessionContext($modx->context->get('key'))) {
+    if (!$modx->user->hasSessionContext($modx->context->get('key'))) {
         $errors['message'] = $modx->lexicon('quip.err_not_logged_in');
         return $errors;
     }
