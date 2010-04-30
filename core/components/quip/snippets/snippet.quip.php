@@ -163,16 +163,20 @@ foreach ($comments as $comment) {
 
     /* check for auth */
     if ($hasAuth) {
+        $commentArray['allowRemove'] = $modx->getOption('allowRemove',$scriptProperties,false);
+        
         if (!empty($_GET['reported']) && $_GET['reported'] == $comment->get('id')) {
             $commentArray['reported'] = 1;
         }
-        if ($comment->get('author') == $modx->user->get('id') && $modx->getOption('allowRemove',$scriptProperties,false)) {
+        if ($comment->get('author') == $modx->user->get('id')) {
             $commentArray['options'] = $quip->getChunk($commentOptionsTpl,$commentArray);
         } else {
             $commentArray['options'] = '';
         }
 
-        $commentArray['report'] = $quip->getChunk($reportCommentTpl,$commentArray);
+        if ($modx->getOption('allowReportAsSpam',$scriptProperties,true)) {
+            $commentArray['report'] = $quip->getChunk($reportCommentTpl,$commentArray);
+        }
     } else {
         $commentArray['report'] = '';
     }
