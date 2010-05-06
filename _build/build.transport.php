@@ -58,7 +58,7 @@ $modx->setLogTarget('ECHO'); echo '<pre>'; flush();
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
-$builder->createPackage('quip','0.5','beta1');
+$builder->createPackage('quip','0.5','beta2');
 $builder->registerNamespace('quip',false,true,'{core_path}components/quip/');
 
 /* load action/menu */
@@ -158,10 +158,6 @@ $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'setupoptions.resolver.php',
 ));
 $builder->putVehicle($vehicle);
-
-/* load lexicon strings */
-$modx->log(modX::LOG_LEVEL_INFO,'Adding in Lexicon.'); flush();
-$builder->buildLexicon($sources['lexicon']);
 
 /* now pack in the license file, readme and setup options */
 $modx->log(modX::LOG_LEVEL_INFO,'Adding in package attributes.'); flush();
