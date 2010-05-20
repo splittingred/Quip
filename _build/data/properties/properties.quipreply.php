@@ -43,6 +43,27 @@ $properties = array(
         'value' => false,
     ),
     array(
+        'name' => 'moderate',
+        'desc' => 'If set to true, all new posts to the thread will be moderated.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+    ),
+    array(
+        'name' => 'moderateAnonymousOnly',
+        'desc' => 'If set to true, only anonymous (non-logged-in users) will be moderated.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+    ),
+    array(
+        'name' => 'moderateFirstPostOnly',
+        'desc' => 'If set to true, only the first post of the user will be moderated. All subsequent posts will be auto-approved. This only applies to logged-in users.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
+    ),
+    array(
         'name' => 'dateFormat',
         'desc' => 'The format of the dates displayed for a comment.',
         'type' => 'textfield',

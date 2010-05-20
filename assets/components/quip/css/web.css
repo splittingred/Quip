@@ -10,6 +10,9 @@
 .quip-comment-alt {
     background-color: #f2f2f2;
 }
+.quip-unapproved, .quip-unapproved a {
+    color: #a4a4a4;
+}
 .quip-comment-rightstuff {
     float: right;
     text-align: right;

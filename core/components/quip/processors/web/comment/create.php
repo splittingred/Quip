@@ -33,6 +33,7 @@ if (empty($_POST['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
 if (empty($_POST['name'])) $errors[] = $modx->lexicon('quip.name_err_ns');
 if (empty($_POST['email'])) $errors[] = $modx->lexicon('quip.email_err_ns');
 
+/* prevent spambots, author spoofing, greasemonkey kiddos, etc */
 if ($requireAuth && $_POST['author'] != $modx->user->get('id')) {
     $errors['message'] = $modx->lexicon('quip.err_fraud_attempt');
     return $errors;
@@ -64,9 +65,38 @@ $body = str_replace(array('<br><br>','<br /><br />'),'',nl2br($body));
 if (empty($errors)) {
     $comment = $modx->newObject('quipComment');
     $comment->fromArray($_POST);
+
+    /* if moderation is on, don't auto-approve comments */
+    if ($modx->getOption('moderate',$scriptProperties,false)) {
+        /* by default moderate, unless special cases pass */
+        $approved = false;
+
+        /* check logged in status */
+        if ($modx->user->hasSessionContext($modx->context->get('key'))) {
+            /* if moderating only anonymous users, go ahead and approve since the user is logged in */
+            if ($modx->getOption('moderateAnonymousOnly',$scriptProperties,false)) {
+                $approved = true;
+
+            } else if ($modx->getOption('moderateFirstPostOnly',$scriptProperties,true)) {
+                /* if moderating only first post, check to see if user has posted and been approved elsewhere.
+                 * Note that this only works with logged in users.
+                 */
+                $ct = $modx->getCount('quipComment',array(
+                    'author' => $modx->user->get('id'),
+                    'approved' => true,
+                ));
+                if ($ct > 0) $approved = true;
+            }
+        }
+        $comment->set('approved',$approved);
+    }
+
+    /* set body of comment */
     $comment->set('body',$body);
 
-    if (!empty($_POST['parent'])) { /* for threaded comments, persist the parents URL */
+    /* URL preservation information */
+    if (!empty($_POST['parent'])) {
+        /* for threaded comments, persist the parents URL */
         $parentComment = $modx->getObject('quipComment',$_POST['parent']);
         if ($parentComment) {
             $comment->set('resource',$parentComment->get('resource'));
@@ -76,6 +106,8 @@ if (empty($errors)) {
     } else {
         $comment->set('resource',$modx->getOption('resource',$scriptProperties,$modx->resource->get('id')));
         $comment->set('idprefix',$modx->getOption('idPrefix',$scriptProperties,'qcom'));
+
+        /* save existing parameters to comment to preserve URLs */
         $p = $modx->request->getParameters();
         unset($p['reported']);
         $comment->set('existing_params',$p);
@@ -83,11 +115,12 @@ if (empty($errors)) {
 
     if ($comment->save() == false) {
         $errors['message'] = $modx->lexicon('quip.comment_err_save');
-    } elseif ($requireAuth) { /* if requireAuth, update user profile */
+    } elseif ($requireAuth) {
+        /* if successful and requireAuth is true, update user profile */
         $profile = $modx->user->getOne('Profile');
         if ($profile) {
-            $profile->set('fullname',$_POST['name']);
-            $profile->set('email',$_POST['email']);
+            if (!empty($_POST['name'])) $profile->set('fullname',$_POST['name']);
+            if (!empty($_POST['email'])) $profile->set('email',$_POST['email']);
             $profile->set('website',$_POST['website']);
             $profile->save();
         }
@@ -106,6 +139,7 @@ if (!empty($notifyEmails)) {
     $emailFrom = $modx->getOption('quip.emailsFrom',null,$emailTo);
     $emailReplyTo = $modx->getOption('quip.emailsReplyTo',null,$emailFrom);
 
+    /* allow multiple notification emails, via comma-separated list */
     $notifyEmails = explode(',',$notifyEmails);
     foreach ($notifyEmails as $email) {
         if (empty($email) || strpos($email,'@') == false) continue;
@@ -138,6 +172,7 @@ if (is_array($notifiees) && !empty($notifiees)) {
     $emailReplyTo = $modx->getOption('quip.emailsReplyTo',null,$emailFrom);
     foreach ($notifiees as $notified) {
         $email = $notified->get('email');
+        /* remove invalid emails */
         if (empty($email) || strpos($email,'@') == false) {
             $notified->remove();
             continue;
@@ -147,7 +182,7 @@ if (is_array($notifiees) && !empty($notifiees)) {
         $modx->mail->set(modMail::MAIL_FROM, $emailFrom);
         $modx->mail->set(modMail::MAIL_FROM_NAME, 'Quip');
         $modx->mail->set(modMail::MAIL_SENDER, 'Quip');
-        $modx->mail->set(modMail::MAIL_SUBJECT, $modx->lexicon('quip.notify_subject'));
+        $modx->mail->set(modMail::MAIL_SUBJECT, $modx->lexicon($comment->get('approved') ? 'quip.notify_subject' : 'quip.notify_moderate_subject'));
         $modx->mail->address('to',$email);
         $modx->mail->address('reply-to',$emailReplyTo);
         $modx->mail->setHTML(true);

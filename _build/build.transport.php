@@ -33,16 +33,23 @@ $mtime = $mtime[1] + $mtime[0];
 $tstart = $mtime;
 set_time_limit(0);
 
+/* define package */
+define('PKG_NAME','Quip');
+define('PKG_NAME_LOWER','quip');
+define('PKG_VERSION','0.5');
+define('PKG_RELEASE','beta3');
+
+/* define sources */
 $root = dirname(dirname(__FILE__)).'/';
 $sources= array (
     'root' => $root,
     'build' => $root .'_build/',
     'resolvers' => $root . '_build/resolvers/',
     'data' => $root . '_build/data/',
-    'source_core' => $root.'core/components/quip',
-    'source_assets' => $root.'assets/components/quip',
-    'lexicon' => $root . 'core/components/quip/lexicon/',
-    'docs' => $root.'core/components/quip/docs/',
+    'source_core' => $root.'core/components/'.PKG_NAME_LOWER,
+    'source_assets' => $root.'assets/components/'.PKG_NAME_LOWER,
+    'lexicon' => $root . 'core/components/'.PKG_NAME_LOWER.'/lexicon/',
+    'docs' => $root.'core/components/'.PKG_NAME_LOWER.'/docs/',
 );
 unset($root);
 
@@ -58,8 +65,8 @@ $modx->setLogTarget('ECHO'); echo '<pre>'; flush();
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
-$builder->createPackage('quip','0.5','beta2');
-$builder->registerNamespace('quip',false,true,'{core_path}components/quip/');
+$builder->createPackage(PKG_NAME_LOWER,PKG_VERSION,PKG_RELEASE);
+$builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.PKG_NAME_LOWER.'/');
 
 /* load action/menu */
 $menu = include $sources['data'].'transport.menu.php';
@@ -112,7 +119,7 @@ unset($settings,$setting,$attributes);
 $modx->log(modX::LOG_LEVEL_INFO,'Creating category.'); flush();
 $category= $modx->newObject('modCategory');
 $category->set('id',1);
-$category->set('category','Quip');
+$category->set('category',PKG_NAME);
 
 /* add snippets */
 $modx->log(modX::LOG_LEVEL_INFO,'Adding in base-level snippets.'); flush();

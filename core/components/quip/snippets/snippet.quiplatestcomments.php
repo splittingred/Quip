@@ -52,6 +52,9 @@ $bodyLimit = $modx->getOption('bodyLimit',$scriptProperties,30);
 $output = '';
 $c = $modx->newQuery('quipComment');
 $c->leftJoin('modUser','Author');
+$c->where(array(
+    'quipComment.approved' => true,
+));
 switch ($type) {
     case 'user':
         if (empty($scriptProperties['user'])) return '';

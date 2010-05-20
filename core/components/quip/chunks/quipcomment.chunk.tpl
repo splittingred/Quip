@@ -1,8 +1,9 @@
-<div class="quip-comment [[+alt]]" id="[[+idprefix]][[+id]]" [[+threaded:notempty=`style="padding-left: [[+depth_margin]]px"`]]>
+<div class="[[+cls]] [[+alt]]" id="[[+idprefix]][[+id]]" [[+threaded:notempty=`style="padding-left: [[+depth_margin]]px"`]]>
 <form action="[[+url]]" method="post">
     <input type="hidden" name="thread" value="[[+thread]]" />
     <input type="hidden" name="id" value="[[+id]]" />
     <div class="quip-comment-rightstuff">
+        [[+approved:if=`[[+approved]]`:is=`1`:then=``:else=`<em>[[%quip.unapproved? &namespace=`quip` &topic=`default`]]</em> - `]]
         <span class="quip-comment-createdon">[[+createdon]]</span> : <a href="[[+url]]">#</a><br />
         [[+report]]
         <span class="quip-comment-options">

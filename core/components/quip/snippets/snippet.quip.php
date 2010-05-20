@@ -111,17 +111,18 @@ $c->leftJoin('modUser','Author');
 $c->where(array(
     'quipComment.thread' => $thread,
 ));
+$modx->setLogTarget('ECHO');
+$c->andCondition(array(
+    'quipComment.approved' => 1,
+    'OR:quipComment.author:=' => $modx->user->get('id'),
+),null,2);
 if (!empty($parent)) {
     $c->where(array(
         'Ancestors.descendant' => $parent,
     ));
 }
 $placeholders['total'] = $modx->getCount('quipComment',$c);
-$c->select('
-    `quipComment`.*,
-    `Descendants`.`depth` AS `depth`,
-    `Author`.`username` AS `username`
-');
+$c->select(array('quipComment.*','Descendants.depth','Author.username'));
 $c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
 $comments = $modx->getCollection('quipComment',$c);
 
@@ -160,6 +161,7 @@ foreach ($comments as $comment) {
     $commentArray['threaded'] = $threaded;
     $commentArray['depth'] = $comment->get('depth');
     $commentArray['depth_margin'] = (int)($threadedPostMargin * $comment->get('depth'))+7;
+    $commentArray['cls'] = 'quip-comment'.($comment->get('approved') ? '' : ' quip-unapproved');
 
     /* check for auth */
     if ($hasAuth) {
@@ -199,7 +201,8 @@ foreach ($comments as $comment) {
         $commentArray['authorName'] = '<a href="'.$commentArray['website'].'">'.$commentArray['authorName'].'</a>';
     }
 
-    if ($threaded && $comment->get('depth') < $maxDepth && (!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,false)) {
+    if ($threaded && $comment->get('depth') < $maxDepth && $comment->get('approved')
+        && (!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,false)) {
         $commentArray['replyUrl'] = $modx->makeUrl($replyResourceId,'',array(
             'quip_thread' => $comment->get('thread'),
             'quip_parent' => $comment->get('id'),

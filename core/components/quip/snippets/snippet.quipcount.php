@@ -37,10 +37,12 @@ if (!($quip instanceof Quip)) return '';
 $type = $modx->getOption('type',$scriptProperties,'thread');
 
 $total = 0;
+$c = $modx->newQuery('quipComment');
+
 switch ($type) {
     case 'user':
         if (empty($scriptProperties['user'])) return 0;
-        $c = $modx->newQuery('quipComment');
+        
         $c->innerJoin('modUser','Author');
         if (is_numeric($scriptProperties['user'])) {
             $c->where(array(
@@ -51,18 +53,17 @@ switch ($type) {
                 'Author.username' => $scriptProperties['user'],
             ));
         }
-        $total = $modx->getCount('quipComment',$c);
+        $c->where(array('quipComment.approved' => true));
         break;
     case 'thread':
     default:
         if (empty($scriptProperties['thread'])) return 0;
 
-        $c = $modx->newQuery('quipComment');
         $c->where(array(
-            'quipComment.thread' => $scriptProperties['thread'],
+            'thread' => $scriptProperties['thread'],
+            'approved' => true,
         ));
-        $total = $modx->getCount('quipComment',$c);
         break;
 }
-return $total;
 
+return $modx->getCount('quipComment',$c);

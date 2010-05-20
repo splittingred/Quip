@@ -73,7 +73,7 @@ $_lang['quip.notify_email'] = '<p>Hello,</p>
 <p>----------------------------------------------------</p>
 
 <p>This is an automated email. Please do not reply directly. The
-comment\'s ID is: <strong>[[+id]]</strong></p>
+comment\'s ID is: <strong>[[+id]]</strong> on the thread [[+thread]].</p>
 
 <p>
 Thanks,<br />
@@ -81,6 +81,7 @@ Thanks,<br />
 </p>';
 $_lang['quip.notify_me'] = 'Notify of New Replies';
 $_lang['quip.notify_subject'] = '[Quip] New Reply Posted';
+$_lang['quip.notify_moderate_subject'] = '[Quip] New Post in Need of Moderation';
 $_lang['quip.post'] = 'Post';
 $_lang['quip.postedon'] = 'Posted On';
 $_lang['quip.preview'] = 'Preview';
@@ -112,6 +113,7 @@ $_lang['quip.thread_manage'] = 'Manage Thread';
 $_lang['quip.thread_truncate'] = 'Truncate Thread';
 $_lang['quip.thread_truncate_confirm'] = 'Are you sure you want to remove all comments in this thread?';
 $_lang['quip.threads'] = 'Threads';
+$_lang['quip.unapproved'] = 'Unapproved';
 $_lang['quip.username_said'] = '<strong>[[+username]]</strong> said:';
 $_lang['quip.website'] = 'Website';
 
