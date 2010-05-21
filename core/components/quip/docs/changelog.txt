@@ -2,6 +2,9 @@ Changelog for Quip.
 
 Quip 0.5 ($LastChangedRevision$, $LastChangedDate$)
 ======================================
+- Added a QuipModerationPolicy Access Policy for adding a security layer to comment editing
+- Added quipThread object to better handle thread-wide properties
+- Added moderation support to comments
 - Optimized build script for Revo RC-2
 - Added showAnonymousName and anonymousName properties for customization of how to handle anon postings
 - Refactored comment display to default to username, fallback to name, for comment author names; also specifiable via the nameField property

@@ -79,6 +79,9 @@ switch ($type) {
     default:
         break;
 }
+$c->where(array(
+    'quipComment.deleted' => false,
+));
 $c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
 $c->limit($limit,$start);
 $comments = $modx->getCollection('quipComment',$c);

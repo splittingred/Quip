@@ -27,6 +27,8 @@
  * @package quip
  * @subpackage processors
  */
+if (!$modx->hasPermission('quip.comment_update')) return $modx->error->failure($modx->lexicon('access_denied'));
+
 if (empty($scriptProperties['id'])) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
 }

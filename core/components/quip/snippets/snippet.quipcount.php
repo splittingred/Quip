@@ -53,7 +53,6 @@ switch ($type) {
                 'Author.username' => $scriptProperties['user'],
             ));
         }
-        $c->where(array('quipComment.approved' => true));
         break;
     case 'thread':
     default:
@@ -61,9 +60,12 @@ switch ($type) {
 
         $c->where(array(
             'thread' => $scriptProperties['thread'],
-            'approved' => true,
         ));
         break;
 }
 
+$c->where(array(
+    'quipComment.approved' => true,
+    'quipComment.deleted' => false,
+));
 return $modx->getCount('quipComment',$c);

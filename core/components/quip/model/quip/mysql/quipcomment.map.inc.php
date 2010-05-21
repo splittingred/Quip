@@ -9,17 +9,21 @@ $xpdo_meta_map['quipComment']= array (
   array (
     'thread' => '',
     'parent' => 0,
+    'rank' => NULL,
     'author' => 0,
     'body' => '',
     'createdon' => NULL,
     'editedon' => NULL,
     'approved' => 1,
     'approvedon' => NULL,
+    'approvedby' => 0,
     'name' => '',
     'email' => '',
     'website' => '',
     'ip' => '0.0.0.0',
-    'rank' => NULL,
+    'deleted' => 0,
+    'deletedon' => NULL,
+    'deletedby' => 0,
     'resource' => 0,
     'idprefix' => 'qcom',
     'existing_params' => '{}',
@@ -44,6 +48,11 @@ $xpdo_meta_map['quipComment']= array (
       'null' => false,
       'default' => 0,
       'index' => 'index',
+    ),
+    'rank' => 
+    array (
+      'dbtype' => 'tinytext',
+      'phptype' => 'string',
     ),
     'author' => 
     array (
@@ -90,6 +99,16 @@ $xpdo_meta_map['quipComment']= array (
       'phptype' => 'datetime',
       'null' => false,
     ),
+    'approvedby' => 
+    array (
+      'dbtype' => 'integer',
+      'precision' => '10',
+      'phptype' => 'integer',
+      'attributes' => 'unsigned',
+      'null' => false,
+      'default' => 0,
+      'index' => 'index',
+    ),
     'name' => 
     array (
       'dbtype' => 'varchar',
@@ -122,10 +141,31 @@ $xpdo_meta_map['quipComment']= array (
       'null' => false,
       'default' => '0.0.0.0',
     ),
-    'rank' => 
+    'deleted' => 
     array (
-      'dbtype' => 'tinytext',
-      'phptype' => 'string',
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'attributes' => 'unsigned',
+      'null' => false,
+      'default' => 0,
+      'index' => 'index',
+    ),
+    'deletedon' => 
+    array (
+      'dbtype' => 'datetime',
+      'phptype' => 'datetime',
+      'null' => false,
+    ),
+    'deletedby' => 
+    array (
+      'dbtype' => 'integer',
+      'precision' => '10',
+      'phptype' => 'integer',
+      'attributes' => 'unsigned',
+      'null' => false,
+      'default' => 0,
+      'index' => 'index',
     ),
     'resource' => 
     array (
@@ -154,6 +194,14 @@ $xpdo_meta_map['quipComment']= array (
   ),
   'aggregates' => 
   array (
+    'Thread' => 
+    array (
+      'class' => 'quipThread',
+      'local' => 'thread',
+      'foreign' => 'name',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
     'Author' => 
     array (
       'class' => 'modUser',

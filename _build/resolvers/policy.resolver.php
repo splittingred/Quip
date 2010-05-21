@@ -22,7 +22,7 @@
  * @package quip
  */
 /**
- * Creates the tables on install
+ * Auto-assign the QuipModeratorPolicy to the Administrator User Group
  *
  * @package quip
  * @subpackage build
@@ -35,12 +35,30 @@ if ($object->xpdo) {
             $modelPath = $modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/';
             $modx->addPackage('quip',$modelPath);
 
-            $manager = $modx->getManager();
             $modx->setLogLevel(modX::LOG_LEVEL_ERROR);
-            $manager->createObjectContainer('quipThread');
-            $manager->createObjectContainer('quipComment');
-            $manager->createObjectContainer('quipCommentNotify');
-            $manager->createObjectContainer('quipCommentClosure');
+
+            $policy = $modx->getObject('modAccessPolicy',array('name' => 'QuipModeratorPolicy'));
+            $adminGroup = $modx->getObject('modUserGroup',array('name' => 'Administrator'));
+            if ($policy && $adminGroup) {
+                $access = $modx->getObject('modAccessContext',array(
+                    'target' => 'mgr',
+                    'principal_class' => 'modUserGroup',
+                    'principal' => $adminGroup->get('id'),
+                    'authority' => 9999,
+                    'policy' => $policy->get('id'),
+                ));
+                if (!$access) {
+                    $access = $modx->newObject('modAccessContext');
+                    $access->fromArray(array(
+                        'target' => 'mgr',
+                        'principal_class' => 'modUserGroup',
+                        'principal' => $adminGroup->get('id'),
+                        'authority' => 9999,
+                        'policy' => $policy->get('id'),
+                    ));
+                    $access->save();
+                }
+            }
             $modx->setLogLevel(modX::LOG_LEVEL_INFO);
             break;
     }

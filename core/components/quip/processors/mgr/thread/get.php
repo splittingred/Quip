@@ -22,27 +22,15 @@
  * @package quip
  */
 /**
- * Creates the tables on install
+ * Get a thread.
  *
  * @package quip
- * @subpackage build
+ * @subpackage processors
  */
-if ($object->xpdo) {
-    switch ($options[xPDOTransport::PACKAGE_ACTION]) {
-        case xPDOTransport::ACTION_INSTALL:
-        case xPDOTransport::ACTION_UPGRADE:
-            $modx =& $object->xpdo;
-            $modelPath = $modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/';
-            $modx->addPackage('quip',$modelPath);
+if (!$modx->hasPermission('quip.thread_view')) return $modx->error->failure($modx->lexicon('access_denied'));
 
-            $manager = $modx->getManager();
-            $modx->setLogLevel(modX::LOG_LEVEL_ERROR);
-            $manager->createObjectContainer('quipThread');
-            $manager->createObjectContainer('quipComment');
-            $manager->createObjectContainer('quipCommentNotify');
-            $manager->createObjectContainer('quipCommentClosure');
-            $modx->setLogLevel(modX::LOG_LEVEL_INFO);
-            break;
-    }
-}
-return true;
+if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
+$thread = $modx->getObject('quipThread',$scriptProperties['thread']);
+if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
+
+return $modx->error->success('',$thread);

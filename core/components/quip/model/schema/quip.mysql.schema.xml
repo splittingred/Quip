@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model package="quip" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM">
+    <object class="quipThread" table="quip_threads" extends="xPDOObject">
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default="" index="pk" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="false" />
+
+        <field key="moderated" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="1" index="index" />
+        <field key="moderator_group" dbtype="varchar" precision="255" phptype="string" null="false" default="" index="index" />
+        <field key="moderators" dbtype="text" phptype="string" default="" />
+
+        <field key="resource" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="idprefix" dbtype="varchar" precision="255" phptype="string" null="false" default="qcom" />
+        <field key="existing_params" dbtype="text" phptype="json" default="{}" />
+
+        <composite alias="Comments" class="quipComment" local="name" foreign="thread" cardinality="many" owner="local" />
+        <composite alias="Notifications" class="quipCommentNotify" local="name" foreign="thread" cardinality="many" owner="local" />
+    </object>
     <object class="quipComment" table="quip_comments" extends="xPDOSimpleObject">
         <field key="thread" dbtype="varchar" precision="255" phptype="string" null="false" default="" index="index" />
         <field key="parent" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
@@ -11,15 +26,22 @@
         <field key="editedon" dbtype="datetime" phptype="datetime" null="false" />
         <field key="approved" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="1" index="index" /> 
         <field key="approvedon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="approvedby" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
         <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
         <field key="email" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
         <field key="website" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
         <field key="ip" dbtype="varchar" precision="255" phptype="string" null="false" default="0.0.0.0" />
-        
+
+        <field key="deleted" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="deletedon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="deletedby" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+
+        <!-- deprecated in 0.5.0 -->
         <field key="resource" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
         <field key="idprefix" dbtype="varchar" precision="255" phptype="string" null="false" default="qcom" />
         <field key="existing_params" dbtype="text" phptype="json" default="{}" />
-        
+
+        <aggregate alias="Thread" class="quipThread" local="thread" foreign="name" cardinality="one" owner="foreign" />
         <aggregate alias="Author" class="modUser" local="author" foreign="id" cardinality="one" owner="foreign" />
         <aggregate alias="Resource" class="modResource" local="resource" foreign="id" cardinality="one" owner="foreign" />
 
@@ -42,6 +64,7 @@
         <field key="thread" dbtype="varchar" precision="255" phptype="string" null="false" default="" index="index" />
         <field key="email" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
 
-        <aggregate alias="Comment" class="quipComment" local="thread" foreign="thread" cardinality="one" owner="foreign" />
+        <aggregate alias="Thread" class="quipThread" local="thread" foreign="name" cardinality="one" owner="foreign" />
+        <aggregate alias="Comments" class="quipComment" local="thread" foreign="thread" cardinality="many" owner="local" />
     </object>
 </model>

@@ -53,11 +53,16 @@ $commentOptionsTpl = $modx->getOption('tplCommentOptions',$scriptProperties,'qui
 $commentsTpl = $modx->getOption('tplComments',$scriptProperties,'quipComments');
 $reportCommentTpl = $modx->getOption('tplReport',$scriptProperties,'quipReport');
 
+$rowCss = $modx->getOption('rowCss',$scriptProperties,'quip-comment');
 $altRowCss = $modx->getOption('altRowCss',$scriptProperties,'quip-comment-alt');
 $dateFormat = $modx->getOption('dateFormat',$scriptProperties,'%b %d, %Y at %I:%M %p');
 $showWebsite = $modx->getOption('showWebsite',$scriptProperties,true);
 $idPrefix = $modx->getOption('idPrefix',$scriptProperties,'qcom');
 $resource = $modx->getOption('resource',$scriptProperties,'');
+
+$moderate = $modx->getOption('moderate',$scriptProperties,false);
+$moderators = $modx->getOption('moderators',$scriptProperties,false);
+$moderatorGroup = $modx->getOption('moderatorGroup',$scriptProperties,false);
 
 $threaded = $modx->getOption('threaded',$scriptProperties,true);
 $threadedPostMargin = $modx->getOption('threadedPostMargin',$scriptProperties,15);
@@ -103,17 +108,42 @@ if ($modx->getOption('useCss',$scriptProperties,true)) {
     $modx->regClientCSS($quip->config['css_url'].'web.css');
 }
 
+/* ensure thread exists, set thread properties if changed
+ * (prior to 0.5.0 threads will be handled in install resolver) */
+$threadPK = $thread;
+$thread = $modx->getObject('quipThread',$threadPK);
+if (!$thread) {
+    $thread = $modx->newObject('quipThread');
+    $thread->set('name',$threadPK);
+    $thread->set('moderated',$moderate);
+    $thread->set('moderator_group',$moderatorGroup);
+    $thread->set('moderators',$moderators);
+    $thread->set('resource',$modx->getOption('resource',$scriptProperties,$modx->resource->get('id')));
+    $thread->set('idprefix',$modx->getOption('idPrefix',$scriptProperties,'qcom'));
+    if (!empty($scriptProperties['moderatorGroup'])) $thread->set('moderator_group',$scriptProperties['moderatorGroup']);
+    /* save existing parameters to comment to preserve URLs */
+    $p = $modx->request->getParameters();
+    unset($p['reported']);
+    $thread->set('existing_params',$p);
+    $thread->save();
+} else {
+    /* sync properties with thread row values */
+    $thread->sync($scriptProperties);
+}
+unset($threadPK);
+
 /* get comments */
 $c = $modx->newQuery('quipComment');
+$c->innerJoin('quipThread','Thread');
 $c->leftJoin('quipCommentClosure','Descendants','`Descendants`.`descendant` = `quipComment`.`id` AND `Descendants`.`ancestor` = 0');
 $c->leftJoin('quipCommentClosure','Ancestors');
 $c->leftJoin('modUser','Author');
 $c->where(array(
-    'quipComment.thread' => $thread,
+    'quipComment.thread' => $thread->get('name'),
+    'quipComment.deleted' => false,
 ));
-$modx->setLogTarget('ECHO');
 $c->andCondition(array(
-    'quipComment.approved' => 1,
+    'quipComment.approved' => true,
     'OR:quipComment.author:=' => $modx->user->get('id'),
 ),null,2);
 if (!empty($parent)) {
@@ -122,7 +152,15 @@ if (!empty($parent)) {
     ));
 }
 $placeholders['total'] = $modx->getCount('quipComment',$c);
-$c->select(array('quipComment.*','Descendants.depth','Author.username'));
+
+$c->select(array(
+    'quipComment.*',
+    'Thread.resource',
+    'Thread.idprefix',
+    'Thread.existing_params',
+    'Descendants.depth',
+    'Author.username',
+));
 $c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
 $comments = $modx->getCollection('quipComment',$c);
 
@@ -132,27 +170,6 @@ $placeholders['comments'] = '';
 $alt = false;
 $idx = 0;
 foreach ($comments as $comment) {
-    if (!empty($idPrefix)) { /* autoset changed idprefix */
-        if ($comment->get('idprefix') != $idPrefix) {
-            $comment->set('idprefix',$idPrefix);
-            $comment->save();
-        }
-    }
-    /* persist existing GET params */
-    if ($comment->get('existing_params') == '') {
-        $p = $modx->request->getParameters();
-        $comment->set('existing_params',$p);
-        $comment->save();
-        unset($p);
-    }
-
-    /* fix to set resource field from older versions to map comment to a resource */
-    if ($comment->get('resource') == 0) {
-        if (empty($resource)) $resource = $modx->resource->get('id');
-        $comment->set('resource',$resource);
-        $comment->save();
-    }
-
     $commentArray = $comment->toArray();
     if ($alt) { $commentArray['alt'] = $altRowCss; }
     $commentArray['createdon'] = strftime($dateFormat,strtotime($comment->get('createdon')));
@@ -161,7 +178,7 @@ foreach ($comments as $comment) {
     $commentArray['threaded'] = $threaded;
     $commentArray['depth'] = $comment->get('depth');
     $commentArray['depth_margin'] = (int)($threadedPostMargin * $comment->get('depth'))+7;
-    $commentArray['cls'] = 'quip-comment'.($comment->get('approved') ? '' : ' quip-unapproved');
+    $commentArray['cls'] = $rowCss.($comment->get('approved') ? '' : ' quip-unapproved');
 
     /* check for auth */
     if ($hasAuth) {

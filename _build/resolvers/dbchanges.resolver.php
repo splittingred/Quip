@@ -53,6 +53,34 @@ if ($object->xpdo) {
             $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `ip` VARCHAR(255) NOT NULL default '0.0.0.0' AFTER `website`");
             $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `rank` TINYTEXT AFTER `parent`");
 
+            /* add approval/deleted changes */
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `approvedby` INT(10) unsigned NOT NULL default '0' AFTER `approvedon`");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `deleted` TINYINT(1) unsigned NOT NULL default '0' AFTER `ip`");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `deletedon` DATETIME AFTER `deleted`");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `deletedby` INT(10) unsigned NOT NULL default '0' AFTER `deletedon`");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `approvedby` (`approvedby`)");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `deleted` (`deleted`)");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `deletedby` (`deletedby`)");
+
+            /* create thread objects for comments if they dont exist */
+            $c = $modx->newQuery('quipComment');
+            $c->sortby('createdon','DESC');
+            $comments = $modx->getCollection('quipComment',$c);
+            foreach ($comments as $comment) {
+                $thread = $comment->getOne('Thread');
+                if (empty($thread)) {
+                    $thread = $modx->newObject('quipThread');
+                    $thread->set('name',$comment->get('thread'));
+                    $thread->set('idprefix',$comment->get('idprefix'));
+                    $thread->set('existing_params',$comment->get('existing_params'));
+                    $thread->set('resource',$comment->get('resource'));
+                    $thread->set('createdon',$comment->get('createdon'));
+                    $thread->save();
+                }
+                unset($thread);
+            }
+            unset($comments,$comment,$c);
+
             break;
     }
 }

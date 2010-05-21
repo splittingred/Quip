@@ -22,27 +22,27 @@
  * @package quip
  */
 /**
- * Creates the tables on install
+ * Update a comment
  *
  * @package quip
- * @subpackage build
+ * @subpackage processors
  */
-if ($object->xpdo) {
-    switch ($options[xPDOTransport::PACKAGE_ACTION]) {
-        case xPDOTransport::ACTION_INSTALL:
-        case xPDOTransport::ACTION_UPGRADE:
-            $modx =& $object->xpdo;
-            $modelPath = $modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/';
-            $modx->addPackage('quip',$modelPath);
+if (!$modx->hasPermission('quip.comment_update')) return $modx->error->failure($modx->lexicon('access_denied'));
 
-            $manager = $modx->getManager();
-            $modx->setLogLevel(modX::LOG_LEVEL_ERROR);
-            $manager->createObjectContainer('quipThread');
-            $manager->createObjectContainer('quipComment');
-            $manager->createObjectContainer('quipCommentNotify');
-            $manager->createObjectContainer('quipCommentClosure');
-            $modx->setLogLevel(modX::LOG_LEVEL_INFO);
-            break;
-    }
+if (empty($scriptProperties['id'])) {
+    return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
 }
-return true;
+$comment = $modx->getObject('quipComment',$scriptProperties['id']);
+if ($comment == null) {
+    return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
+}
+
+$comment->set('approved',true);
+$comment->set('approvedon',strftime('%Y-%m-%d %H:%M:%S'));
+$comment->set('approvedby',$modx->user->get('id'));
+
+if ($comment->save() === false) {
+    return $modx->error->failure($modx->lexicon('quip.comment_err_save'));
+}
+
+return $modx->error->success();

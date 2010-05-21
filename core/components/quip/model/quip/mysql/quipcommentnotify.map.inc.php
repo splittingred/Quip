@@ -32,13 +32,21 @@ $xpdo_meta_map['quipCommentNotify']= array (
   ),
   'aggregates' => 
   array (
-    'Comment' => 
+    'Thread' => 
+    array (
+      'class' => 'quipThread',
+      'local' => 'thread',
+      'foreign' => 'name',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
+    'Comments' => 
     array (
       'class' => 'quipComment',
       'local' => 'thread',
       'foreign' => 'thread',
-      'cardinality' => 'one',
-      'owner' => 'foreign',
+      'cardinality' => 'many',
+      'owner' => 'local',
     ),
   ),
 );

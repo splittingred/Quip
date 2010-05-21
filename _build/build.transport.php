@@ -114,6 +114,27 @@ foreach ($settings as $setting) {
 }
 unset($settings,$setting,$attributes);
 
+/* package in default access policy */
+$attributes = array (
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UNIQUE_KEY => array('name'),
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'Permissions' => array (
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => array ('policy','name'),
+        )
+    )
+);
+$policies = include $sources['data'].'transport.policies.php';
+if (!is_array($policies)) { $modx->log(modX::LOG_LEVEL_FATAL,'Adding policies failed.'); }
+foreach ($policies as $policy) {
+    $package->put($policy, $attributes);
+}
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($policies).' access policies.'); flush();
+unset($policies,$policy,$attributes);
 
 /* create category */
 $modx->log(modX::LOG_LEVEL_INFO,'Creating category.'); flush();

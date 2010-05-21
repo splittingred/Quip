@@ -7,7 +7,7 @@ Quip.grid.Comments = function(config) {
             action: 'mgr/comment/getList'
             ,thread: config.thread
         }
-        ,fields: ['id','author','username','body','createdon','name','website','email','menu']
+        ,fields: ['id','author','username','body','createdon','name','approved','website','email','menu']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
@@ -23,23 +23,35 @@ Quip.grid.Comments = function(config) {
             ,dataIndex: 'username'
             ,sortable: false
             ,width: 100
+            ,renderer: this._renderStatus
         },{
             header: _('quip.body')
             ,dataIndex: 'body'
             ,sortable: false
             ,width: 300
+            ,renderer: this._renderStatus
         },{
             header: _('quip.postedon')
             ,dataIndex: 'createdon'
             ,sortable: false
             ,editable: false
             ,width: 100
+            ,renderer: this._renderStatus
         }]
     });
     Quip.grid.Comments.superclass.constructor.call(this,config)
 };
 Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
-    updateComment: function(btn,e) {        
+    _renderStatus: function(v,md,rec,ri) {
+        switch (rec.data.approved) {
+            case 0:
+            case false:
+                return '<span style="color: gray;">'+v+'</span>';break;
+            default:
+                return '<span>'+v+'</span>';
+        }
+    }
+    ,updateComment: function(btn,e) {
         if (!this.updateCommentWindow) {
             this.updateCommentWindow = MODx.load({
                 xtype: 'quip-window-comment-update'
@@ -51,7 +63,19 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
         }
         this.updateCommentWindow.setValues(this.menu.record);
         this.updateCommentWindow.show(e.target);
-        
+    }
+    ,rejectComment: function(btn,e) {
+        if (!this.rejectCommentWindow) {
+            this.rejectCommentWindow = MODx.load({
+                xtype: 'quip-window-comment-reject'
+                ,record: this.menu.record
+                ,listeners: {
+                    'success': {fn:this.refresh,scope:this}
+                }
+            });
+        }
+        this.rejectCommentWindow.setValues(this.menu.record);
+        this.rejectCommentWindow.show(e.target);
     }
     ,removeComment: function() {        
         MODx.msg.confirm({

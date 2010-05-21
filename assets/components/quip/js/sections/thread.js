@@ -9,7 +9,17 @@ Quip.page.Thread = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         formpanel: 'quip-panel-thread'
-        ,buttons: [{
+        ,buttons: [/*{
+            text: _('save')
+            ,id: 'quip-btn-save'
+            ,process: 'mgr/thread/update'
+            ,method: 'remote'
+            ,keys: [{
+                key: 's'
+                ,alt: true
+                ,ctrl: true
+            }]
+        },'-',*/{
             text: _('quip.back_to_threads')
             ,id: 'quip-btn-back'
             ,handler: function() {

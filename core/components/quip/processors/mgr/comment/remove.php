@@ -25,6 +25,8 @@
  * @package quip
  * @subpackage processors
  */
+if (!$modx->hasPermission('quip.comment_remove')) return $modx->error->failure($modx->lexicon('access_denied'));
+
 if (empty($scriptProperties['id'])) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
 }
@@ -33,7 +35,11 @@ if ($comment == null) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
 }
 
-if ($comment->remove() === false) {
+$comment->set('deleted',true);
+$comment->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));
+$comment->set('deletedby',$modx->user->get('id'));
+
+if ($comment->save() === false) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_remove'));
 }
 

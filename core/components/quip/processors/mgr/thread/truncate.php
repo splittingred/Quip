@@ -27,6 +27,8 @@
  * @package quip
  * @subpackage processors
  */
+if (!$modx->hasPermission('quip.thread_truncate')) return $modx->error->failure($modx->lexicon('access_denied'));
+
 if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
 
 $c = $modx->newQuery('quipComment');
@@ -36,7 +38,10 @@ $c->where(array(
 $comments = $modx->getCollection('quipComment',$c);
 
 foreach ($comments as $comment) {
-    $comment->remove();
+    $comment->set('deleted',true);
+    $comment->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));
+    $comment->set('deletedby',$modx->user->get('id'));
+    $comment->save();
 }
 
 return $modx->error->success();

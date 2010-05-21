@@ -27,6 +27,8 @@
  * @package quip
  * @subpackage processors
  */
+if (!$modx->hasPermission('quip.comment_list')) return $modx->error->failure($modx->lexicon('access_denied'));
+
 /* set default properties */
 $isLimit = !empty($scriptProperties['limit']);
 $isCombo = !empty($scriptProperties['combo']);
@@ -35,23 +37,30 @@ $limit = $modx->getOption('limit',$scriptProperties,20);
 $sort = $modx->getOption('sort',$scriptProperties,'createdon');
 $dir = $modx->getOption('dir',$scriptProperties,'DESC');
 
+if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
+$thread = $modx->getObject('quipThread',$scriptProperties['thread']);
+if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
+if (!$thread->checkPolicy('view')) return $modx->error->failure($modx->lexicon('access_denied'));
+
 /* build query */
 $c = $modx->newQuery('quipComment');
 $c->leftJoin('modUser','Author');
 $c->where(array(
-    'thread' => $scriptProperties['thread'],
+    'quipComment.thread' => $scriptProperties['thread'],
+    'quipComment.deleted' => false,
 ));
 $count = $modx->getCount('quipComment',$c);
 
-$c->select('
-    `quipComment`.*,
-    `Author`.`username` AS `username`
-');
+$c->select(array('quipComment.*','Author.username'));
 $c->sortby($sort,$dir);
 if ($isCombo || $isLimit) {
     $c->limit($limit,$start);
 }
 $comments = $modx->getCollection('quipComment', $c);
+
+$canApprove = $modx->hasPermission('quip.comment_approve') && $thread->checkPolicy('approve');
+$canRemove = $modx->hasPermission('quip.comment_remove') && $thread->checkPolicy('remove');
+$canUpdate = $modx->hasPermission('quip.comment_update') && $thread->checkPolicy('update');
 
 $list = array();
 foreach ($comments as $comment) {
@@ -59,17 +68,26 @@ foreach ($comments as $comment) {
     if (empty($commentArray['username'])) $commentArray['username'] = $commentArray['name'];
     $commentArray['body'] = str_replace('<br />','',$commentArray['body']);
 
-    $commentArray['menu'] = array(
-        array(
+    $commentArray['menu'] = array();
+    if ($canUpdate) {
+        $commentArray['menu'][] = array(
             'text' => $modx->lexicon('quip.comment_update'),
             'handler' => 'this.updateComment',
-        ),
-        '-',
-        array(
+        );
+    }
+    if ($canApprove && !$comment->get('approved')) {
+        $commentArray['menu'][] = array(
+            'text' => $modx->lexicon('quip.comment_approve'),
+            'handler' => 'this.approveComment',
+        );
+    }
+    if ($canRemove) {
+        $commentArray['menu'][] = '-';
+        $commentArray['menu'][] = array(
             'text' => $modx->lexicon('quip.comment_remove'),
             'handler' => 'this.removeComment',
-        ),
-    );
+        );
+    }
     $list[]= $commentArray;
 }
 return $this->outputArray($list,$count);

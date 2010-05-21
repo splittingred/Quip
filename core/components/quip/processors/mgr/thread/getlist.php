@@ -27,6 +27,8 @@
  * @package quip
  * @subpackage processors
  */
+if (!$modx->hasPermission('quip.thread_list')) return $modx->error->failure($modx->lexicon('access_denied'));
+
 /* setup default properties */
 $isLimit = !empty($scriptProperties['limit']);
 $isCombo = !empty($scriptProperties['combo']);

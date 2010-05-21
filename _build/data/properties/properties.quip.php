@@ -92,6 +92,13 @@ $properties = array(
         'value' => true,
     ),
     array(
+        'name' => 'rowCss',
+        'desc' => 'The CSS class to put on each comment\'s outer div container.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'quip-comment',
+    ),
+    array(
         'name' => 'altRowCss',
         'desc' => 'The CSS class to put on alternating comments.',
         'type' => 'textfield',
