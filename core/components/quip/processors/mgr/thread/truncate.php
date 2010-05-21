@@ -27,10 +27,15 @@
  * @package quip
  * @subpackage processors
  */
-if (!$modx->hasPermission('quip.thread_truncate')) return $modx->error->failure($modx->lexicon('access_denied'));
-
 if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
 
+/* make sure user can truncate thread */
+if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
+$thread = $modx->getObject('quipThread',$scriptProperties['thread']);
+if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
+if (!$thread->checkPolicy('truncate')) return $modx->error->failure($modx->lexicon('access_denied'));
+
+/* get all comments in thread */
 $c = $modx->newQuery('quipComment');
 $c->where(array(
     'thread' => $scriptProperties['thread'],

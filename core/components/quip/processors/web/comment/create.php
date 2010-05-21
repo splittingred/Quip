@@ -94,7 +94,9 @@ if (empty($errors)) {
     /* set body of comment */
     $comment->set('body',$body);
 
-    /* URL preservation information */
+    /* URL preservation information
+     * @deprecated 0.5.0, this now goes on the Thread
+     */
     if (!empty($_POST['parent'])) {
         /* for threaded comments, persist the parents URL */
         $parentComment = $modx->getObject('quipComment',$_POST['parent']);

@@ -38,23 +38,33 @@ $sort = $modx->getOption('sort',$scriptProperties,'name');
 $dir = $modx->getOption('dir',$scriptProperties,'ASC');
 
 /* build query */
-$c = $modx->newQuery('quipComment');
-$c->groupby('thread');
-$count = $modx->getCount('quipComment',$c);
+$c = $modx->newQuery('quipThread');
+$count = $modx->getCount('quipThread',$c);
 
 if ($isCombo || $isLimit) {
     $c->limit($limit,$start);
 }
-$c->sortby('thread','ASC');
+$c->sortby('name','ASC');
 $c->select('
-    `quipComment`.*,
-    (SELECT COUNT(*) FROM '.$modx->getTableName('quipComment').'
-     WHERE `thread` = `quipComment`.`thread`) AS `comments`
+    `quipThread`.*,
+    (SELECT COUNT(*) FROM '.$modx->getTableName('quipComment').' AS `ApprovedComments`
+     WHERE 
+        `quipThread`.`name` = `ApprovedComments`.`thread`
+    AND `ApprovedComments`.`deleted` = 0
+    AND `ApprovedComments`.`approved` = 1
+    ) AS `comments`,
+    (SELECT COUNT(*) FROM '.$modx->getTableName('quipComment').' AS `UnapprovedComments`
+     WHERE
+        `quipThread`.`name` = `UnapprovedComments`.`thread`
+    AND `UnapprovedComments`.`deleted` = 0
+    AND `UnapprovedComments`.`approved` = 0
+    ) AS `unapproved_comments`
 ');
-$threads = $modx->getCollection('quipComment', $c);
+$threads = $modx->getCollection('quipThread', $c);
 
 $list = array();
 foreach ($threads as $thread) {
+    if (!$thread->checkPolicy('view')) continue;
     $threadArray = $thread->toArray();
 
     $threadArray['menu'] = array(

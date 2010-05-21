@@ -31,19 +31,24 @@ Quip.grid.Thread = function(config) {
     Ext.applyIf(config,{
         url: Quip.config.connector_url
         ,baseParams: { action: 'mgr/thread/getList' }
-        ,fields: ['thread','comments','menu']
+        ,fields: ['name','comments','unapproved_comments','menu']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
-        ,primaryKey: 'thread'
+        ,primaryKey: 'name'
         ,columns: [{
             header: _('quip.thread')
-            ,dataIndex: 'thread'
+            ,dataIndex: 'name'
             ,sortable: true
             ,width: 400
         },{
-            header: _('quip.comments')
+            header: _('quip.approved')
             ,dataIndex: 'comments'
+            ,sortable: false
+            ,width: 100
+        },{
+            header: _('quip.unapproved')
+            ,dataIndex: 'unapproved_comments'
             ,sortable: false
             ,width: 100
         }]
@@ -52,7 +57,7 @@ Quip.grid.Thread = function(config) {
 };
 Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
     manageThread: function() {
-        location.href = '?a='+MODx.request.a+'&action=thread&thread='+this.menu.record.thread;   
+        location.href = '?a='+MODx.request.a+'&action=thread&thread='+this.menu.record.name;
     }
     ,truncateThread: function() {        
         MODx.msg.confirm({
@@ -61,10 +66,10 @@ Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
             ,url: this.config.url
             ,params: {
                 action: 'mgr/thread/truncate'
-                ,thread: this.menu.record.thread
+                ,thread: this.menu.record.name
             }
             ,listeners: {
-                'success': {fn:this.removeActiveRow,scope:this}
+                'success': {fn:this.refresh,scope:this}
             }
         });
     }

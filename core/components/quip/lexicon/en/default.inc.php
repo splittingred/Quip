@@ -34,6 +34,7 @@ $_lang['quip.ago_days'] = '[[+days]] days';
 $_lang['quip.ago_hours'] = '[[+hours]] hrs';
 $_lang['quip.ago_minutes'] = '[[+minutes]] min';
 $_lang['quip.ago_seconds'] = '[[+seconds]] sec';
+$_lang['quip.approved'] = 'Approved';
 $_lang['quip.allowed_tags'] = 'Allowed tags: [[+tags]]';
 $_lang['quip.anonymous'] = 'Anonymous';
 $_lang['quip.author'] = 'Author';
@@ -122,6 +123,7 @@ $_lang['quip.thread_truncate'] = 'Truncate Thread';
 $_lang['quip.thread_truncate_confirm'] = 'Are you sure you want to remove all comments in this thread?';
 $_lang['quip.threads'] = 'Threads';
 $_lang['quip.unapproved'] = 'Unapproved';
+$_lang['quip.unapproved_comments'] = 'Unapproved Comments';
 $_lang['quip.username_said'] = '<strong>[[+username]]</strong> said:';
 $_lang['quip.website'] = 'Website';
 

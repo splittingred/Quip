@@ -32,5 +32,6 @@ if (!$modx->hasPermission('quip.thread_view')) return $modx->error->failure($mod
 if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
 $thread = $modx->getObject('quipThread',$scriptProperties['thread']);
 if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
+if (!$thread->checkPolicy('view')) return $modx->error->failure($modx->lexicon('access_denied'));
 
 return $modx->error->success('',$thread);

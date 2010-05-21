@@ -24,13 +24,16 @@ class quipThread extends xPDOObject {
             case 'view':
                 $access = $this->xpdo->hasPermission('quip.thread_view');
                 break;
-            case 'approve':
+            case 'truncate':
+                $access = $this->xpdo->hasPermission('quip.thread_truncate');
+                break;
+            case 'comment_approve':
                 $access = $this->xpdo->hasPermission('quip.comment_approve');
                 break;
-            case 'remove':
+            case 'comment_remove':
                 $access = $this->xpdo->hasPermission('quip.comment_approve');
                 break;
-            case 'update':
+            case 'comment_update':
                 $access = $this->xpdo->hasPermission('quip.comment_approve');
                 break;
         }

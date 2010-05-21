@@ -58,9 +58,9 @@ if ($isCombo || $isLimit) {
 }
 $comments = $modx->getCollection('quipComment', $c);
 
-$canApprove = $modx->hasPermission('quip.comment_approve') && $thread->checkPolicy('approve');
-$canRemove = $modx->hasPermission('quip.comment_remove') && $thread->checkPolicy('remove');
-$canUpdate = $modx->hasPermission('quip.comment_update') && $thread->checkPolicy('update');
+$canApprove = $modx->hasPermission('quip.comment_approve') && $thread->checkPolicy('comment_approve');
+$canRemove = $modx->hasPermission('quip.comment_remove') && $thread->checkPolicy('comment_remove');
+$canUpdate = $modx->hasPermission('quip.comment_update') && $thread->checkPolicy('comment_update');
 
 $list = array();
 foreach ($comments as $comment) {
