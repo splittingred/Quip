@@ -39,6 +39,7 @@ $dir = $modx->getOption('dir',$scriptProperties,'ASC');
 
 /* build query */
 $c = $modx->newQuery('quipThread');
+$c->leftJoin('modResource','Resource');
 $count = $modx->getCount('quipThread',$c);
 
 if ($isCombo || $isLimit) {
@@ -47,6 +48,7 @@ if ($isCombo || $isLimit) {
 $c->sortby('name','ASC');
 $c->select('
     `quipThread`.*,
+    `Resource`.`pagetitle` AS `pagetitle`,
     (SELECT COUNT(*) FROM '.$modx->getTableName('quipComment').' AS `ApprovedComments`
      WHERE 
         `quipThread`.`name` = `ApprovedComments`.`thread`
@@ -66,6 +68,7 @@ $list = array();
 foreach ($threads as $thread) {
     if (!$thread->checkPolicy('view')) continue;
     $threadArray = $thread->toArray();
+    $threadArray['url'] = $thread->makeUrl();
 
     $threadArray['menu'] = array(
         array(

@@ -12,6 +12,7 @@
         <field key="idprefix" dbtype="varchar" precision="255" phptype="string" null="false" default="qcom" />
         <field key="existing_params" dbtype="text" phptype="json" default="{}" />
 
+        <aggregate alias="Resource" class="modResource" local="resource" foreign="id" cardinality="one" owner="foreign" />
         <composite alias="Comments" class="quipComment" local="name" foreign="thread" cardinality="many" owner="local" />
         <composite alias="Notifications" class="quipCommentNotify" local="name" foreign="thread" cardinality="many" owner="local" />
     </object>

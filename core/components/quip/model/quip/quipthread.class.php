@@ -55,6 +55,17 @@ class quipThread extends xPDOObject {
         return $ret;
     }
     
+    
+    public function makeUrl($resource = 0,array $params = array(),array $options = array()) {
+        if (empty($resource)) $resource = $this->get('resource');
+        if (empty($params)) $params = $this->get('existing_params');
+        if (empty($params)) $params = array();
+
+        $scheme= $this->xpdo->getOption('scheme',$options,'');
+        return $this->xpdo->makeUrl($resource,'',$params,$scheme);
+    }
+
+    
     public function sync(array $scriptProperties = array()) {
         $changed = false;
         $scriptProperties['idPrefix'] = $this->xpdo->getOption('idPrefix',$scriptProperties,'qcom');

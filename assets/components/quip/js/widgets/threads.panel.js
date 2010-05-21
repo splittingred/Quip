@@ -56,7 +56,7 @@ Quip.grid.Thread = function(config) {
     Ext.applyIf(config,{
         url: Quip.config.connector_url
         ,baseParams: { action: 'mgr/thread/getList' }
-        ,fields: ['name','comments','unapproved_comments','menu']
+        ,fields: ['name','comments','unapproved_comments','pagetitle','url','menu']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
@@ -65,23 +65,32 @@ Quip.grid.Thread = function(config) {
             header: _('quip.thread')
             ,dataIndex: 'name'
             ,sortable: true
-            ,width: 400
+            ,width: 300
         },{
             header: _('quip.approved')
             ,dataIndex: 'comments'
             ,sortable: false
-            ,width: 100
+            ,width: 80
         },{
             header: _('quip.unapproved')
             ,dataIndex: 'unapproved_comments'
             ,sortable: false
-            ,width: 100
+            ,width: 80
+        },{
+            header: _('quip.view')
+            ,dataIndex: 'url'
+            ,sortable: false
+            ,width: 120
+            ,renderer: this._renderUrl
         }]
     });
     Quip.grid.Thread.superclass.constructor.call(this,config)
 };
 Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
-    manageThread: function() {
+    _renderUrl: function(v,md,rec) {
+        return '<a href="'+v+'" target="_blank">'+rec.data.pagetitle+'</a>';
+    }
+    ,manageThread: function() {
         location.href = '?a='+MODx.request.a+'&action=thread&thread='+this.menu.record.name;
     }
     ,truncateThread: function() {        
