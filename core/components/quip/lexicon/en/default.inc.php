@@ -100,6 +100,7 @@ $_lang['quip.notify_me'] = 'Notify of New Replies';
 $_lang['quip.notify_subject'] = '[Quip] New Reply Posted';
 $_lang['quip.notify_moderate_subject'] = '[Quip] New Post in Need of Moderation';
 $_lang['quip.post'] = 'Post';
+$_lang['quip.posted'] = 'Posted';
 $_lang['quip.postedon'] = 'Posted On';
 $_lang['quip.preview'] = 'Preview';
 $_lang['quip.recaptcha_err_load'] = 'Could not load reCaptcha service class.';

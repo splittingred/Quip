@@ -1,5 +1,5 @@
 
-.quip-author, .quip-author a {
+.quip-author, .quip-author a, .quip-posted {
     color: #779937;
 }
 .quip-comment-body {
@@ -17,4 +17,8 @@
 .quip-deleted, .quip-deleted span, .quip-deleted a,
 .quip-thread-grid .quip-deleted, .quip-thread-grid .quip-deleted span, .quip-thread-grid .quip-deleted a {
     color: red !important;
+}
+.quip-ip {
+    color: gray;
+    font-style: italic;
 }

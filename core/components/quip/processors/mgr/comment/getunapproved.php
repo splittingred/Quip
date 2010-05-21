@@ -99,6 +99,8 @@ foreach ($comments as $comment) {
     if (empty($commentArray['username'])) $commentArray['username'] = $commentArray['name'];
     $commentArray['body'] = str_replace('<br />','',$commentArray['body']);
 
+    $commentArray['createdon'] = strftime('%a %b %d, %Y %I:%M %p',strtotime($commentArray['createdon']));
+
     $commentArray['menu'] = array();
     if ($canUpdate) {
         $commentArray['menu'][] = array(

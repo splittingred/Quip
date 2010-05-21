@@ -23,13 +23,13 @@ Quip.grid.Comments = function(config) {
             ,width: 400
             ,renderer: this.renderAuthor
         },{
-            header: _('quip.postedon')
+            header: _('quip.posted')
             ,dataIndex: 'createdon'
             ,sortable: false
             ,editable: false
             ,align: 'right'
             ,width: 100
-            ,renderer: this._renderStatus
+            ,renderer: this._renderPosted
         },{
             header: _('quip.thread')
             ,dataIndex: 'url'
@@ -86,12 +86,12 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
     ,_renderUrl: function(v,md,rec) {
         return '<a href="'+rec.data.url+'" target="_blank">'+rec.data.pagetitle+'</a><br /><i>'+rec.data.comments+' '+_('quip.comments')+'</i>';
     }
-    ,_renderStatus: function(v,md,rec) {
-        var cls = '';
+    ,_renderPosted: function(v,md,rec) {
+        var cls = 'quip-posted';
         if (!rec.data.approved) cls += ' quip-unapproved';
         if (rec.data.deleted) cls += ' quip-deleted';
         
-        return '<div class="'+cls+'">'+v+'</div>';
+        return '<div class="'+cls+'">'+v+'<br /><span class="quip-ip">'+rec.data.ip+'</span></div>';
     }
     ,toggleDeleted: function(btn,e) {
         var s = this.getStore();
