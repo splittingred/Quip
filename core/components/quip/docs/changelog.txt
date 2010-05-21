@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 0.5 ($LastChangedRevision$, $LastChangedDate$)
 ======================================
+- Added rich UI for managing comments, batch actions on comments
 - Added a QuipModerationPolicy Access Policy for adding a security layer to comment editing
 - Added quipThread object to better handle thread-wide properties
 - Added moderation support to comments

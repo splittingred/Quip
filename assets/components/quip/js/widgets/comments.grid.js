@@ -1,55 +1,160 @@
 
 Quip.grid.Comments = function(config) {
     config = config || {};
+    this.sm = new Ext.grid.CheckboxSelectionModel();
+
     Ext.applyIf(config,{
         url: Quip.config.connector_url
         ,baseParams: { 
             action: 'mgr/comment/getList'
             ,thread: config.thread
         }
-        ,fields: ['id','author','username','body','createdon','name','approved','website','email','menu']
+        ,fields: ['id','author','username','body','createdon','name','approved','deleted','ip','url','pagetitle','comments','website','email','menu']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
         ,primaryKey: 'thread'
         ,autoExpandColumn: 'body'
-        ,columns: [{
-            header: _('id')
-            ,dataIndex: 'id'
-            ,sortable: true
-            ,width: 60
-        },{
-            header: _('quip.author')
+        ,sm: this.sm
+        ,columns: [this.sm,{
+            header: _('quip.comment')
             ,dataIndex: 'username'
             ,sortable: false
-            ,width: 100
-            ,renderer: this._renderStatus
-        },{
-            header: _('quip.body')
-            ,dataIndex: 'body'
-            ,sortable: false
-            ,width: 300
-            ,renderer: this._renderStatus
+            ,width: 400
+            ,renderer: this.renderAuthor
         },{
             header: _('quip.postedon')
             ,dataIndex: 'createdon'
             ,sortable: false
             ,editable: false
+            ,align: 'right'
             ,width: 100
             ,renderer: this._renderStatus
+        },{
+            header: _('quip.thread')
+            ,dataIndex: 'url'
+            ,sortable: false
+            ,editable: false
+            ,width: 100
+            ,renderer: this._renderUrl
+        }]
+        ,viewConfig: {
+            forceFit:true,
+            enableRowBody:true,
+            showPreview:true,
+            getRowClass : function(rec, ri, p){
+                var cls = 'quip-comment';
+                if (!rec.data.approved) cls += ' quip-unapproved';
+                if (rec.data.deleted) cls += ' quip-deleted';
+
+                if(this.showPreview){
+                    p.body = '<div class="quip-comment-body">'+rec.data.body+'</div>';
+                    return cls+' quip-comment-expanded';
+                }
+                return cls+' quip-comment-collapsed';
+            }
+        }
+        ,tbar: [{
+            text: _('quip.bulk_actions')
+            ,menu: [{
+                text: _('quip.approve_selected')
+                ,handler: this.approveSelected
+                ,scope: this
+            },{
+                text: _('quip.delete_selected')
+                ,handler: this.deleteSelected
+                ,scope: this
+            }]
+        },{
+            text: _('quip.show_deleted')
+            ,handler: this.toggleDeleted
+            ,enableToggle: true
+            ,scope: this
         }]
     });
     Quip.grid.Comments.superclass.constructor.call(this,config)
 };
 Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
-    _renderStatus: function(v,md,rec,ri) {
-        switch (rec.data.approved) {
-            case 0:
-            case false:
-                return '<span style="color: gray;">'+v+'</span>';break;
-            default:
-                return '<span>'+v+'</span>';
+    renderAuthor: function(value,p, rec){
+        return String.format(
+            '<span class="quip-author"><b>{1}</b>: <a href="mailto:{2}">{2}</a><br /><i>{0}</i></span>',
+            value,rec.data.name,rec.data.email,rec.data.approved
+        );
+
+        return value;
+    }
+    ,_renderUrl: function(v,md,rec) {
+        return '<a href="'+rec.data.url+'" target="_blank">'+rec.data.pagetitle+'</a><br /><i>'+rec.data.comments+' '+_('quip.comments')+'</i>';
+    }
+    ,_renderStatus: function(v,md,rec) {
+        var cls = '';
+        if (!rec.data.approved) cls += ' quip-unapproved';
+        if (rec.data.deleted) cls += ' quip-deleted';
+        
+        return '<div class="'+cls+'">'+v+'</div>';
+    }
+    ,toggleDeleted: function(btn,e) {
+        var s = this.getStore();
+        if (btn.pressed) {
+            s.setBaseParam('deleted',1);
+            btn.setText(_('quip.hide_deleted'));
+        } else {
+            s.setBaseParam('deleted',0);
+            btn.setText(_('quip.show_deleted'));
         }
+        this.getBottomToolbar().changePage(1);
+        s.removeAll();
+        this.refresh();
+    }
+    ,getSelectedAsList: function() {
+        var sels = this.getSelectionModel().getSelections();
+        if (sels.length <= 0) return false;
+
+        var cs = '';
+        for (var i=0;i<sels.length;i++) {
+            cs += ','+sels[i].data.id;
+        }
+        cs = Ext.util.Format.substr(cs,1);
+        return cs;
+    }
+    ,approveSelected: function(btn,e) {
+        var cs = this.getSelectedAsList();
+        if (cs === false) return false;
+        
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/comment/approveMultiple'
+                ,comments: cs
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    this.getSelectionModel().clearSelections(true);
+                    this.refresh();
+                },scope:this}
+            }
+        });
+        return true;
+    }
+
+    ,deleteSelected: function(btn,e) {
+        var cs = this.getSelectedAsList();
+        if (cs === false) return false;
+
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/comment/deleteMultiple'
+                ,comments: cs
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    this.getSelectionModel().clearSelections(true);
+                    this.refresh();
+                },scope:this}
+            }
+        });
+        return true;
     }
     ,updateComment: function(btn,e) {
         if (!this.updateCommentWindow) {
@@ -77,17 +182,53 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
         this.rejectCommentWindow.setValues(this.menu.record);
         this.rejectCommentWindow.show(e.target);
     }
-    ,removeComment: function() {        
+    ,approveComment: function() {
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/comment/approve'
+                ,id: this.menu.record.id
+            }
+            ,listeners: {
+                'success': {fn:this.refresh,scope:this}
+            }
+        });
+    }
+    ,unapproveComment: function() {
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/comment/unapprove'
+                ,id: this.menu.record.id
+            }
+            ,listeners: {
+                'success': {fn:this.refresh,scope:this}
+            }
+        });
+    }
+    ,deleteComment: function() {
         MODx.msg.confirm({
             title: _('warning')
-            ,text: _('quip.comment_remove_confirm')
+            ,text: _('quip.comment_delete_confirm')
             ,url: this.config.url
             ,params: {
-                action: 'mgr/comment/remove'
+                action: 'mgr/comment/delete'
                 ,id: this.menu.record.id
             }
             ,listeners: {
                 'success': {fn:this.removeActiveRow,scope:this}
+            }
+        });
+    }
+    ,undeleteComment: function() {
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/comment/undelete'
+                ,id: this.menu.record.id
+            }
+            ,listeners: {
+                'success': {fn:this.refresh,scope:this}
             }
         });
     }
@@ -122,6 +263,12 @@ Quip.window.UpdateComment = function(config) {
             ,fieldLabel: _('quip.website')
             ,name: 'website'
             ,anchor: '90%'        
+        },{
+            xtype: 'statictextfield'
+            ,fieldLabel: _('quip.ip')
+            ,name: 'ip'
+            ,anchor: '90%'
+            ,submitValue: false
         },{
             xtype: 'textarea'
             ,hideLabel: true

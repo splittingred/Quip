@@ -27,22 +27,24 @@
  * @package quip
  * @subpackage processors
  */
-if (!$modx->hasPermission('quip.comment_approve')) return $modx->error->failure($modx->lexicon('access_denied'));
-
-if (empty($scriptProperties['id'])) {
+if (!$modx->hasPermission('quip.comment_remove')) return $modx->error->failure($modx->lexicon('access_denied'));
+if (empty($scriptProperties['comments'])) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
 }
-$comment = $modx->getObject('quipComment',$scriptProperties['id']);
-if ($comment == null) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
-}
 
-$comment->set('approved',true);
-$comment->set('approvedon',strftime('%Y-%m-%d %H:%M:%S'));
-$comment->set('approvedby',$modx->user->get('id'));
+$commentIds = explode(',',$scriptProperties['comments']);
 
-if ($comment->save() === false) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_save'));
+foreach ($commentIds as $commentId) {
+    $comment = $modx->getObject('quipComment',$commentId);
+    if ($comment == null) continue;
+
+    $comment->set('deleted',true);
+    $comment->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));
+    $comment->set('deletedby',$modx->user->get('id'));
+
+    if ($comment->save() === false) {
+        return $modx->error->failure($modx->lexicon('quip.comment_err_remove'));
+    }
 }
 
 return $modx->error->success();

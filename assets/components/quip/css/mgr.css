@@ -1,0 +1,20 @@
+
+.quip-author, .quip-author a {
+    color: #779937;
+}
+.quip-comment-body {
+    padding: 10px 0 10px 20px;
+}
+.quip-thread-grid .quip-unapproved,
+.quip-thread-grid .quip-unapproved span,
+.quip-thread-grid .quip-unapproved a {
+    color: gray;
+}
+.x-grid3-body .x-grid3-td-checker {
+    background-image: none !important;
+}
+
+.quip-deleted, .quip-deleted span, .quip-deleted a,
+.quip-thread-grid .quip-deleted, .quip-thread-grid .quip-deleted span, .quip-thread-grid .quip-deleted a {
+    color: red !important;
+}

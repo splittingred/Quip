@@ -49,6 +49,7 @@ Quip.panel.Thread = function(config) {
                 }]
             },{
                 xtype: 'quip-grid-comments'
+                ,cls: 'quip-thread-grid'
                 ,thread: config.thread
                 ,preventRender: true
                 ,width: '98%'

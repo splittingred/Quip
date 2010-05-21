@@ -38,20 +38,41 @@ $sort = $modx->getOption('sort',$scriptProperties,'createdon');
 $dir = $modx->getOption('dir',$scriptProperties,'DESC');
 $deleted = $modx->getOption('deleted',$scriptProperties,0);
 
-if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
-$thread = $modx->getObject('quipThread',$scriptProperties['thread']);
-if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
-if (!$thread->checkPolicy('view')) return $modx->error->failure($modx->lexicon('access_denied'));
+if (!empty($scriptProperties['thread'])) {
+    $thread = $modx->getObject('quipThread',$scriptProperties['thread']);
+    if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
+    if (!$thread->checkPolicy('view')) return $modx->error->failure($modx->lexicon('access_denied'));
+}
+
+$ugns = $modx->user->getUserGroupNames();
+$userGroupNames = '';
+foreach ($ugns as $ugn) {
+    $userGroupNames .= '"'.$ugn.'",';
+}
+$userGroupNames = rtrim($userGroupNames,',');
 
 /* build query */
 $c = $modx->newQuery('quipComment');
 $c->leftJoin('modUser','Author');
 $c->leftJoin('modResource','Resource');
+$c->innerJoin('quipThread','Thread');
 $c->where(array(
-    'quipComment.thread' => $scriptProperties['thread'],
     'quipComment.deleted' => $deleted,
+    'quipComment.approved' => false,
 ));
+/* handle moderator permissions */
+$c->andCondition(array('(
+    `Thread`.`moderated` = 0
+        OR `Thread`.`moderator_group` IN ('.$userGroupNames.')
+        OR "'.$modx->user->get('username').'" IN (`Thread`.`moderators`)
+)'));
+if (!empty($scriptProperties['thread'])) {
+    $c->where(array(
+        'quipComment.thread' => $scriptProperties['thread'],
+    ));
+}
 $count = $modx->getCount('quipComment',$c);
+
 
 $c->select(array('quipComment.*','Author.username','Resource.pagetitle'));
 $c->select('
@@ -61,11 +82,11 @@ $c->sortby($sort,$dir);
 if ($isCombo || $isLimit) {
     $c->limit($limit,$start);
 }
-$comments = $modx->getCollection('quipComment', $c);
+$comments = $modx->getCollection('quipComment',$c);
 
-$canApprove = $modx->hasPermission('quip.comment_approve') && $thread->checkPolicy('comment_approve');
-$canRemove = $modx->hasPermission('quip.comment_remove') && $thread->checkPolicy('comment_remove');
-$canUpdate = $modx->hasPermission('quip.comment_update') && $thread->checkPolicy('comment_update');
+$canApprove = $modx->hasPermission('quip.comment_approve');
+$canRemove = $modx->hasPermission('quip.comment_remove');
+$canUpdate = $modx->hasPermission('quip.comment_update');
 
 $list = array();
 foreach ($comments as $comment) {
@@ -74,7 +95,7 @@ foreach ($comments as $comment) {
     if (empty($commentArray['pagetitle'])) {
         $commentArray['pagetitle'] = $modx->lexicon('quip.view');
     }
-    
+
     if (empty($commentArray['username'])) $commentArray['username'] = $commentArray['name'];
     $commentArray['body'] = str_replace('<br />','',$commentArray['body']);
 
@@ -85,15 +106,10 @@ foreach ($comments as $comment) {
             'handler' => 'this.updateComment',
         );
     }
-    if ($canApprove && !$comment->get('approved')) {
+    if ($canApprove) {
         $commentArray['menu'][] = array(
             'text' => $modx->lexicon('quip.comment_approve'),
             'handler' => 'this.approveComment',
-        );
-    } else if ($canApprove) {
-        $commentArray['menu'][] = array(
-            'text' => $modx->lexicon('quip.comment_unapprove'),
-            'handler' => 'this.unapproveComment',
         );
     }
     if ($canRemove && !$comment->get('deleted')) {

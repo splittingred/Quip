@@ -8,16 +8,41 @@ Quip.panel.Threads = function(config) {
             ,border: false
             ,cls: 'modx-page-header'
         },{
-            layout: 'form'
-            ,defaults: {
-                style: 'padding: 15px 10px 5px;'
+            xtype: 'modx-tabs'
+            ,bodyStyle: 'padding: 10px'
+            ,defaults: { border: false ,autoHeight: true }
+            ,border: true
+            ,stateful: true
+            ,stateId: 'quip-home-tabpanel'
+            ,stateEvents: ['tabchange']
+            ,getState:function() {
+                return {activeTab:this.items.indexOf(this.getActiveTab())};
             }
             ,items: [{
-                html: '<p>'+_('quip.intro_msg')+'</p>'
-                ,border: false
+                title: _('quip.threads')
+                ,defaults: { autoHeight: true }
+                ,items: [{
+                    html: '<p>'+_('quip.intro_msg')+'</p>'
+                    ,border: false
+                    ,bodyStyle: 'padding: 10px'
+                },{
+                    xtype: 'quip-grid-thread'
+                    ,preventRender: true
+                }]
             },{
-                xtype: 'quip-grid-thread'
-                ,preventRender: true
+                title: _('quip.unapproved_comments')
+                ,defaults: { autoHeight: true }
+                ,items: [{
+                    html: '<p>'+_('quip.unapproved_comments_msg')+'</p>'
+                    ,border: false
+                    ,bodyStyle: 'padding: 10px'
+                },{
+                    xtype: 'quip-grid-comments'
+                    ,preventRender: true
+                    ,baseParams: {
+                        action: 'mgr/comment/getUnapproved'
+                    }
+                }]
             }]
         }]
     });

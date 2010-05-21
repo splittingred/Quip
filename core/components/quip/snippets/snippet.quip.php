@@ -142,10 +142,12 @@ $c->where(array(
     'quipComment.thread' => $thread->get('name'),
     'quipComment.deleted' => false,
 ));
-$c->andCondition(array(
-    'quipComment.approved' => true,
-    'OR:quipComment.author:=' => $modx->user->get('id'),
-),null,2);
+if (!$thread->checkPolicy('moderate')) {
+    $c->andCondition(array(
+        'quipComment.approved' => true,
+        'OR:quipComment.author:=' => $modx->user->get('id'),
+    ),null,2);
+}
 if (!empty($parent)) {
     $c->where(array(
         'Ancestors.descendant' => $parent,

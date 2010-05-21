@@ -22,12 +22,10 @@
  * @package quip
  */
 /**
- * Approve a comment
- *
  * @package quip
  * @subpackage processors
  */
-if (!$modx->hasPermission('quip.comment_approve')) return $modx->error->failure($modx->lexicon('access_denied'));
+if (!$modx->hasPermission('quip.comment_remove')) return $modx->error->failure($modx->lexicon('access_denied'));
 
 if (empty($scriptProperties['id'])) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
@@ -37,12 +35,12 @@ if ($comment == null) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
 }
 
-$comment->set('approved',true);
-$comment->set('approvedon',strftime('%Y-%m-%d %H:%M:%S'));
-$comment->set('approvedby',$modx->user->get('id'));
+$comment->set('deleted',false);
+$comment->set('deletedon',null);
+$comment->set('deletedby',0);
 
 if ($comment->save() === false) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_save'));
+    return $modx->error->failure($modx->lexicon('quip.comment_err_undelete'));
 }
 
 return $modx->error->success();
