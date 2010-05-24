@@ -87,7 +87,6 @@ $builder->putVehicle($vehicle);
 unset($vehicle,$action);
 
 /* add reCaptcha namespace */
-$modx->log(modX::LOG_LEVEL_INFO,'Adding in reCaptcha namespace.'); flush();
 $namespace = $modx->newObject('modNamespace');
 $namespace->set('name','recaptcha');
 $namespace->set('path','{core_path}components/recaptcha/');
@@ -97,10 +96,10 @@ $vehicle = $builder->createVehicle($namespace,array(
     xPDOTransport::UPDATE_OBJECT => true,
 ));
 $builder->putVehicle($vehicle);
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in reCaptcha namespace.'); flush();
 unset($vehicle,$namespace);
 
 /* load system settings */
-$modx->log(modX::LOG_LEVEL_INFO,'Adding in system settings.'); flush();
 $settings = include_once $sources['data'].'transport.settings.php';
 $attributes= array(
     xPDOTransport::UNIQUE_KEY => 'key',
@@ -112,6 +111,7 @@ foreach ($settings as $setting) {
     $vehicle = $builder->createVehicle($setting,$attributes);
     $builder->putVehicle($vehicle);
 }
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($settings).' system settings.'); flush();
 unset($settings,$setting,$attributes);
 
 /* package in default access policy */
@@ -131,23 +131,25 @@ $attributes = array (
 $policies = include $sources['data'].'transport.policies.php';
 if (!is_array($policies)) { $modx->log(modX::LOG_LEVEL_FATAL,'Adding policies failed.'); }
 foreach ($policies as $policy) {
-    $package->put($policy, $attributes);
+    $vehicle = $builder->createVehicle($policy,$attributes);
+    $builder->putVehicle($vehicle);
 }
 $modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($policies).' access policies.'); flush();
 unset($policies,$policy,$attributes);
 
 /* create category */
-$modx->log(modX::LOG_LEVEL_INFO,'Creating category.'); flush();
 $category= $modx->newObject('modCategory');
 $category->set('id',1);
 $category->set('category',PKG_NAME);
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in category.'); flush();
 
 /* add snippets */
-$modx->log(modX::LOG_LEVEL_INFO,'Adding in base-level snippets.'); flush();
 $snippets = include $sources['data'].'transport.snippets.php';
 if (is_array($snippets)) {
     $category->addMany($snippets,'Snippets');
-} else { $modx->log(modX::LOG_LEVEL_FATAL,'Adding base-level snippets failed.'); }
+} else { $modx->log(modX::LOG_LEVEL_FATAL,'Adding snippets failed.'); }
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($snippets).' snippets.'); flush();
+unset($snippets);
 
 /* create category vehicle */
 $attr = array(
@@ -164,7 +166,6 @@ $attr = array(
     )
 );
 $vehicle = $builder->createVehicle($category,$attr);
-$modx->log(modX::LOG_LEVEL_INFO,'Adding in resolvers.'); flush();
 $vehicle->resolve('file',array(
     'source' => $sources['source_core'],
     'target' => "return MODX_CORE_PATH . 'components/';",
@@ -185,10 +186,13 @@ $vehicle->resolve('php',array(
 $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'setupoptions.resolver.php',
 ));
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'policy.resolver.php',
+));
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in resolvers.'); flush();
 $builder->putVehicle($vehicle);
 
 /* now pack in the license file, readme and setup options */
-$modx->log(modX::LOG_LEVEL_INFO,'Adding in package attributes.'); flush();
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
@@ -196,6 +200,7 @@ $builder->setPackageAttributes(array(
         'source' => $sources['build'].'setup.options.php',
     ),
 ));
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in package attributes.'); flush();
 
 $modx->log(modX::LOG_LEVEL_INFO,'Packing...'); flush();
 $builder->pack();

@@ -35,7 +35,7 @@ function bld_policyFormatData($permissions) {
     return $data;
 }
 $policies = array();
-$policies[1]= $xpdo->newObject('modAccessPolicy');
+$policies[1]= $modx->newObject('modAccessPolicy');
 $policies[1]->fromArray(array (
   'id' => 1,
   'name' => 'QuipModeratorPolicy',

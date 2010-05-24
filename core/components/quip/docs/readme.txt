@@ -1,9 +1,9 @@
 --------------------
 Snippet: Quip
 --------------------
-Version: 0.4
-Since: April 29th, 2010
-Author: Shaun McCormick <shaun@collabpad.com>
+Version: 0.5.0
+Since: May 24th, 2010
+Author: Shaun McCormick <shaun@modxcms.com>
 License: GNU GPLv2 (or later at your option)
 
 This component is a simple commenting system. It allows you to easily
@@ -37,4 +37,4 @@ an email to the email address specified in the System Setting
 
 Thanks for using Quip!
 Shaun McCormick
-shaun@collabpad.com
+shaun@modxcms.com
