@@ -62,134 +62,87 @@ $body = strip_tags($body,$allowedTags);
 $body = str_replace(array('<br><br>','<br /><br />'),'',nl2br($body));
 
 /* if no errors, save comment */
-if (empty($errors)) {
-    $comment = $modx->newObject('quipComment');
-    $comment->fromArray($_POST);
+if (!empty($errors)) return $errors;
 
-    /* if moderation is on, don't auto-approve comments */
-    if ($modx->getOption('moderate',$scriptProperties,false)) {
-        /* by default moderate, unless special cases pass */
-        $approved = false;
 
-        /* check logged in status */
-        if ($modx->user->hasSessionContext($modx->context->get('key'))) {
-            /* if moderating only anonymous users, go ahead and approve since the user is logged in */
-            if ($modx->getOption('moderateAnonymousOnly',$scriptProperties,false)) {
-                $approved = true;
+$comment = $modx->newObject('quipComment');
+$comment->fromArray($_POST);
 
-            } else if ($modx->getOption('moderateFirstPostOnly',$scriptProperties,true)) {
-                /* if moderating only first post, check to see if user has posted and been approved elsewhere.
-                 * Note that this only works with logged in users.
-                 */
-                $ct = $modx->getCount('quipComment',array(
-                    'author' => $modx->user->get('id'),
-                    'approved' => true,
-                ));
-                if ($ct > 0) $approved = true;
-            }
+/* if moderation is on, don't auto-approve comments */
+if ($modx->getOption('moderate',$scriptProperties,false)) {
+    /* by default moderate, unless special cases pass */
+    $approved = false;
+
+    /* check logged in status */
+    if ($modx->user->hasSessionContext($modx->context->get('key'))) {
+        /* if moderating only anonymous users, go ahead and approve since the user is logged in */
+        if ($modx->getOption('moderateAnonymousOnly',$scriptProperties,false)) {
+            $approved = true;
+
+        } else if ($modx->getOption('moderateFirstPostOnly',$scriptProperties,true)) {
+            /* if moderating only first post, check to see if user has posted and been approved elsewhere.
+             * Note that this only works with logged in users.
+             */
+            $ct = $modx->getCount('quipComment',array(
+                'author' => $modx->user->get('id'),
+                'approved' => true,
+            ));
+            if ($ct > 0) $approved = true;
         }
-        $comment->set('approved',$approved);
     }
+    $comment->set('approved',$approved);
+}
 
-    /* set body of comment */
-    $comment->set('body',$body);
+/* set body of comment */
+$comment->set('body',$body);
 
-    /* URL preservation information
-     * @deprecated 0.5.0, this now goes on the Thread
-     */
-    if (!empty($_POST['parent'])) {
-        /* for threaded comments, persist the parents URL */
-        $parentComment = $modx->getObject('quipComment',$_POST['parent']);
-        if ($parentComment) {
-            $comment->set('resource',$parentComment->get('resource'));
-            $comment->set('idprefix',$parentComment->get('idprefix'));
-            $comment->set('existing_params',$parentComment->get('existing_params'));
+/* URL preservation information
+ * @deprecated 0.5.0, this now goes on the Thread
+ */
+if (!empty($_POST['parent'])) {
+    /* for threaded comments, persist the parents URL */
+    $parentComment = $modx->getObject('quipComment',$_POST['parent']);
+    if ($parentComment) {
+        $comment->set('resource',$parentComment->get('resource'));
+        $comment->set('idprefix',$parentComment->get('idprefix'));
+        $comment->set('existing_params',$parentComment->get('existing_params'));
+    }
+} else {
+    $comment->set('resource',$modx->getOption('resource',$scriptProperties,$modx->resource->get('id')));
+    $comment->set('idprefix',$modx->getOption('idPrefix',$scriptProperties,'qcom'));
+
+    /* save existing parameters to comment to preserve URLs */
+    $p = $modx->request->getParameters();
+    unset($p['reported']);
+    $comment->set('existing_params',$p);
+}
+
+if ($comment->save() == false) {
+    $errors['message'] = $modx->lexicon('quip.comment_err_save');
+} elseif ($requireAuth) {
+    /* if successful and requireAuth is true, update user profile */
+    $profile = $modx->user->getOne('Profile');
+    if ($profile) {
+        if (!empty($_POST['name'])) $profile->set('fullname',$_POST['name']);
+        if (!empty($_POST['email'])) $profile->set('email',$_POST['email']);
+        $profile->set('website',$_POST['website']);
+        $profile->save();
+    }
+}
+
+/* if comment is approved, send emails */
+if ($comment->get('approved')) {
+    $thread = $comment->getOne('Thread');
+    if ($thread) {
+        if ($thread->notify($comment) == false) {
+            $modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Notifications could not be sent for comment: '.print_r($comment->toArray(),true));
         }
     } else {
-        $comment->set('resource',$modx->getOption('resource',$scriptProperties,$modx->resource->get('id')));
-        $comment->set('idprefix',$modx->getOption('idPrefix',$scriptProperties,'qcom'));
-
-        /* save existing parameters to comment to preserve URLs */
-        $p = $modx->request->getParameters();
-        unset($p['reported']);
-        $comment->set('existing_params',$p);
+        $modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Thread not found for comment: '.print_r($comment->toArray(),true));
     }
-
-    if ($comment->save() == false) {
-        $errors['message'] = $modx->lexicon('quip.comment_err_save');
-    } elseif ($requireAuth) {
-        /* if successful and requireAuth is true, update user profile */
-        $profile = $modx->user->getOne('Profile');
-        if ($profile) {
-            if (!empty($_POST['name'])) $profile->set('fullname',$_POST['name']);
-            if (!empty($_POST['email'])) $profile->set('email',$_POST['email']);
-            $profile->set('website',$_POST['website']);
-            $profile->save();
-        }
-    }
-}
-
-/* if notifyEmails is set, email users about new comment */
-$notifyEmails = $modx->getOption('notifyEmails',$scriptProperties,'');
-if (!empty($notifyEmails)) {
-    $properties = $comment->toArray();
-    $properties['username']= $_POST['name'];
-    $properties['url'] = $comment->makeUrl('','',array('scheme' => 'full'));
-    $body = $modx->lexicon('quip.notify_email',$properties);
-
-    $modx->getService('mail', 'mail.modPHPMailer');
-    $emailFrom = $modx->getOption('quip.emailsFrom',null,$emailTo);
-    $emailReplyTo = $modx->getOption('quip.emailsReplyTo',null,$emailFrom);
-
-    /* allow multiple notification emails, via comma-separated list */
-    $notifyEmails = explode(',',$notifyEmails);
-    foreach ($notifyEmails as $email) {
-        if (empty($email) || strpos($email,'@') == false) continue;
-
-        $modx->mail->set(modMail::MAIL_BODY, $body);
-        $modx->mail->set(modMail::MAIL_FROM, $emailFrom);
-        $modx->mail->set(modMail::MAIL_FROM_NAME, 'Quip');
-        $modx->mail->set(modMail::MAIL_SENDER, 'Quip');
-        $modx->mail->set(modMail::MAIL_SUBJECT, $modx->lexicon('quip.notify_subject'));
-        $modx->mail->address('to',$email);
-        $modx->mail->address('reply-to',$emailReplyTo);
-        $modx->mail->setHTML(true);
-        $modx->mail->send();
-        $modx->mail->reset();
-    }
-}
-
-/* send notifications to notifiees */
-$notifiees = $modx->getCollection('quipCommentNotify',array(
-    'thread' => $comment->get('thread'),
-));
-if (is_array($notifiees) && !empty($notifiees)) {
-    $properties = $comment->toArray();
-    $properties['url'] = $comment->makeUrl('','',array('scheme' => 'full'));
-    $properties['username']= $_POST['name'];
-    $body = $modx->lexicon('quip.notify_email',$properties);
-
-    $modx->getService('mail', 'mail.modPHPMailer');
-    $emailFrom = $modx->getOption('quip.emailsFrom',null,$emailTo);
-    $emailReplyTo = $modx->getOption('quip.emailsReplyTo',null,$emailFrom);
-    foreach ($notifiees as $notified) {
-        $email = $notified->get('email');
-        /* remove invalid emails */
-        if (empty($email) || strpos($email,'@') == false) {
-            $notified->remove();
-            continue;
-        }
-
-        $modx->mail->set(modMail::MAIL_BODY, $body);
-        $modx->mail->set(modMail::MAIL_FROM, $emailFrom);
-        $modx->mail->set(modMail::MAIL_FROM_NAME, 'Quip');
-        $modx->mail->set(modMail::MAIL_SENDER, 'Quip');
-        $modx->mail->set(modMail::MAIL_SUBJECT, $modx->lexicon($comment->get('approved') ? 'quip.notify_subject' : 'quip.notify_moderate_subject'));
-        $modx->mail->address('to',$email);
-        $modx->mail->address('reply-to',$emailReplyTo);
-        $modx->mail->setHTML(true);
-        $modx->mail->send();
-        $modx->mail->reset();
+} else {
+    if (!$comment->notifyModerators()) {
+        $modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Moderator Notifications could not be sent for comment: '.print_r($comment->toArray(),true));
     }
 }
 

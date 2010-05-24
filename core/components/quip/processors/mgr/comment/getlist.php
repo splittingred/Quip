@@ -111,6 +111,13 @@ foreach ($comments as $comment) {
             'handler' => 'this.undeleteComment',
         );
     }
+    if ($canRemove && $comment->get('deleted')) {
+        $commentArray['menu'][] = '-';
+        $commentArray['menu'][] = array(
+            'text' => $modx->lexicon('quip.comment_remove'),
+            'handler' => 'this.removeComment',
+        );
+    }
     $list[]= $commentArray;
 }
 return $this->outputArray($list,$count);

@@ -72,3 +72,6 @@ span.quip-allowed-tags {
 }
 
 .quip-error { color: red; }
+.quip-success {
+    color: green;
+}

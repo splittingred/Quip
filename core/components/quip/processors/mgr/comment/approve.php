@@ -37,12 +37,8 @@ if ($comment == null) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
 }
 
-$comment->set('approved',true);
-$comment->set('approvedon',strftime('%Y-%m-%d %H:%M:%S'));
-$comment->set('approvedby',$modx->user->get('id'));
-
-if ($comment->save() === false) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_save'));
+if ($comment->approve() === false) {
+    return $modx->error->failure($modx->lexicon('quip.comment_err_approve'));
 }
 
 return $modx->error->success();

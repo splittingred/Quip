@@ -35,12 +35,8 @@ if ($comment == null) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
 }
 
-$comment->set('deleted',false);
-$comment->set('deletedon','0000-00-00 00:00:00');
-$comment->set('deletedby',0);
-
-if ($comment->save() === false) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_undelete'));
+if ($comment->remove() === false) {
+    return $modx->error->failure($modx->lexicon('quip.comment_err_remove'));
 }
 
 return $modx->error->success();

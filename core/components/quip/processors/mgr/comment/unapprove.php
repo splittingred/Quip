@@ -38,7 +38,7 @@ if ($comment == null) {
 }
 
 $comment->set('approved',false);
-$comment->set('approvedon',null);
+$comment->set('approvedon','0000-00-00 00:00:00');
 $comment->set('approvedby',0);
 
 if ($comment->save() === false) {

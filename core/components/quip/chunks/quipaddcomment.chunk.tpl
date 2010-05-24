@@ -1,4 +1,5 @@
 [[+preview]]
+<span class="quip-success">[[+successMsg]]</span>
 
 <form id="quip-add-comment" action="[[+url]]#quip-comment-preview-box" method="post">
 <input type="hidden" name="nospam" value="" />

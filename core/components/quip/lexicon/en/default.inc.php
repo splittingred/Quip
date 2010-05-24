@@ -52,10 +52,13 @@ $_lang['quip.comment_err_nf'] = 'Comment not found.';
 $_lang['quip.comment_err_ns'] = 'Comment not specified.';
 $_lang['quip.comment_err_remove'] = 'An error occurred while trying to remove the comment.';
 $_lang['quip.comment_err_save'] = 'An error occurred while trying to save the comment.';
+$_lang['quip.comment_remove'] = 'Permanently Remove Comment';
+$_lang['quip.comment_remove_confirm'] = 'Are you sure you want to permanently remove this comment? This cannot be undone.';
 $_lang['quip.comment_unapprove'] = 'Unapprove Comment';
 $_lang['quip.comment_undelete'] = 'Undelete Comment';
 $_lang['quip.comment_update'] = 'Update Comment';
 $_lang['quip.comment_view'] = 'View Comment';
+$_lang['quip.comment_will_be_moderated'] = 'Your comment has been submitted, and is now awaiting moderation. You will receive an email when your comment has been approved.';
 $_lang['quip.comments'] = 'Comments';
 $_lang['quip.delete'] = 'Delete';
 $_lang['quip.delete_selected'] = 'Delete Selected';
@@ -77,28 +80,7 @@ $_lang['quip.moderator_group_desc'] = 'A User Group whose members can moderate t
 $_lang['quip.name'] = 'Name';
 $_lang['quip.name_err_ns'] = 'Please specify a name.';
 $_lang['quip.no_email_to_specified'] = 'Quip cannot send a spam report email because no admin email was specified.';
-$_lang['quip.notify_email'] = '<p>Hello,</p>
-
-<p>A new comment by [[+username]] has been posted at:</p>
-
-<p><a href="[[+url]]">[[+url]]</a></p>
-
-<p>----------------------------------------------------</p>
-
-<p>[[+body]]</p>
-
-<p>----------------------------------------------------</p>
-
-<p>This is an automated email. Please do not reply directly. The
-comment\'s ID is: <strong>[[+id]]</strong> on the thread [[+thread]].</p>
-
-<p>
-Thanks,<br />
-<em>Quip</em>
-</p>';
 $_lang['quip.notify_me'] = 'Notify of New Replies';
-$_lang['quip.notify_subject'] = '[Quip] New Reply Posted';
-$_lang['quip.notify_moderate_subject'] = '[Quip] New Post in Need of Moderation';
 $_lang['quip.post'] = 'Post';
 $_lang['quip.posted'] = 'Posted';
 $_lang['quip.postedon'] = 'Posted On';

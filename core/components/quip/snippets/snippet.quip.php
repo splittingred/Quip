@@ -167,6 +167,7 @@ $c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
 $comments = $modx->getCollection('quipComment',$c);
 
 /* iterate */
+$isModerator = $thread->checkPolicy('moderate');
 $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 $placeholders['comments'] = '';
 $alt = false;
@@ -184,17 +185,22 @@ foreach ($comments as $comment) {
 
     /* check for auth */
     if ($hasAuth) {
+        /* allow removing of comment */
         $commentArray['allowRemove'] = $modx->getOption('allowRemove',$scriptProperties,true);
-        $removeThreshold = $modx->getOption('removeThreshold',$scriptPropeties,3);
-        if (!empty($removeThreshold)) {
-            $diff = time() - strtotime($comment->get('createdon'));
-            if ($diff > ($removeThreshold * 60)) $commentArray['allowRemove'] = false;
+        /* if not moderator, check for remove threshold, which prevents removing comments
+         * after X minutes */
+        if (!$isModerator) {
+            $removeThreshold = $modx->getOption('removeThreshold',$scriptPropeties,3);
+            if (!empty($removeThreshold)) {
+                $diff = time() - strtotime($comment->get('createdon'));
+                if ($diff > ($removeThreshold * 60)) $commentArray['allowRemove'] = false;
+            }
         }
         
         if (!empty($_GET['reported']) && $_GET['reported'] == $comment->get('id')) {
             $commentArray['reported'] = 1;
         }
-        if ($comment->get('author') == $modx->user->get('id')) {
+        if ($comment->get('author') == $modx->user->get('id') || $isModerator) {
             $commentArray['options'] = $quip->getChunk($commentOptionsTpl,$commentArray);
         } else {
             $commentArray['options'] = '';

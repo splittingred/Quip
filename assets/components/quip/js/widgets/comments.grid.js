@@ -232,6 +232,20 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
             }
         });
     }
+    ,removeComment: function() {
+        MODx.msg.confirm({
+            title: _('warning')
+            ,text: _('quip.comment_remove_confirm')
+            ,url: this.config.url
+            ,params: {
+                action: 'mgr/comment/remove'
+                ,id: this.menu.record.id
+            }
+            ,listeners: {
+                'success': {fn:this.removeActiveRow,scope:this}
+            }
+        });
+    }
 });
 Ext.reg('quip-grid-comments',Quip.grid.Comments);
 

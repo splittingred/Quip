@@ -25,7 +25,7 @@
  * @package quip
  */
 class quipComment extends xPDOSimpleObject {
-    public function makeUrl($resource = 0,array $params = array(),array $options = array()) {
+    public function makeUrl($resource = 0,$params = array(),array $options = array()) {
         if (empty($resource)) $resource = $this->get('resource');
         if (empty($params)) $params = $this->get('existing_params');
         if (empty($params)) $params = array();
@@ -132,4 +132,105 @@ class quipComment extends xPDOSimpleObject {
         }
         return $saved;
     }
+
+    protected function _loadLexicon() {
+        if (!$this->xpdo->lexicon) {
+            $this->xpdo->lexicon = $this->xpdo->getService('lexicon','modLexicon');
+            if (empty($this->xpdo->lexicon)) {
+                $this->xpdo->log(xPDO::LOG_LEVEL_ERROR,'[Quip] Could not load MODx lexicon.');
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected function sendEmail($subject,$body,$to) {
+        if (!$this->_loadLexicon()) return false;
+        $this->xpdo->lexicon->load('quip:emails');
+        
+        $this->xpdo->getService('mail', 'mail.modPHPMailer');
+        if (!$this->xpdo->mail) return false;
+        
+        $emailFrom = $this->xpdo->getOption('quip.emailsFrom',null,$this->xpdo->getOption('emailsender'));
+        $emailReplyTo = $this->xpdo->getOption('quip.emailsReplyTo',null,$this->xpdo->getOption('emailsender'));
+
+        /* allow multiple to addresses */
+        if (!is_array($to)) {
+            $to = explode(',',$to);
+        }
+
+        $success = false;
+        foreach ($to as $emailAddress) {
+            if (empty($emailAddress) || strpos($emailAddress,'@') == false) continue;
+            
+            $this->xpdo->mail->set(modMail::MAIL_BODY,$body);
+            $this->xpdo->mail->set(modMail::MAIL_FROM,$emailFrom);
+            $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,'Quip');
+            $this->xpdo->mail->set(modMail::MAIL_SENDER,'Quip');
+            $this->xpdo->mail->set(modMail::MAIL_SUBJECT,$subject);
+            $this->xpdo->mail->address('to',$emailAddress);
+            $this->xpdo->mail->address('reply-to',$emailReplyTo);
+            $this->xpdo->mail->setHTML(true);
+            $success = $this->xpdo->mail->send();
+            $this->xpdo->mail->reset();
+        }
+        
+        return $success;
+    }
+
+    /**
+     * Approves comment and sends out notification to poster and watchers
+     *
+     * @param array $options
+     * @return boolean True if successful
+     */
+    public function approve(array $options = array()) {
+        if (!$this->_loadLexicon()) return false;
+        $this->xpdo->lexicon->load('quip:emails');
+
+        $this->set('approved',true);
+        $this->set('approvedon',strftime('%Y-%m-%d %H:%M:%S'));
+        $this->set('approvedby',$this->xpdo->user->get('id'));
+
+        /* first attempt to save/approve */
+        if ($this->save() === false) {
+            return false;
+        }
+        
+        /* send email to poster saying their comment was approved */
+        $properties = $this->toArray();
+        $properties['url'] = $this->makeUrl('',array(),array('scheme' => 'full'));
+        $body = $this->xpdo->lexicon('quip.email_comment_approved',$properties);
+        $subject = $this->xpdo->lexicon('quip.email_comment_approved_subject');
+        $this->sendEmail($subject,$body,$this->get('email'));
+
+        $thread = $this->getOne('Thread');
+        return $thread ? $thread->notify($this) : true;
+    }
+
+    /**
+     * Sends notification email to moderators telling them the comment is awaiting approval.
+     *
+     * @return boolean True if successful
+     */
+    public function notifyModerators() {
+        if (!$this->_loadLexicon()) return false;
+        $this->xpdo->lexicon->load('quip:emails');
+        $thread = $this->getOne('Thread');
+        if (!$thread) return false;
+        
+        $properties = $this->toArray();
+        $properties['url'] = $this->makeUrl('',array(),array('scheme' => 'full'));
+        $body = $this->xpdo->lexicon('quip.email_moderate',$properties);
+        $subject = $this->xpdo->lexicon('quip.email_moderate_subject');
+
+        $success = true;
+        $moderators = $thread->getModeratorEmails();
+        if (!empty($moderators)) {
+            $success = $this->sendEmail($subject,$body,$moderators);
+        }
+
+        return $success;
+    }
+
 }

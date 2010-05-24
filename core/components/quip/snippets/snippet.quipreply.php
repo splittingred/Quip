@@ -61,7 +61,9 @@ if (!empty($_POST)) {
     if (!empty($_POST[$postAction])) {
         $comment = include_once $quip->config['processors_path'].'web/comment/create.php';
         if (is_object($comment) && $comment instanceof quipComment) {
-            $url = $comment->makeUrl();
+            $url = $comment->makeUrl('',array(
+                'quip_approved' => $comment->get('approved') ? 1 : 0,
+            ));
             $modx->sendRedirect($url);
         }
         $placeholders['error'] = implode("<br />\n",$errors);
@@ -71,6 +73,9 @@ if (!empty($_POST)) {
     if (!empty($_POST[$previewAction])) {
         $errors = include_once $quip->config['processors_path'].'web/comment/preview.php';
     }
+}
+if (isset($_GET['quip_approved']) && $_GET['quip_approved'] == 0) {
+    $placeholders['successMsg'] = $modx->lexicon('quip.comment_will_be_moderated');
 }
 
 /* if using recaptcha, load recaptcha html */
