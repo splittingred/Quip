@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 0.5 ($LastChangedRevision$, $LastChangedDate$)
 ======================================
+- Automatically convert URLs to hyperlinks. Toggleable, defaults to on.
 - Added &closeAfter property to Quip/QuipReply snippets, allowing for auto-closing after X days (defaults to 14)
 - Added emails for notifications, refactored workflow to ensure new post notifications only are sent post-approval
 - Added rich UI for managing comments, batch actions on comments

@@ -61,6 +61,13 @@ $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
 $body = strip_tags($body,$allowedTags);
 $body = str_replace(array('<br><br>','<br /><br />'),'',nl2br($body));
 
+/* auto-convert links to tags */
+if ($modx->getOption('autoConvertLinks',$scriptProperties,true)) {
+    $pattern = "@\b(https?://)?(([0-9a-zA-Z_!~*'().&=+$%-]+:)?[0-9a-zA-Z_!~*'().&=+$%-]+\@)?(([0-9]{1,3}\.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+\.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z]\.[a-zA-Z]{2,6})(:[0-9]{1,4})?((/[0-9a-zA-Z_!~*'().;?:\@&=+$,%#-]+)*/?)@";
+    $body = preg_replace($pattern, '<a href="\0">\0</a>',$body);
+}
+
+
 /* if no errors, save comment */
 if (!empty($errors)) return $errors;
 
@@ -97,7 +104,7 @@ if ($modx->getOption('moderate',$scriptProperties,false)) {
 $comment->set('body',$body);
 
 /* URL preservation information
- * @deprecated 0.5.0, this now goes on the Thread
+ * @deprecated 0.5.0, this now goes on the Thread, will remove code in 0.5.1
  */
 if (!empty($_POST['parent'])) {
     /* for threaded comments, persist the parents URL */

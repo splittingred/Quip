@@ -99,6 +99,13 @@ $properties = array(
         'value' => false,
     ),
     array(
+        'name' => 'autoConvertLinks',
+        'desc' => 'If true, will automatically convert URLs to links.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
+    ),
+    array(
         'name' => 'tplAddComment',
         'desc' => 'The add comment form. Can either be a chunk name or value. If set to a value, will override the chunk.',
         'type' => 'textfield',

@@ -34,7 +34,7 @@ if (empty($_POST['id'])) {
 }
 
 $comment = $modx->getObject('quipComment',$_POST['id']);
-if (empty($comment)) { $errors['message'] = $modx->lexicon('quip.comment_err_nf'); }
+if (empty($comment)) { $errors['message'] = $modx->lexicon('quip.comment_err_nf'); return $errors; }
 
 $comment->set('deleted',true);
 $comment->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));

@@ -53,7 +53,7 @@ $placeholders = array();
 $p = $modx->request->getParameters();
 unset($p['reported']);
 $placeholders['parent'] = $parent;
-$placeholders['thread'] = $thread;
+$placeholders['thread'] = $thread->get('name');
 $placeholders['url'] = $modx->makeUrl($modx->resource->get('id'),'',$p);
 
 /* handle POST */
