@@ -51,10 +51,11 @@ $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->
 /* setup default placeholders */
 $placeholders = array();
 $p = $modx->request->getParameters();
-unset($p['reported']);
+unset($p['reported'],$p['quip_approved']);
 $placeholders['parent'] = $parent;
 $placeholders['thread'] = $thread->get('name');
 $placeholders['url'] = $modx->makeUrl($modx->resource->get('id'),'',$p);
+$placeholders['idprefix'] = $thread->get('idprefix');
 
 /* handle POST */
 if (!empty($_POST)) {
@@ -68,6 +69,12 @@ if (!empty($_POST)) {
             $url = $comment->makeUrl('',array(
                 'quip_approved' => $comment->get('approved') ? 1 : 0,
             ));
+            /* if not approved, remove # and replace with success message #
+             * since comment is not yet visible
+             */
+            if (!$comment->get('approved')) {
+                $url = str_replace('#'.$thread->get('idprefix').$comment->get('id'),'#quip-success-'.$thread->get('idprefix'),$url);
+            }
             $modx->sendRedirect($url);
         }
         $placeholders['error'] = implode("<br />\n",$errors);

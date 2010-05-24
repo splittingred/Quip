@@ -1,7 +1,8 @@
 Changelog for Quip.
 
-Quip 0.5 ($LastChangedRevision$, $LastChangedDate$)
+Quip 0.5.0 ($LastChangedRevision$, $LastChangedDate$)
 ======================================
+- Fixed bugs with multiple Quip instances, allow for batch perm removes in UI, add copyright info
 - Automatically convert URLs to hyperlinks. Toggleable, defaults to on.
 - Added &closeAfter property to Quip/QuipReply snippets, allowing for auto-closing after X days (defaults to 14)
 - Added emails for notifications, refactored workflow to ensure new post notifications only are sent post-approval

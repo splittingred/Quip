@@ -1,5 +1,5 @@
 <br />
-<div class="quip-comment" id="quip-comment-preview-box">
+<div class="quip-comment" id="quip-comment-preview-box-[[+idprefix]]">
 <form action="[[+url]]" method="post">
     <input type="hidden" name="thread" value="[[+thread]]" />
     <input type="hidden" name="parent" value="[[+parent]]" />

@@ -134,6 +134,7 @@ if (!$thread) {
     $thread->sync($scriptProperties);
 }
 unset($threadPK);
+$placeholders['idprefix'] = $thread->get('idprefix');
 
 /* get comments */
 $c = $modx->newQuery('quipComment');

@@ -64,6 +64,10 @@ Quip.grid.Comments = function(config) {
                 text: _('quip.delete_selected')
                 ,handler: this.deleteSelected
                 ,scope: this
+            },'-',{
+                text: _('quip.remove_selected')
+                ,handler: this.removeSelected
+                ,scope: this
             }]
         },{
             text: _('quip.show_deleted')
@@ -145,6 +149,26 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
             url: this.config.url
             ,params: {
                 action: 'mgr/comment/deleteMultiple'
+                ,comments: cs
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    this.getSelectionModel().clearSelections(true);
+                    this.refresh();
+                },scope:this}
+            }
+        });
+        return true;
+    }
+
+    ,removeSelected: function(btn,e) {
+        var cs = this.getSelectedAsList();
+        if (cs === false) return false;
+
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/comment/removeMultiple'
                 ,comments: cs
             }
             ,listeners: {

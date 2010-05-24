@@ -1,7 +1,7 @@
 [[+preview]]
-<span class="quip-success">[[+successMsg]]</span>
+<span class="quip-success" id="quip-success-[[+idprefix]]">[[+successMsg]]</span>
 
-<form id="quip-add-comment" action="[[+url]]#quip-comment-preview-box" method="post">
+<form id="quip-add-comment-[[+idprefix]]" action="[[+url]]#quip-comment-preview-box-[[+idprefix]]" method="post">
 <input type="hidden" name="nospam" value="" />
 <input type="hidden" name="thread" value="[[+thread]]" />
 <input type="hidden" name="parent" value="[[+parent]]" />
@@ -11,25 +11,25 @@
     
      <div class="quip-fld">
         <label for="quip-comment-name">[[%quip.name? &namespace=`quip` &topic=`default`]]:</label>
-        <input type="text" name="name" id="quip-comment-name" value="[[+name]]" />
+        <input type="text" name="name" id="quip-comment-name-[[+idprefix]]" value="[[+name]]" />
         <br />
     </div>
     
     <div class="quip-fld">
         <label for="quip-comment-email">[[%quip.email]]: </label>
-        <input type="text" name="email" id="quip-comment-email" value="[[+email]]" />
+        <input type="text" name="email" id="quip-comment-email-[[+idprefix]]" value="[[+email]]" />
         <br />
     </div>
     
     <div class="quip-fld">
         <label for="quip-comment-website">[[%quip.website]]: </label>
-        <input type="text" name="website" id="quip-comment-website" value="[[+website]]" />
+        <input type="text" name="website" id="quip-comment-website-[[+idprefix]]" value="[[+website]]" />
         <br />
     </div>
 
     <div class="quip-fld">
         <label for="quip-comment-notify">[[%quip.notify_me]]: </label>
-        <input type="checkbox" value="1" name="notify" id="quip-comment-notify" [[+notify:if=`[[+notify]]`:eq=`1`:then=`checked="checked"`]] />
+        <input type="checkbox" value="1" name="notify" id="quip-comment-notify-[[+idprefix]]" [[+notify:if=`[[+notify]]`:eq=`1`:then=`checked="checked"`]] />
         <br />
     </div>
 
@@ -39,7 +39,7 @@
     
     
     <p><span class="quip-allowed-tags">[[%quip.allowed_tags? &tags=`[[++quip.allowed_tags:htmlent]]`]]</span>[[%quip.comment_add_new]] </p>
-    <textarea name="comment" id="quip-comment-box" rows="5">[[+comment]]</textarea>
+    <textarea name="comment" id="quip-comment-box-[[+idprefix]]" rows="5">[[+comment]]</textarea>
     
     <button type="submit" name="quip-preview" value="1">[[%quip.preview]]</button>
     

@@ -22,7 +22,25 @@
  * @package quip
  */
 /**
+ * Permanently remove comments
+ *
  * @package quip
+ * @subpackage processors
  */
-require_once (strtr(realpath(dirname(dirname(__FILE__))), '\\', '/') . '/quipthread.class.php');
-class quipThread_mysql extends quipThread {}
+if (!$modx->hasPermission('quip.comment_remove')) return $modx->error->failure($modx->lexicon('access_denied'));
+if (empty($scriptProperties['comments'])) {
+    return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
+}
+
+$commentIds = explode(',',$scriptProperties['comments']);
+
+foreach ($commentIds as $commentId) {
+    $comment = $modx->getObject('quipComment',$commentId);
+    if ($comment == null) continue;
+
+    if ($comment->remove() === false) {
+        return $modx->error->failure($modx->lexicon('quip.comment_err_remove'));
+    }
+}
+
+return $modx->error->success();

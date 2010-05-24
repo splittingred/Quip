@@ -12,6 +12,7 @@ $xpdo_meta_map['quipThread']= array (
     'moderated' => 1,
     'moderator_group' => '',
     'moderators' => '',
+    'notify_emails' => '',
     'resource' => 0,
     'idprefix' => 'qcom',
     'existing_params' => '{}',
@@ -53,6 +54,12 @@ $xpdo_meta_map['quipThread']= array (
       'index' => 'index',
     ),
     'moderators' => 
+    array (
+      'dbtype' => 'text',
+      'phptype' => 'string',
+      'default' => '',
+    ),
+    'notify_emails' => 
     array (
       'dbtype' => 'text',
       'phptype' => 'string',
