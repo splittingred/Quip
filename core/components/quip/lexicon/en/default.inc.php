@@ -88,6 +88,7 @@ $_lang['quip.preview'] = 'Preview';
 $_lang['quip.recaptcha_err_load'] = 'Could not load reCaptcha service class.';
 $_lang['quip.reply'] = 'Reply';
 $_lang['quip.remove'] = 'Remove';
+$_lang['quip.remove_selected'] = 'Remove Selected';
 $_lang['quip.report_as_spam'] = 'Report as Spam';
 $_lang['quip.reported_as_spam'] = 'Reported as Spam';
 $_lang['quip.sfs_err_load'] = 'Could not load StopForumSpam class.';

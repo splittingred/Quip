@@ -44,6 +44,8 @@ $thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$sc
 if (empty($thread)) return '';
 $thread = $modx->getObject('quipThread',$thread);
 if (!$thread) return '';
+/* sync properties with thread row values */
+$thread->sync($scriptProperties);
 
 $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
 $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
