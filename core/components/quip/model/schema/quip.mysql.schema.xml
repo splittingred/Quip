@@ -9,6 +9,13 @@
         <field key="moderators" dbtype="text" phptype="string" default="" />
         <field key="notify_emails" dbtype="text" phptype="string" default="" />
 
+        <!-- These next 3 columns are needed since Quip doesn't tie a thread to
+        a specific page; you have to keep a map of the Resource's ID and any
+        REQUEST params that are used on that page to allow for proper URL
+        linking. Also, you need to keep the idprefix to allow for multiple Quip
+        instances per page. These are auto-generated on the load of the Quip
+        snippet, though, so if empty they will be auto-filled. Migrators from
+        other comment systems need not worry to fill these in. -->
         <field key="resource" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
         <field key="idprefix" dbtype="varchar" precision="255" phptype="string" null="false" default="qcom" />
         <field key="existing_params" dbtype="text" phptype="json" default="{}" />

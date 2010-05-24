@@ -38,9 +38,13 @@ $requireAuth = $modx->getOption('requireAuth',$scriptProperties,false);
 $addCommentTpl = $modx->getOption('tplAddComment',$scriptProperties,'quipAddComment');
 $loginToCommentTpl = $modx->getOption('tplLoginToComment',$scriptProperties,'quipLoginToComment');
 $previewTpl = $modx->getOption('tplPreview',$scriptProperties,'quipPreviewComment');
+$closeAfter = $modx->getOption('closeAfter',$scriptProperties,14);
 
 $thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$scriptProperties,''));
 if (empty($thread)) return '';
+$thread = $modx->getObject('quipThread',$thread);
+if (!$thread) return '';
+
 $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
 $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 
@@ -91,7 +95,9 @@ if ($modx->getOption('recaptcha',$scriptProperties,false)) {
 
 /* build reply form */
 $replyForm = '';
-if ((!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,false)) {
+
+$stillOpen = $thread->checkIfStillOpen($closeAfter) && !$modx->getOption('closed',$scriptProperties,false);
+if ((!$requireAuth || $hasAuth) && $stillOpen) {
     $phs = array_merge($placeholders,array(
         'username' => $modx->user->get('username'),
     ));
@@ -105,6 +111,8 @@ if ((!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,
     }
 
     $replyForm = $quip->getChunk($addCommentTpl,$phs);
+} else if (!$stillOpen) {
+    $replyForm = $modx->lexicon('quip.thread_autoclosed');
 } else {
     $replyForm = $quip->getChunk($loginToCommentTpl,$placeholders);
 }

@@ -211,4 +211,15 @@ class quipThread extends xPDOObject {
 
         return $success;
     }
+
+    /**
+     * Checks to see if the thread has been auto-closed after a specified number of days.
+     *
+     * @param integer $closeAfter The number of days to close the thread after.
+     * @return boolean True if still open
+     */
+    public function checkIfStillOpen($closeAfter = 14) {
+        if (empty($closeAfter)) return true;
+        return ((time() - strtotime($this->get('createdon'))) / 60 / 60 / 24) <= $closeAfter;
+    }
 }

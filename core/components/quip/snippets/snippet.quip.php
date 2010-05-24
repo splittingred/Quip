@@ -69,6 +69,8 @@ $threadedPostMargin = $modx->getOption('threadedPostMargin',$scriptProperties,15
 $maxDepth = $modx->getOption('maxDepth',$scriptProperties,5);
 $replyResourceId = !empty($scriptProperties['replyResourceId']) ? $scriptProperties['replyResourceId'] : $modx->resource->get('id');
 
+$closeAfter = $modx->getOption('closeAfter',$scriptProperties,14);
+
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'rank');
 $sortByAlias = $modx->getOption('sortByAlias',$scriptProperties,'quipComment');
 $sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
@@ -115,6 +117,7 @@ $thread = $modx->getObject('quipThread',$threadPK);
 if (!$thread) {
     $thread = $modx->newObject('quipThread');
     $thread->set('name',$threadPK);
+    $thread->set('createdon',strftime('%Y-%m-%d %H:%M:%S'));
     $thread->set('moderated',$moderate);
     $thread->set('moderator_group',$moderatorGroup);
     $thread->set('moderators',$moderators);
@@ -169,6 +172,7 @@ $comments = $modx->getCollection('quipComment',$c);
 /* iterate */
 $isModerator = $thread->checkPolicy('moderate');
 $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
+$stillOpen = $thread->checkIfStillOpen($closeAfter) && !$modx->getOption('closed',$scriptProperties,false);
 $placeholders['comments'] = '';
 $alt = false;
 $idx = 0;
@@ -226,7 +230,7 @@ foreach ($comments as $comment) {
         $commentArray['authorName'] = '<a href="'.$commentArray['website'].'">'.$commentArray['authorName'].'</a>';
     }
 
-    if ($threaded && $comment->get('depth') < $maxDepth && $comment->get('approved')
+    if ($threaded && $stillOpen && $comment->get('depth') < $maxDepth && $comment->get('approved')
         && (!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,false)) {
         $commentArray['replyUrl'] = $modx->makeUrl($replyResourceId,'',array(
             'quip_thread' => $comment->get('thread'),

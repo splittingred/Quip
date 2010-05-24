@@ -43,6 +43,13 @@ $properties = array(
         'value' => false,
     ),
     array(
+        'name' => 'closeAfter',
+        'desc' => 'Will automatically close the thread to new comments after this number of days. Set to 0 to leave infinitely open.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 14,
+    ),
+    array(
         'name' => 'moderate',
         'desc' => 'If set to true, all new posts to the thread will be moderated.',
         'type' => 'combo-boolean',
