@@ -75,6 +75,7 @@ if ($object->xpdo) {
                     $thread->set('existing_params',$comment->get('existing_params'));
                     $thread->set('resource',$comment->get('resource'));
                     $thread->set('createdon',$comment->get('createdon'));
+                    $thread->set('moderator_group','Administrator');
                     $thread->save();
                 }
                 unset($thread);
