@@ -1,11 +1,9 @@
 .quip a { text-decoration: none; }
 .quip a:hover { text-decoration: underline; }
 
+.quip-comment form, .quip-comment p { padding: 0; margin: 0;}
 .quip-comment {
-    border-color: #ccc;
-    border-width: 1px 0 0;
-    border-style: solid;
-    padding: 7px;
+    padding: 4px;
 }
 .quip-comment-alt {
     background-color: #f2f2f2;
@@ -13,17 +11,48 @@
 .quip-unapproved, .quip-unapproved a {
     color: #a4a4a4;
 }
-.quip-comment-rightstuff {
-    float: right;
-    text-align: right;
-}
 .quip-comment-createdon {
     font-style: italic;
-    color: #777;
+    font-size: small;
 }
-.quip-comment-author { color: #888; font-weight: bold; }
+.quip-comment-createdon a { color: #777; }
+.quip-comment-author, .quip-comment-author a { color: #444; font-weight: bold; }
 .quip-comment-author strong { color: #333; }
 
+.quip-reply-link {
+    font-size: 11px;
+    float: left;
+}
+
+.quip-error { color: red; }
+.quip-success {
+    color: green;
+}
+.quip-clear {
+    clear: both;
+}
+
+.quip-comment-right {
+    float: right;
+}
+.quip-comment-options {
+    clear: right;
+    margin-top: 2px;
+    text-align: right;
+}
+.quip-avatar {
+    float: right;
+    padding: 3px;
+    border: 1px solid #ccc;
+}
+.quip-comment-body {
+    margin-top: .5em;
+}
+.quip-comment-body p {
+    margin: 1em 0;
+}
+
+/* add comment */
 .quip-add-comment p {
     color: #888;
     margin-bottom: .2em;
@@ -54,24 +83,10 @@ span.quip-allowed-tags {
 .quip-fld br { clear: both; }
 
 .quip-comment input[type=submit] {
-    float: right;
-    padding: 3px;
-    margin-left: 5px;
     cursor: pointer;
 }
-.quip-comment-options {
-    text-align: right;
-}
-.quip-comment-report {
-    color: #888;
-    font-size: 10px;
-}
-
-.quip-reply-link {
-    font-size: 11px;
-}
-
-.quip-error { color: red; }
-.quip-success {
-    color: green;
+.quip-preview {
+    border-bottom: 1px solid #d4d4d4;
+    padding: 7px 7px;
+    background-color: #f2f2f2;
 }

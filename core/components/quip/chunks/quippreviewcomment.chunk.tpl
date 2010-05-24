@@ -1,5 +1,4 @@
-<br />
-<div class="quip-comment" id="quip-comment-preview-box-[[+idprefix]]">
+<div class="quip-comment quip-preview" id="quip-comment-preview-box-[[+idprefix]]">
 <form action="[[+url]]" method="post">
     <input type="hidden" name="thread" value="[[+thread]]" />
     <input type="hidden" name="parent" value="[[+parent]]" />
@@ -9,14 +8,18 @@
     <input type="hidden" name="email" value="[[+email]]" />
     <input type="hidden" name="website" value="[[+website]]" />
     <input type="hidden" name="notify" value="[[+notify]]" />
-    
-    <div class="quip-comment-rightstuff">
-        <span class="quip-comment-createdon">[[+createdon]]</span><br />
+
+    <div class="quip-comment-right">
+        [[+md5email:notempty=`<img src="http://www.gravatar.com/avatar/[[+md5email]]?s=50" class="quip-avatar" />`]]
     </div>
-    <span class="quip-comment-author">[[%quip.username_said? &username=`[[+username]]`]]</span><br />
+
+    <p class="quip-comment-meta">
+        <span class="quip-comment-author">[[+name]]:</span><br />
+        <span class="quip-comment-createdon">[[+createdon]]</span>
+    </p>
     
-    <p class="quip-comment-body">[[+comment]]</p>
-        
+    <div class="quip-comment-body"><p>[[+comment]]</p></div>
+    
     <button type="submit" name="quip-close" value="1">[[%quip.close]]</button>
     <button type="submit" name="quip-post" value="1">[[%quip.post]]</button>
     <br class="clear" />

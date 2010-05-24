@@ -120,6 +120,13 @@ $properties = array(
         'value' => true,
     ),
     array(
+        'name' => 'useGravatar',
+        'desc' => 'If true, will attempt to use Gravatar images for avatars.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
+    ),
+    array(
         'name' => 'tplAddComment',
         'desc' => 'The add comment form. Can either be a chunk name or value. If set to a value, will override the chunk.',
         'type' => 'textfield',

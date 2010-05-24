@@ -1,19 +1,28 @@
 <div class="[[+cls]] [[+alt]]" id="[[+idprefix]][[+id]]" [[+threaded:notempty=`style="padding-left: [[+depth_margin]]px"`]]>
-<form action="[[+url]]" method="post">
+<form class="quip-comment-form" action="[[+url]]" method="post">
     <input type="hidden" name="thread" value="[[+thread]]" />
     <input type="hidden" name="id" value="[[+id]]" />
-    <div class="quip-comment-rightstuff">
-        [[+approved:if=`[[+approved]]`:is=`1`:then=``:else=`<em>[[%quip.unapproved? &namespace=`quip` &topic=`default`]]</em> - `]]
-        <span class="quip-comment-createdon">[[+createdon]]</span> : <a href="[[+url]]">#</a><br />
-        [[+report]]
-        <span class="quip-comment-options">
-            [[+options]]
-        </span>
-    </div>
-    <span class="quip-comment-author">[[+authorName]]:</span><br />
-    
-    <p class="quip-comment-body">[[+body]]</p>
 
-    [[+replyUrl:notempty=`<p class="quip-reply-link"><a href="[[+replyUrl]]">[[%quip.reply? &namespace=`quip` &topic=`default`]]</a></p>`]]
+    <div class="quip-comment-right">
+        [[+md5email:notempty=`<img src="http://www.gravatar.com/avatar/[[+md5email]]?s=50" class="quip-avatar" />`]]
+    </div>
+
+    <p class="quip-comment-meta">
+        <span class="quip-comment-author">[[+authorName]]:</span><br />
+        <span class="quip-comment-createdon"><a href="[[+url]]">[[+createdon]]</a>
+        [[+approved:if=`[[+approved]]`:is=`1`:then=``:else=`- <em>[[%quip.unapproved? &namespace=`quip` &topic=`default`]]</em>`]]
+        </span>
+    </p>
+
+    <div class="quip-comment-body">
+        [[+body]]
+
+        [[+replyUrl:notempty=`<p><span class="quip-reply-link"><a href="[[+replyUrl]]">[[%quip.reply? &namespace=`quip` &topic=`default`]]</a></span></p>`]]
+    </div>
+
+    <div class="quip-comment-options">
+        [[+report]]
+        [[+options]]
+    </div>
 </form>
 </div>

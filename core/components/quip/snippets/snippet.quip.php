@@ -70,6 +70,7 @@ $maxDepth = $modx->getOption('maxDepth',$scriptProperties,5);
 $replyResourceId = !empty($scriptProperties['replyResourceId']) ? $scriptProperties['replyResourceId'] : $modx->resource->get('id');
 
 $closeAfter = $modx->getOption('closeAfter',$scriptProperties,14);
+$useGravatar = $modx->getOption('useGravatar',$scriptProperties,true);
 
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'rank');
 $sortByAlias = $modx->getOption('sortByAlias',$scriptProperties,'quipComment');
@@ -187,6 +188,9 @@ foreach ($comments as $comment) {
     $commentArray['depth'] = $comment->get('depth');
     $commentArray['depth_margin'] = (int)($threadedPostMargin * $comment->get('depth'))+7;
     $commentArray['cls'] = $rowCss.($comment->get('approved') ? '' : ' quip-unapproved');
+    if ($useGravatar) {
+        $commentArray['md5email'] = md5($comment->get('email'));
+    }
 
     /* check for auth */
     if ($hasAuth) {

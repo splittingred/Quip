@@ -70,8 +70,11 @@ if (empty($errors)) {
     $preview = array_merge($_POST,array(
         'body' => $body,
         'comment' => $formattedBody,
-        'createdon' => strftime($dateFormat,time()),
+        'createdon' => strftime('%b %d, %Y at %I:%M %p',time()),
     ));
+    if ($modx->getOption('useGravatar',$scriptProperties,true)) {
+        $preview['md5email'] = md5($_POST['email']);
+    }
     if (!$modx->user->hasSessionContext($modx->context->get('key')) && !$requireAuth) {
         $preview['username'] = $_POST['name'];
         $preview['author'] = 0;

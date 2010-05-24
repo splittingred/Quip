@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 0.5.0 ($LastChangedRevision$, $LastChangedDate$)
 ======================================
+- Added gravatar support, fixed bug with IP setting
 - Fixed bug with migration and moderator group
 - Fixed final bugs with lexicons, thread syncing, prepared for 0.5.0-rc2 release
 - Adjusted build script, prepared release, fixed bugs with moderator names
