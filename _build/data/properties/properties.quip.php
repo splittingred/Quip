@@ -155,6 +155,27 @@ $properties = array(
         'value' => true,
     ),
     array(
+        'name' => 'useGravatar',
+        'desc' => 'If true, will attempt to use Gravatar images for avatars.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
+    ),
+    array(
+        'name' => 'gravatarIcon',
+        'desc' => 'The default Gravatar icon to load if none is found for a user.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'identicon',
+    ),
+    array(
+        'name' => 'gravatarSize',
+        'desc' => 'The size, in pixels, of the Gravatar.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 50,
+    ),
+    array(
         'name' => 'sortBy',
         'desc' => 'The field to sort by.',
         'type' => 'textfield',

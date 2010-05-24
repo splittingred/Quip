@@ -10,7 +10,7 @@
     <input type="hidden" name="notify" value="[[+notify]]" />
 
     <div class="quip-comment-right">
-        [[+md5email:notempty=`<img src="http://www.gravatar.com/avatar/[[+md5email]]?s=50" class="quip-avatar" />`]]
+        [[+md5email:notempty=`<img src="http://www.gravatar.com/avatar/[[+md5email]]?s=[[+gravatarSize]]&d=[[+gravatarIcon]]" class="quip-avatar" />`]]
     </div>
 
     <p class="quip-comment-meta">

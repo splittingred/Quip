@@ -74,6 +74,8 @@ if (empty($errors)) {
     ));
     if ($modx->getOption('useGravatar',$scriptProperties,true)) {
         $preview['md5email'] = md5($_POST['email']);
+        $preview['gravatarIcon'] = $modx->getOption('gravatarIcon',$scriptProperties,'identicon');
+        $preview['gravatarSize'] = $modx->getOption('gravatarSize',$scriptProperties,'50');
     }
     if (!$modx->user->hasSessionContext($modx->context->get('key')) && !$requireAuth) {
         $preview['username'] = $_POST['name'];

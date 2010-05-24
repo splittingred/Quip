@@ -127,6 +127,20 @@ $properties = array(
         'value' => true,
     ),
     array(
+        'name' => 'gravatarIcon',
+        'desc' => 'The default Gravatar icon to load if none is found for a user.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'identicon',
+    ),
+    array(
+        'name' => 'gravatarSize',
+        'desc' => 'The size, in pixels, of the Gravatar.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 50,
+    ),
+    array(
         'name' => 'tplAddComment',
         'desc' => 'The add comment form. Can either be a chunk name or value. If set to a value, will override the chunk.',
         'type' => 'textfield',

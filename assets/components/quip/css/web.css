@@ -43,6 +43,7 @@
 .quip-avatar {
     float: right;
     padding: 3px;
+    margin: 2px;
     border: 1px solid #ccc;
 }
 .quip-comment-body {

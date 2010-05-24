@@ -71,6 +71,8 @@ $replyResourceId = !empty($scriptProperties['replyResourceId']) ? $scriptPropert
 
 $closeAfter = $modx->getOption('closeAfter',$scriptProperties,14);
 $useGravatar = $modx->getOption('useGravatar',$scriptProperties,true);
+$gravatarIcon = $modx->getOption('gravatarIcon',$scriptProperties,'identicon');
+$gravatarSize = $modx->getOption('gravatarSize',$scriptProperties,50);
 
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'rank');
 $sortByAlias = $modx->getOption('sortByAlias',$scriptProperties,'quipComment');
@@ -190,6 +192,8 @@ foreach ($comments as $comment) {
     $commentArray['cls'] = $rowCss.($comment->get('approved') ? '' : ' quip-unapproved');
     if ($useGravatar) {
         $commentArray['md5email'] = md5($comment->get('email'));
+        $commentArray['gravatarIcon'] = $gravatarIcon;
+        $commentArray['gravatarSize'] = $gravatarSize;
     }
 
     /* check for auth */

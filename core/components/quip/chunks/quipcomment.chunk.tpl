@@ -4,7 +4,7 @@
     <input type="hidden" name="id" value="[[+id]]" />
 
     <div class="quip-comment-right">
-        [[+md5email:notempty=`<img src="http://www.gravatar.com/avatar/[[+md5email]]?s=50" class="quip-avatar" />`]]
+        [[+md5email:notempty=`<img src="http://www.gravatar.com/avatar/[[+md5email]]?s=[[+gravatarSize]]&d=[[+gravatarIcon]]" class="quip-avatar" />`]]
     </div>
 
     <p class="quip-comment-meta">
