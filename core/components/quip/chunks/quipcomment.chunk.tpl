@@ -15,7 +15,7 @@
     </p>
 
     <div class="quip-comment-body">
-        [[+body]]
+        <p>[[+body]]</p>
 
         [[+replyUrl:notempty=`<p><span class="quip-reply-link"><a href="[[+replyUrl]]">[[%quip.reply? &namespace=`quip` &topic=`default`]]</a></span></p>`]]
     </div>
