@@ -5,7 +5,7 @@
         <field key="createdon" dbtype="datetime" phptype="datetime" null="false" />
 
         <field key="moderated" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="1" index="index" />
-        <field key="moderator_group" dbtype="varchar" precision="255" phptype="string" null="false" default="" index="index" />
+        <field key="moderator_group" dbtype="varchar" precision="255" phptype="string" null="false" default="Administrator" index="index" />
         <field key="moderators" dbtype="text" phptype="string" default="" />
         <field key="notify_emails" dbtype="text" phptype="string" default="" />
 
