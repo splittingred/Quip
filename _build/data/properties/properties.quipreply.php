@@ -75,14 +75,14 @@ $properties = array(
         'desc' => 'A comma-separated list of moderator usernames for this thread.',
         'type' => 'textfield',
         'options' => '',
-        'value' => true,
+        'value' => '',
     ),
     array(
         'name' => 'moderatorGroup',
         'desc' => 'Any Users in this User Group will have moderator access.',
         'type' => 'textfield',
         'options' => '',
-        'value' => true,
+        'value' => 'Administrator',
     ),
     array(
         'name' => 'dateFormat',
