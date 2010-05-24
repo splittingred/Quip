@@ -71,6 +71,20 @@ $properties = array(
         'value' => true,
     ),
     array(
+        'name' => 'moderators',
+        'desc' => 'A comma-separated list of moderator usernames for this thread.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => true,
+    ),
+    array(
+        'name' => 'moderatorGroup',
+        'desc' => 'Any Users in this User Group will have moderator access.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => true,
+    ),
+    array(
         'name' => 'dateFormat',
         'desc' => 'The format of the dates displayed for a comment.',
         'type' => 'textfield',

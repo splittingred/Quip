@@ -120,8 +120,19 @@ class quipThread extends xPDOObject {
      * @return array
      */
     public function getModeratorEmails() {
-        $moderators = $this->get('moderators');
-        $moderators = explode(',',$moderators);
+        $moderatorNames = $this->get('moderators');
+        $moderatorNames = explode(',',$moderatorNames);
+        $moderators = array();
+        foreach ($moderatorNames as $name) {
+            $c = $this->xpdo->newQuery('modUser');
+            $c->innerJoin('modUserProfile','Profile');
+            $c->select(array('modUser.id','Profile.email'));
+            $c->where(array('username' => $name));
+            $user = $this->xpdo->getObject('modUser',$c);
+            if ($user) {
+                $moderators[] = $user->get('email');
+            }
+        }
 
         /* now get usergroup moderators */
         $moderatorGroup = $this->get('moderator_group');
