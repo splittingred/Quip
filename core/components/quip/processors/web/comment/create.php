@@ -60,6 +60,8 @@ $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
 $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
 $body = strip_tags($body,$allowedTags);
 $body = str_replace(array('<br><br>','<br /><br />'),'',nl2br($body));
+/* replace MODx tags with entities */
+$body = str_replace(array('[',']'),array('&#91;','&#93;'),$body);
 
 /* auto-convert links to tags */
 if ($modx->getOption('autoConvertLinks',$scriptProperties,true)) {

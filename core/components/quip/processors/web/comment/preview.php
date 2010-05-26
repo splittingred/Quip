@@ -56,7 +56,8 @@ $body = preg_replace("/<script(.*)<\/script>/i",'',$body);
 $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
 $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
 $body = strip_tags($body,$allowedTags);
-
+/* replace MODx tags with entities */
+$body = str_replace(array('[',']'),array('&#91;','&#93;'),$body);
 $formattedBody = nl2br($body);
 
 /* auto-convert links to tags */
@@ -78,19 +79,18 @@ if (empty($errors)) {
         $preview['gravatarSize'] = $modx->getOption('gravatarSize',$scriptProperties,'50');
     }
     if (!$modx->user->hasSessionContext($modx->context->get('key')) && !$requireAuth) {
-        $preview['username'] = $_POST['name'];
         $preview['author'] = 0;
     } else {
-        $profile = $modx->user->getOne('Profile');
-        if ($profile) {
-            $preview['username'] = $profile->get('fullname');
-        } else {
-            $preview['username'] = $modx->user->get('username');
-        }
         $preview['author'] = $modx->user->get('id');
     }
-    if (!empty($_POST['website'])) {
-        $preview['username'] = '<a href="'.$_POST['website'].'">'.$preview['username'].'</a>';
+    if (!empty($preview['website'])) {
+        if (strpos($preview['website'],'http://') !== 0 && strpos($preview['website'],'https://') !== 0) {
+            $preview['website'] = substr($preview['website'],strpos($preview['website'],'//'));
+            $preview['website'] = 'http://'.$preview['website'];
+        }
+        $preview['username'] = '<a href="'.$preview['website'].'">'.$preview['name'].'</a>';
+    } else {
+        $preview['username'] = $preview['name'];
     }
     $placeholders['preview'] = $quip->getChunk($previewTpl,$preview);
 } else {

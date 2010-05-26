@@ -24,5 +24,6 @@
         [[+report]]
         [[+options]]
     </div>
+    <br class="quip-clear" />
 </form>
 </div>

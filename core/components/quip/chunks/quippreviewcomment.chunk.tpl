@@ -14,7 +14,7 @@
     </div>
 
     <p class="quip-comment-meta">
-        <span class="quip-comment-author">[[+name]]:</span><br />
+        <span class="quip-comment-author">[[+username]]:</span><br />
         <span class="quip-comment-createdon">[[+createdon]]</span>
     </p>
     

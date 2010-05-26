@@ -1,6 +1,11 @@
 Changelog for Quip.
 
-Quip 0.5.0 ($LastChangedRevision$, $LastChangedDate$)
+Quip 0.5.1 ($LastChangedRevision$, $LastChangedDate$)
+======================================
+- [#ADDON-153] Replace MODx tags with entities in comments
+- Properly format improper website fields
+
+Quip 0.5.0 (LastChangedRevision: 840, LastChangedDate: 2010-05-24 15:59:41 -0500 (Mon, 24 May 2010))
 ======================================
 - Added gravatar support, fixed bug with IP setting, gravatar settings
 - Fixed bug with migration and moderator group
