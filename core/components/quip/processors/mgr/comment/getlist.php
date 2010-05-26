@@ -22,7 +22,7 @@
  * @package quip
  */
 /**
- * Get a list of comments for a thread
+ * Get a list of comments
  *
  * @package quip
  * @subpackage processors
@@ -38,17 +38,22 @@ $sort = $modx->getOption('sort',$scriptProperties,'createdon');
 $dir = $modx->getOption('dir',$scriptProperties,'DESC');
 $deleted = $modx->getOption('deleted',$scriptProperties,0);
 
-if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
-$thread = $modx->getObject('quipThread',$scriptProperties['thread']);
-if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
-if (!$thread->checkPolicy('view')) return $modx->error->failure($modx->lexicon('access_denied'));
+if (!empty($scriptProperties['thread'])) {
+    $thread = $modx->getObject('quipThread',$scriptProperties['thread']);
+    if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
+    if (!$thread->checkPolicy('view')) return $modx->error->failure($modx->lexicon('access_denied'));
+}
 
 /* build query */
 $c = $modx->newQuery('quipComment');
 $c->leftJoin('modUser','Author');
 $c->leftJoin('modResource','Resource');
+if ($thread) {
+    $c->where(array(
+        'quipComment.thread' => $thread->get('name'),
+    ));
+}
 $c->where(array(
-    'quipComment.thread' => $scriptProperties['thread'],
     'quipComment.deleted' => $deleted,
 ));
 $count = $modx->getCount('quipComment',$c);
@@ -63,9 +68,14 @@ if ($isCombo || $isLimit) {
 }
 $comments = $modx->getCollection('quipComment', $c);
 
-$canApprove = $modx->hasPermission('quip.comment_approve') && $thread->checkPolicy('comment_approve');
-$canRemove = $modx->hasPermission('quip.comment_remove') && $thread->checkPolicy('comment_remove');
-$canUpdate = $modx->hasPermission('quip.comment_update') && $thread->checkPolicy('comment_update');
+$canApprove = $modx->hasPermission('quip.comment_approve');
+$canRemove = $modx->hasPermission('quip.comment_remove');
+$canUpdate = $modx->hasPermission('quip.comment_update');
+if ($thread) {
+    $canApprove = $canApprove && $thread->checkPolicy('comment_approve');
+    $canRemove = $canRemove && $thread->checkPolicy('comment_remove');
+    $canUpdate = $canUpdate && $thread->checkPolicy('comment_update');
+}
 
 $list = array();
 foreach ($comments as $comment) {

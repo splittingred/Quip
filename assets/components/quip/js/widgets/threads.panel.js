@@ -43,6 +43,18 @@ Quip.panel.Threads = function(config) {
                         action: 'mgr/comment/getUnapproved'
                     }
                 }]
+            },{
+                title: _('quip.latest_comments')
+                ,defaults: { autoHeight: true }
+                ,items: [{
+                    html: '<p>'+_('quip.latest_comments_msg')+'</p>'
+                    ,border: false
+                    ,bodyStyle: 'padding: 10px'
+                },{
+                    xtype: 'quip-grid-comments'
+                    ,cls: 'quip-thread-grid'
+                    ,preventRender: true
+                }]
             }]
         }]
     });
