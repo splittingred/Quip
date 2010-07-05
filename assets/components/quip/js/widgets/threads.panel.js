@@ -68,7 +68,7 @@ Quip.grid.Thread = function(config) {
     Ext.applyIf(config,{
         url: Quip.config.connector_url
         ,baseParams: { action: 'mgr/thread/getList' }
-        ,fields: ['name','comments','unapproved_comments','pagetitle','url','menu']
+        ,fields: ['name','comments','unapproved_comments','pagetitle','url']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
@@ -118,6 +118,19 @@ Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
                 'success': {fn:this.refresh,scope:this}
             }
         });
+    }
+    ,getMenu: function() {
+        var m = [];
+        m.push({
+            text: _('quip.thread_manage')
+            ,handler: this.manageThread
+        });
+        m.push('-');
+        m.push({
+            text: _('quip.thread_truncate')
+            ,handler: this.truncateThread
+        });
+        this.addContextMenuItem(m);
     }
 });
 Ext.reg('quip-grid-thread',Quip.grid.Thread);

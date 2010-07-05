@@ -46,21 +46,36 @@ if ($isCombo || $isLimit) {
     $c->limit($limit,$start);
 }
 $c->sortby('name','ASC');
+
+/* get approved comments sql */
+$subc = $modx->newQuery('quipComment');
+$subc->setClassAlias('ApprovedComments');
+$subc->select('COUNT(*)');
+$subc->where('`quipThread`.`name` = `ApprovedComments`.`thread`');
+$subc->where(array(
+    'ApprovedComments.deleted' => 0,
+    'ApprovedComments.approved' => 1,
+));
+$subc->prepare(); $approvedCommentsSql = $subc->toSql();
+
+/* get unapproved comments sql */
+$subc = $modx->newQuery('quipComment');
+$subc->setClassAlias('ApprovedComments');
+$subc->select('COUNT(*)');
+$subc->where('`quipThread`.`name` = `ApprovedComments`.`thread`');
+$subc->where(array(
+    'ApprovedComments.deleted' => 0,
+    'ApprovedComments.approved' => 0,
+));
+$subc->prepare(); $unapprovedCommentsSql = $subc->toSql();
+
+$c->select(array(
+    'quipThread.*',
+    'Resource.pagetitle',
+));
 $c->select('
-    `quipThread`.*,
-    `Resource`.`pagetitle` AS `pagetitle`,
-    (SELECT COUNT(*) FROM '.$modx->getTableName('quipComment').' AS `ApprovedComments`
-     WHERE 
-        `quipThread`.`name` = `ApprovedComments`.`thread`
-    AND `ApprovedComments`.`deleted` = 0
-    AND `ApprovedComments`.`approved` = 1
-    ) AS `comments`,
-    (SELECT COUNT(*) FROM '.$modx->getTableName('quipComment').' AS `UnapprovedComments`
-     WHERE
-        `quipThread`.`name` = `UnapprovedComments`.`thread`
-    AND `UnapprovedComments`.`deleted` = 0
-    AND `UnapprovedComments`.`approved` = 0
-    ) AS `unapproved_comments`
+    ('.$approvedCommentsSql.') AS `comments`,
+    ('.$unapprovedCommentsSql.') AS `unapproved_comments`
 ');
 $threads = $modx->getCollection('quipThread', $c);
 
@@ -69,18 +84,6 @@ foreach ($threads as $thread) {
     if (!$thread->checkPolicy('view')) continue;
     $threadArray = $thread->toArray();
     $threadArray['url'] = $thread->makeUrl();
-
-    $threadArray['menu'] = array(
-        array(
-            'text' => $modx->lexicon('quip.thread_manage'),
-            'handler' => 'this.manageThread',
-        ),
-        '-',
-        array(
-            'text' => $modx->lexicon('quip.thread_truncate'),
-            'handler' => 'this.truncateThread',
-        )
-    );
     $list[]= $threadArray;
 }
 return $this->outputArray($list,$count);

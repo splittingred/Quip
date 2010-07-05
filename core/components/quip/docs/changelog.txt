@@ -1,13 +1,18 @@
 Changelog for Quip.
 
-Quip 0.5.1 ($LastChangedRevision$, $LastChangedDate$)
+Quip 0.5.2
+======================================
+- Added search to comments grid
+- Made snippet properties i18n
+
+Quip 0.5.1
 ======================================
 - Added Russian translation
 - Added "Latest Comments" tab to mgr ui
 - [#ADDON-153] Replace MODx tags with entities in comments
 - Properly format improper website fields
 
-Quip 0.5.0 (LastChangedRevision: 840, LastChangedDate: 2010-05-24 15:59:41 -0500 (Mon, 24 May 2010))
+Quip 0.5.0
 ======================================
 - Added gravatar support, fixed bug with IP setting, gravatar settings
 - Fixed bug with migration and moderator group
@@ -29,7 +34,7 @@ Quip 0.5.0 (LastChangedRevision: 840, LastChangedDate: 2010-05-24 15:59:41 -0500
 - Fixed incorrect if statement that prevented commenting when requireAuth was set to true
 - Added missing auth line that prevented requireAuth parameter from working in QuipReply snippet
 
-Quip 0.4 (LastChangedRevision: 793, LastChangedDate: 2010-04-29 14:24:02 -0500 (Thu, 29 Apr 2010))
+Quip 0.4
 ======================================
 - Updated readme for 0.4pl release
 - Added nested threading support
@@ -51,7 +56,7 @@ Quip 0.4 (LastChangedRevision: 793, LastChangedDate: 2010-04-29 14:24:02 -0500 (
 - Added notifyEmails property, which sends notification email for new posts to emails specified in property
 - Added nl2br to comments
 
-Quip 0.3 (LastChangedRevision: 741, LastChangedDate: 2010-03-22 10:36:31 -0500 (Mon, 22 Mar 2010))
+Quip 0.3
 ======================================
 - Fixed issues where Quip could only be run once on a page, now can be run multiple times
 - Fixed bugs where quip wasn't prefilling fields for logged in users

@@ -9,7 +9,7 @@ Quip.grid.Comments = function(config) {
             action: 'mgr/comment/getList'
             ,thread: config.thread
         }
-        ,fields: ['id','author','username','body','createdon','name','approved','deleted','ip','url','pagetitle','comments','website','email','menu']
+        ,fields: ['id','author','username','body','createdon','name','approved','deleted','ip','url','pagetitle','comments','website','email','cls']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
@@ -74,12 +74,57 @@ Quip.grid.Comments = function(config) {
             ,handler: this.toggleDeleted
             ,enableToggle: true
             ,scope: this
+        },'->',{
+            xtype: 'textfield'
+            ,name: 'search'
+            ,id: 'quip-tf-search'
+            ,emptyText: _('search')+'...'
+            ,listeners: {
+                'change': {fn: this.search, scope: this}
+                ,'render': {fn: function(cmp) {
+                    new Ext.KeyMap(cmp.getEl(), {
+                        key: Ext.EventObject.ENTER
+                        ,fn: function() {
+                            this.fireEvent('change',this.getValue());
+                            this.blur();
+                            return true; }
+                        ,scope: cmp
+                    });
+                },scope:this}
+            }
+        },{
+            xtype: 'button'
+            ,id: 'modx-filter-clear'
+            ,text: _('filter_clear')
+            ,listeners: {
+                'click': {fn: this.clearFilter, scope: this}
+            }
         }]
     });
     Quip.grid.Comments.superclass.constructor.call(this,config)
 };
 Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
-    renderAuthor: function(value,p, rec){
+    _addEnterKeyHandler: function() {
+        this.getEl().addKeyListener(Ext.EventObject.ENTER,function() {
+            this.fireEvent('change');
+        },this);
+    }
+    ,clearFilter: function() {
+    	var s = this.getStore();
+        s.baseParams.search = '';
+        Ext.getCmp('quip-tf-search').reset();
+    	this.getBottomToolbar().changePage(1);
+        this.refresh();
+    }
+    ,search: function(tf,newValue,oldValue) {
+        var nv = newValue || tf;
+        this.getStore().baseParams.search = nv;
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
+        return true;
+    }
+
+    ,renderAuthor: function(value,p, rec){
         return String.format(
             '<span class="quip-author"><b>{1}</b>: <a href="mailto:{2}">{2}</a><br /><i>{0}</i></span>',
             value,rec.data.name,rec.data.email,rec.data.approved
@@ -269,6 +314,50 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
                 'success': {fn:this.removeActiveRow,scope:this}
             }
         });
+    }
+    ,getMenu: function() {
+        var n = this.menu.record;
+        console.log(n);
+        var cls = n.cls.split(',');
+        var m = [];
+
+        if (cls.indexOf('pupdate') != -1) {
+            m.push({
+                text: _('quip.comment_update')
+                ,handler: this.updateComment
+            });
+        }
+        if (cls.indexOf('papprove') != -1 && n.approved == 0) {
+            m.push({
+                text: _('quip.comment_approve')
+                ,handler: this.approveComment
+            })
+        } else if (cls.indexOf('papprove') != -1 && n.approved == 1) {
+            m.push({
+                text: _('quip.comment_unapprove')
+                ,handler: this.approveComment
+            });
+        }
+
+        if (cls.indexOf('premove') != -1 && n.deleted == 0) {
+            m.push({
+                text: _('quip.comment_delete')
+                ,handler: this.deleteComment
+            })
+        } else if (cls.indexOf('premove') != -1 && n.deleted == 1) {
+            m.push({
+                text: _('quip.comment_undelete')
+                ,handler: this.undeleteComment
+            });
+        }
+        if (cls.indexOf('premove') != -1 && n.deleted == 1) {
+            m.push('-');
+            m.push({
+                text: _('quip.comment_remove')
+                ,handler: this.removeComment
+            });
+        }
+        this.addContextMenuItem(m);
     }
 });
 Ext.reg('quip-grid-comments',Quip.grid.Comments);

@@ -37,6 +37,7 @@ $limit = $modx->getOption('limit',$scriptProperties,20);
 $sort = $modx->getOption('sort',$scriptProperties,'createdon');
 $dir = $modx->getOption('dir',$scriptProperties,'DESC');
 $deleted = $modx->getOption('deleted',$scriptProperties,0);
+$search = $modx->getOption('search',$scriptProperties,false);
 
 if (!empty($scriptProperties['thread'])) {
     $thread = $modx->getObject('quipThread',$scriptProperties['thread']);
@@ -56,11 +57,30 @@ if ($thread) {
 $c->where(array(
     'quipComment.deleted' => $deleted,
 ));
+if ($search) {
+    $c->where(array(
+        'quipComment.body:LIKE' => '%'.$search.'%',
+        'OR:quipComment.author:LIKE' => '%'.$search.'%',
+        'OR:quipComment.name:LIKE' => '%'.$search.'%',
+    ),null,2);
+}
 $count = $modx->getCount('quipComment',$c);
+
+/* get comments sql */
+$subc = $modx->newQuery('quipComment');
+$subc->setClassAlias('ct');
+$subc->select('COUNT(`ct`.`id`)');
+$subc->where('`ct`.`thread` = `quipComment`.`thread`');
+$subc->where(array(
+    'ct.deleted' => 0,
+    'ct.approved' => 1,
+));
+$subc->prepare();
+$commentsSql = $subc->toSql();
 
 $c->select(array('quipComment.*','Author.username','Resource.pagetitle'));
 $c->select('
-    (SELECT COUNT(*) FROM '.$modx->getTableName('quipComment').' AS `ct` WHERE `thread` = `quipComment`.`thread` AND `deleted` = 0 AND `approved` = 1) AS `comments`
+    ('.$commentsSql.') AS `comments`
 ');
 $c->sortby($sort,$dir);
 if ($isCombo || $isLimit) {
@@ -76,58 +96,24 @@ if ($thread) {
     $canRemove = $canRemove && $thread->checkPolicy('comment_remove');
     $canUpdate = $canUpdate && $thread->checkPolicy('comment_update');
 }
+$cls = array();
+if ($canApprove) $cls[] = 'papprove';
+if ($canUpdate) $cls[] = 'pupdate';
+if ($canRemove) $cls[] = 'premove';
+$cls = implode(',',$cls);
 
 $list = array();
 foreach ($comments as $comment) {
     $commentArray = $comment->toArray();
     $commentArray['url'] = $comment->makeUrl();
-    if (empty($commentArray['pagetitle'])) {
-        $commentArray['pagetitle'] = $modx->lexicon('quip.view');
-    }
+    $commentArray['cls'] = $cls;
+    $commentArray['createdon'] = strftime('%a %b %d, %Y %I:%M %p',strtotime($commentArray['createdon']));
     
+    if (empty($commentArray['pagetitle'])) { $commentArray['pagetitle'] = $modx->lexicon('quip.view'); }
     if (empty($commentArray['username'])) $commentArray['username'] = $commentArray['name'];
+
     $commentArray['body'] = str_replace('<br />','',$commentArray['body']);
 
-    $commentArray['createdon'] = strftime('%a %b %d, %Y %I:%M %p',strtotime($commentArray['createdon']));
-
-    $commentArray['menu'] = array();
-    if ($canUpdate) {
-        $commentArray['menu'][] = array(
-            'text' => $modx->lexicon('quip.comment_update'),
-            'handler' => 'this.updateComment',
-        );
-    }
-    if ($canApprove && !$comment->get('approved')) {
-        $commentArray['menu'][] = array(
-            'text' => $modx->lexicon('quip.comment_approve'),
-            'handler' => 'this.approveComment',
-        );
-    } else if ($canApprove) {
-        $commentArray['menu'][] = array(
-            'text' => $modx->lexicon('quip.comment_unapprove'),
-            'handler' => 'this.unapproveComment',
-        );
-    }
-    if ($canRemove && !$comment->get('deleted')) {
-        $commentArray['menu'][] = '-';
-        $commentArray['menu'][] = array(
-            'text' => $modx->lexicon('quip.comment_delete'),
-            'handler' => 'this.deleteComment',
-        );
-    } else if ($canRemove) {
-        $commentArray['menu'][] = '-';
-        $commentArray['menu'][] = array(
-            'text' => $modx->lexicon('quip.comment_undelete'),
-            'handler' => 'this.undeleteComment',
-        );
-    }
-    if ($canRemove && $comment->get('deleted')) {
-        $commentArray['menu'][] = '-';
-        $commentArray['menu'][] = array(
-            'text' => $modx->lexicon('quip.comment_remove'),
-            'handler' => 'this.removeComment',
-        );
-    }
     $list[]= $commentArray;
 }
 return $this->outputArray($list,$count);
