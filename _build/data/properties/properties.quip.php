@@ -227,6 +227,22 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'toPlaceholder',
+        'desc' => 'quip.prop_toplaceholder_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
+        'name' => 'placeholderPrefix',
+        'desc' => 'quip.prop_placeholderprefix_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'quip',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
         'name' => 'tplComment',
         'desc' => 'quip.prop_tplcomment_desc',
         'type' => 'textfield',

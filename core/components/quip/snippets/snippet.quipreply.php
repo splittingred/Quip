@@ -127,9 +127,9 @@ if ((!$requireAuth || $hasAuth) && $stillOpen) {
 }
 
 /* output or set to placeholder */
+$toPlaceholder = $modx->getOption('toPlaceholder',$scriptProperties,false);
 if ($toPlaceholder) {
     $modx->setPlaceholder($toPlaceholder,$replyForm);
     return '';
-} else {
-    return $replyForm;
 }
+return $replyForm;

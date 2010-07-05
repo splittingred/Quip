@@ -55,5 +55,13 @@ $properties = array(
         'value' => '',
         'lexicon' => 'quip:properties',
     ),
+    array(
+        'name' => 'toPlaceholder',
+        'desc' => 'quip.prop_count_toplaceholder_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'quip:properties',
+    ),
 );
 return $properties;

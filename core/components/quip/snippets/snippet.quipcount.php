@@ -68,4 +68,12 @@ $c->where(array(
     'quipComment.approved' => true,
     'quipComment.deleted' => false,
 ));
-return $modx->getCount('quipComment',$c);
+$output = $modx->getCount('quipComment',$c);
+
+/* output */
+$toPlaceholder = $modx->getOption('toPlaceholder',$scriptProperties,false);
+if ($toPlaceholder) {
+    $modx->setPlaceholder($toPlaceholder,$output);
+    return '';
+}
+return $output;

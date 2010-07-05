@@ -145,6 +145,7 @@ $c->innerJoin('quipThread','Thread');
 $c->leftJoin('quipCommentClosure','Descendants','`Descendants`.`descendant` = `quipComment`.`id` AND `Descendants`.`ancestor` = 0');
 $c->leftJoin('quipCommentClosure','Ancestors');
 $c->leftJoin('modUser','Author');
+$c->leftJoin('modResource','Resource');
 $c->where(array(
     'quipComment.thread' => $thread->get('name'),
     'quipComment.deleted' => false,
@@ -169,9 +170,12 @@ $c->select(array(
     'Thread.existing_params',
     'Descendants.depth',
     'Author.username',
+    'Resource.pagetitle',
 ));
 $c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
 $comments = $modx->getCollection('quipComment',$c);
+
+$pagePlaceholders = array();
 
 /* iterate */
 $isModerator = $thread->checkPolicy('moderate');
@@ -249,13 +253,24 @@ foreach ($comments as $comment) {
     $placeholders['comments'] .= $quip->getChunk($commentTpl,$commentArray);
     $alt = !$alt;
     $idx++;
+    $pagePlaceholders['pagetitle'] = $commentArray['pagetitle'];
+    $pagePlaceholders['resource'] = $commentArray['resource'];
     unset($commentArray);
 }
 
-$modx->toPlaceholders($placeholders,'quip');
+/* wrap */
 if ($modx->getOption('useWrapper',$scriptProperties,true)) {
     $output = $quip->getChunk($commentsTpl,$placeholders);
-    return $output;
 }
-return '';
+
+/* output */
+$pagePlaceholders = array_merge($placeholders,$pagePlaceholders);
+$placeholderPrefix = $modx->getOption('placeholderPrefix',$scriptProperties,'quip');
+$modx->toPlaceholders($pagePlaceholders,$placeholderPrefix);
+$toPlaceholder = $modx->getOption('toPlaceholder',$scriptProperties,false);
+if ($toPlaceholder) {
+    $modx->setPlaceholder($toPlaceholder,$output);
+    return '';
+}
+return $output;
 

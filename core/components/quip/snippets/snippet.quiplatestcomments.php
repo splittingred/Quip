@@ -49,9 +49,13 @@ $stripTags = $modx->getOption('stripTags',$scriptProperties,true);
 $bodyLimit = $modx->getOption('bodyLimit',$scriptProperties,30);
 
 /* build query by type */
-$output = '';
 $c = $modx->newQuery('quipComment');
+$c->select(array(
+    'quipComment.*',
+    'Resource.pagetitle',
+));
 $c->leftJoin('modUser','Author');
+$c->leftJoin('modResource','Resource');
 $c->where(array(
     'quipComment.approved' => true,
 ));
@@ -87,6 +91,8 @@ $c->limit($limit,$start);
 $comments = $modx->getCollection('quipComment',$c);
 
 /* iterate */
+$pagePlaceholders = array();
+$output = array();
 $alt = false;
 foreach ($comments as $comment) {
     $commentArray = $comment->toArray();
@@ -99,9 +105,24 @@ foreach ($comments as $comment) {
     
     $commentArray['ago'] = $quip->getTimeAgo($commentArray['createdon']);
     
-    $output .= $quip->getChunk($tpl,$commentArray);
+    $output[] = $quip->getChunk($tpl,$commentArray);
     $alt = !$alt;
 }
 
+/* set page placeholders */
+$pagePlaceholders = array();
+$pagePlaceholders['resource'] = $commentArray['resource'];
+$pagePlaceholders['pagetitle'] = $commentArray['pagetitle'];
+$placeholderPrefix = $modx->getOption('placeholderPrefix',$scriptProperties,'quip.latest');
+$modx->toPlaceholders($pagePlaceholders,$placeholderPrefix);
+
+/* output */
+$outputSeparator = $modx->getOption('outputSeparator',$scriptProperties,"\n");
+$output = implode($outputSeparator,$output);
+$toPlaceholder = $modx->getOption('toPlaceholder',$scriptProperties,false);
+if ($toPlaceholder) {
+    $modx->setPlaceholder($toPlaceholder,$output);
+    return '';
+}
 return $output;
 

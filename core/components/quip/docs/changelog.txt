@@ -2,6 +2,10 @@ Changelog for Quip.
 
 Quip 0.5.2
 ======================================
+- Added placeholderPrefix property to Quip, QuipLatestComments
+- Added toPlaceholder property to Quip, QuipLatestComments, QuipCount
+- Added quipRssComment, quipRssContainer chunk for RSS comment feed
+- Added pagetitle placeholder to Quip, QuipLatestComments iterative tpls that displays thread's resource pagetitle
 - Added search to comments grid
 - Made snippet properties i18n
 
