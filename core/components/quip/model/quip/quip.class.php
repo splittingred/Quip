@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -24,8 +24,8 @@
 /**
  * This file is the main class file for Quip.
  *
- * @copyright Copyright (C) 2010, Shaun McCormick <shaun@collabpad.com>
- * @author Shaun McCormick <shaun@collabpad.com>
+ * @copyright Copyright (C) 2010, Shaun McCormick <shaun@modxcms.com>
+ * @author Shaun McCormick <shaun@modxcms.com>
  * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
  * @package quip
  */
@@ -151,7 +151,7 @@ class Quip {
         $chunk = null;
         if (!isset($this->chunks[$name])) {
             if (!$this->modx->getOption('quip.debug',null,false)) {
-                $chunk = $this->modx->getObject('modChunk',array('name' => $name),true);
+                $chunk = $this->modx->getObject('modChunk',array('name' => $name));
             }
             if (empty($chunk)) {
                 $chunk = $this->_getTplChunk($name);

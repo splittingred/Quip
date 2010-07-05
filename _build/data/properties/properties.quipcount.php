@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -30,27 +30,30 @@
 $properties = array(
     array(
         'name' => 'type',
-        'desc' => 'If set to Thread, will count the # of comments in a thread. If set to User, will grab # of total comments by a User.',
+        'desc' => 'quip.prop_count_type_desc',
         'type' => 'list',
         'options' => array(
-            array('text' => 'Thread','value' => 'thread'),
-            array('text' => 'User','value' => 'user'),
+            array('text' => 'quip.thread','value' => 'thread'),
+            array('text' => 'quip.user','value' => 'user'),
         ),
         'value' => 'thread',
+        'lexicon' => 'quip:properties',
     ),
     array(
         'name' => 'thread',
-        'desc' => 'The thread ID to pull from. Only if type is set to Thread.',
+        'desc' => 'quip.prop_count_thread_desc',
         'type' => 'textfield',
         'options' => '',
         'value' => '',
+        'lexicon' => 'quip:properties',
     ),
     array(
         'name' => 'user',
-        'desc' => 'The User ID or username to pull from. Only if type is set to User.',
+        'desc' => 'quip.prop_count_user_desc',
         'type' => 'textfield',
         'options' => '',
         'value' => '',
+        'lexicon' => 'quip:properties',
     ),
 );
 return $properties;

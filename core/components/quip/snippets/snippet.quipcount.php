@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2010 by Shaun McCormick <shaun@collabpad.com>
+ * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -27,7 +27,7 @@
  * Gets the total # of comments in a thread or by a user.
  *
  * @name QuipCount
- * @author Shaun McCormick <shaun@collabpad.com>
+ * @author Shaun McCormick <shaun@modxcms.com>
  * @package quip
  */
 if (empty($scriptProperties['thread'])) { return ''; }
