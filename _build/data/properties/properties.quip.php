@@ -101,6 +101,14 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'useMargins',
+        'desc' => 'quip.prop_usemargins_desc',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+        'lexicon' => 'quip:properties',
+    ),
+    array(
         'name' => 'useCss',
         'desc' => 'quip.prop_usecss_desc',
         'type' => 'combo-boolean',
@@ -122,6 +130,22 @@ $properties = array(
         'type' => 'textfield',
         'options' => '',
         'value' => 'quip-comment-alt',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
+        'name' => 'olCss',
+        'desc' => 'quip.prop_olcss_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'quip-comment-parent',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
+        'name' => 'unapprovedCss',
+        'desc' => 'quip.prop_unapprovedcss_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'quip-unapproved',
         'lexicon' => 'quip:properties',
     ),
     array(

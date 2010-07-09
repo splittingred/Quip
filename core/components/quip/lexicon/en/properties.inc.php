@@ -52,6 +52,7 @@ $_lang['quip.prop_gravatarsize_desc'] = 'The size, in pixels, of the Gravatar.';
 $_lang['quip.prop_idprefix_desc'] = 'If you want to use multiple Quip instances on a page, change this ID prefix.';
 $_lang['quip.prop_namefield_desc'] = 'The field to use for the author name of each comment. Recommended values are "name" or "username".';
 $_lang['quip.prop_maxdepth_desc'] = 'The maximum depth that replies can be made in a threaded comment thread.';
+$_lang['quip.prop_olcss_desc'] = 'The CSS class to put in the parent ol tags for each comment.';
 $_lang['quip.prop_parent_desc'] = 'The parent to start at when displaying the thread.';
 $_lang['quip.prop_placeholderprefix_desc'] = 'The prefix for the global placeholders set by Quip.';
 $_lang['quip.prop_removeaction_desc'] = 'The name of the submit field to initiate a comment remove.';
@@ -71,7 +72,9 @@ $_lang['quip.prop_tplcomment_desc'] = 'The comment itself. Can either be a chunk
 $_lang['quip.prop_tplcommentoptions_desc'] = 'The options, such as delete, shown to an owner of a comment. Can either be a chunk name or value. If set to a value, will override the chunk.';
 $_lang['quip.prop_tplcomments_desc'] = 'The outer wrapper for comments. Can either be a chunk name or value. If set to a value, will override the chunk.';
 $_lang['quip.prop_tplreport_desc'] = 'The link on a comment to report as spam. Can either be a chunk name or value. If set to a value, will override the chunk.';
+$_lang['quip.prop_unapprovedcss_desc'] = 'The CSS class to put on unapproved comments.';
 $_lang['quip.prop_usecss_desc'] = 'If true, Quip will provide a basic CSS template for the presentation.';
+$_lang['quip.prop_usemargins_desc'] = 'If false, Quip will use ol/li items for each comment and threaded comment. If false, will use padded margins for each comment in threading.';
 $_lang['quip.prop_usegravatar_desc'] = 'If true, will attempt to use Gravatar images for avatars.';
 
 /* QuipReply */

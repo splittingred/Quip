@@ -91,3 +91,15 @@ span.quip-allowed-tags {
     padding: 7px 7px;
     background-color: #f2f2f2;
 }
+ol.quip-comment-parent {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+ol.quip-comment-parent li ol {
+    margin: 0;
+    padding-left: 20px;
+}
+ol.quip-comment-parent li {
+    list-style-type: none;
+}

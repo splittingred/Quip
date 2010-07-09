@@ -55,6 +55,8 @@ $reportCommentTpl = $modx->getOption('tplReport',$scriptProperties,'quipReport')
 
 $rowCss = $modx->getOption('rowCss',$scriptProperties,'quip-comment');
 $altRowCss = $modx->getOption('altRowCss',$scriptProperties,'quip-comment-alt');
+$olCss = $modx->getOption('olCss',$scriptProperties,'quip-comment-parent');
+$unapprovedCss = $modx->getOption('unapprovedCls',$scriptProperties,'quip-unapproved');
 $dateFormat = $modx->getOption('dateFormat',$scriptProperties,'%b %d, %Y at %I:%M %p');
 $showWebsite = $modx->getOption('showWebsite',$scriptProperties,true);
 $idPrefix = $modx->getOption('idPrefix',$scriptProperties,'qcom');
@@ -66,6 +68,7 @@ $moderatorGroup = $modx->getOption('moderatorGroup',$scriptProperties,false);
 
 $threaded = $modx->getOption('threaded',$scriptProperties,true);
 $threadedPostMargin = $modx->getOption('threadedPostMargin',$scriptProperties,15);
+$useMargins = $modx->getOption('useMargins',$scriptProperties,false);
 $maxDepth = $modx->getOption('maxDepth',$scriptProperties,5);
 $replyResourceId = !empty($scriptProperties['replyResourceId']) ? $scriptProperties['replyResourceId'] : $modx->resource->get('id');
 
@@ -184,6 +187,7 @@ $stillOpen = $thread->checkIfStillOpen($closeAfter) && !$modx->getOption('closed
 $placeholders['comments'] = '';
 $alt = false;
 $idx = 0;
+$commentList = array();
 foreach ($comments as $comment) {
     $commentArray = $comment->toArray();
     if ($alt) { $commentArray['alt'] = $altRowCss; }
@@ -192,8 +196,11 @@ foreach ($comments as $comment) {
     $commentArray['idx'] = $idx;
     $commentArray['threaded'] = $threaded;
     $commentArray['depth'] = $comment->get('depth');
-    $commentArray['depth_margin'] = (int)($threadedPostMargin * $comment->get('depth'))+7;
-    $commentArray['cls'] = $rowCss.($comment->get('approved') ? '' : ' quip-unapproved');
+    if ($useMargins) {
+        $commentArray['depth_margin'] = (int)($threadedPostMargin * $comment->get('depth'))+7;
+    }
+    $commentArray['cls'] = $rowCss.($comment->get('approved') ? '' : ' '.$unapprovedCls);
+    $commentArray['olCls'] = $olCss;
     if ($useGravatar) {
         $commentArray['md5email'] = md5($comment->get('email'));
         $commentArray['gravatarIcon'] = $gravatarIcon;
@@ -250,12 +257,24 @@ foreach ($comments as $comment) {
             'quip_parent' => $comment->get('id'),
         ));
     }
-    $placeholders['comments'] .= $quip->getChunk($commentTpl,$commentArray);
+    $commentList[] = $commentArray;
     $alt = !$alt;
     $idx++;
     $pagePlaceholders['pagetitle'] = $commentArray['pagetitle'];
     $pagePlaceholders['resource'] = $commentArray['resource'];
     unset($commentArray);
+}
+
+$placeholders['comments'] = '';
+if ($useMargins) {
+    foreach ($commentList as $commentArray) {
+        $placeholders['comments'] .= $quip->getChunk($commentTpl,$commentArray);
+    }
+} else {
+    if ($modx->loadClass('QuipTreeParser',$quip->config['model_path'].'quip/',true,true)) {
+        $quip->treeParser = new QuipTreeParser($quip);
+        $placeholders['comments'] = $quip->treeParser->parse($commentList,$commentTpl);
+    }
 }
 
 /* wrap */
