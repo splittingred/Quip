@@ -273,6 +273,12 @@ if ($useMargins) {
 } else {
     if ($modx->loadClass('QuipTreeParser',$quip->config['model_path'].'quip/',true,true)) {
         $quip->treeParser = new QuipTreeParser($quip);
+
+        $quip->treeParser->openItem = $modx->getOption('tplCommentLiOpen',$scriptProperties,'<li class="[[+class]]" id="[[+idprefix]][[+id]]">');
+        $quip->treeParser->closeItem = $modx->getOption('tplCommentLiClose',$scriptProperties,'</li>');
+        $quip->treeParser->openChildren = $modx->getOption('tplCommentOlOpen',$scriptProperties,'<ol class="[[+olClass]]">');
+        $quip->treeParser->closeChildren = $modx->getOption('tplCommentOlClose',$scriptProperties,'</ol>');
+        
         $placeholders['comments'] = $quip->treeParser->parse($commentList,$commentTpl);
     }
 }

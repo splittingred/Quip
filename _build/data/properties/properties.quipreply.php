@@ -93,6 +93,14 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'dontModerateManagerUsers',
+        'desc' => 'quip.prop_reply_dontmoderatemanagerusers_desc',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
+        'lexicon' => 'quip:properties',
+    ),    
+    array(
         'name' => 'dateFormat',
         'desc' => 'quip.prop_reply_dateformat_desc',
         'type' => 'textfield',
@@ -122,6 +130,14 @@ $properties = array(
         'type' => 'combo-boolean',
         'options' => '',
         'value' => false,
+        'lexicon' => 'quip:properties',
+    ),
+    array(
+        'name' => 'disableRecaptchaWhenLoggedIn',
+        'desc' => 'quip.prop_reply_disablerecaptchawhenloggedin_desc',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
         'lexicon' => 'quip:properties',
     ),
     array(

@@ -83,8 +83,11 @@ if ($modx->getOption('moderate',$scriptProperties,false)) {
     /* by default moderate, unless special cases pass */
     $approved = false;
 
-    /* check logged in status */
-    if ($modx->user->hasSessionContext($modx->context->get('key'))) {
+    /* never moderate mgr users */
+    if ($modx->user->hasSessionContext('mgr') && $modx->getOption('dontModerateManagerUsers',$scriptProperties,true)) {
+        $approved = true;
+    /* check logged in status in current context*/
+    } else if ($modx->user->hasSessionContext($modx->context->get('key'))) {
         /* if moderating only anonymous users, go ahead and approve since the user is logged in */
         if ($modx->getOption('moderateAnonymousOnly',$scriptProperties,false)) {
             $approved = true;

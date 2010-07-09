@@ -33,7 +33,9 @@ if ($requireAuth) {
 }
 
 /* if using reCaptcha */
-if ($modx->getOption('recaptcha',$scriptProperties,false)) {
+$disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
+$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
+if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
     $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['model_path'].'recaptcha/');
     if (!($recaptcha instanceof reCaptcha)) {
         $errors['recaptcha'] = $modx->lexicon('quip.recaptcha_err_load');

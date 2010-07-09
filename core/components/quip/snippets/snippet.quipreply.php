@@ -91,8 +91,9 @@ if (isset($_GET['quip_approved']) && $_GET['quip_approved'] == 0) {
     $placeholders['successMsg'] = $modx->lexicon('quip.comment_will_be_moderated');
 }
 
-/* if using recaptcha, load recaptcha html */
-if ($modx->getOption('recaptcha',$scriptProperties,false)) {
+/* if using recaptcha, load recaptcha html if user is not logged in */
+$disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
+if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
     $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['model_path'].'recaptcha/');
     if ($recaptcha instanceof reCaptcha) {
         $html = $recaptcha->getHtml();

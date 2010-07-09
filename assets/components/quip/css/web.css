@@ -2,7 +2,7 @@
 .quip a:hover { text-decoration: underline; }
 
 .quip-comment form, .quip-comment p { padding: 0; margin: 0;}
-.quip-comment {
+div.quip-comment {
     padding: 4px;
 }
 .quip-comment-alt {
@@ -83,7 +83,7 @@ span.quip-allowed-tags {
     }
 .quip-fld br { clear: both; }
 
-.quip-comment input[type=submit] {
+div.quip-comment input[type=submit] {
     cursor: pointer;
 }
 .quip-preview {
