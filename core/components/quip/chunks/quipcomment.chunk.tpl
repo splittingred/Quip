@@ -1,4 +1,4 @@
-<div class="[[+cls]] [[+alt]]" id="[[+idprefix]][[+id]]" [[+threaded:notempty=`style="padding-left: [[+depth_margin]]px"`]]>
+<div class="[[+cls]] [[+alt]]" id="[[+idprefix]][[+id]]" [[+depth_margin:notempty=`style="padding-left: [[+depth_margin]]px"`]]>
 <form class="quip-comment-form" action="[[+url]]" method="post">
     <input type="hidden" name="thread" value="[[+thread]]" />
     <input type="hidden" name="id" value="[[+id]]" />
