@@ -1,6 +1,5 @@
 Quip.panel.Threads = function(config) {
     config = config || {};
-                console.log(Quip.request);
     Ext.apply(config,{
         border: false
         ,baseCls: 'modx-formpanel'
