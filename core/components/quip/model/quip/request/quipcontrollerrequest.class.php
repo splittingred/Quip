@@ -64,6 +64,7 @@ class QuipControllerRequest extends modRequest {
     private function _respond() {
         $modx =& $this->modx;
         $quip =& $this->quip;
+
         $viewHeader = include $this->quip->config['core_path'].'controllers/mgr/header.php';
 
         $f = $this->quip->config['core_path'].'controllers/mgr/'.$this->action.'.php';

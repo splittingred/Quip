@@ -37,4 +37,36 @@ Ext.onReady(function() {
 });
 </script>');
 
+if (!empty($_REQUEST['quip_approve'])) {
+    $comment = $modx->getObject('quipComment',$_REQUEST['quip_approve']);
+    if ($comment && $comment->approve()) {
+        $commentArray = $comment->toArray();
+        $commentArray['createdon'] = strftime('%b %d, %Y',strtotime($comment->get('createdon')));
+        $modx->regClientStartupHTMLBlock('<script type="text/javascript">
+Ext.onReady(function() {
+    MODx.msg.status({
+        title: "'.$modx->lexicon('quip.comment_approved').'"
+        ,message: "'.$modx->lexicon('quip.comment_approved_msg',$commentArray).'"
+        ,delay: 5
+    });
+});
+</script>');
+    }
+}
+if (!empty($_REQUEST['quip_reject'])) {
+    $comment = $modx->getObject('quipComment',$_REQUEST['quip_reject']);
+    if ($comment && $comment->reject()) {
+        $commentArray = $comment->toArray();
+        $commentArray['createdon'] = strftime('%b %d, %Y',strtotime($comment->get('createdon')));
+        $modx->regClientStartupHTMLBlock('<script type="text/javascript">
+Ext.onReady(function() {
+    MODx.msg.status({
+        title: "'.$modx->lexicon('quip.comment_deleted').'"
+        ,message: "'.$modx->lexicon('quip.comment_deleted_msg',$commentArray).'"
+        ,delay: 5
+    });
+});
+</script>');
+    }
+}
 return '';

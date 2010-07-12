@@ -208,6 +208,14 @@ class quipComment extends xPDOSimpleObject {
         return $thread ? $thread->notify($this) : true;
     }
 
+    public function reject(array $options = array()) {
+        $this->set('deleted',true);
+        $this->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));
+        $this->set('deletedby',$this->xpdo->user->get('id'));
+
+        return $this->save();
+    }
+
     /**
      * Sends notification email to moderators telling them the comment is awaiting approval.
      *
@@ -221,6 +229,19 @@ class quipComment extends xPDOSimpleObject {
         
         $properties = $this->toArray();
         $properties['url'] = $this->makeUrl('',array(),array('scheme' => 'full'));
+
+        /* get Quip action */
+        $action = $this->xpdo->getObject('modAction',array(
+            'controller' => 'index',
+            'namespace' => 'quip',
+        ));
+        if ($action) {
+            $managerUrl = MODX_URL_SCHEME.MODX_HTTP_HOST.$this->xpdo->getOption('manager_url');
+            $properties['approveUrl'] = $managerUrl.'?a='.$action->get('id').'&quip_unapproved=1&quip_approve='.$this->get('id');
+            $properties['rejectUrl'] = $managerUrl.'?a='.$action->get('id').'&quip_unapproved=1&quip_reject='.$this->get('id');
+            $properties['unapprovedUrl'] = $managerUrl.'?a='.$action->get('id').'&quip_unapproved=1';
+        }
+
         $body = $this->xpdo->lexicon('quip.email_moderate',$properties);
         $subject = $this->xpdo->lexicon('quip.email_moderate_subject');
 

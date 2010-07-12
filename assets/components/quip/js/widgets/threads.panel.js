@@ -1,5 +1,6 @@
 Quip.panel.Threads = function(config) {
     config = config || {};
+                console.log(Quip.request);
     Ext.apply(config,{
         border: false
         ,baseCls: 'modx-formpanel'
@@ -16,7 +17,7 @@ Quip.panel.Threads = function(config) {
             ,stateId: 'quip-home-tabpanel'
             ,stateEvents: ['tabchange']
             ,getState:function() {
-                return {activeTab:this.items.indexOf(this.getActiveTab())};
+                return {activeTab:Quip.request.quip_unapproved ? 1 : this.items.indexOf(this.getActiveTab())};
             }
             ,items: [{
                 title: _('quip.threads')

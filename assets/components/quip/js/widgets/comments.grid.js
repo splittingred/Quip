@@ -163,7 +163,7 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
         for (var i=0;i<sels.length;i++) {
             cs += ','+sels[i].data.id;
         }
-        cs = Ext.util.Format.substr(cs,1);
+        cs = Ext.util.Format.substr(cs,1,cs.length-1);
         return cs;
     }
     ,approveSelected: function(btn,e) {
@@ -317,7 +317,6 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
     }
     ,getMenu: function() {
         var n = this.menu.record;
-        console.log(n);
         var cls = n.cls.split(',');
         var m = [];
 
@@ -335,7 +334,7 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
         } else if (cls.indexOf('papprove') != -1 && n.approved == 1) {
             m.push({
                 text: _('quip.comment_unapprove')
-                ,handler: this.approveComment
+                ,handler: this.unapproveComment
             });
         }
 

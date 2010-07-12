@@ -65,6 +65,8 @@ $_lang['quip.email_moderate'] = '<p>Hello,</p>
 
 <p>----------------------------------------------------</p>
 
+<p><a href="[[+approveUrl]]">Approve Comment</a> | <a href="[[+rejectUrl]]">Delete Comment</a> | <a href="[[+unapprovedUrl]]">Unapproved Comments</a></p>
+
 <p>This is an automated email. Please do not reply directly. The
 comment\'s ID is: <strong>[[+id]]</strong> on the thread "[[+thread]]".</p>
 

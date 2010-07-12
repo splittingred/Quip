@@ -1,7 +1,9 @@
 Changelog for Quip.
 
-Quip 0.6.0
+Quip 1.0.0
 ======================================
+- Added direct moderation links from emails
+- Fixed bug with batch deleting in Quip
 - Added dontModerateManagerUsers property to QuipReply that defaults to true which skips moderation for users logged into mgr
 - Added disableRecaptchaWhenLoggedIn property to QuipReply that defaults to true which skips recaptcha for logged in users
 - Comments are now threaded properly with ol/li tags

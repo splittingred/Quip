@@ -42,6 +42,8 @@ $_lang['quip.email_moderate'] = '<p>Здравствуйте,</p>
 
 <p>----------------------------------------------------</p>
 
+<p><a href="[[+approveUrl]]">Approve Comment</a> | <a href="[[+rejectUrl]]">Delete Comment</a> | <a href="[[+unapprovedUrl]]">Unapproved Comments</a></p>
+
 <p>Это письмо сгенерировано автоматически. Пожалуйста не отвечайте на него. Идентификатор комментария: <strong>[[+id]]</strong> в теме "[[+thread]]".</p>
 
 <p>
