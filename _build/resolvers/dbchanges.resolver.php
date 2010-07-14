@@ -62,6 +62,10 @@ if ($object->xpdo) {
             $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `deleted` (`deleted`)");
             $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `deletedby` (`deletedby`)");
 
+            /* add call_params to quipThread */
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipThread')} ADD `quip_call_params` TEXT AFTER `existing_params`");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipThread')} ADD `quipreply_call_params` TEXT AFTER `quip_call_params`");
+
             /* create thread objects for comments if they dont exist */
             $c = $modx->newQuery('quipComment');
             $c->sortby('createdon','DESC');
@@ -81,10 +85,6 @@ if ($object->xpdo) {
                 unset($thread);
             }
             unset($comments,$comment,$c);
-
-            /* add call_params to quipThread */
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipThread')} ADD `quip_call_params` TEXT AFTER `existing_params`");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipThread')} ADD `quipreply_call_params` TEXT AFTER `quip_call_params`");
 
             break;
     }
