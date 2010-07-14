@@ -33,6 +33,27 @@
 $quip = $modx->getService('quip','Quip',$modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/quip/',$scriptProperties);
 if (!($quip instanceof Quip)) return '';
 
+/* get thread */
+$thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$scriptProperties,''));
+if (empty($thread)) return '';
+$thread = $modx->getObject('quipThread',$thread);
+if (!$thread) return '';
+
+/* sync properties with thread row values */
+$thread->sync($scriptProperties);
+$ps = $thread->get('quipreply_call_params');
+if (!empty($ps)) {
+    $diff = array_diff_assoc($ps,$scriptProperties);
+    if (empty($diff)) $diff = array_diff_assoc($scriptProperties,$ps);
+}
+if (empty($_REQUEST['quip_thread']) && (!empty($diff) || empty($ps))) { /* only sync call params if not on threaded reply page */
+    $thread->set('quipreply_call_params',$scriptProperties);
+    $thread->save();
+}
+/* if in threaded reply page, get the original passing values to QuipReply in the thread's main page and use those */
+if (!empty($_REQUEST['quip_thread']) && is_array($ps) && !empty($ps)) $scriptProperties = array_merge($scriptProperties,$ps);
+unset($ps,$diff);
+
 /* setup default properties */
 $requireAuth = $modx->getOption('requireAuth',$scriptProperties,false);
 $addCommentTpl = $modx->getOption('tplAddComment',$scriptProperties,'quipAddComment');
@@ -40,13 +61,7 @@ $loginToCommentTpl = $modx->getOption('tplLoginToComment',$scriptProperties,'qui
 $previewTpl = $modx->getOption('tplPreview',$scriptProperties,'quipPreviewComment');
 $closeAfter = $modx->getOption('closeAfter',$scriptProperties,14);
 
-$thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$scriptProperties,''));
-if (empty($thread)) return '';
-$thread = $modx->getObject('quipThread',$thread);
-if (!$thread) return '';
-/* sync properties with thread row values */
-$thread->sync($scriptProperties);
-
+/* get parent and auth */
 $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
 $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 

@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.0.0
 ======================================
+- Now no longer any need to mirror calls in QuipReply in threaded comments; pulls from original QuipReply call on source page
 - Added direct moderation links from emails
 - Fixed bug with batch deleting in comments grid
 - Added dontModerateManagerUsers property to QuipReply that defaults to true which skips moderation for users logged into mgr

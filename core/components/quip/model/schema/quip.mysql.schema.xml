@@ -19,6 +19,8 @@
         <field key="resource" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
         <field key="idprefix" dbtype="varchar" precision="255" phptype="string" null="false" default="qcom" />
         <field key="existing_params" dbtype="text" phptype="json" default="{}" />
+        <field key="quip_call_params" dbtype="text" phptype="json" default="[]" />
+        <field key="quipreply_call_params" dbtype="text" phptype="json" default="[]" />
 
         <aggregate alias="Resource" class="modResource" local="resource" foreign="id" cardinality="one" owner="foreign" />
         <composite alias="Comments" class="quipComment" local="name" foreign="thread" cardinality="many" owner="local" />
@@ -48,7 +50,7 @@
         <!-- deprecated in 0.5.0 -->
         <field key="resource" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
         <field key="idprefix" dbtype="varchar" precision="255" phptype="string" null="false" default="qcom" />
-        <field key="existing_params" dbtype="text" phptype="json" default="{}" />
+        <field key="existing_params" dbtype="text" phptype="json" default="[]" />
 
         <aggregate alias="Thread" class="quipThread" local="thread" foreign="name" cardinality="one" owner="foreign" />
         <aggregate alias="Author" class="modUser" local="author" foreign="id" cardinality="one" owner="foreign" />

@@ -82,6 +82,10 @@ if ($object->xpdo) {
             }
             unset($comments,$comment,$c);
 
+            /* add call_params to quipThread */
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipThread')} ADD `quip_call_params` TEXT AFTER `existing_params`");
+            $modx->exec("ALTER TABLE {$modx->getTableName('quipThread')} ADD `quipreply_call_params` TEXT AFTER `quip_call_params`");
+
             break;
     }
 }

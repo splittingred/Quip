@@ -32,12 +32,14 @@ $xpdo_meta_map['quipThread']= array (
     'name' => '',
     'createdon' => NULL,
     'moderated' => 1,
-    'moderator_group' => '',
+    'moderator_group' => 'Administrator',
     'moderators' => '',
     'notify_emails' => '',
     'resource' => 0,
     'idprefix' => 'qcom',
     'existing_params' => '{}',
+    'quip_call_params' => '[]',
+    'quipreply_call_params' => '[]',
   ),
   'fieldMeta' => 
   array (
@@ -72,7 +74,7 @@ $xpdo_meta_map['quipThread']= array (
       'precision' => '255',
       'phptype' => 'string',
       'null' => false,
-      'default' => '',
+      'default' => 'Administrator',
       'index' => 'index',
     ),
     'moderators' => 
@@ -110,6 +112,18 @@ $xpdo_meta_map['quipThread']= array (
       'dbtype' => 'text',
       'phptype' => 'json',
       'default' => '{}',
+    ),
+    'quip_call_params' => 
+    array (
+      'dbtype' => 'text',
+      'phptype' => 'json',
+      'default' => '[]',
+    ),
+    'quipreply_call_params' => 
+    array (
+      'dbtype' => 'text',
+      'phptype' => 'json',
+      'default' => '[]',
     ),
   ),
   'aggregates' => 

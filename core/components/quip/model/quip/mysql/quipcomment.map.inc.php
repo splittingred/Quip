@@ -48,7 +48,7 @@ $xpdo_meta_map['quipComment']= array (
     'deletedby' => 0,
     'resource' => 0,
     'idprefix' => 'qcom',
-    'existing_params' => '{}',
+    'existing_params' => '[]',
   ),
   'fieldMeta' => 
   array (
@@ -211,7 +211,7 @@ $xpdo_meta_map['quipComment']= array (
     array (
       'dbtype' => 'text',
       'phptype' => 'json',
-      'default' => '{}',
+      'default' => '[]',
     ),
   ),
   'aggregates' => 

@@ -48,6 +48,22 @@ $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$sc
 $thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$scriptProperties,''));
 if (empty($thread)) return '';
 
+/* get thread */
+$threadPK = $thread;
+$thread = $modx->getObject('quipThread',$threadPK);
+if ($thread) {
+    $ps = $thread->get('quip_call_params');
+    if (!empty($ps)) {
+        $diff = array_diff($ps,$scriptProperties);
+        if (empty($diff)) $diff = array_diff_assoc($scriptProperties,$ps);
+    }
+    if (!empty($diff) || empty($ps)) {
+        $thread->set('quip_call_params',$scriptProperties);
+        $thread->save();
+    }
+}
+
+/* get default properties */
 $commentTpl = $modx->getOption('tplComment',$scriptProperties,'quipComment');
 $commentOptionsTpl = $modx->getOption('tplCommentOptions',$scriptProperties,'quipCommentOptions');
 $commentsTpl = $modx->getOption('tplComments',$scriptProperties,'quipComments');
@@ -118,8 +134,6 @@ if ($modx->getOption('useCss',$scriptProperties,true)) {
 
 /* ensure thread exists, set thread properties if changed
  * (prior to 0.5.0 threads will be handled in install resolver) */
-$threadPK = $thread;
-$thread = $modx->getObject('quipThread',$threadPK);
 if (!$thread) {
     $thread = $modx->newObject('quipThread');
     $thread->set('name',$threadPK);
@@ -129,6 +143,7 @@ if (!$thread) {
     $thread->set('moderators',$moderators);
     $thread->set('resource',$modx->getOption('resource',$scriptProperties,$modx->resource->get('id')));
     $thread->set('idprefix',$modx->getOption('idPrefix',$scriptProperties,'qcom'));
+    $thread->set('quip_call_params',$scriptProperties);
     if (!empty($scriptProperties['moderatorGroup'])) $thread->set('moderator_group',$scriptProperties['moderatorGroup']);
     /* save existing parameters to comment to preserve URLs */
     $p = $modx->request->getParameters();
