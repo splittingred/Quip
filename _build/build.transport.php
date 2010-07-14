@@ -68,6 +68,8 @@ $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
 $builder->createPackage(PKG_NAME_LOWER,PKG_VERSION,PKG_RELEASE);
 $builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.PKG_NAME_LOWER.'/');
+$modx->getService('lexicon','modLexicon');
+$modx->lexicon->load('quip:properties');
 
 /* load action/menu */
 $menu = include $sources['data'].'transport.menu.php';
