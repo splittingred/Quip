@@ -4,4 +4,6 @@
     <div id="quip-topofcomments-[[+idprefix]]"></div>
 
     [[+comments]]
+
+    [[+pagination]]
 </div>

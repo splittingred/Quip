@@ -190,30 +190,49 @@ class Quip {
     /**
      * Builds simple pagination markup. Not yet used.
      *
-     * TODO: add tpl configurability to li/a tags.
-     *
      * @access public
-     * @param integer $count The total number of records
-     * @param integer $limit The number to limit to
-     * @param integer $start The record to start on
-     * @param string $url The URL to prefix a hrefs with
+     * @param array $options An array of options:
+     * - count The total number of records
+     * - limit The number to limit to
+     * - start The record to start on
+     * - url The URL to prefix pagination urls with
      * @return string The rendered template.
      */
-    public function buildPagination($count,$limit,$start,$url) {
-        $pageCount = $count / $limit;
-        $curPage = $start / $limit;
+    public function buildPagination(array $options = array()) {
+        $pageCount = $options['count'] / $options['limit'];
+        $curPage = $options['start'] / $options['limit'];
         $pages = '';
+
+        $params = $_GET;
+        unset($params[$this->modx->getOption('request_param_alias',null,'q')]);
+
+        $tplItem = $this->modx->getOption('tplPaginationItem',$options,'quipPaginationItem');
+        $tplCurrentItem = $this->modx->getOption('tplPaginationCurrentItem',$options,'quipPaginationCurrentItem');
+        $pageCls = $this->modx->getOption('pageCls',$options,'quip-page-number');
+        $currentPageCls = $this->modx->getOption('currentPageCls',$options,'quip-page-current');
+
         for ($i=0;$i<$pageCount;$i++) {
-            $newStart = $i*$limit;
-            $u = $url.'&start='.$newStart.'&limit='.$limit;
+            $newStart = $i*$options['limit'];
+            $u = $options['url'].(strpos($options['url'],'?') !== false ? '&' : '?').http_build_query(array_merge($params,array(
+                'quip_start' => $newStart,
+                'quip_limit' => $options['limit'],
+            )));
             if ($i != $curPage) {
-                $pages .= '<li class="page-number"><a href="'.$u.'">'.($i+1).'</a></li>';
+                $pages .= $this->getChunk($tplItem,array(
+                    'url' => $u,
+                    'idx' => $i+1,
+                    'cls' => $pageCls,
+                ));
             } else {
-                $pages .= '<li class="page-number pgCurrent">'.($i+1).'</li>';
+                $pages .= $this->getChunk($tplCurrentItem,array(
+                    'idx' => $i+1,
+                    'cls' => $pageCls.' '.$currentPageCls,
+                ));
             }
         }
-        return $this->getChunk('quipPagination',array(
-            'quip.pages' => $pages,
+        return $this->getChunk($this->modx->getOption('tplPagination',$options,'quipPagination'),array(
+            'pages' => $pages,
+            'cls' => $this->modx->getOption('paginationCls',$options,'quip-pagination'),
         ));
     }
 

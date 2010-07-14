@@ -97,6 +97,8 @@ $sortBy = $modx->getOption('sortBy',$scriptProperties,'rank');
 $sortByAlias = $modx->getOption('sortByAlias',$scriptProperties,'quipComment');
 $sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
 
+$limit = $modx->getOption('quip_limit',$_REQUEST,$modx->getOption('limit',$scriptProperties,0));
+$start = $modx->getOption('quip_start',$_REQUEST,$modx->getOption('start',$scriptProperties,0));
 
 /* handle POSTs */
 if (!empty($_POST) && $_POST['thread'] == $thread) {
@@ -147,7 +149,7 @@ if (!$thread) {
     if (!empty($scriptProperties['moderatorGroup'])) $thread->set('moderator_group',$scriptProperties['moderatorGroup']);
     /* save existing parameters to comment to preserve URLs */
     $p = $modx->request->getParameters();
-    unset($p['reported']);
+    unset($p['reported'],$p['quip_start'],$p['quip_limit']);
     $thread->set('existing_params',$p);
     $thread->save();
 } else {
@@ -157,10 +159,37 @@ if (!$thread) {
 unset($threadPK);
 $placeholders['idprefix'] = $thread->get('idprefix');
 
+/* if pagination is on, get IDs of root comments so can limit properly */
+$ids = array();
+if (!empty($limit)) {
+    $c = $modx->newQuery('quipComment');
+    $c->select($modx->getSelectColumns('quipComment','quipComment','',array('id')));
+    $c->where(array(
+        'quipComment.thread' => $thread->get('name'),
+        'quipComment.deleted' => false,
+        'quipComment.parent' => 0,
+    ));
+    if (!$thread->checkPolicy('moderate')) {
+        $c->where(array(
+            'quipComment.approved' => true,
+            'OR:quipComment.author:=' => $modx->user->get('id'),
+        ));
+    }
+    $placeholders['rootTotal'] = $modx->getCount('quipComment',$c);
+    $c->limit($limit,$start);
+    $comments = $modx->getCollection('quipComment',$c);
+    $ids = array();
+    foreach ($comments as $comment) {
+        $ids[] = $comment->get('id');
+    }
+    $ids = array_unique($ids);
+}
+
 /* get comments */
 $c = $modx->newQuery('quipComment');
 $c->innerJoin('quipThread','Thread');
-$c->leftJoin('quipCommentClosure','Descendants','`Descendants`.`descendant` = `quipComment`.`id` AND `Descendants`.`ancestor` = 0');
+$c->leftJoin('quipCommentClosure','Descendants');
+$c->leftJoin('quipCommentClosure','RootDescendant','`RootDescendant`.`descendant` = `quipComment`.`id` AND `RootDescendant`.`ancestor` = 0');
 $c->leftJoin('quipCommentClosure','Ancestors');
 $c->leftJoin('modUser','Author');
 $c->leftJoin('modResource','Resource');
@@ -180,13 +209,15 @@ if (!empty($parent)) {
     ));
 }
 $placeholders['total'] = $modx->getCount('quipComment',$c);
-
+if (!empty($ids)) {
+    $c->where('`Descendants`.`ancestor` IN ('.implode(',',$ids).')');
+}
 $c->select(array(
     'quipComment.*',
     'Thread.resource',
     'Thread.idprefix',
     'Thread.existing_params',
-    'Descendants.depth',
+    'RootDescendant.depth',
     'Author.username',
     'Resource.pagetitle',
 ));
@@ -296,6 +327,16 @@ if ($useMargins) {
         
         $placeholders['comments'] = $quip->treeParser->parse($commentList,$commentTpl);
     }
+}
+
+if (!empty($limit)) {
+    $url = $modx->makeUrl($modx->resource->get('id'));
+    $placeholders['pagination'] = $quip->buildPagination(array(
+        'count' => $placeholders['rootTotal'],
+        'limit' => $limit,
+        'start' => $start,
+        'url' => $url,
+    ));
 }
 
 /* wrap */
