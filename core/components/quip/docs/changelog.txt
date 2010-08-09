@@ -3,6 +3,7 @@ Changelog for Quip.
 Quip 1.0.1
 ======================================
 - Properly redid ol/li support to properly nest tags
+- Removed form tag in comment tpl
 
 Quip 1.0.0
 ======================================
