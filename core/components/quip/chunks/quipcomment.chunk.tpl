@@ -1,8 +1,5 @@
-<div class="[[+cls]] [[+alt]]" id="[[+idprefix]][[+id]]" [[+depth_margin:notempty=`style="padding-left: [[+depth_margin]]px"`]]>
-<form class="quip-comment-form" action="[[+url]]" method="post">
-    <input type="hidden" name="thread" value="[[+thread]]" />
-    <input type="hidden" name="id" value="[[+id]]" />
-
+<li class="[[+cls]]" id="[[+idprefix]][[+id]]" [[+depth_margin:notempty=`style="padding-left: [[+depth_margin]]px"`]]>
+<div id="[[+idprefix]][[+id]]-div" class="quip-comment-body [[+alt]]">
     <div class="quip-comment-right">
         [[+md5email:notempty=`<img src="http://www.gravatar.com/avatar/[[+md5email]]?s=[[+gravatarSize]]&d=[[+gravatarIcon]]" class="quip-avatar" />`]]
     </div>
@@ -14,7 +11,7 @@
         </span>
     </p>
 
-    <div class="quip-comment-body">
+    <div class="quip-comment-text">
         <p>[[+body]]</p>
 
         [[+replyUrl:notempty=`<p><span class="quip-reply-link"><a href="[[+replyUrl]]">[[%quip.reply? &namespace=`quip` &topic=`default`]]</a></span></p>`]]
@@ -24,6 +21,6 @@
         [[+report]]
         [[+options]]
     </div>
-    <br class="quip-clear" />
-</form>
 </div>
+    [[+children:notempty=`<ol class="quip-comment-list">[[+children]]</ol>`]]
+</li>

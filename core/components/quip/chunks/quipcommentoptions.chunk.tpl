@@ -1,1 +1,1 @@
-[[+allowRemove:notempty=`<input type="submit" name="quip-remove" value="[[%quip.remove]]" />`]]
+[[+allowRemove:notempty=`| <a href="[[+removeUrl]]">[[%quip.remove]]</a>`]]

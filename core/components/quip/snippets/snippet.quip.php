@@ -100,33 +100,35 @@ $sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
 $limit = $modx->getOption('quip_limit',$_REQUEST,$modx->getOption('limit',$scriptProperties,0));
 $start = $modx->getOption('quip_start',$_REQUEST,$modx->getOption('start',$scriptProperties,0));
 
-/* handle POSTs */
-if (!empty($_POST) && $_POST['thread'] == $thread) {
-    /* setup POST-only options */
-    $removeAction = $modx->getOption('removeAction',$scriptProperties,'quip-remove');
-    $reportAction = $modx->getOption('reportAction',$scriptProperties,'quip-report');
+/* handle options */
+$removeAction = $modx->getOption('removeAction',$scriptProperties,'quip_remove');
+$reportAction = $modx->getOption('reportAction',$scriptProperties,'quip_report');
+$isModerator = $thread->checkPolicy('moderate');
+$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 
-    /* handle remove post */
-    if (!empty($_POST[$removeAction])) {
-        $errors = include_once $quip->config['processors_path'].'web/comment/remove.php';
-        if (empty($errors)) {
-            $params = $modx->request->getParameters();
-            $url = $modx->makeUrl($modx->resource->get('id'),'',$params);
-            $modx->sendRedirect($url);
-        }
-        $placeholders['error'] = implode("<br />\n",$errors);
+/* handle remove post */
+if (!empty($_REQUEST[$removeAction])) {
+    $errors = include_once $quip->config['processors_path'].'web/comment/remove.php';
+    print_r($errors);
+    if (empty($errors)) {
+        $params = $modx->request->getParameters();
+        unset($params[$removeAction],$params['quip_comment']);
+        $url = $modx->makeUrl($modx->resource->get('id'),'',$params);
+        $modx->sendRedirect($url);
     }
-    /* handle report spam */
-    if (!empty($_POST[$reportAction])) {
-        $errors = include_once $quip->config['processors_path'].'web/comment/report.php';
-        if (empty($errors)) {
-            $params = $modx->request->getParameters();
-            $params['reported'] = $_POST['id'];
-            $url = $modx->makeUrl($modx->resource->get('id'),'',$params);
-            $modx->sendRedirect($url);
-        }
-        $placeholders['error'] = implode("<br />\n",$errors);
+    $placeholders['error'] = implode("<br />\n",$errors);
+}
+/* handle report spam */
+if (!empty($_REQUEST[$reportAction]) && $modx->getOption('allowReportAsSpam',$scriptProperties,true)) {
+    $errors = include_once $quip->config['processors_path'].'web/comment/report.php';
+    if (empty($errors)) {
+        $params = $modx->request->getParameters();
+        unset($params['quip_report'],$params['quip_comment']);
+        $params['reported'] = $_POST['id'];
+        $url = $modx->makeUrl($modx->resource->get('id'),'',$params);
+        $modx->sendRedirect($url);
     }
+    $placeholders['error'] = implode("<br />\n",$errors);
 }
 
 /* if css, output */
@@ -227,8 +229,6 @@ $comments = $modx->getCollection('quipComment',$c);
 $pagePlaceholders = array();
 
 /* iterate */
-$isModerator = $thread->checkPolicy('moderate');
-$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 $stillOpen = $thread->checkIfStillOpen($closeAfter) && !$modx->getOption('closed',$scriptProperties,false);
 $placeholders['comments'] = '';
 $alt = false;
@@ -236,7 +236,7 @@ $idx = 0;
 $commentList = array();
 foreach ($comments as $comment) {
     $commentArray = $comment->toArray();
-    if ($alt) { $commentArray['alt'] = $altRowCss; }
+    $commentArray['alt'] = $alt ? $altRowCss : 's';
     $commentArray['createdon'] = strftime($dateFormat,strtotime($comment->get('createdon')));
     $commentArray['url'] = $comment->makeUrl();
     $commentArray['idx'] = $idx;
@@ -271,12 +271,20 @@ foreach ($comments as $comment) {
             $commentArray['reported'] = 1;
         }
         if ($comment->get('author') == $modx->user->get('id') || $isModerator) {
+            $commentArray['removeUrl'] = $modx->makeUrl($modx->resource->get('id'),'',array(
+                'quip_comment' => $comment->get('id'),
+                $removeAction => true,
+            ));
             $commentArray['options'] = $quip->getChunk($commentOptionsTpl,$commentArray);
         } else {
             $commentArray['options'] = '';
         }
 
         if ($modx->getOption('allowReportAsSpam',$scriptProperties,true)) {
+            $commentArray['reportUrl'] = $modx->makeUrl($modx->resource->get('id'),'',array(
+                'quip_comment' => $comment->get('id'),
+                $reportAction => true,
+            ));
             $commentArray['report'] = $quip->getChunk($reportCommentTpl,$commentArray);
         }
     } else {
@@ -319,11 +327,6 @@ if ($useMargins) {
 } else {
     if ($modx->loadClass('QuipTreeParser',$quip->config['model_path'].'quip/',true,true)) {
         $quip->treeParser = new QuipTreeParser($quip);
-
-        $quip->treeParser->openItem = $modx->getOption('tplCommentLiOpen',$scriptProperties,'<li class="[[+class]]" id="[[+idprefix]][[+id]]">');
-        $quip->treeParser->closeItem = $modx->getOption('tplCommentLiClose',$scriptProperties,'</li>');
-        $quip->treeParser->openChildren = $modx->getOption('tplCommentOlOpen',$scriptProperties,'<ol class="[[+olClass]]">');
-        $quip->treeParser->closeChildren = $modx->getOption('tplCommentOlClose',$scriptProperties,'</ol>');
         
         $placeholders['comments'] = $quip->treeParser->parse($commentList,$commentTpl);
     }

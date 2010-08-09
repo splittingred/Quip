@@ -28,13 +28,19 @@
  * @subpackage processors
  */
 $errors = array();
-if (empty($_POST['id'])) {
+if (empty($_REQUEST['quip_comment'])) {
     $errors['message'] = $modx->lexicon('quip.comment_err_ns');
     return $errors;
 }
 
-$comment = $modx->getObject('quipComment',$_POST['id']);
+$comment = $modx->getObject('quipComment',$_REQUEST['quip_comment']);
 if (empty($comment)) { $errors['message'] = $modx->lexicon('quip.comment_err_nf'); return $errors; }
+
+/* only allow authors or moderators to remove comments */
+if ($comment->get('author') != $modx->user->get('id') && !$isModerator) {
+    $errors['message'] = $modx->lexicon('quip.comment_err_nf');
+    return $errors;
+}
 
 $comment->set('deleted',true);
 $comment->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));

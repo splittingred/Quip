@@ -303,7 +303,7 @@ $properties = array(
         'desc' => 'quip.prop_reportaction_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => 'quip-report',
+        'value' => 'quip_report',
         'lexicon' => 'quip:properties',
     ),
     array(
@@ -311,7 +311,7 @@ $properties = array(
         'desc' => 'quip.prop_removeaction_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => 'quip-remove',
+        'value' => 'quip_remove',
         'lexicon' => 'quip:properties',
     ),
     array(

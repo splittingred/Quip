@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 1.0.1
+======================================
+- Properly redid ol/li support to properly nest tags
+
 Quip 1.0.0
 ======================================
 - Added pagination support via the &limit property, as well as other templating options within pagination
