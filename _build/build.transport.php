@@ -192,6 +192,9 @@ $vehicle->resolve('php',array(
 $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'policy.resolver.php',
 ));
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'oldfiles.resolver.php',
+));
 $modx->log(modX::LOG_LEVEL_INFO,'Packaged in resolvers.'); flush();
 $builder->putVehicle($vehicle);
 

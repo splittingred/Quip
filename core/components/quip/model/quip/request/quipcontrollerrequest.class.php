@@ -65,9 +65,9 @@ class QuipControllerRequest extends modRequest {
         $modx =& $this->modx;
         $quip =& $this->quip;
 
-        $viewHeader = include $this->quip->config['core_path'].'controllers/mgr/header.php';
+        $viewHeader = include $this->quip->config['corePath'].'controllers/mgr/header.php';
 
-        $f = $this->quip->config['core_path'].'controllers/mgr/'.$this->action.'.php';
+        $f = $this->quip->config['corePath'].'controllers/mgr/'.$this->action.'.php';
         if (file_exists($f)) {
             $viewOutput = include $f;
         } else {

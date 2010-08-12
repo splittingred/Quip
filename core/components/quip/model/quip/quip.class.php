@@ -67,16 +67,17 @@ class Quip {
         $assetsUrl = $this->modx->getOption('quip.assets_url',null,$modx->getOption('assets_url').'components/quip/');
 
         $this->config = array_merge(array(
-            'core_path' => $corePath,
-            'model_path' => $corePath.'model/',
-            'processors_path' => $corePath.'processors/',
-            'controllers_path' => $corePath.'controllers/',
-            'chunks_path' => $corePath.'chunks/',
+            'corePath' => $corePath,
+            'modelPath' => $corePath.'model/',
+            'processorsPath' => $corePath.'processors/',
+            'controllersPath' => $corePath.'controllers/',
+            'chunksPath' => $corePath.'elements/chunks/',
+            'snippetsPath' => $corePath.'elements/snippets/',
 
-            'base_url' => $assetsUrl,
-            'css_url' => $assetsUrl.'css/',
-            'js_url' => $assetsUrl.'js/',
-            'connector_url' => $assetsUrl.'connector.php',
+            'baseUrl' => $assetsUrl,
+            'cssUrl' => $assetsUrl.'css/',
+            'jsUrl' => $assetsUrl.'js/',
+            'connectorUrl' => $assetsUrl.'connector.php',
 
             'thread' => '',
 
@@ -88,14 +89,9 @@ class Quip {
             'tplquipReport' => '',
         ),$config);
 
-        $this->modx->addPackage('quip',$this->config['model_path']);
+        $this->modx->addPackage('quip',$this->config['modelPath']);
         if ($this->modx->lexicon) {
             $this->modx->lexicon->load('quip:default');
-        }
-
-        /* load star rating if desired : not yet built in */
-        if ($this->modx->getOption('quip.useStarRating',null,false)) {
-            $this->modx->addPackage('star_rating',$this->modx->getOption('quip.starRating_path',null,$this->modx->getOption('assets_path').'components/star_rating/').'model/');
         }
 
         /* load debugging settings */
@@ -126,7 +122,7 @@ class Quip {
         $output = '';
         switch ($ctx) {
             case 'mgr':
-                if (!$this->modx->loadClass('quip.request.QuipControllerRequest',$this->config['model_path'],true,true)) {
+                if (!$this->modx->loadClass('quip.request.QuipControllerRequest',$this->config['modelPath'],true,true)) {
                     return 'Could not load controller request handler.';
                 }
                 $this->request = new QuipControllerRequest($this);
@@ -171,12 +167,14 @@ class Quip {
      *
      * @access private
      * @param string $name The name of the Chunk. Will parse to name.chunk.tpl
+     * @param string $suffix The suffix to postfix the chunk with
      * @return modChunk/boolean Returns the modChunk object if found, otherwise
      * false.
      */
-    private function _getTplChunk($name) {
+    private function _getTplChunk($name,$suffix = '.chunk.tpl') {
         $chunk = $name;
-        $f = $this->config['chunks_path'].strtolower($name).'.chunk.tpl';
+        $suffix = $this->modx->getOption('suffix',$this->config,$suffix);
+        $f = $this->config['modelPath'].strtolower($name).$suffix;
         if (file_exists($f)) {
             $o = file_get_contents($f);
             $chunk = $this->modx->newObject('modChunk');

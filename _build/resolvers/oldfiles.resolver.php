@@ -22,24 +22,21 @@
  * @package quip
  */
 /**
- * Cleans up after uninstall
+ * Remove old files
  *
  * @package quip
  * @subpackage build
  */
 if ($object->xpdo) {
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
-        case xPDOTransport::ACTION_UNINSTALL:
-            $objects = array(
-                'modSnippet' => array('name' => 'Quip'),
-                'modSnippet' => array('name' => 'QuipCount'),
-            );
-            foreach ($objects as $classKey => $criteria) {
-                $obj = $object->xpdo->getObject($classKey,$criteria);
-                if ($obj) {
-                    //$obj->remove();
-                }
-            }
+        case xPDOTransport::ACTION_UPGRADE:
+            $modx =& $object->xpdo;
+            $corePath = $modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/');
+            $modx->addPackage('quip',$corePath.'model/');
+
+            $opts = array('deleteTop' => true,'skipDirs' => false,'extensions' => '*');
+            $modx->cacheManager->deleteTree($corePath.'chunks/',$opts);
+            $modx->cacheManager->deleteTree($corePath.'snippets/',$opts);
             break;
     }
 }

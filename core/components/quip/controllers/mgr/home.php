@@ -27,9 +27,9 @@
  * @package quip
  * @subpackage controllers
  */
-$modx->regClientStartupScript($quip->config['js_url'].'widgets/comments.grid.js');
-$modx->regClientStartupScript($quip->config['js_url'].'widgets/threads.panel.js');
-$modx->regClientStartupScript($quip->config['js_url'].'sections/home.js');
+$modx->regClientStartupScript($quip->config['jsUrl'].'widgets/comments.grid.js');
+$modx->regClientStartupScript($quip->config['jsUrl'].'widgets/threads.panel.js');
+$modx->regClientStartupScript($quip->config['jsUrl'].'sections/home.js');
 $output = '<div id="quip-panel-home-div"></div>';
 
 return $output;

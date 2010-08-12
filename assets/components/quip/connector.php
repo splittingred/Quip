@@ -37,7 +37,7 @@ $modx->quip = new Quip($modx);
 $modx->lexicon->load('quip:default');
 
 /* handle request */
-$path = $modx->getOption('processors_path',$modx->quip->config,$quipCorePath.'processors/');
+$path = $modx->getOption('processorsPath',$modx->quip->config,$quipCorePath.'processors/');
 $modx->request->handleRequest(array(
     'processors_path' => $path,
     'location' => '',
