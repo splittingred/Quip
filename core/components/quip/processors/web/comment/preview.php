@@ -11,7 +11,7 @@ $errors = array();
 if (empty($_POST['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
 
 /* verify against spam */
-if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['model_path'],true,true)) {
+if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],true,true)) {
     $sfspam = new StopForumSpam($modx);
     $spamResult = $sfspam->check($_SERVER['REMOTE_ADDR'],$_POST['email']);
     if (!empty($spamResult)) {
@@ -36,7 +36,7 @@ if ($requireAuth) {
 $disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
 $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
-    $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['model_path'].'recaptcha/');
+    $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['modelPath'].'recaptcha/');
     if (!($recaptcha instanceof reCaptcha)) {
         $errors['recaptcha'] = $modx->lexicon('quip.recaptcha_err_load');
     } elseif (empty($recaptcha->config[reCaptcha::OPT_PRIVATE_KEY])) {

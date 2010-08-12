@@ -100,42 +100,6 @@ $sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
 $limit = $modx->getOption('quip_limit',$_REQUEST,$modx->getOption('limit',$scriptProperties,0));
 $start = $modx->getOption('quip_start',$_REQUEST,$modx->getOption('start',$scriptProperties,0));
 
-/* handle options */
-$removeAction = $modx->getOption('removeAction',$scriptProperties,'quip_remove');
-$reportAction = $modx->getOption('reportAction',$scriptProperties,'quip_report');
-$isModerator = $thread->checkPolicy('moderate');
-$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
-
-/* handle remove post */
-if (!empty($_REQUEST[$removeAction])) {
-    $errors = include_once $quip->config['processors_path'].'web/comment/remove.php';
-    print_r($errors);
-    if (empty($errors)) {
-        $params = $modx->request->getParameters();
-        unset($params[$removeAction],$params['quip_comment']);
-        $url = $modx->makeUrl($modx->resource->get('id'),'',$params);
-        $modx->sendRedirect($url);
-    }
-    $placeholders['error'] = implode("<br />\n",$errors);
-}
-/* handle report spam */
-if (!empty($_REQUEST[$reportAction]) && $modx->getOption('allowReportAsSpam',$scriptProperties,true)) {
-    $errors = include_once $quip->config['processors_path'].'web/comment/report.php';
-    if (empty($errors)) {
-        $params = $modx->request->getParameters();
-        unset($params['quip_report'],$params['quip_comment']);
-        $params['reported'] = $_POST['id'];
-        $url = $modx->makeUrl($modx->resource->get('id'),'',$params);
-        $modx->sendRedirect($url);
-    }
-    $placeholders['error'] = implode("<br />\n",$errors);
-}
-
-/* if css, output */
-if ($modx->getOption('useCss',$scriptProperties,true)) {
-    $modx->regClientCSS($quip->config['css_url'].'web.css');
-}
-
 /* ensure thread exists, set thread properties if changed
  * (prior to 0.5.0 threads will be handled in install resolver) */
 if (!$thread) {
@@ -159,6 +123,43 @@ if (!$thread) {
     $thread->sync($scriptProperties);
 }
 unset($threadPK);
+
+/* handle options */
+$removeAction = $modx->getOption('removeAction',$scriptProperties,'quip_remove');
+$reportAction = $modx->getOption('reportAction',$scriptProperties,'quip_report');
+$isModerator = $thread->checkPolicy('moderate');
+$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
+
+/* handle remove post */
+if (!empty($_REQUEST[$removeAction])) {
+    $errors = include_once $quip->config['processorsPath'].'web/comment/remove.php';
+    print_r($errors);
+    if (empty($errors)) {
+        $params = $modx->request->getParameters();
+        unset($params[$removeAction],$params['quip_comment']);
+        $url = $modx->makeUrl($modx->resource->get('id'),'',$params);
+        $modx->sendRedirect($url);
+    }
+    $placeholders['error'] = implode("<br />\n",$errors);
+}
+/* handle report spam */
+if (!empty($_REQUEST[$reportAction]) && $modx->getOption('allowReportAsSpam',$scriptProperties,true)) {
+    $errors = include_once $quip->config['processorsPath'].'web/comment/report.php';
+    if (empty($errors)) {
+        $params = $modx->request->getParameters();
+        unset($params['quip_report'],$params['quip_comment']);
+        $params['reported'] = $_POST['id'];
+        $url = $modx->makeUrl($modx->resource->get('id'),'',$params);
+        $modx->sendRedirect($url);
+    }
+    $placeholders['error'] = implode("<br />\n",$errors);
+}
+
+/* if css, output */
+if ($modx->getOption('useCss',$scriptProperties,true)) {
+    $modx->regClientCSS($quip->config['cssUrl'].'web.css');
+}
+/* set idprefix */
 $placeholders['idprefix'] = $thread->get('idprefix');
 
 /* if pagination is on, get IDs of root comments so can limit properly */
@@ -325,7 +326,7 @@ if ($useMargins) {
         $placeholders['comments'] .= $quip->getChunk($commentTpl,$commentArray);
     }
 } else {
-    if ($modx->loadClass('QuipTreeParser',$quip->config['model_path'].'quip/',true,true)) {
+    if ($modx->loadClass('QuipTreeParser',$quip->config['modelPath'].'quip/',true,true)) {
         $quip->treeParser = new QuipTreeParser($quip);
         
         $placeholders['comments'] = $quip->treeParser->parse($commentList,$commentTpl);

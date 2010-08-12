@@ -81,11 +81,13 @@ if (!empty($_POST)) {
     $allowedTags = $modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
     
     if (!empty($_POST[$postAction])) {
-        $comment = include_once $quip->config['processors_path'].'web/comment/create.php';
+        $comment = include_once $quip->config['processorsPath'].'web/comment/create.php';
         if (is_object($comment) && $comment instanceof quipComment) {
-            $url = $comment->makeUrl('',array(
-                'quip_approved' => $comment->get('approved') ? 1 : 0,
-            ));
+            $params = $modx->request->getParameters();
+            unset($params[$postAction]);
+            $params['quip_approved'] = $comment->get('approved') ? 1 : 0;
+            $url = $comment->makeUrl('',$params);
+
             /* if not approved, remove # and replace with success message #
              * since comment is not yet visible
              */
@@ -99,7 +101,7 @@ if (!empty($_POST)) {
     }
     /* handle preview */
     if (!empty($_POST[$previewAction])) {
-        $errors = include_once $quip->config['processors_path'].'web/comment/preview.php';
+        $errors = include_once $quip->config['processorsPath'].'web/comment/preview.php';
     }
 }
 if (isset($_GET['quip_approved']) && $_GET['quip_approved'] == 0) {
@@ -109,7 +111,7 @@ if (isset($_GET['quip_approved']) && $_GET['quip_approved'] == 0) {
 /* if using recaptcha, load recaptcha html if user is not logged in */
 $disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
 if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
-    $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['model_path'].'recaptcha/');
+    $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['modelPath'].'recaptcha/');
     if ($recaptcha instanceof reCaptcha) {
         $html = $recaptcha->getHtml();
         $modx->setPlaceholder('quip.recaptcha_html',$html);

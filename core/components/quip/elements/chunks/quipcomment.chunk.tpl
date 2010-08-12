@@ -21,6 +21,7 @@
         [[+report]]
         [[+options]]
     </div>
+    <div class="quip-break"></div>
 </div>
     [[+children:notempty=`<ol class="quip-comment-list">[[+children]]</ol>`]]
 </li>

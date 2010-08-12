@@ -40,7 +40,7 @@ if ($requireAuth && $_POST['author'] != $modx->user->get('id')) {
 }
 
 /* verify against spam */
-if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['model_path'],true,true)) {
+if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],true,true)) {
     $sfspam = new StopForumSpam($modx);
     $spamResult = $sfspam->check($_SERVER['REMOTE_ADDR'],$_POST['email']);
     if (!empty($spamResult)) {

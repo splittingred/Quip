@@ -174,7 +174,7 @@ class Quip {
     private function _getTplChunk($name,$suffix = '.chunk.tpl') {
         $chunk = $name;
         $suffix = $this->modx->getOption('suffix',$this->config,$suffix);
-        $f = $this->config['modelPath'].strtolower($name).$suffix;
+        $f = $this->config['chunksPath'].strtolower($name).$suffix;
         if (file_exists($f)) {
             $o = file_get_contents($f);
             $chunk = $this->modx->newObject('modChunk');
