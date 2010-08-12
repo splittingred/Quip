@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 1.0.2
+======================================
+- Restructured elements in package, cleaned up old files
+
 Quip 1.0.1
 ======================================
 - Properly redid ol/li support to properly nest tags

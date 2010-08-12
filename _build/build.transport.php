@@ -36,8 +36,8 @@ set_time_limit(0);
 /* define package */
 define('PKG_NAME','Quip');
 define('PKG_NAME_LOWER','quip');
-define('PKG_VERSION','1.0.1');
-define('PKG_RELEASE','pl');
+define('PKG_VERSION','1.0.2');
+define('PKG_RELEASE','rc1');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)).'/';
