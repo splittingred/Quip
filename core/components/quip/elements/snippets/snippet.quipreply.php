@@ -84,7 +84,7 @@ if (!empty($_POST)) {
         $comment = include_once $quip->config['processorsPath'].'web/comment/create.php';
         if (is_object($comment) && $comment instanceof quipComment) {
             $params = $modx->request->getParameters();
-            unset($params[$postAction]);
+            unset($params[$postAction],$params['quip_parent'],$params['quip_thread']);
             $params['quip_approved'] = $comment->get('approved') ? 1 : 0;
             $url = $comment->makeUrl('',$params);
 

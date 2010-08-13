@@ -201,7 +201,7 @@ class Quip {
         $curPage = $options['start'] / $options['limit'];
         $pages = '';
 
-        $params = $_GET;
+        $params = $this->modx->request->getParameters();
         unset($params[$this->modx->getOption('request_param_alias',null,'q')]);
 
         $tplItem = $this->modx->getOption('tplPaginationItem',$options,'quipPaginationItem');
