@@ -22,7 +22,8 @@
  * @package quip
  */
 /**
- * Quip properties English language file
+ * Quip properties German language file
+ * (Not yet) Translated by Dennis "DenSchub" Schubert <software@dsx.cc>
  *
  * @package quip
  * @subpackage lexicon
