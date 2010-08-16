@@ -22,40 +22,23 @@
  * @package quip
  */
 /**
+ * Translated by Dennis "DenSchub" Schubert <software@dsx.cc>
+ *
  * @package quip
  * @subpackage lexicon
  */
-$_lang['quip.email_comment_approved'] = '<p>Hello [[+name]],</p>
+$_lang['quip.email_comment_approved'] = '<p>Hallo [[+name]],</p>
 
-<p>Your comment has been approved. You can view it here:</p>
-
-<p><a href="[[+url]]">[[+url]]</a></p>
-
-<p>Thanks,<br />
-<em>Quip</em></p>';
-$_lang['quip.email_comment_approved_subject'] = '[Quip] Your Comment Has Been Approved';
-$_lang['quip.email_notify'] = '<p>Hello,</p>
-
-<p>A new comment by [[+name]] has been posted at:</p>
+<p>Ihr Kommentar wurde genehmigt, Sie können ihn hier anschauen:</p>
 
 <p><a href="[[+url]]">[[+url]]</a></p>
 
-<p>----------------------------------------------------</p>
-
-<p>[[+body]]</p>
-
-<p>----------------------------------------------------</p>
-
-<p>This is an automated email. Please do not reply directly. The
-comment\'s ID is: <strong>[[+id]]</strong> on the thread "[[+thread]]".</p>
-
-<p>
-Thanks,<br />
+<p>Danke,<br />
 <em>Quip</em></p>';
-$_lang['quip.email_notify_subject'] = '[Quip] New Reply Posted';
-$_lang['quip.email_moderate'] = '<p>Hello,</p>
+$_lang['quip.email_comment_approved_subject'] = '[Quip] Ihr Kommentar wurde genehmigt';
+$_lang['quip.email_notify'] = '<p>Hallo,</p>
 
-<p>A new comment by [[+name]] is in need of moderation. It has been posted at:</p>
+<p>Ein neuer Kommentar von [[+name]] wurde geschrieben:</p>
 
 <p><a href="[[+url]]">[[+url]]</a></p>
 
@@ -65,12 +48,31 @@ $_lang['quip.email_moderate'] = '<p>Hello,</p>
 
 <p>----------------------------------------------------</p>
 
-<p><a href="[[+approveUrl]]">Approve Comment</a> | <a href="[[+rejectUrl]]">Delete Comment</a> | <a href="[[+unapprovedUrl]]">Unapproved Comments</a></p>
-
-<p>This is an automated email. Please do not reply directly. The
-comment\'s ID is: <strong>[[+id]]</strong> on the thread "[[+thread]]".</p>
+<p>Dies ist eine automatisch generierte eMail, bitte nicht direkt antworten. Die ID des
+Kommentars ist: <strong>[[+id]]</strong> im Thread "[[+thread]]".</p>
 
 <p>
-Thanks,<br />
+Danke,<br />
 <em>Quip</em></p>';
-$_lang['quip.email_moderate_subject'] = '[Quip] New Post in Need of Moderation';
+$_lang['quip.email_notify_subject'] = '[Quip] Neue Antwort geschrieben';
+$_lang['quip.email_moderate'] = '<p>Hallo,</p>
+
+<p>Ein neuer Kommentar von [[+name]] wartet auf Moderation. Es wurde geschrieben in:</p>
+
+<p><a href="[[+url]]">[[+url]]</a></p>
+
+<p>----------------------------------------------------</p>
+
+<p>[[+body]]</p>
+
+<p>----------------------------------------------------</p>
+
+<p><a href="[[+approveUrl]]">Genehmigen</a> | <a href="[[+rejectUrl]]">Löschen</a> | <a href="[[+unapprovedUrl]]">Ungenehmigte Kommentare</a></p>
+
+<p>Dies ist eine automatisch generierte eMail, bitte nicht direkt antworten. Die ID des
+Kommentars ist: <strong>[[+id]]</strong> im Thread "[[+thread]]".</p>
+
+<p>
+Danke,<br />
+<em>Quip</em></p>';
+$_lang['quip.email_moderate_subject'] = '[Quip] Neuer Kommentar wartet auf Moderation';
