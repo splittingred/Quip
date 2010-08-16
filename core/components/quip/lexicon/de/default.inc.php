@@ -52,91 +52,90 @@ $_lang['quip.comment_approved_msg'] = 'Der Kommentar von [[+name]] vom [[+create
 $_lang['quip.comment_delete'] = 'Kommentar löschen';
 $_lang['quip.comment_deleted'] = 'Kommentar gelöscht';
 $_lang['quip.comment_deleted_msg'] = 'Der Kommentar von [[+name]] vom [[+createdon]] wurde gelöscht.';
-$_lang['quip.comment_delete_confirm'] = 'Are you sure you want to delete this comment?';
-$_lang['quip.comment_err_nf'] = 'Comment not found.';
-$_lang['quip.comment_err_ns'] = 'Comment not specified.';
-$_lang['quip.comment_err_remove'] = 'An error occurred while trying to remove the comment.';
-$_lang['quip.comment_err_save'] = 'An error occurred while trying to save the comment.';
-$_lang['quip.comment_remove'] = 'Permanently Remove Comment';
-$_lang['quip.comment_remove_confirm'] = 'Are you sure you want to permanently remove this comment? This cannot be undone.';
-$_lang['quip.comment_unapprove'] = 'Unapprove Comment';
-$_lang['quip.comment_undelete'] = 'Undelete Comment';
-$_lang['quip.comment_update'] = 'Update Comment';
-$_lang['quip.comment_view'] = 'View Comment';
-$_lang['quip.comment_will_be_moderated'] = 'Your comment has been submitted, and is now awaiting moderation. You will receive an email when your comment has been approved.';
-$_lang['quip.comments'] = 'Comments';
-$_lang['quip.delete'] = 'Delete';
-$_lang['quip.delete_selected'] = 'Delete Selected';
-$_lang['quip.email'] = 'Email';
-$_lang['quip.email_err_ns'] = 'Please specify an email address.';
-$_lang['quip.err_fraud_attempt'] = 'Error: IDs of users do not match. Fraud attempt detected.';
-$_lang['quip.err_not_logged_in'] = 'You are not logged in and therefore are not authorized to post comments.';
-$_lang['quip.hide_deleted'] = 'Hide Deleted';
-$_lang['quip.intro_msg'] = 'Manage your Quip comments and threads here.';
+$_lang['quip.comment_delete_confirm'] = 'Sind Sie sich sicher, den Kommentar zu löschen?';
+$_lang['quip.comment_err_nf'] = 'Kommentar nicht gefunden.';
+$_lang['quip.comment_err_ns'] = 'Kommentar nicht gewählt.';
+$_lang['quip.comment_err_remove'] = 'Ein Fehler ist beim Löschen aufgetreten.';
+$_lang['quip.comment_err_save'] = 'Ein Fehler beim Speichern ist aufgetreten.';
+$_lang['quip.comment_remove'] = 'Kommentar permanent löschen';
+$_lang['quip.comment_remove_confirm'] = 'Sind Sie sicher, diesen Kommentar permanent zu löschen? Es gibt kein Zurück!';
+$_lang['quip.comment_unapprove'] = 'Genehmigung widerrufen';
+$_lang['quip.comment_undelete'] = 'Kommentar wiederherstellen';
+$_lang['quip.comment_update'] = 'Kommentar aktualisiseren';
+$_lang['quip.comment_view'] = 'Kommentar anzeigen';
+$_lang['quip.comment_will_be_moderated'] = 'Ihr Kommentar wurde abgeschickt und wartet nun auf Moderation. Sie werden eine eMail erhalten, wenn dre Kommentar genehmigt wurde.';
+$_lang['quip.comments'] = 'Kommentare';
+$_lang['quip.delete'] = 'Löschen';
+$_lang['quip.delete_selected'] = 'Gewählte löschen';
+$_lang['quip.email'] = 'eMail';
+$_lang['quip.email_err_ns'] = 'Bitte geben Sie eine eMail-Adresse ein.';
+$_lang['quip.err_fraud_attempt'] = 'Fehler: Benutzer-IDs stimmen nicht überein. Betrugsversuch ermittelt.';
+$_lang['quip.err_not_logged_in'] = 'Sie sind nicht angemeldet und deshalb nicht befugt, Kommentare zu schreiben.';
+$_lang['quip.hide_deleted'] = 'Gelöschte Ausblenden';
+$_lang['quip.intro_msg'] = 'Verwalten Sie Kommentare und Threads hier.';
 $_lang['quip.ip'] = 'IP';
-$_lang['quip.latest_comments'] = 'Latest Comments';
-$_lang['quip.latest_comments_msg'] = 'View the latest posted comments here.';
-$_lang['quip.login_to_comment'] = 'Please login to comment.';
-$_lang['quip.message_err_ns'] = 'Please specify a message to post.';
-$_lang['quip.moderated'] = 'Moderated';
-$_lang['quip.moderated_desc'] = 'New posts to this thread will be moderated.';
-$_lang['quip.moderators'] = 'Moderators';
-$_lang['quip.moderators_desc'] = 'A comma-separated list of usernames who can moderate this thread.';
-$_lang['quip.moderator_group'] = 'Moderator Group';
-$_lang['quip.moderator_group_desc'] = 'A User Group whose members can moderate this thread.';
+$_lang['quip.latest_comments'] = 'Neuste Kommentare';
+$_lang['quip.latest_comments_msg'] = 'Die neusten Kommentare anzeigen lassen.';
+$_lang['quip.login_to_comment'] = 'Bitte zum Kommentieren anmelden.';
+$_lang['quip.message_err_ns'] = 'Bitte geben Sie eine Nachricht ein.';
+$_lang['quip.moderated'] = 'Moderiert';
+$_lang['quip.moderated_desc'] = 'Neue Beiträge zu diesem Thread werden moderiert.';
+$_lang['quip.moderators'] = 'Moderatoren';
+$_lang['quip.moderators_desc'] = 'Eine kommagetrennte Liste von Benutzern, die moderieren dürfen.';
+$_lang['quip.moderator_group'] = 'Moderatorengruppe';
+$_lang['quip.moderator_group_desc'] = 'Eine Benutuzergruppe, die moderieren darf.';
 $_lang['quip.name'] = 'Name';
-$_lang['quip.name_err_ns'] = 'Please specify a name.';
-$_lang['quip.no_email_to_specified'] = 'Quip cannot send a spam report email because no admin email was specified.';
-$_lang['quip.notify_me'] = 'Notify of New Replies';
-$_lang['quip.post'] = 'Post';
-$_lang['quip.posted'] = 'Posted';
-$_lang['quip.postedon'] = 'Posted On';
-$_lang['quip.preview'] = 'Preview';
-$_lang['quip.recaptcha_err_load'] = 'Could not load reCaptcha service class.';
-$_lang['quip.reply'] = 'Reply';
-$_lang['quip.remove'] = 'Remove';
-$_lang['quip.remove_selected'] = 'Remove Selected';
-$_lang['quip.report_as_spam'] = 'Report as Spam';
-$_lang['quip.reported_as_spam'] = 'Reported as Spam';
-$_lang['quip.sfs_err_load'] = 'Could not load StopForumSpam class.';
-$_lang['quip.show_deleted'] = 'Show Deleted';
-$_lang['quip.spam_blocked'] = 'Your submission was blocked by a spam filter: [[+fields]]';
-$_lang['quip.spam_email'] = '<p>Hello,</p>
+$_lang['quip.name_err_ns'] = 'Bitte geben Sie einen Namen ein.';
+$_lang['quip.no_email_to_specified'] = 'Quip kann keine Spam-Report-eMail senden weil keine Admin-eMail-Adresse gespeichert ist.';
+$_lang['quip.notify_me'] = 'Bei neuen Antworten benachrichtiten';
+$_lang['quip.post'] = 'Absenden';
+$_lang['quip.posted'] = 'Abgesendet';
+$_lang['quip.postedon'] = 'Geschrieben am';
+$_lang['quip.preview'] = 'Vorschau';
+$_lang['quip.recaptcha_err_load'] = 'Konnte die reCaptcha-Service-Class nicht laden.';
+$_lang['quip.reply'] = 'Antworten';
+$_lang['quip.remove'] = 'Löschen';
+$_lang['quip.remove_selected'] = 'Gewählte löschen';
+$_lang['quip.report_as_spam'] = 'Als Spam melden';
+$_lang['quip.reported_as_spam'] = 'Als Spam gemeldet';
+$_lang['quip.sfs_err_load'] = 'Konnte die StopForumSpam-Klasse nicht laden.';
+$_lang['quip.show_deleted'] = 'Zeige gelöschte.';
+$_lang['quip.spam_blocked'] = 'Deine Anfrage wurde von einem Spamfilter blockiert: [[+fields]]';
+$_lang['quip.spam_email'] = '<p>Hallo,</p>
 
-<p>A comment by [[+username]] has been reported as spam at:</p>
+<p>Ein Kommentar von [[+username]] wurde als Spam markiert:</p>
 
 <p><a href="[[+url]]">[[+url]]</a></p>
 
-<p>This is an automated email. Please do not reply directly. The
-comment\'s ID is: <strong>[[+id]]</strong></p>
+<p>Das ist eine automatisch generierte eMail, bitte nicht direkt antworten. Die Kommentar-ID ist: <strong>[[+id]]</strong></p>
 
 <p>
-Thanks,<br />
+Danke,<br />
 <em>Quip</em>
 </p>';
-$_lang['quip.spam_email_subject'] = '[Quip] Comment Spam Reported';
-$_lang['quip.spam_marked'] = ' - marked as spam.';
+$_lang['quip.spam_email_subject'] = '[Quip] Kommentarspam gemeldet';
+$_lang['quip.spam_marked'] = ' - markiert als Spam.';
 $_lang['quip.thread'] = 'Thread';
-$_lang['quip.thread_autoclosed'] = 'This thread has been closed from taking new comments.';
-$_lang['quip.thread_err_ns'] = 'No thread specified.';
-$_lang['quip.thread_manage'] = 'Manage Thread';
-$_lang['quip.thread_msg'] = 'Here you can manage all the comments for this particular thread.';
-$_lang['quip.thread_truncate'] = 'Truncate Thread';
-$_lang['quip.thread_truncate_confirm'] = 'Are you sure you want to remove all comments in this thread?';
+$_lang['quip.thread_autoclosed'] = 'Dieser Thread wurde geschlossen.';
+$_lang['quip.thread_err_ns'] = 'Kein thread gewählt.';
+$_lang['quip.thread_manage'] = 'Thread verwalten';
+$_lang['quip.thread_msg'] = 'Hier können Sie alle Kommentare für diesen Thread verwalten.';
+$_lang['quip.thread_truncate'] = 'Thread vernichten';
+$_lang['quip.thread_truncate_confirm'] = 'Sind Sie sich sicher, alle Kommentare dieses Threads zu löschen?';
 $_lang['quip.threads'] = 'Threads';
-$_lang['quip.unapproved'] = 'Unapproved';
-$_lang['quip.unapproved_comments'] = 'Unapproved Comments';
-$_lang['quip.unapproved_comments_msg'] = 'Moderate any unapproved comments here.';
-$_lang['quip.username_said'] = '<strong>[[+username]]</strong> said:';
-$_lang['quip.view'] = 'View';
+$_lang['quip.unapproved'] = 'Ungenehmigt';
+$_lang['quip.unapproved_comments'] = 'Ungenehmigte Kommentare';
+$_lang['quip.unapproved_comments_msg'] = 'Ungenehmigte Kommentare moderieren.';
+$_lang['quip.username_said'] = '<strong>[[+username]]</strong> sagt:';
+$_lang['quip.view'] = 'Anzeigen';
 $_lang['quip.website'] = 'Website';
 
 $_lang['area_tags'] = 'Tags';
-$_lang['setting_quip.allowed_tags'] = 'Allowed Tags';
-$_lang['setting_quip.allowed_tags_desc'] = 'The tags allowed by users in comment posting. See <a target="_blank" href="http://php.net/strip_tags">php.net/strip_tags</a> for a list of acceptable values.';
-$_lang['setting_quip.emailsFrom'] = 'From Email';
-$_lang['setting_quip.emailsFrom_desc'] = 'The email address to send system emails from.';
-$_lang['setting_quip.emailsTo'] = 'To Email';
-$_lang['setting_quip.emailsTo_desc'] = 'The email address to send system emails to.';
-$_lang['setting_quip.emailsReplyTo'] = 'Reply-To Email';
-$_lang['setting_quip.emailsReplyTo_desc'] = 'The email address to set the reply-to to. Defaults to emailFrom.';
+$_lang['setting_quip.allowed_tags'] = 'Erlaubte Tags';
+$_lang['setting_quip.allowed_tags_desc'] = 'Diese Tags werden benutzern beim Kommentieren erlaubt. Siehe <a target="_blank" href="http://php.net/strip_tags">php.net/strip_tags</a> für eine Liste aller verfügbaren Werte,';
+$_lang['setting_quip.emailsFrom'] = 'Von eMail';
+$_lang['setting_quip.emailsFrom_desc'] = 'Die eMail-Adresse, von der das System eMails schickt.';
+$_lang['setting_quip.emailsTo'] = 'An eMail';
+$_lang['setting_quip.emailsTo_desc'] = 'Die eMail-Adresse, an welche die eMails gehen';
+$_lang['setting_quip.emailsReplyTo'] = 'Antwort an-eMail';
+$_lang['setting_quip.emailsReplyTo_desc'] = 'Die eMail-Adresse, an die Antworten verschickt werden.';
