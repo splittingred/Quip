@@ -2,6 +2,8 @@ Changelog for Quip.
 
 Quip 1.0.2
 ======================================
+- Fixed bug with allowRemove parameter
+- Fixed bug with ago filter in QuipLatestComments snippet
 - Fixed bug where request parameters werent persisting on links in quip comments
 - Fixed issue where thread was not retrieved before form processing
 - Fixed issue with GET params in approved request
