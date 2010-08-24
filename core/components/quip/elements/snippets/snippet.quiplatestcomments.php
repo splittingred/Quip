@@ -79,6 +79,13 @@ switch ($type) {
             'quipComment.thread' => $scriptProperties['thread'],
         ));
         break;
+    case 'family':
+        if (empty($scriptProperties['family'])) return '';
+        $c = $modx->newQuery('quipComment');
+        $c->where(array(
+            'quipComment.thread:LIKE' => $scriptProperties['family'],
+        ));
+        break;
     case 'all':
     default:
         break;

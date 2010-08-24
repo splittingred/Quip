@@ -35,6 +35,7 @@ $properties = array(
         'options' => array(
             array('name' => 'quip.all','value' => 'all'),
             array('name' => 'quip.thread','value' => 'thread'),
+            array('name' => 'quip.family','value' => 'family'),
             array('name' => 'quip.user','value' => 'user'),
         ),
         'value' => 'all',
@@ -59,6 +60,14 @@ $properties = array(
     array(
         'name' => 'user',
         'desc' => 'quip.prop_late_user_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
+        'name' => 'family',
+        'desc' => 'quip.prop_late_family_desc',
         'type' => 'textfield',
         'options' => '',
         'value' => '',

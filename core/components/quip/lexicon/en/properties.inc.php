@@ -33,6 +33,7 @@ $_lang['quip.ascending'] = 'Ascending';
 $_lang['quip.author'] = 'Author';
 $_lang['quip.comment'] = 'Comment';
 $_lang['quip.descending'] = 'Descending';
+$_lang['quip.family'] = 'Family';
 $_lang['quip.thread'] = 'Thread';
 $_lang['quip.user'] = 'User';
 
@@ -130,8 +131,9 @@ $_lang['quip.prop_late_striptags_desc'] = 'If set to true, tags will be stripped
 $_lang['quip.prop_late_thread_desc'] = 'The thread ID to pull from. Only if type is set to Thread.';
 $_lang['quip.prop_late_toplaceholder_desc'] = 'If set, will output the content to the placeholder specified in this property, rather than outputting the content directly.';
 $_lang['quip.prop_late_tpl_desc'] = 'The chunk tpl to use for each row.';
-$_lang['quip.prop_late_type_desc'] = 'Whether to grab a list from all comments, per thread, or per user.';
+$_lang['quip.prop_late_type_desc'] = 'Whether to grab a list from all comments, per thread, per family of threads, or per user.';
 $_lang['quip.prop_late_user_desc'] = 'The User ID or username to pull from. Only if type is set to User.';
+$_lang['quip.prop_late_family_desc'] = 'The family of threads to pull from. Only if type is set to Family.';
 
 /* QuipCount */
 $_lang['quip.prop_count_thread_desc'] = 'The thread ID to pull from. Only if type is set to Thread.';
