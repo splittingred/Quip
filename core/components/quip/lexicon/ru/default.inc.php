@@ -22,7 +22,7 @@
  * @package quip
  */
 /**
- * Quip English language file
+ * Quip Russian language file
  *
  * @package quip
  * @subpackage lexicon
@@ -46,7 +46,11 @@ $_lang['quip.close'] = 'Закрыть';
 $_lang['quip.comment'] = 'Комментарий';
 $_lang['quip.comment_add_new'] = 'Добавить новый комментарий:';
 $_lang['quip.comment_approve'] = 'Утвердить комментарий';
+$_lang['quip.comment_approved'] = 'Comment Approved';
+$_lang['quip.comment_approved_msg'] = 'The comment by [[+name]] on [[+createdon]] has been successfully approved.';
 $_lang['quip.comment_delete'] = 'Удалить комментарий';
+$_lang['quip.comment_deleted'] = 'Comment Deleted';
+$_lang['quip.comment_deleted_msg'] = 'The comment by [[+name]] on [[+createdon]] has been successfully deleted.';
 $_lang['quip.comment_delete_confirm'] = 'Вы уверены, что хотите удалить этот комментарий?';
 $_lang['quip.comment_err_nf'] = 'Комментарий не найден.';
 $_lang['quip.comment_err_ns'] = 'Комментарий не указан.';
