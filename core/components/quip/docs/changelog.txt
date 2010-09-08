@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.1.0
 ======================================
+- Fixed bug with font-style in web css
 - Allow QuipCount to take 'user,thread' to simultaneously find all comments by a user in a thread
 - Added "family" option to QuipCount
 - Added theme ability to recaptcha with recaptchaTheme property on QuipReply

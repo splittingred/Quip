@@ -90,7 +90,7 @@ ol.quip-children {
 span.quip-allowed-tags {
     font-weight: normal;
     font-size: 11px;
-    font-style: none;
+    font-style: normal;
     float: right;
     }
 .quip-add-comment .textarea {
