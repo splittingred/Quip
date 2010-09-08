@@ -113,7 +113,8 @@ $disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',
 if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
     $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['modelPath'].'recaptcha/');
     if ($recaptcha instanceof reCaptcha) {
-        $html = $recaptcha->getHtml();
+        $recaptchaTheme = $modx->getOption('recaptchaTheme',$scriptProperties,'clean');
+        $html = $recaptcha->getHtml($recaptchaTheme);
         $modx->setPlaceholder('quip.recaptcha_html',$html);
     } else {
         return $modx->lexicon('quip.recaptcha_err_load');

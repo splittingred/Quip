@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.1.0
 ======================================
+- Added theme ability to recaptcha with recaptchaTheme property on QuipReply
 - Added "family" option to QuipLatestComments
 - Added QuipResourceCleaner plugin, which removes threads when their Resource has been removed
 

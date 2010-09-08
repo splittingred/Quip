@@ -100,13 +100,13 @@ class reCaptcha {
      * Gets the challenge HTML (javascript and non-javascript version).
      * This is called from the browser, and the resulting reCAPTCHA HTML widget
      * is embedded within the HTML form it was called from.
-     * @param string $pubkey A public key for reCAPTCHA
+     * @param string $theme The theme to use
      * @param string $error The error given by reCAPTCHA (optional, default is null)
      * @param boolean $use_ssl Should the request be made over ssl? (optional, default is false)
 
      * @return string - The HTML to be embedded in the user's form.
      */
-    public function getHtml($error = null) {
+    public function getHtml($theme = 'clean',$error = null) {
         if (empty($this->config[reCaptcha::OPT_PUBLIC_KEY])) {
             return $this->error($this->modx->lexicon('recaptcha.no_api_key'));
         }
@@ -118,7 +118,11 @@ class reCaptcha {
         if ($error) {
            $errorpart = "&amp;error=" . $error;
         }
-        return '<script type="text/javascript" src="'. $server . 'challenge?k=' . $this->config[reCaptcha::OPT_PUBLIC_KEY] . $errorpart . '"></script>
+        $opt = array(
+            'theme' => $theme,
+            'lang' => $this->modx->getOption('cultureKey',null,'en'),
+        );
+        return '<script type="text/javascript">var RecaptchaOptions = '.$this->modx->toJSON($opt).';</script><script type="text/javascript" src="'. $server . 'challenge?k=' . $this->config[reCaptcha::OPT_PUBLIC_KEY] . $errorpart . '"></script>
         <noscript>
                 <iframe src="'. $server . 'noscript?k=' . $this->config[reCaptcha::OPT_PUBLIC_KEY] . $errorpart . '" height="300" width="500" frameborder="0"></iframe><br/>
                 <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
