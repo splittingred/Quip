@@ -141,7 +141,8 @@ $_lang['quip.prop_late_user_desc'] = 'The User ID or username to pull from. Only
 $_lang['quip.prop_late_family_desc'] = 'The family of threads to pull from. Only if type is set to Family.';
 
 /* QuipCount */
-$_lang['quip.prop_count_thread_desc'] = 'The thread ID to pull from. Only if type is set to Thread.';
+$_lang['quip.prop_count_thread_desc'] = 'The thread ID to pull from. Only if type contains `thread`.';
 $_lang['quip.prop_count_toplaceholder_desc'] = 'If set, will output the content to the placeholder specified in this property, rather than outputting the content directly.';
-$_lang['quip.prop_count_type_desc'] = 'If set to Thread, will count the # of comments in a thread. If set to User, will grab # of total comments by a User.';
-$_lang['quip.prop_count_user_desc'] = 'The User ID or username to pull from. Only if type is set to User.';
+$_lang['quip.prop_count_type_desc'] = 'If contains `thread`, will count the # of comments in a thread. If contains `user`, will grab # of total comments by a User. Supports a comma-delimited list of types.';
+$_lang['quip.prop_count_user_desc'] = 'The User ID or username to pull from. Only if type contains `user`.';
+$_lang['quip.prop_count_family_desc'] = 'The family of threads to pull from. Only if type contains `family`.';

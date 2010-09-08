@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
+ * Copyright 2010 by Shaun McCormick <shaun@modx.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -27,41 +27,47 @@
  * Gets the total # of comments in a thread or by a user.
  *
  * @name QuipCount
- * @author Shaun McCormick <shaun@modxcms.com>
+ * @author Shaun McCormick <shaun@modx.com>
  * @package quip
  */
-if (empty($scriptProperties['thread'])) { return ''; }
 $quip = $modx->getService('quip','Quip',$modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/quip/',$scriptProperties);
 if (!($quip instanceof Quip)) return '';
 
 $type = $modx->getOption('type',$scriptProperties,'thread');
+$type = explode(',',$type);
 
 $total = 0;
 $c = $modx->newQuery('quipComment');
 
-switch ($type) {
-    case 'user':
-        if (empty($scriptProperties['user'])) return 0;
-        
-        $c->innerJoin('modUser','Author');
-        if (is_numeric($scriptProperties['user'])) {
-            $c->where(array(
-                'Author.id' => $scriptProperties['user'],
-            ));
-        } else {
-            $c->where(array(
-                'Author.username' => $scriptProperties['user'],
-            ));
-        }
-        break;
-    case 'thread':
-    default:
-        if (empty($scriptProperties['thread'])) return 0;
+/* filter by user */
+if (in_array('user',$type)) {
+    if (empty($scriptProperties['user'])) return 0;
 
+    $c->innerJoin('modUser','Author');
+    if (is_numeric($scriptProperties['user'])) {
         $c->where(array(
-            'thread' => $scriptProperties['thread'],
+            'Author.id' => $scriptProperties['user'],
         ));
-        break;
+    } else {
+        $c->where(array(
+            'Author.username' => $scriptProperties['user'],
+        ));
+    }
+}
+/* filter by thread */
+if (in_array('thread',$type)) {
+    if (empty($scriptProperties['thread'])) return 0;
+
+    $c->where(array(
+        'thread' => $scriptProperties['thread'],
+    ));
+}
+/* filter by family */
+if (in_array('family',$type)) {
+    if (empty($scriptProperties['family'])) return 0;
+    $c->where(array(
+        'quipComment.thread:LIKE' => $scriptProperties['family'],
+    ));
 }
 
 $c->where(array(
