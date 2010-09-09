@@ -25,7 +25,7 @@
  * @package quip
  */
 class quipComment extends xPDOSimpleObject {
-    public function makeUrl($resource = 0,$params = array(),array $options = array(),$addAnchor = true) {
+    public function makeUrl($resource = 0,$params = array(),$options = array(),$addAnchor = true) {
         if (empty($resource)) $resource = $this->get('resource');
         if (empty($params)) $params = $this->get('existing_params');
         if (empty($params)) $params = array();

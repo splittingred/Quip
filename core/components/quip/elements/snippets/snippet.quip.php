@@ -280,7 +280,7 @@ foreach ($comments as $comment) {
             $params = $modx->request->getParameters();
             $params['quip_comment'] = $comment->get('id');
             $params[$removeAction] = true;
-            $commentArray['removeUrl'] = $comment->makeUrl('',$params,false);
+            $commentArray['removeUrl'] = $comment->makeUrl('',$params,null,false);
             $commentArray['options'] = $quip->getChunk($commentOptionsTpl,$commentArray);
         } else {
             $commentArray['options'] = '';
@@ -290,7 +290,7 @@ foreach ($comments as $comment) {
             $params = $modx->request->getParameters();
             $params['quip_comment'] = $comment->get('id');
             $params[$reportAction] = true;
-            $commentArray['reportUrl'] = $comment->makeUrl('',$params,false);
+            $commentArray['reportUrl'] = $comment->makeUrl('',$params,null,false);
             $commentArray['report'] = $quip->getChunk($reportCommentTpl,$commentArray);
         }
     } else {

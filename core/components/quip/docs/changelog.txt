@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 1.1.1
+======================================
+- Fixed bug with quipComment::makeUrl method and its callers
+
 Quip 1.1.0
 ======================================
 - Fixed bug with font-style in web css
