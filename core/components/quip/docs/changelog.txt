@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.1.2
 ======================================
+- Fixed issue where tpls for pagination were being ignored
 - Fixed issue with sorting of threads in mgr
 
 Quip 1.1.1

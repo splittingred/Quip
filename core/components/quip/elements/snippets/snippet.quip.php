@@ -341,12 +341,13 @@ if ($useMargins) {
 
 if (!empty($limit)) {
     $url = $modx->makeUrl($modx->resource->get('id'));
-    $placeholders['pagination'] = $quip->buildPagination(array(
+    $params = array_merge($scriptProperties,array(
         'count' => $placeholders['rootTotal'],
         'limit' => $limit,
         'start' => $start,
         'url' => $url,
     ));
+    $placeholders['pagination'] = $quip->buildPagination($params);
 }
 
 /* wrap */
