@@ -45,7 +45,7 @@ $count = $modx->getCount('quipThread',$c);
 if ($isCombo || $isLimit) {
     $c->limit($limit,$start);
 }
-$c->sortby('name','ASC');
+$c->sortby($sort,$dir);
 
 /* get approved comments sql */
 $subc = $modx->newQuery('quipComment');

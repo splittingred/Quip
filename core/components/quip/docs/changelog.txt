@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 1.1.2
+======================================
+- Fixed issue with sorting of threads in mgr
+
 Quip 1.1.1
 ======================================
 - Fixed bug with quipComment::makeUrl method and its callers
