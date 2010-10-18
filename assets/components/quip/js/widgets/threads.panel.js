@@ -68,7 +68,7 @@ Quip.grid.Thread = function(config) {
     Ext.applyIf(config,{
         url: Quip.config.connector_url
         ,baseParams: { action: 'mgr/thread/getList' }
-        ,fields: ['name','comments','unapproved_comments','pagetitle','url']
+        ,fields: ['name','comments','unapproved_comments','pagetitle','url','perm']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
@@ -119,18 +119,50 @@ Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
             }
         });
     }
+    ,removeThread: function() {
+        MODx.msg.confirm({
+            title: _('warning')
+            ,text: _('quip.thread_remove_confirm')
+            ,url: this.config.url
+            ,params: {
+                action: 'mgr/thread/remove'
+                ,thread: this.menu.record.name
+            }
+            ,listeners: {
+                'success': {fn:this.refresh,scope:this}
+            }
+        });
+    }
     ,getMenu: function() {
+        var r = this.getSelectionModel().getSelected();
+        var p = r.data.perm;
+
         var m = [];
-        m.push({
-            text: _('quip.thread_manage')
-            ,handler: this.manageThread
-        });
-        m.push('-');
-        m.push({
-            text: _('quip.thread_truncate')
-            ,handler: this.truncateThread
-        });
-        this.addContextMenuItem(m);
+        if (this.getSelectionModel().getCount() > 1) {
+
+        } else {
+            m.push({
+                text: _('quip.thread_manage')
+                ,handler: this.manageThread
+            });
+            if (p.indexOf('ptruncate') != -1) {
+                m.push('-');
+                m.push({
+                    text: _('quip.thread_truncate')
+                    ,handler: this.truncateThread
+                });
+            }
+            if (p.indexOf('premove') != -1) {
+                m.push('-');
+                m.push({
+                    text: _('quip.thread_remove')
+                    ,handler: this.removeThread
+                });
+            }
+        }
+        if (m.length > 0) {
+            this.addContextMenuItem(m);
+        }
     }
 });
 Ext.reg('quip-grid-thread',Quip.grid.Thread);

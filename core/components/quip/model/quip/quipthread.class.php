@@ -50,6 +50,9 @@ class quipThread extends xPDOObject {
             case 'truncate':
                 $access = $this->xpdo->hasPermission('quip.thread_truncate');
                 break;
+            case 'remove':
+                $access = $this->xpdo->hasPermission('quip.thread_remove');
+                break;
             case 'comment_approve':
                 $access = $this->xpdo->hasPermission('quip.comment_approve');
                 break;

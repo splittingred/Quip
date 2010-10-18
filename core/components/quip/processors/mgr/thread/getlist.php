@@ -84,6 +84,12 @@ foreach ($threads as $thread) {
     if (!$thread->checkPolicy('view')) continue;
     $threadArray = $thread->toArray();
     $threadArray['url'] = $thread->makeUrl();
+
+    $cls = '';
+    $cls .= $thread->checkPolicy('truncate') ? ' ptruncate' : '';
+    $cls .= $thread->checkPolicy('remove') ? ' premove' : '';
+    $threadArray['perm'] = $cls;
+
     $list[]= $threadArray;
 }
 return $this->outputArray($list,$count);

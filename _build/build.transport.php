@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
+ * Copyright 2010 by Shaun McCormick <shaun@modx.com>
  *
  * This file is part of Quip, a simple commenting component for MODx Revolution.
  *
@@ -36,8 +36,8 @@ set_time_limit(0);
 /* define package */
 define('PKG_NAME','Quip');
 define('PKG_NAME_LOWER','quip');
-define('PKG_VERSION','1.1.2');
-define('PKG_RELEASE','pl');
+define('PKG_VERSION','1.1.3');
+define('PKG_RELEASE','rc1');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)).'/';

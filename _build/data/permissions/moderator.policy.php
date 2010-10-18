@@ -64,6 +64,11 @@ $permissions[] = $modx->newObject('modAccessPermission',array(
     'value' => true,
 ));
 $permissions[] = $modx->newObject('modAccessPermission',array(
+    'name' => 'quip.thread_remove',
+    'description' => 'perm.thread_remove',
+    'value' => true,
+));
+$permissions[] = $modx->newObject('modAccessPermission',array(
     'name' => 'quip.thread_truncate',
     'description' => 'perm.thread_truncate',
     'value' => true,

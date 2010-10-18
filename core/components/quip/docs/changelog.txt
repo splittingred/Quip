@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 1.1.3
+======================================
+- Added ability to completely remove threads in mgr
+
 Quip 1.1.2
 ======================================
 - Fixed issue where tpls for pagination were being ignored
