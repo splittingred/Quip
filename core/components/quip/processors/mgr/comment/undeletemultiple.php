@@ -22,12 +22,12 @@
  * @package quip
  */
 /**
- * Approve multiple comments
+ * Delete multiple comments
  *
  * @package quip
  * @subpackage processors
  */
-if (!$modx->hasPermission('quip.comment_approve')) return $modx->error->failure($modx->lexicon('access_denied'));
+if (!$modx->hasPermission('quip.comment_remove')) return $modx->error->failure($modx->lexicon('access_denied'));
 if (empty($scriptProperties['comments'])) {
     return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
 }
@@ -37,14 +37,14 @@ $commentIds = explode(',',$scriptProperties['comments']);
 foreach ($commentIds as $commentId) {
     $comment = $modx->getObject('quipComment',$commentId);
     if ($comment == null) continue;
-    if ($comment->get('approved')) continue;
+    if (!$comment->get('deleted')) continue;
 
-    $comment->set('approved',true);
-    $comment->set('approvedon',strftime('%Y-%m-%d %H:%M:%S'));
-    $comment->set('approvedby',$modx->user->get('id'));
+    $comment->set('deleted',false);
+    $comment->set('deletedon','0000-00-00 00:00:00');
+    $comment->set('deletedby',0);
 
     if ($comment->save() === false) {
-        return $modx->error->failure($modx->lexicon('quip.comment_err_save'));
+        return $modx->error->failure($modx->lexicon('quip.comment_err_remove'));
     }
 }
 

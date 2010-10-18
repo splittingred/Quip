@@ -22,7 +22,7 @@
  * @package quip
  */
 /**
- * Approve multiple comments
+ * Unapprove multiple comments
  *
  * @package quip
  * @subpackage processors
@@ -37,11 +37,11 @@ $commentIds = explode(',',$scriptProperties['comments']);
 foreach ($commentIds as $commentId) {
     $comment = $modx->getObject('quipComment',$commentId);
     if ($comment == null) continue;
-    if ($comment->get('approved')) continue;
+    if (!$comment->get('approved')) continue;
 
-    $comment->set('approved',true);
-    $comment->set('approvedon',strftime('%Y-%m-%d %H:%M:%S'));
-    $comment->set('approvedby',$modx->user->get('id'));
+    $comment->set('approved',false);
+    $comment->set('approvedon','0000-00-00 00:00:00');
+    $comment->set('approvedby',0);
 
     if ($comment->save() === false) {
         return $modx->error->failure($modx->lexicon('quip.comment_err_save'));

@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
+ * Copyright 2010 by Shaun McCormick <shaun@modx.com>
  *
  * This file is part of Quip, a simpel commenting component for MODx Revolution.
  *
@@ -22,7 +22,7 @@
  * @package quip
  */
 /**
- * Approve a comment
+ * Delete multiple comments
  *
  * @package quip
  * @subpackage processors
@@ -37,6 +37,7 @@ $commentIds = explode(',',$scriptProperties['comments']);
 foreach ($commentIds as $commentId) {
     $comment = $modx->getObject('quipComment',$commentId);
     if ($comment == null) continue;
+    if ($comment->get('deleted')) continue;
 
     $comment->set('deleted',true);
     $comment->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));

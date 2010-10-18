@@ -87,7 +87,7 @@ Quip.grid.Comments = function(config) {
                         ,fn: function() {
                             this.fireEvent('change',this.getValue());
                             this.blur();
-                            return true; }
+                            return true;}
                         ,scope: cmp
                     });
                 },scope:this}
@@ -155,17 +155,6 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
         s.removeAll();
         this.refresh();
     }
-    ,getSelectedAsList: function() {
-        var sels = this.getSelectionModel().getSelections();
-        if (sels.length <= 0) return false;
-
-        var cs = '';
-        for (var i=0;i<sels.length;i++) {
-            cs += ','+sels[i].data.id;
-        }
-        cs = Ext.util.Format.substr(cs,1,cs.length-1);
-        return cs;
-    }
     ,approveSelected: function(btn,e) {
         var cs = this.getSelectedAsList();
         if (cs === false) return false;
@@ -174,6 +163,25 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
             url: this.config.url
             ,params: {
                 action: 'mgr/comment/approveMultiple'
+                ,comments: cs
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    this.getSelectionModel().clearSelections(true);
+                    this.refresh();
+                },scope:this}
+            }
+        });
+        return true;
+    }
+    ,unapproveSelected: function(btn,e) {
+        var cs = this.getSelectedAsList();
+        if (cs === false) return false;
+
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/comment/unapproveMultiple'
                 ,comments: cs
             }
             ,listeners: {
@@ -194,6 +202,25 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
             url: this.config.url
             ,params: {
                 action: 'mgr/comment/deleteMultiple'
+                ,comments: cs
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    this.getSelectionModel().clearSelections(true);
+                    this.refresh();
+                },scope:this}
+            }
+        });
+        return true;
+    }
+    ,undeleteSelected: function(btn,e) {
+        var cs = this.getSelectedAsList();
+        if (cs === false) return false;
+
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/comment/undeleteMultiple'
                 ,comments: cs
             }
             ,listeners: {
@@ -315,48 +342,89 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
             }
         });
     }
+    ,verifyPerm: function(perm,rs) {
+        var valid = true;
+        for (var i=0;i<rs.length;i++) {
+            if (rs[i].data.cls.indexOf(perm) == -1) {
+                valid = false;
+            }
+        }
+        return valid;
+    }
     ,getMenu: function() {
-        var n = this.menu.record;
-        var cls = n.cls.split(',');
         var m = [];
+        if (this.getSelectionModel().getCount() > 1) {
+            var rs = this.getSelectionModel().getSelections();
+            if (this.verifyPerm('approve', rs)) {
+                m.push({
+                    text: _('quip.comment_approve_selected')
+                    ,handler: this.approveSelected
+                });
+                m.push({
+                    text: _('quip.comment_unapprove_selected')
+                    ,handler: this.unapproveSelected
+                });
+            }
+            if (this.verifyPerm('remove', rs)) {
+                if (m.length > 0) { m.push('-'); }
+                m.push({
+                    text: _('quip.comment_delete_selected')
+                    ,handler: this.deleteSelected
+                });
+                m.push({
+                    text: _('quip.comment_undelete_selected')
+                    ,handler: this.undeleteSelected
+                });
+                m.push('-');
+                m.push({
+                    text: _('quip.comment_remove_selected')
+                    ,handler: this.removeSelected
+                });
+            }
+        } else {
+            var n = this.menu.record;
+            var cls = n.cls.split(',');
 
-        if (cls.indexOf('pupdate') != -1) {
-            m.push({
-                text: _('quip.comment_update')
-                ,handler: this.updateComment
-            });
-        }
-        if (cls.indexOf('papprove') != -1 && n.approved == 0) {
-            m.push({
-                text: _('quip.comment_approve')
-                ,handler: this.approveComment
-            })
-        } else if (cls.indexOf('papprove') != -1 && n.approved == 1) {
-            m.push({
-                text: _('quip.comment_unapprove')
-                ,handler: this.unapproveComment
-            });
-        }
+            if (cls.indexOf('pupdate') != -1) {
+                m.push({
+                    text: _('quip.comment_update')
+                    ,handler: this.updateComment
+                });
+            }
+            if (cls.indexOf('papprove') != -1 && n.approved == 0) {
+                m.push({
+                    text: _('quip.comment_approve')
+                    ,handler: this.approveComment
+                })
+            } else if (cls.indexOf('papprove') != -1 && n.approved == 1) {
+                m.push({
+                    text: _('quip.comment_unapprove')
+                    ,handler: this.unapproveComment
+                });
+            }
 
-        if (cls.indexOf('premove') != -1 && n.deleted == 0) {
-            m.push({
-                text: _('quip.comment_delete')
-                ,handler: this.deleteComment
-            })
-        } else if (cls.indexOf('premove') != -1 && n.deleted == 1) {
-            m.push({
-                text: _('quip.comment_undelete')
-                ,handler: this.undeleteComment
-            });
+            if (cls.indexOf('premove') != -1 && n.deleted == 0) {
+                m.push({
+                    text: _('quip.comment_delete')
+                    ,handler: this.deleteComment
+                })
+            } else if (cls.indexOf('premove') != -1 && n.deleted == 1) {
+                m.push({
+                    text: _('quip.comment_undelete')
+                    ,handler: this.undeleteComment
+                });
+            }
+            if (cls.indexOf('premove') != -1 && n.deleted == 1) {
+                m.push('-');
+                m.push({
+                    text: _('quip.comment_remove')
+                    ,handler: this.removeComment
+                });
+            }
         }
-        if (cls.indexOf('premove') != -1 && n.deleted == 1) {
-            m.push('-');
-            m.push({
-                text: _('quip.comment_remove')
-                ,handler: this.removeComment
-            });
+        if (m.length > 0) {
+            this.addContextMenuItem(m);
         }
-        this.addContextMenuItem(m);
     }
 });
 Ext.reg('quip-grid-comments',Quip.grid.Comments);
