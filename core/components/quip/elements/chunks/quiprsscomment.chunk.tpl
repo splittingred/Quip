@@ -1,5 +1,5 @@
 <item>
-    <title>Re: [[+pagetitle]]</title>
+    <title>[[+body:ellipsis=`100`]]</title>
     <link>[[+url]]</link>
     <description>[[+body:cdata]]</description>
     <pubDate>[[+createdon:strtotime:date=`%a, %e %b %Y %H:%M:%S %z`]]</pubDate>
