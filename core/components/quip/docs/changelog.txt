@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.1.3
 ======================================
+- Added ability to select multiple threads in mgr to truncate/remove
 - Fixed issue where manager url was sent from context when quip was used in subcontexts
 - Added ability to completely remove threads in mgr
 

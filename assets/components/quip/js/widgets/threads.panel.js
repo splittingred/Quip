@@ -65,6 +65,7 @@ Ext.reg('quip-panel-threads',Quip.panel.Threads);
 
 Quip.grid.Thread = function(config) {
     config = config || {};
+    this.sm = new Ext.grid.CheckboxSelectionModel();
     Ext.applyIf(config,{
         url: Quip.config.connector_url
         ,baseParams: { action: 'mgr/thread/getList' }
@@ -73,7 +74,8 @@ Quip.grid.Thread = function(config) {
         ,autosave: false
         ,remoteSort: true
         ,primaryKey: 'name'
-        ,columns: [{
+        ,sm: this.sm
+        ,columns: [this.sm,{
             header: _('quip.thread')
             ,dataIndex: 'name'
             ,sortable: true
@@ -102,6 +104,29 @@ Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
     _renderUrl: function(v,md,rec) {
         return '<a href="'+v+'" target="_blank">'+rec.data.pagetitle+'</a>';
     }
+    ,verifyPerm: function(perm,rs) {
+        var valid = true;
+        for (var i=0;i<rs.length;i++) {
+            if (rs[i].data.perm.indexOf(perm) == -1) {
+                valid = false;
+            }
+        }
+        return valid;
+    }
+    ,getSelectedAsList: function() {
+        var sels = this.getSelectionModel().getSelections();
+        if (sels.length <= 0) return false;
+
+        var cs = '';
+        for (var i=0;i<sels.length;i++) {
+            cs += ','+sels[i].data[this.config.primaryKey];
+        }
+
+        if (cs[0] == ',') {
+            cs = cs.substr(1);
+        }
+        return cs;
+    }
     ,manageThread: function() {
         location.href = '?a='+MODx.request.a+'&action=thread&thread='+this.menu.record.name;
     }
@@ -119,6 +144,27 @@ Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
             }
         });
     }
+    ,truncateSelected: function() {
+        var cs = this.getSelectedAsList();
+        if (cs === false) return false;
+
+        MODx.msg.confirm({
+            title: _('quip.thread_truncate_selected')
+            ,text: _('quip.thread_truncate_selected_confirm')
+            ,url: this.config.url
+            ,params: {
+                action: 'mgr/thread/truncateMultiple'
+                ,threads: cs
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    this.getSelectionModel().clearSelections(true);
+                    this.refresh();
+                },scope:this}
+            }
+        });
+        return true;
+    }
     ,removeThread: function() {
         MODx.msg.confirm({
             title: _('warning')
@@ -133,14 +179,50 @@ Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
             }
         });
     }
+    ,removeSelected: function() {
+        var cs = this.getSelectedAsList();
+        if (cs === false) return false;
+
+        MODx.msg.confirm({
+            title: _('quip.thread_remove_selected')
+            ,text: _('quip.thread_remove_selected_confirm')
+            ,url: this.config.url
+            ,params: {
+                action: 'mgr/thread/removeMultiple'
+                ,threads: cs
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    this.getSelectionModel().clearSelections(true);
+                    this.refresh();
+                },scope:this}
+            }
+        });
+        return true;
+    }
     ,getMenu: function() {
-        var r = this.getSelectionModel().getSelected();
-        var p = r.data.perm;
 
         var m = [];
         if (this.getSelectionModel().getCount() > 1) {
-
+            var rs = this.getSelectionModel().getSelections();
+            
+            if (this.verifyPerm('truncate',rs)) {
+                m.push({
+                    text: _('quip.thread_truncate_selected')
+                    ,handler: this.truncateSelected
+                });
+            }
+            if (this.verifyPerm('remove',rs)) {
+                if (m.length > 0) { m.push('-'); }
+                m.push({
+                    text: _('quip.thread_remove_selected')
+                    ,handler: this.removeSelected
+                });
+            }
         } else {
+            var r = this.getSelectionModel().getSelected();
+            var p = r.data.perm;
+
             m.push({
                 text: _('quip.thread_manage')
                 ,handler: this.manageThread
