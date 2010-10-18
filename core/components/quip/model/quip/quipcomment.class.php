@@ -236,7 +236,7 @@ class quipComment extends xPDOSimpleObject {
             'namespace' => 'quip',
         ));
         if ($action) {
-            $managerUrl = MODX_URL_SCHEME.MODX_HTTP_HOST.$this->xpdo->getOption('manager_url',null,MODX_MANAGER_URL);
+            $managerUrl = MODX_URL_SCHEME.MODX_HTTP_HOST.MODX_MANAGER_URL;
             $properties['approveUrl'] = $managerUrl.'?a='.$action->get('id').'&quip_unapproved=1&quip_approve='.$this->get('id');
             $properties['rejectUrl'] = $managerUrl.'?a='.$action->get('id').'&quip_unapproved=1&quip_reject='.$this->get('id');
             $properties['unapprovedUrl'] = $managerUrl.'?a='.$action->get('id').'&quip_unapproved=1';
