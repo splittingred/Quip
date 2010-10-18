@@ -36,7 +36,7 @@ set_time_limit(0);
 /* define package */
 define('PKG_NAME','Quip');
 define('PKG_NAME_LOWER','quip');
-define('PKG_VERSION','1.1.3');
+define('PKG_VERSION','1.2.0');
 define('PKG_RELEASE','rc1');
 
 /* define sources */

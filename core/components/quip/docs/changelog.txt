@@ -1,7 +1,8 @@
 Changelog for Quip.
 
-Quip 1.1.3
+Quip 1.2.0
 ======================================
+- Added QuipRss snippet for easy RSS feeds from threads or users
 - Added ability to select multiple comments in mgr to approve/unapprove/delete/undelete/remove
 - Added ability to select multiple threads in mgr to truncate/remove
 - Fixed issue where manager url was sent from context when quip was used in subcontexts

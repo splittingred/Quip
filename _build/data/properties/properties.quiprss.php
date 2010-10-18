@@ -43,10 +43,18 @@ $properties = array(
     ),
     array(
         'name' => 'tpl',
-        'desc' => 'quip.prop_late_tpl_desc',
+        'desc' => 'quip.prop_rss_tpl_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => 'quipLatestComment',
+        'value' => 'quipRssComment',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
+        'name' => 'containerTpl',
+        'desc' => 'quip.prop_rss_containertpl_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'quipRssContainer',
         'lexicon' => 'quip:properties',
     ),
     array(
@@ -95,22 +103,6 @@ $properties = array(
         'type' => 'textfield',
         'options' => '',
         'value' => 30,
-        'lexicon' => 'quip:properties',
-    ),
-    array(
-        'name' => 'rowCss',
-        'desc' => 'quip.prop_late_rowcss_desc',
-        'type' => 'textfield',
-        'options' => '',
-        'value' => 'quip-latest-comment',
-        'lexicon' => 'quip:properties',
-    ),
-    array(
-        'name' => 'altRowCss',
-        'desc' => 'quip.prop_late_altrowcss_desc',
-        'type' => 'textfield',
-        'options' => '',
-        'value' => 'quip-latest-comment-alt',
         'lexicon' => 'quip:properties',
     ),
     array(
@@ -169,7 +161,7 @@ $properties = array(
     ),
     array(
         'name' => 'placeholderPrefix',
-        'desc' => 'quip.prop_late_placeholderprefix_desc',
+        'desc' => 'quip.prop_rss_placeholderprefix_desc',
         'type' => 'textfield',
         'options' => '',
         'value' => 'quip.latest',

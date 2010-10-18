@@ -67,4 +67,14 @@ $snippets[4]->fromArray(array(
 $properties = include $sources['data'].'properties/properties.quipreply.php';
 $snippets[4]->setProperties($properties);
 
+$snippets[5]= $modx->newObject('modSnippet');
+$snippets[5]->fromArray(array(
+    'id' => 5,
+    'name' => 'QuipRss',
+    'description' => 'Generates an RSS of latest comments for a thread or by a user.',
+    'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/snippet.quiprss.php'),
+));
+$properties = include $sources['data'].'properties/properties.quiprss.php';
+$snippets[5]->setProperties($properties);
+
 return $snippets;

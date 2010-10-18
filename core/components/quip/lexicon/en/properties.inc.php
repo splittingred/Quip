@@ -146,3 +146,8 @@ $_lang['quip.prop_count_toplaceholder_desc'] = 'If set, will output the content 
 $_lang['quip.prop_count_type_desc'] = 'If contains `thread`, will count the # of comments in a thread. If contains `user`, will grab # of total comments by a User. Supports a comma-delimited list of types.';
 $_lang['quip.prop_count_user_desc'] = 'The User ID or username to pull from. Only if type contains `user`.';
 $_lang['quip.prop_count_family_desc'] = 'The family of threads to pull from. Only if type contains `family`.';
+
+/* QuipRss */
+$_lang['quip.prop_rss_tpl_desc'] = 'The chunk tpl to use for each RSS item.';
+$_lang['quip.prop_rss_containertpl_desc'] = 'The chunk tpl to use to wrap the RSS feed in.';
+$_lang['quip.prop_rss_placeholderprefix_desc'] = 'The prefix for the global placeholders set by QuipRss.';
