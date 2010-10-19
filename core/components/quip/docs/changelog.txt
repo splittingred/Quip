@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.2.0
 ======================================
+- Updated recaptcha server URLs to new Google URLs
 - Added QuipRss snippet for easy RSS feeds from threads or users
 - Added ability to select multiple comments in mgr to approve/unapprove/delete/undelete/remove
 - Added ability to select multiple threads in mgr to truncate/remove

@@ -28,9 +28,9 @@
  * @package recaptcha
  */
 class reCaptcha {
-    const API_SERVER = 'http://api.recaptcha.net/';
-    const API_SECURE_SERVER = 'https://api-secure.recaptcha.net/';
-    const VERIFY_SERVER = 'api-verify.recaptcha.net';
+    const OPT_API_SERVER = 'api_server';
+    const OPT_API_SECURE_SERVER = 'api_secure_server';
+    const OPT_API_VERIFY_SERVER = 'api_verify_server';
     const OPT_PRIVATE_KEY = 'privateKey';
     const OPT_PUBLIC_KEY = 'publicKey';
     const OPT_USE_SSL = 'use_ssl';
@@ -42,6 +42,9 @@ class reCaptcha {
             reCaptcha::OPT_PRIVATE_KEY => $this->modx->getOption('recaptcha.private_key',$config,''),
             reCaptcha::OPT_PUBLIC_KEY => $this->modx->getOption('recaptcha.public_key',$config,''),
             reCaptcha::OPT_USE_SSL => $this->modx->getOption('recaptcha.use_ssl',$config,false),
+            reCaptcha::OPT_API_SERVER => 'http://www.google.com/recaptcha/api/',
+            reCaptcha::OPT_API_SECURE_SERVER => 'https://www.google.com/recaptcha/api/',
+            reCaptcha::OPT_API_VERIFY_SERVER => 'api-verify.recaptcha.net',
         ),$config);
     }
 
@@ -112,7 +115,7 @@ class reCaptcha {
         }
 
         /* use ssl or not */
-        $server = !empty($this->config[reCaptcha::OPT_USE_SSL]) ? reCaptcha::API_SECURE_SERVER : reCaptcha::API_SERVER;
+        $server = !empty($this->config[reCaptcha::OPT_USE_SSL]) ? $this->config[reCaptcha::OPT_API_SECURE_SERVER] : $this->config[reCaptcha::OPT_API_SERVER];
 
         $errorpart = '';
         if ($error) {
@@ -159,7 +162,8 @@ class reCaptcha {
             return $this->error($this->modx->lexicon('recaptcha.empty_answer'));
         }
 
-        $response = $this->httpPost(reCaptcha::VERIFY_SERVER,"/verify",array (
+        $verifyServer = $this->config[reCaptcha::OPT_API_VERIFY_SERVER];
+        $response = $this->httpPost($verifyServer,"/verify",array (
             'remoteip' => $remoteIp,
             'challenge' => $challenge,
             'response' => $responseField,
