@@ -134,6 +134,7 @@ $_lang['quip.prop_late_sortdir_desc'] = 'The direction to sort by.';
 $_lang['quip.prop_late_start_desc'] = 'The start index of comments to pull from.';
 $_lang['quip.prop_late_striptags_desc'] = 'If set to true, tags will be stripped from the body text.';
 $_lang['quip.prop_late_thread_desc'] = 'The thread ID to pull from. Only if type is set to Thread.';
+$_lang['quip.prop_late_contexts_desc'] = 'A comma-separated list of Contexts to pull comments from. If not set, will grab comments from all Contexts.';
 $_lang['quip.prop_late_toplaceholder_desc'] = 'If set, will output the content to the placeholder specified in this property, rather than outputting the content directly.';
 $_lang['quip.prop_late_tpl_desc'] = 'The chunk tpl to use for each row.';
 $_lang['quip.prop_late_type_desc'] = 'Whether to grab a list from all comments, per thread, per family of threads, or per user.';

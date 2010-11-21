@@ -160,6 +160,14 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'contexts',
+        'desc' => 'quip.prop_late_contexts_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
         'name' => 'toPlaceholder',
         'desc' => 'quip.prop_late_toplaceholder_desc',
         'type' => 'textfield',

@@ -47,6 +47,7 @@ $altRowCss = $modx->getOption('altRowCss',$scriptProperties,'quip-latest-comment
 $dateFormat = $modx->getOption('dateFormat',$scriptProperties,'%b %d, %Y at %I:%M %p');
 $stripTags = $modx->getOption('stripTags',$scriptProperties,true);
 $bodyLimit = $modx->getOption('bodyLimit',$scriptProperties,30);
+$contexts = $modx->getOption('contexts',$scriptProperties,'');
 
 /* build query by type */
 $c = $modx->newQuery('quipComment');
@@ -59,6 +60,11 @@ $c->leftJoin('modResource','Resource');
 $c->where(array(
     'quipComment.approved' => true,
 ));
+if (!empty($contexts)) {
+    $c->where(array(
+        'Resource.context_key:IN' => explode(',',$contexts),
+    ));
+}
 switch ($type) {
     case 'user':
         if (empty($scriptProperties['user'])) return '';
