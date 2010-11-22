@@ -168,15 +168,17 @@ if (!empty($limit)) {
     $c->select($modx->getSelectColumns('quipComment','quipComment','',array('id')));
     $c->where(array(
         'quipComment.thread' => $thread->get('name'),
-        'quipComment.deleted' => false,
+        'quipComment.deleted' => 0,
         'quipComment.parent' => 0,
     ));
     if (!$thread->checkPolicy('moderate')) {
         $c->where(array(
-            'quipComment.approved' => true,
+            'quipComment.approved' => 1,
             'OR:quipComment.author:=' => $modx->user->get('id'),
         ));
     }
+
+    $c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
     $placeholders['rootTotal'] = $modx->getCount('quipComment',$c);
     $c->limit($limit,$start);
     $comments = $modx->getCollection('quipComment',$c);
@@ -236,7 +238,7 @@ $idx = 0;
 $commentList = array();
 foreach ($comments as $comment) {
     $commentArray = $comment->toArray();
-    $commentArray['alt'] = $alt ? $altRowCss : 's';
+    $commentArray['alt'] = $alt ? $altRowCss : '';
     $commentArray['createdon'] = strftime($dateFormat,strtotime($comment->get('createdon')));
     $commentArray['url'] = $comment->makeUrl();
     $commentArray['idx'] = $idx;
