@@ -152,3 +152,5 @@ $_lang['setting_quip.emailsTo'] = 'To Email';
 $_lang['setting_quip.emailsTo_desc'] = 'The email address to send system emails to.';
 $_lang['setting_quip.emailsReplyTo'] = 'Reply-To Email';
 $_lang['setting_quip.emailsReplyTo_desc'] = 'The email address to set the reply-to to. Defaults to emailFrom.';
+$_lang['setting_quip.emails_from_name'] = 'From Name for Emails';
+$_lang['setting_quip.emails_from_name_desc'] = 'The name that will be used for the From: address in emails.';

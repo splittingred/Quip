@@ -35,6 +35,15 @@ $settings['quip.emailsFrom']->fromArray(array(
     'area' => 'email',
 ),'',true,true);
 
+$settings['quip.emails_from_name']= $modx->newObject('modSystemSetting');
+$settings['quip.emails_from_name']->fromArray(array(
+    'key' => 'quip.emails_from_name',
+    'value' => 'Quip',
+    'xtype' => 'textfield',
+    'namespace' => 'quip',
+    'area' => 'email',
+),'',true,true);
+
 $settings['quip.emailsTo']= $modx->newObject('modSystemSetting');
 $settings['quip.emailsTo']->fromArray(array(
     'key' => 'quip.emailsTo',

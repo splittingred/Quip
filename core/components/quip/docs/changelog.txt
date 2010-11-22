@@ -2,14 +2,15 @@ Changelog for Quip.
 
 Quip 1.2.0
 ======================================
-- Fixed bug with sorting and pagination
-- Added contexts property to QuipLatestComments to allow filtering by context
-- Updated recaptcha server URLs to new Google URLs
-- Added QuipRss snippet for easy RSS feeds from threads or users
+- [#33] Added setting to set emails from name
+- [#34] Fixed bug with sorting and pagination
+- [#35] Added contexts property to QuipLatestComments to allow filtering by context
+- [#28] Updated recaptcha server URLs to new Google URLs
+- [#3] Added QuipRss snippet for easy RSS feeds from threads or users
 - Added ability to select multiple comments in mgr to approve/unapprove/delete/undelete/remove
 - Added ability to select multiple threads in mgr to truncate/remove
-- Fixed issue where manager url was sent from context when quip was used in subcontexts
-- Added ability to completely remove threads in mgr
+- [#26] Fixed issue where manager url was sent from context when quip was used in subcontexts
+- [#27] Added ability to completely remove threads in mgr
 
 Quip 1.1.2
 ======================================
