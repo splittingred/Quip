@@ -98,7 +98,7 @@ $sortByAlias = $modx->getOption('sortByAlias',$scriptProperties,'quipComment');
 $sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
 
 $limit = $modx->getOption('quip_limit',$_REQUEST,$modx->getOption('limit',$scriptProperties,0));
-$start = $modx->getOption('quip_start',$_REQUEST,$modx->getOption('start',$scriptProperties,0));
+$start = $modx->getOption('quip_start',$_REQUEST,$modx->getOption('offset',$scriptProperties,0));
 
 /* ensure thread exists, set thread properties if changed
  * (prior to 0.5.0 threads will be handled in install resolver) */

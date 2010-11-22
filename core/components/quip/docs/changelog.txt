@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.2.0
 ======================================
+- [#30] Added interoperability support for getPage
 - [#33] Added setting to set emails from name
 - [#34] Fixed bug with sorting and pagination
 - [#35] Added contexts property to QuipLatestComments to allow filtering by context
