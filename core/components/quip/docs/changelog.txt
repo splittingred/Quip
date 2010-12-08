@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 1.2.1
+======================================
+- Updated for Revolution 2.0.5 Access Policy changes
+
 Quip 1.2.0
 ======================================
 - [#30] Added interoperability support for getPage

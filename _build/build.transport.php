@@ -36,7 +36,7 @@ set_time_limit(0);
 /* define package */
 define('PKG_NAME','Quip');
 define('PKG_NAME_LOWER','quip');
-define('PKG_VERSION','1.2.0');
+define('PKG_VERSION','1.2.1');
 define('PKG_RELEASE','pl');
 
 /* define sources */
@@ -127,14 +127,6 @@ $attributes = array (
     xPDOTransport::PRESERVE_KEYS => false,
     xPDOTransport::UNIQUE_KEY => array('name'),
     xPDOTransport::UPDATE_OBJECT => true,
-    xPDOTransport::RELATED_OBJECTS => true,
-    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
-        'Permissions' => array (
-            xPDOTransport::PRESERVE_KEYS => false,
-            xPDOTransport::UPDATE_OBJECT => true,
-            xPDOTransport::UNIQUE_KEY => array ('policy','name'),
-        )
-    )
 );
 $policies = include $sources['data'].'transport.policies.php';
 if (!is_array($policies)) { $modx->log(modX::LOG_LEVEL_FATAL,'Adding policies failed.'); }
@@ -142,8 +134,34 @@ foreach ($policies as $policy) {
     $vehicle = $builder->createVehicle($policy,$attributes);
     $builder->putVehicle($vehicle);
 }
-$modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($policies).' access policies.'); flush();
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($policies).' Access Policies.'); flush();
 unset($policies,$policy,$attributes);
+
+/* package in default access policy template */
+$templates = include dirname(__FILE__).'/data/transport.policytemplates.php';
+$attributes = array (
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UNIQUE_KEY => array('name'),
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'Permissions' => array (
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => array ('template','name'),
+        ),
+    )
+);
+if (is_array($templates)) {
+    foreach ($templates as $template) {
+        $vehicle = $builder->createVehicle($template,$attributes);
+        $builder->putVehicle($vehicle);
+    }
+    $modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($templates).' Access Policy Templates.'); flush();
+} else {
+    $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in Access Policy Templates.');
+}
+unset ($templates,$template,$idx,$ct,$attributes);
 
 /* add plugins */
 $plugins = include $sources['data'].'transport.plugins.php';

@@ -37,6 +37,23 @@ if ($object->xpdo) {
 
             $modx->setLogLevel(modX::LOG_LEVEL_ERROR);
 
+            /* assign policy to template */
+            $policy = $transport->xpdo->getObject('modAccessPolicy',array(
+                'name' => 'QuipModeratorPolicy'
+            ));
+            if ($policy) {
+                $template = $transport->xpdo->getObject('modAccessPolicyTemplate',array('name' => 'QuipModeratorPolicyTemplate'));
+                if ($template) {
+                    $policy->set('template',$template->get('id'));
+                    $policy->save();
+                } else {
+                    $modx->log(xPDO::LOG_LEVEL_ERROR,'[Quip] Could not find QuipModeratorPolicyTemplate Access Policy Template!');
+                }
+            } else {
+                $modx->log(xPDO::LOG_LEVEL_ERROR,'[Quip] Could not find QuipModeratorPolicy Access Policy!');
+            }
+
+            /* assign policy to admin group */
             $policy = $modx->getObject('modAccessPolicy',array('name' => 'QuipModeratorPolicy'));
             $adminGroup = $modx->getObject('modUserGroup',array('name' => 'Administrator'));
             if ($policy && $adminGroup) {

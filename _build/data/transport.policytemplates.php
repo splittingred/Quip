@@ -22,28 +22,25 @@
  * @package quip
  */
 /**
- * Default Quip Access Policies
+ * Default Quip Access Policy Templates
  *
  * @package quip
  * @subpackage build
  */
-function bld_policyFormatData($permissions) {
-    $data = array();
-    foreach ($permissions as $permission) {
-        $data[$permission->get('name')] = true;
-    }
-    return $data;
-}
-$policies = array();
-$policies[1]= $modx->newObject('modAccessPolicy');
-$policies[1]->fromArray(array (
-  'id' => 1,
-  'name' => 'QuipModeratorPolicy',
-  'description' => 'A policy for moderating Quip comments.',
-  'parent' => 0,
-  'class' => '',
-  'lexicon' => 'quip:permissions',
-  'data' => '{"quip.comment_approve":true,"quip.comment_list":true,"quip.comment_list_unapproved":true,"quip.comment_remove":true,"quip.comment_update":true,"quip.thread_list":true,"quip.thread_manage":true,"quip.thread_truncate":true,"quip.thread_view":true,"quip.thread_update":true}',
-), '', true, true);
+$templates = array();
 
-return $policies;
+/* administrator template/policy */
+$templates['1']= $modx->newObject('modAccessPolicyTemplate');
+$templates['1']->fromArray(array(
+    'id' => 1,
+    'name' => 'QuipModeratorPolicyTemplate',
+    'description' => 'A policy for moderating Quip comments.',
+    'lexicon' => 'quip:permissions',
+    'template_group' => 1,
+));
+$permissions = include dirname(__FILE__).'/permissions/moderator.policy.php';
+if (is_array($permissions)) {
+    $templates['1']->addMany($permissions);
+} else { $modx->log(modX::LOG_LEVEL_ERROR,'Could not load Quip Moderator Policy Template.'); }
+
+return $templates;
