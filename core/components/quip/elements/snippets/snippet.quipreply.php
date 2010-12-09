@@ -76,6 +76,9 @@ $placeholders['idprefix'] = $thread->get('idprefix');
 
 /* handle POST */
 if (!empty($_POST)) {
+    foreach ($_POST as $k => $v) {
+        $_POST[$k] = str_replace(array('[',']'),array('&#91;','&#93'),$v);
+    }
     $previewAction = $modx->getOption('previewAction',$scriptProperties,'quip-preview');
     $postAction = $modx->getOption('postAction',$scriptProperties,'quip-post');
     $allowedTags = $modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
