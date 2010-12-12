@@ -74,6 +74,7 @@ $_lang['quip.hide_deleted'] = 'Скрыть удалённые';
 $_lang['quip.intro_msg'] = 'Управление комментариями и темами.';
 $_lang['quip.ip'] = 'IP';
 $_lang['quip.latest_comments'] = 'Последние комментарии';
+$_lang['quip.latest_comments_for'] = 'Latest Comments for';
 $_lang['quip.latest_comments_msg'] = 'Просмотр последних комментариев.';
 $_lang['quip.login_to_comment'] = 'Пожалуйста, авторизуйтесь для того, чтобы комментировать';
 $_lang['quip.message_err_ns'] = 'Пожалуйста, введите комментарий.';
