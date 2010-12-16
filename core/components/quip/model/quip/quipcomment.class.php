@@ -25,6 +25,9 @@
  * @package quip
  */
 class quipComment extends xPDOSimpleObject {
+    /**
+     * Make a custom URL For this comment.
+     */
     public function makeUrl($resource = 0,$params = array(),$options = array(),$addAnchor = true) {
         if (empty($resource)) $resource = $this->get('resource');
         if (empty($params)) $params = $this->get('existing_params');
@@ -133,6 +136,9 @@ class quipComment extends xPDOSimpleObject {
         return $saved;
     }
 
+    /**
+     * Load the modLexicon service
+     */
     protected function _loadLexicon() {
         if (!$this->xpdo->lexicon) {
             $this->xpdo->lexicon = $this->xpdo->getService('lexicon','modLexicon');
@@ -144,6 +150,9 @@ class quipComment extends xPDOSimpleObject {
         return true;
     }
 
+    /**
+     * Send an email
+     */
     protected function sendEmail($subject,$body,$to) {
         if (!$this->_loadLexicon()) return false;
         $this->xpdo->lexicon->load('quip:emails');
@@ -208,6 +217,12 @@ class quipComment extends xPDOSimpleObject {
         return $thread ? $thread->notify($this) : true;
     }
 
+    /**
+     * Reject a comment
+     * 
+     * @param array $options
+     * @return boolean True if successful
+     */
     public function reject(array $options = array()) {
         $this->set('deleted',true);
         $this->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));

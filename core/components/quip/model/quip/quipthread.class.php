@@ -186,7 +186,18 @@ class quipThread extends xPDOObject {
     public function notify(quipComment &$comment) {
         if (!$this->_loadLexicon()) return false;
         $this->xpdo->lexicon->load('quip:emails');
+        
+        /* get the poster's email address */
+        $posterEmail = false;
+        $user = $comment->getOne('Author');
+        if ($user) {
+            $profile = $user->getOne('Profile');
+            if ($profile) {
+                $posterEmail = $profile->get('email');
+            }
+        }
 
+        /* get email body/subject */
         $properties = $comment->toArray();
         $properties['url'] = $comment->makeUrl('',array(),array('scheme' => 'full'));
         $body = $this->xpdo->lexicon('quip.email_notify',$properties);
@@ -200,8 +211,13 @@ class quipThread extends xPDOObject {
         $notifiees = $this->getMany('Notifications');
         foreach ($notifiees as $notified) {
             $email = $notified->get('email');
+            /* remove invalid emails */
             if (empty($email) || strpos($email,'@') == false) {
                 $notified->remove();
+                continue;
+            }
+            /* don't notify the poster, since they posted the comment. */
+            if ($posterEmail == $email) {
                 continue;
             }
             array_push($emails,$email);
@@ -236,8 +252,8 @@ class quipThread extends xPDOObject {
 
             $this->xpdo->mail->set(modMail::MAIL_BODY,$body);
             $this->xpdo->mail->set(modMail::MAIL_FROM,$emailFrom);
-            $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,'Quip');
-            $this->xpdo->mail->set(modMail::MAIL_SENDER,'Quip');
+            $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,$this->xpdo->getOption('quip.emails_from_name',null,'Quip'));
+            $this->xpdo->mail->set(modMail::MAIL_SENDER,$this->xpdo->getOption('quip.emails_from_name',null,'Quip'));
             $this->xpdo->mail->set(modMail::MAIL_SUBJECT,$subject);
             $this->xpdo->mail->address('to',$emailAddress);
             $this->xpdo->mail->address('reply-to',$emailReplyTo);
