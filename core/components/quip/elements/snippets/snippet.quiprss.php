@@ -47,6 +47,8 @@ $dateFormat = $modx->getOption('dateFormat',$scriptProperties,'%b %d, %Y at %I:%
 $stripTags = $modx->getOption('stripTags',$scriptProperties,true);
 $bodyLimit = $modx->getOption('bodyLimit',$scriptProperties,30);
 
+$pagetitle = $modx->getOption('pagetitle',$scriptProperties,'');
+
 /* build query by type */
 $c = $modx->newQuery('quipComment');
 $c->select(array(
@@ -73,14 +75,12 @@ switch ($type) {
         break;
     case 'thread':
         if (empty($scriptProperties['thread'])) return '';
-        $c = $modx->newQuery('quipComment');
         $c->where(array(
             'quipComment.thread' => $scriptProperties['thread'],
         ));
         break;
     case 'family':
         if (empty($scriptProperties['family'])) return '';
-        $c = $modx->newQuery('quipComment');
         $c->where(array(
             'quipComment.thread:LIKE' => $scriptProperties['family'],
         ));
@@ -118,7 +118,7 @@ foreach ($comments as $comment) {
 /* set page placeholders */
 $pagePlaceholders = array();
 $pagePlaceholders['resource'] = $commentArray['resource'];
-$pagePlaceholders['pagetitle'] = $commentArray['pagetitle'];
+$pagePlaceholders['pagetitle'] = empty($pagetitle)? $commentArray['pagetitle'] : $pagetitle;
 $placeholderPrefix = $modx->getOption('placeholderPrefix',$scriptProperties,'quip.latest');
 $modx->toPlaceholders($pagePlaceholders,$placeholderPrefix);
 

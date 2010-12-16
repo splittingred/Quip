@@ -75,6 +75,7 @@ $_lang['quip.hide_deleted'] = 'Gelöschte Ausblenden';
 $_lang['quip.intro_msg'] = 'Verwalten Sie Kommentare und Threads hier.';
 $_lang['quip.ip'] = 'IP';
 $_lang['quip.latest_comments'] = 'Neuste Kommentare';
+$_lang['quip.latest_comments_for'] = 'Neuste Kommentare für';
 $_lang['quip.latest_comments_msg'] = 'Die neusten Kommentare anzeigen lassen.';
 $_lang['quip.login_to_comment'] = 'Bitte zum Kommentieren anmelden.';
 $_lang['quip.message_err_ns'] = 'Bitte geben Sie eine Nachricht ein.';
