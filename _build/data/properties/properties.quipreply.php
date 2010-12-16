@@ -37,6 +37,14 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'requireUsergroups',
+        'desc' => 'quip.prop_reply_requireusergroups_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
         'name' => 'closed',
         'desc' => 'quip.prop_reply_closed_desc',
         'type' => 'combo-boolean',

@@ -56,6 +56,7 @@ unset($ps,$diff);
 
 /* setup default properties */
 $requireAuth = $modx->getOption('requireAuth',$scriptProperties,false);
+$requireUsergroups = $modx->getOption('requireUsergroups',$scriptProperties,false);
 $addCommentTpl = $modx->getOption('tplAddComment',$scriptProperties,'quipAddComment');
 $loginToCommentTpl = $modx->getOption('tplLoginToComment',$scriptProperties,'quipLoginToComment');
 $previewTpl = $modx->getOption('tplPreview',$scriptProperties,'quipPreviewComment');
@@ -63,7 +64,12 @@ $closeAfter = $modx->getOption('closeAfter',$scriptProperties,14);
 
 /* get parent and auth */
 $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
-$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
+$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false) || empty($requireAuth);
+if (!empty($requireUsergroups)) {
+    $requireUsergroups = explode(',',$requireUsergroups);
+    $hasAuth = $modx->user->isMember($requireUsergroups);
+}
+
 
 /* setup default placeholders */
 $placeholders = array();
@@ -77,7 +83,7 @@ $placeholders['idprefix'] = $thread->get('idprefix');
 /* handle POST */
 if (!empty($_POST)) {
     foreach ($_POST as $k => $v) {
-        $_POST[$k] = str_replace(array('[',']'),array('&#91;','&#93'),$v);
+        $_POST[$k] = str_replace(array('[',']'),array('&#91;','&#93;'),$v);
     }
     $previewAction = $modx->getOption('previewAction',$scriptProperties,'quip-preview');
     $postAction = $modx->getOption('postAction',$scriptProperties,'quip-post');
@@ -128,7 +134,7 @@ if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptcha
 $replyForm = '';
 
 $stillOpen = $thread->checkIfStillOpen($closeAfter) && !$modx->getOption('closed',$scriptProperties,false);
-if ((!$requireAuth || $hasAuth) && $stillOpen) {
+if ($hasAuth && $stillOpen) {
     $phs = array_merge($placeholders,array(
         'username' => $modx->user->get('username'),
     ));

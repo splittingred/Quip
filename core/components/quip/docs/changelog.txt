@@ -1,5 +1,10 @@
 Changelog for Quip.
 
+Quip 1.2.3
+======================================
+- [#38] Added &requireUsergroups to restrict commenting to specific usergroups
+- Added semicolon to htmlentity right-bracket replace in replies
+
 Quip 1.2.2
 ======================================
 - Fixed security vulnerability

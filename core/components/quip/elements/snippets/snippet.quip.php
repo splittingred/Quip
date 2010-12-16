@@ -81,6 +81,8 @@ $resource = $modx->getOption('resource',$scriptProperties,'');
 $moderate = $modx->getOption('moderate',$scriptProperties,false);
 $moderators = $modx->getOption('moderators',$scriptProperties,false);
 $moderatorGroup = $modx->getOption('moderatorGroup',$scriptProperties,false);
+$requireAuth = $modx->getOption('requireAuth',$scriptProperties,false);
+$requireUsergroups = $modx->getOption('requireUsergroups',$scriptProperties,'');
 
 $threaded = $modx->getOption('threaded',$scriptProperties,true);
 $threadedPostMargin = $modx->getOption('threadedPostMargin',$scriptProperties,15);
@@ -128,7 +130,11 @@ unset($threadPK);
 $removeAction = $modx->getOption('removeAction',$scriptProperties,'quip_remove');
 $reportAction = $modx->getOption('reportAction',$scriptProperties,'quip_report');
 $isModerator = $thread->checkPolicy('moderate');
-$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
+$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false) || empty($requireAuth);
+if (!empty($requireUsergroups)) {
+    $requireUsergroups = explode(',',$requireUsergroups);
+    $hasAuth = $modx->user->isMember($requireUsergroups);
+}
 
 /* handle remove post */
 if (!empty($_REQUEST[$removeAction])) {
@@ -313,7 +319,7 @@ foreach ($comments as $comment) {
     }
 
     if ($threaded && $stillOpen && $comment->get('depth') < $maxDepth && $comment->get('approved')
-        && (!$requireAuth || $hasAuth) && !$modx->getOption('closed',$scriptProperties,false)) {
+        && $hasAuth && !$modx->getOption('closed',$scriptProperties,false)) {
 
         $params = $modx->request->getParameters();
         $params['quip_thread'] = $comment->get('thread');

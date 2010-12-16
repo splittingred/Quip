@@ -77,6 +77,22 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'requireAuth',
+        'desc' => 'quip.prop_requireauth_desc',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+        'lexicon' => 'quip:properties',
+    ),
+    array(
+        'name' => 'requireUsergroups',
+        'desc' => 'quip.prop_requireusergroups_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
         'name' => 'closed',
         'desc' => 'quip.prop_closed_desc',
         'type' => 'combo-boolean',
