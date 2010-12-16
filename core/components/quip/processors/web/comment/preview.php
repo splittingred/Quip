@@ -25,16 +25,13 @@ if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],tr
 }
 
 /* if requireAuth */
-if ($requireAuth) {
-    if (!$modx->user->hasSessionContext($modx->context->get('key'))) {
-        $errors['message'] = $modx->lexicon('quip.err_not_logged_in');
-        return $errors;
-    }
+if ($requireAuth && !$hasAuth) {
+    $errors['message'] = $modx->lexicon('quip.err_not_logged_in');
+    return $errors;
 }
 
 /* if using reCaptcha */
 $disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
-$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
     $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['modelPath'].'recaptcha/');
     if (!($recaptcha instanceof reCaptcha)) {

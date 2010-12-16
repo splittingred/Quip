@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.2.3
 ======================================
+- [#39] Fixed issue with removeThreshold not working, as well as isModerator always failing
 - [#38] Added &requireUsergroups to restrict commenting to specific usergroups
 - Added semicolon to htmlentity right-bracket replace in replies
 

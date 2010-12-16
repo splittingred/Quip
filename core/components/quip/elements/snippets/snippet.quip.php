@@ -266,14 +266,14 @@ foreach ($comments as $comment) {
         /* allow removing of comment if moderator or own comment */
         $commentArray['allowRemove'] = $modx->getOption('allowRemove',$scriptProperties,true);
         if ($commentArray['allowRemove']) {
-            if ($isModerator && false) {
+            if ($isModerator) {
                 /* Always allow remove for moderators */
                 $commentArray['allowRemove'] = true;
             } else if ($comment->get('author') == $modx->user->get('id')) {
                 /* if not moderator but author of post, check for remove
                  * threshold, which prevents removing comments after X minutes
                  */
-                $removeThreshold = $modx->getOption('removeThreshold',$scriptPropeties,3);
+                $removeThreshold = $modx->getOption('removeThreshold',$scriptProperties,3);
                 if (!empty($removeThreshold)) {
                     $diff = time() - strtotime($comment->get('createdon'));
                     if ($diff > ($removeThreshold * 60)) $commentArray['allowRemove'] = false;

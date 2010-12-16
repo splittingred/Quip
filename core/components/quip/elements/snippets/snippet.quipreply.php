@@ -70,7 +70,6 @@ if (!empty($requireUsergroups)) {
     $hasAuth = $modx->user->isMember($requireUsergroups);
 }
 
-
 /* setup default placeholders */
 $placeholders = array();
 $p = $modx->request->getParameters();
