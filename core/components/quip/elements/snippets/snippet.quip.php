@@ -305,17 +305,25 @@ foreach ($comments as $comment) {
         $commentArray['report'] = '';
     }
     /* get author display name */
+    $authorTpl = $modx->getOption('authorTpl',$scriptProperties,'quipAuthorTpl');
     $nameField = $modx->getOption('nameField',$scriptProperties,'username');
     if (empty($commentArray[$nameField])) {
-        $commentArray['authorName'] = $modx->getOption('showAnonymousName',$scriptProperties,false)
-            ? $modx->getOption('anonymousName',$scriptProperties,$modx->lexicon('quip.anonymous'))
-            : $commentArray['name'];
+        $commentArray['authorName'] = $quip->getChunk($authorTpl,array(
+            'name' => $modx->getOption('showAnonymousName',$scriptProperties,false)
+                ? $modx->getOption('anonymousName',$scriptProperties,$modx->lexicon('quip.anonymous'))
+                : $commentArray['name'],
+        ));
     } else {
-        $commentArray['authorName'] = $commentArray[$nameField];
+        $commentArray['authorName'] = $quip->getChunk($authorTpl,array(
+            'name' => $commentArray[$nameField],
+        ));
     }
 
     if ($showWebsite && !empty($commentArray['website'])) {
-        $commentArray['authorName'] = '<a href="'.$commentArray['website'].'">'.$commentArray['authorName'].'</a>';
+        $commentArray['authorName'] = $quip->getChunk($authorTpl,array(
+            'name' => $commentArray['authorName'],
+            'url' => $commentArray['website'],
+        ));
     }
 
     if ($threaded && $stillOpen && $comment->get('depth') < $maxDepth && $comment->get('approved')

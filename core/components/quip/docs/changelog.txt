@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.2.3
 ======================================
+- [#40] Added &authorTpl to allow for a Chunk to change the display of the Author name
 - Do not send thread notification email to poster of comment
 - Allow ability to change email from name via quip.emails_from_name setting
 - [#39] Fixed issue with removeThreshold not working, as well as isModerator always failing

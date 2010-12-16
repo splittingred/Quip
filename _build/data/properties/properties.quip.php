@@ -165,6 +165,14 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'authorTpl',
+        'desc' => 'quip.prop_authortpl_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'quipAuthorTpl',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
         'name' => 'nameField',
         'desc' => 'quip.prop_namefield_desc',
         'type' => 'textfield',

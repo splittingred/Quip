@@ -1,0 +1,1 @@
+[[+url:is=``:then=`[[+name]]`:else=`<a href="[[+url]]">[[+name]]</a>`]]
