@@ -2,6 +2,9 @@ Changelog for Quip.
 
 Quip 1.2.3
 ======================================
+- Fixed bug in QuipRSS when using type of thread or family
+- Added Multi language support for QuipRSS
+- Added parameter &pagetitle to QuipRSS snippet to override the quip.latest.pagetitle placeholder which is empty when a thread has no comments.
 - [#40] Added &authorTpl to allow for a Chunk to change the display of the Author name
 - Do not send thread notification email to poster of comment
 - Allow ability to change email from name via quip.emails_from_name setting
