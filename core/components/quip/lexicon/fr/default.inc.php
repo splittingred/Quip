@@ -29,21 +29,21 @@
  */
 $_lang['quip'] = 'Quip';
 $_lang['quip_desc'] = 'Un composant simple de commentaires.';
-$_lang['quip.ago'] = ' ago';
+$_lang['quip.ago'] = ' (il y a)';
 $_lang['quip.ago_days'] = '[[+days]] jour';
 $_lang['quip.ago_hours'] = '[[+hours]] h';
 $_lang['quip.ago_minutes'] = '[[+minutes]] min';
 $_lang['quip.ago_seconds'] = '[[+seconds]] sec';
 $_lang['quip.approve_selected'] = 'Autoriser la sélection';
-$_lang['quip.approved'] = 'Autorisé';
-$_lang['quip.allowed_tags'] = 'Balises autorisées : [[+tags]]';
+$_lang['quip.approved'] = 'Autorisé(s)';
+$_lang['quip.allowed_tags'] = 'Tags autorisés : [[+tags]]';
 $_lang['quip.anonymous'] = 'Anonyme';
 $_lang['quip.author'] = 'Auteur';
 $_lang['quip.back_to_threads'] = 'Retour à la liste des sujets';
 $_lang['quip.body'] = 'Corps';
 $_lang['quip.bulk_actions'] = 'Actions groupées';
 $_lang['quip.close'] = 'Fermer';
-$_lang['quip.comment'] = 'Commenter';
+$_lang['quip.comment'] = 'Commentaires';
 $_lang['quip.comment_add_new'] = 'Ajouter un nouveau commentaire :';
 $_lang['quip.comment_approve'] = 'Autoriser le commentaire';
 $_lang['quip.comment_approve_selected'] = 'Autoriser les commentaires sélectionnés';
@@ -121,7 +121,7 @@ Merci,<br />
 </p>';
 $_lang['quip.spam_email_subject'] = '[Quip] commentaire rapporté comme spam';
 $_lang['quip.spam_marked'] = ' - marqué comme spam.';
-$_lang['quip.thread'] = 'Sujet';
+$_lang['quip.thread'] = 'Sujet(s)';
 $_lang['quip.thread_autoclosed'] = 'Les commentaires sur ce sujet ne sont plus acceptés.';
 $_lang['quip.thread_err_ns'] = 'Pas de sujet d\'indiqué.';
 $_lang['quip.thread_err_remove'] = 'Une erreur est survenue lors de la suppression de ce sujet.';
@@ -137,7 +137,7 @@ $_lang['quip.thread_truncate_confirm'] = 'Êtes-vous sûr de vouloir supprimer t
 $_lang['quip.thread_truncate_selected'] = 'Purger les sujets sélectionnés';
 $_lang['quip.thread_truncate_selected_confirm'] = 'Êtes-vous sûr de vouloir supprimer tous les commentaires de ces sujets?';
 $_lang['quip.threads'] = 'Sujets';
-$_lang['quip.unapproved'] = 'Non publié';
+$_lang['quip.unapproved'] = 'Non publié(s)';
 $_lang['quip.unapproved_comments'] = 'Commentaires non publiés';
 $_lang['quip.unapproved_comments_msg'] = 'Modérer tous les commentaires non publiés ici.';
 $_lang['quip.username_said'] = '<strong>[[+username]]</strong> a écrit :';
