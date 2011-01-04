@@ -77,6 +77,9 @@ if (empty($errors)) {
         $preview['md5email'] = md5($_POST['email']);
         $preview['gravatarIcon'] = $modx->getOption('gravatarIcon',$scriptProperties,'identicon');
         $preview['gravatarSize'] = $modx->getOption('gravatarSize',$scriptProperties,'50');
+        $urlsep = $modx->getOption('xhtml_urls',$scriptProperties,true) ? '&amp;' : '&';
+        $gravatarUrl = $modx->getOption('gravatarUrl',$scriptProperties,'http://www.gravatar.com/avatar/');
+        $preview['gravatarUrl'] = $gravatarUrl.$preview['md5email'].'?s='.$preview['gravatarSize'].$urlsep.'d='.$preview['gravatarIcon'];
     }
     if (!$modx->user->hasSessionContext($modx->context->get('key')) && !$requireAuth) {
         $preview['author'] = 0;

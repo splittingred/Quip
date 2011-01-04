@@ -3,9 +3,9 @@
 	
     <div id="quip-topofcomments-[[+idprefix]]"></div>
 
-    <ol class="quip-comment-list">
+    [[+comments:notempty=`<ol class="quip-comment-list">
     [[+comments]]
-    </ol>
+    </ol>`]]
 
     [[+pagination]]
 </div>

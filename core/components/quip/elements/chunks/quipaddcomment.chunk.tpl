@@ -2,33 +2,33 @@
 <span class="quip-success" id="quip-success-[[+idprefix]]">[[+successMsg]]</span>
 
 <form id="quip-add-comment-[[+idprefix]]" action="[[+url]]#quip-comment-preview-box-[[+idprefix]]" method="post">
-<input type="hidden" name="nospam" value="" />
-<input type="hidden" name="thread" value="[[+thread]]" />
-<input type="hidden" name="parent" value="[[+parent]]" />
-
 <div class="quip-comment quip-add-comment">
+    <input type="hidden" name="nospam" value="" />
+    <input type="hidden" name="thread" value="[[+thread]]" />
+    <input type="hidden" name="parent" value="[[+parent]]" />
+
     <span class="quip-error">[[+error]]</span>
     
      <div class="quip-fld">
-        <label for="quip-comment-name">[[%quip.name? &namespace=`quip` &topic=`default`]]:</label>
+        <label for="quip-comment-name-[[+idprefix]]">[[%quip.name? &namespace=`quip` &topic=`default`]]:</label>
         <input type="text" name="name" id="quip-comment-name-[[+idprefix]]" value="[[+name]]" />
         <br />
     </div>
     
     <div class="quip-fld">
-        <label for="quip-comment-email">[[%quip.email]]: </label>
+        <label for="quip-comment-email-[[+idprefix]]">[[%quip.email]]: </label>
         <input type="text" name="email" id="quip-comment-email-[[+idprefix]]" value="[[+email]]" />
         <br />
     </div>
     
     <div class="quip-fld">
-        <label for="quip-comment-website">[[%quip.website]]: </label>
+        <label for="quip-comment-website-[[+idprefix]]">[[%quip.website]]: </label>
         <input type="text" name="website" id="quip-comment-website-[[+idprefix]]" value="[[+website]]" />
         <br />
     </div>
 
     <div class="quip-fld">
-        <label for="quip-comment-notify">[[%quip.notify_me]]: </label>
+        <label for="quip-comment-notify-[[+idprefix]]">[[%quip.notify_me]]: </label>
         <input type="checkbox" value="1" name="notify" id="quip-comment-notify-[[+idprefix]]" [[+notify:if=`[[+notify]]`:eq=`1`:then=`checked="checked"`]] />
         <br />
     </div>

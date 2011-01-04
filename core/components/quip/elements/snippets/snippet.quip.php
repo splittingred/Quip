@@ -94,6 +94,7 @@ $closeAfter = $modx->getOption('closeAfter',$scriptProperties,14);
 $useGravatar = $modx->getOption('useGravatar',$scriptProperties,true);
 $gravatarIcon = $modx->getOption('gravatarIcon',$scriptProperties,'identicon');
 $gravatarSize = $modx->getOption('gravatarSize',$scriptProperties,50);
+$gravatarUrl = $modx->getOption('gravatarUrl',$scriptProperties,'http://www.gravatar.com/avatar/');
 
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'rank');
 $sortByAlias = $modx->getOption('sortByAlias',$scriptProperties,'quipComment');
@@ -259,6 +260,8 @@ foreach ($comments as $comment) {
         $commentArray['md5email'] = md5($comment->get('email'));
         $commentArray['gravatarIcon'] = $gravatarIcon;
         $commentArray['gravatarSize'] = $gravatarSize;
+        $urlsep = $modx->getOption('xhtml_urls',$scriptProperties,true) ? '&amp;' : '&';
+        $commentArray['gravatarUrl'] = $gravatarUrl.$commentArray['md5email'].'?s='.$commentArray['gravatarSize'].$urlsep.'d='.$commentArray['gravatarIcon'];
     }
 
     /* check for auth */

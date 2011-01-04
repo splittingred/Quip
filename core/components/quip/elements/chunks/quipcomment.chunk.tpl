@@ -1,7 +1,7 @@
 <li class="[[+cls]]" id="[[+idprefix]][[+id]]" [[+depth_margin:notempty=`style="padding-left: [[+depth_margin]]px"`]]>
 <div id="[[+idprefix]][[+id]]-div" class="quip-comment-body [[+alt]]">
     <div class="quip-comment-right">
-        [[+md5email:notempty=`<img src="http://www.gravatar.com/avatar/[[+md5email]]?s=[[+gravatarSize]]&d=[[+gravatarIcon]]" class="quip-avatar" />`]]
+        [[+gravatarUrl:notempty=`<img src="[[+gravatarUrl]]" class="quip-avatar" alt="" />`]]
     </div>
 
     <p class="quip-comment-meta">
