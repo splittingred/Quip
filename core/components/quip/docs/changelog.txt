@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 1.2.4
 ======================================
+- [#44] Prevent HTML tags in non-body fields in comment reply form
 - [#47] Clean up default HTML in tpls
 
 Quip 1.2.3

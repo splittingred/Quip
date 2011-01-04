@@ -6,9 +6,10 @@
  * @subpackage processors
  */
 $errors = array();
+$fields = $_POST;
 
 /* make sure not empty */
-if (empty($_POST['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
+if (empty($fields['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
 
 /* verify against spam */
 if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],true,true)) {
@@ -50,7 +51,7 @@ if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptcha
 }
 
 /* strip tags */
-$body = $_POST['comment'];
+$body = $fields['comment'];
 $body = preg_replace("/<script(.*)<\/script>/i",'',$body);
 $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
 $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
@@ -68,7 +69,7 @@ if ($modx->getOption('autoConvertLinks',$scriptProperties,true)) {
 
 /* if no errors, add preview field */
 if (empty($errors)) {
-    $preview = array_merge($_POST,array(
+    $preview = array_merge($fields,array(
         'body' => $body,
         'comment' => $formattedBody,
         'createdon' => strftime('%b %d, %Y at %I:%M %p',time()),
@@ -100,7 +101,7 @@ if (empty($errors)) {
     $placeholders['error'] = implode("<br />\n",$errors);
 }
 
-$placeholders = array_merge($placeholders,$_POST);
+$placeholders = array_merge($placeholders,$fields);
 $placeholders['comment'] = $body;
 
 

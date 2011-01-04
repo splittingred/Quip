@@ -88,6 +88,10 @@ if (!empty($_POST)) {
     $postAction = $modx->getOption('postAction',$scriptProperties,'quip-post');
     $allowedTags = $modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
     
+    $_POST['name'] = strip_tags($_POST['name']);
+    $_POST['email'] = strip_tags($_POST['email']);
+    $_POST['website'] = strip_tags($_POST['website']);
+    
     if (!empty($_POST[$postAction])) {
         $comment = include_once $quip->config['processorsPath'].'web/comment/create.php';
         if (is_object($comment) && $comment instanceof quipComment) {
