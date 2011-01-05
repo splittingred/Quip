@@ -90,7 +90,7 @@ $_lang['quip.prop_tplpaginationcurrentitem_desc'] = 'A Chunk for the current pag
 $_lang['quip.prop_tplreport_desc'] = 'The link on a comment to report as spam. Can either be a chunk name or value. If set to a value, will override the chunk.';
 $_lang['quip.prop_unapprovedcss_desc'] = 'The CSS class to put on unapproved comments.';
 $_lang['quip.prop_usecss_desc'] = 'If true, Quip will provide a basic CSS template for the presentation.';
-$_lang['quip.prop_usemargins_desc'] = 'If false, Quip will use ol/li items for each comment and threaded comment. If false, will use padded margins for each comment in threading.';
+$_lang['quip.prop_usemargins_desc'] = 'If false, Quip will use ol/li items for each comment and threaded comment. If true, will use padded margins for each comment in threading.';
 $_lang['quip.prop_usegravatar_desc'] = 'If true, will attempt to use Gravatar images for avatars.';
 
 /* QuipReply */
@@ -102,12 +102,12 @@ $_lang['quip.prop_reply_debug_desc'] = 'Set to true to turn on debug mode. Not r
 $_lang['quip.prop_reply_debuguser_desc'] = 'If debug is on, will set the username of $modx->user to this value.';
 $_lang['quip.prop_reply_debuguserid_desc'] = 'If debug is on, will set the id of $modx->user to this value.';
 $_lang['quip.prop_reply_disablerecaptchawhenloggedin_desc'] = 'If the user is logged in, do not use reCaptcha.';
-$_lang['quip.prop_reply_dontmoderatemanagerusers_desc'] = 'Never moderate users that are logged into the Revolution manager.';
+$_lang['quip.prop_reply_dontmoderatemanagerusers_desc'] = 'Never moderate users that are logged into the Revolution Manager.';
 $_lang['quip.prop_reply_gravataricon_desc'] = 'The default Gravatar icon to load if none is found for a user.';
 $_lang['quip.prop_reply_gravatarsize_desc'] = 'The size, in pixels, of the Gravatar.';
 $_lang['quip.prop_reply_idprefix_desc'] = 'If you want to use multiple Quip instances on a page, change this ID prefix.';
 $_lang['quip.prop_reply_moderate_desc'] = 'If set to true, all new posts to the thread will be moderated.';
-$_lang['quip.prop_reply_moderateanonymousonly_desc'] = 'If set to true, only anonymous (non-logged-in users) will be moderated.';
+$_lang['quip.prop_reply_moderateanonymousonly_desc'] = 'If set to true, only anonymous (non-logged-in) users will be moderated.';
 $_lang['quip.prop_reply_moderatefirstpostonly_desc'] = 'If set to true, only the first post of the user will be moderated. All subsequent posts will be auto-approved. This only applies to logged-in users.';
 $_lang['quip.prop_reply_moderatorgroup_desc'] = 'Any Users in this User Group will have moderator access.';
 $_lang['quip.prop_reply_moderators_desc'] = 'A comma-separated list of moderator usernames for this thread.';

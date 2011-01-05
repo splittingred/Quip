@@ -27,13 +27,13 @@
  * @package quip
  * @subpackage lexicon
  */
-$_lang['perm.comment_approve'] = 'Kommentar genehmigen.';
-$_lang['perm.comment_list'] = 'Kommentare im Thread anzeigen.';
+$_lang['perm.comment_approve'] = 'Kommentare genehmigen.';
+$_lang['perm.comment_list'] = 'Kommentare von Threads anzeigen.';
 $_lang['perm.comment_list_unapproved'] = 'Ungenehmigte Kommentare anzeigen.';
-$_lang['perm.comment_remove'] = 'Kommentare entfernen.';
+$_lang['perm.comment_remove'] = 'Kommentare löschen.';
 $_lang['perm.comment_update'] = 'Kommentare bearbeiten.';
-$_lang['perm.thread_list'] = 'Verf�gbare Threads anzeigen.';
+$_lang['perm.thread_list'] = 'Verfügbare Threads anzeigen.';
 $_lang['perm.thread_manage'] = 'Threads verwalten.';
-$_lang['perm.thread_truncate'] = 'Thread leeren';
+$_lang['perm.thread_truncate'] = 'Thread leeren.';
 $_lang['perm.thread_update'] = 'Thread bearbeiten.';
 $_lang['perm.thread_view'] = 'Thread anzeigen.';
