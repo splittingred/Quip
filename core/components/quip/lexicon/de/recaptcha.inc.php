@@ -4,7 +4,7 @@
  *
  * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
  *
- * This file is part of Quip, a simpel commenting component for MODx Revolution.
+ * This file is part of Quip, a simple commenting component for MODx Revolution.
  *
  * Quip is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -26,12 +26,12 @@
  * Translated by Dennis "DenSchub" Schubert <software@dsx.cc>
  *
  * @package quip
- * @subpackge lexicon
+ * @subpackage lexicon
  */
-$_lang['recaptcha.empty_answer'] = 'Falsche Captcha-Wörter. Bitte überprüfen Sie Ihre Antwort und versuchen Sie es erneut.';
-$_lang['recaptcha.incorrect'] = 'Das reCAPTCHA wurde nicht korrekt eingegeben. Bitte versuchen Sie es erneut. [[+error]]';
+$_lang['recaptcha.empty_answer'] = 'reCAPTCHA-Eingabe leer. Bitte überprüfen Sie Ihre Eingabe und versuchen Sie es erneut.';
+$_lang['recaptcha.incorrect'] = 'Das reCAPTCHA wurde nicht korrekt eingegeben. Bitte überprüfen Sie sie Eingabe und versuchen Sie es erneut. [[+error]]';
 $_lang['recaptcha.mailhide_no_mcrypt'] = 'Um reCAPTCHA Mailhide verwenden zu können, muss das mcrypt-PHP-Modul installiert sein.';
-$_lang['recaptcha.mailhide_no_api_key'] = 'Um reCAPTCHA Mailhide verwenden zu können, benötigen Sie einen privaten und einen öffentlichen Schlüssel. Anmeldung unter <a href="http://mailhide.recaptcha.net/apikey">http://mailhide.recaptcha.net/apikey</a>';
+$_lang['recaptcha.mailhide_no_api_key'] = 'Um reCAPTCHA Mailhide verwenden zu können, müssen Sie einen öffentlichen und privaten Schlüssel beantragen. Dies können Sie unter <a href="http://mailhide.recaptcha.net/apikey">http://mailhide.recaptcha.net/apikey</a> erledigen.';
 $_lang['recaptcha.no_api_key'] = 'Um reCAPTCHA verwenden zu können, benötigen Sie einen API-Schlüssel von <a href="http://recaptcha.net/api/getkey">http://recaptcha.net/api/getkey</a>';
-$_lang['recaptcha.no_remote_ip'] = 'Aus Sicherheitsgründen müssen sie die IP an reCAPTCHA übermitteln.';
+$_lang['recaptcha.no_remote_ip'] = 'Aus Sicherheitsgründen muss die IP-Adresse an reCAPTCHA übertragen werden.';
 
