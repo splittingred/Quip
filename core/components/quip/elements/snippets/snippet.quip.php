@@ -138,7 +138,7 @@ if (!empty($requireUsergroups)) {
 }
 
 /* handle remove post */
-if (!empty($_REQUEST[$removeAction])) {
+if (!empty($_REQUEST[$removeAction]) && $hasAuth && $isModerator) {
     $errors = include_once $quip->config['processorsPath'].'web/comment/remove.php';
     if (empty($errors)) {
         $params = $modx->request->getParameters();
@@ -149,7 +149,7 @@ if (!empty($_REQUEST[$removeAction])) {
     $placeholders['error'] = implode("<br />\n",$errors);
 }
 /* handle report spam */
-if (!empty($_REQUEST[$reportAction]) && $modx->getOption('allowReportAsSpam',$scriptProperties,true)) {
+if (!empty($_REQUEST[$reportAction]) && $modx->getOption('allowReportAsSpam',$scriptProperties,true) && $hasAuth) {
     $errors = include_once $quip->config['processorsPath'].'web/comment/report.php';
     if (empty($errors)) {
         $params = $modx->request->getParameters();
