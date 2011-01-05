@@ -221,7 +221,9 @@ if (!empty($parent)) {
 }
 $placeholders['total'] = $modx->getCount('quipComment',$c);
 if (!empty($ids)) {
-    $c->where('`Descendants`.`ancestor` IN ('.implode(',',$ids).')');
+    $c->where(array(
+        'Descendants.ancestor:IN' => $ids
+    ));
 }
 $c->select(array(
     'quipComment.*',
@@ -232,7 +234,7 @@ $c->select(array(
     'Author.username',
     'Resource.pagetitle',
 ));
-$c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
+$c->sortby($modx->escape($sortByAlias).'.'.$modx->escape($sortBy),$sortDir);
 $comments = $modx->getCollection('quipComment',$c);
 
 $pagePlaceholders = array();
