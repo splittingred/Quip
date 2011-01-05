@@ -4,7 +4,7 @@
  *
  * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
  *
- * This file is part of Quip, a simpel commenting component for MODx Revolution.
+ * This file is part of Quip, a simple commenting component for MODx Revolution.
  *
  * Quip is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -146,7 +146,7 @@ $_lang['quip.website'] = 'Website';
 
 $_lang['area_tags'] = 'Tags';
 $_lang['setting_quip.allowed_tags'] = 'Allowed Tags';
-$_lang['setting_quip.allowed_tags_desc'] = 'The tags allowed by users in comment posting. See <a target="_blank" href="http://php.net/strip_tags">php.net/strip_tags</a> for a list of acceptable values.';
+$_lang['setting_quip.allowed_tags_desc'] = 'The tags allowed for users in comment posting. See <a target="_blank" href="http://php.net/strip_tags">php.net/strip_tags</a> for a list of acceptable values.';
 $_lang['setting_quip.emailsFrom'] = 'From Email';
 $_lang['setting_quip.emailsFrom_desc'] = 'The email address to send system emails from.';
 $_lang['setting_quip.emailsTo'] = 'To Email';

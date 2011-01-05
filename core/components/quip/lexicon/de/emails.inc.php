@@ -4,7 +4,7 @@
  *
  * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
  *
- * This file is part of Quip, a simpel commenting component for MODx Revolution.
+ * This file is part of Quip, a simple commenting component for MODx Revolution.
  *
  * Quip is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -29,7 +29,7 @@
  */
 $_lang['quip.email_comment_approved'] = '<p>Hallo [[+name]],</p>
 
-<p>Ihr Kommentar wurde genehmigt, Sie können ihn hier anschauen:</p>
+<p>Ihr Kommentar wurde genehmigt. Sie kÃ¶nnen ihn hier anschauen:</p>
 
 <p><a href="[[+url]]">[[+url]]</a></p>
 
@@ -38,7 +38,7 @@ $_lang['quip.email_comment_approved'] = '<p>Hallo [[+name]],</p>
 $_lang['quip.email_comment_approved_subject'] = '[Quip] Ihr Kommentar wurde genehmigt';
 $_lang['quip.email_notify'] = '<p>Hallo,</p>
 
-<p>Ein neuer Kommentar von [[+name]] wurde geschrieben:</p>
+<p>Ein neuer Kommentar wurde von [[+name]] geschrieben:</p>
 
 <p><a href="[[+url]]">[[+url]]</a></p>
 
@@ -48,16 +48,16 @@ $_lang['quip.email_notify'] = '<p>Hallo,</p>
 
 <p>----------------------------------------------------</p>
 
-<p>Dies ist eine automatisch generierte eMail, bitte nicht direkt antworten. Die ID des
-Kommentars ist: <strong>[[+id]]</strong> im Thread "[[+thread]]".</p>
+<p>Dies ist eine automatisch generierte E-Mail. Bitte antworten Sie nicht direkt darauf. Die
+ID des Kommentars ist <strong>[[+id]]</strong> im Thread "[[+thread]]".</p>
 
 <p>
 Danke,<br />
 <em>Quip</em></p>';
-$_lang['quip.email_notify_subject'] = '[Quip] Neue Antwort geschrieben';
+$_lang['quip.email_notify_subject'] = '[Quip] Neue Antwort wurde geschrieben';
 $_lang['quip.email_moderate'] = '<p>Hallo,</p>
 
-<p>Ein neuer Kommentar von [[+name]] wartet auf Moderation. Es wurde geschrieben in:</p>
+<p>Ein neuer Kommentar von [[+name]] wartet auf Moderation:</p>
 
 <p><a href="[[+url]]">[[+url]]</a></p>
 
@@ -67,10 +67,10 @@ $_lang['quip.email_moderate'] = '<p>Hallo,</p>
 
 <p>----------------------------------------------------</p>
 
-<p><a href="[[+approveUrl]]">Genehmigen</a> | <a href="[[+rejectUrl]]">Löschen</a> | <a href="[[+unapprovedUrl]]">Ungenehmigte Kommentare</a></p>
+<p><a href="[[+approveUrl]]">Kommentar genehmigen</a> | <a href="[[+rejectUrl]]">Kommentar lÃ¶schen</a> | <a href="[[+unapprovedUrl]]">Ungenehmigte Kommentare</a></p>
 
-<p>Dies ist eine automatisch generierte eMail, bitte nicht direkt antworten. Die ID des
-Kommentars ist: <strong>[[+id]]</strong> im Thread "[[+thread]]".</p>
+<p>Dies ist eine automatisch generierte E-Mail. Bitte antworten Sie nicht direkt darauf. Die
+ID des Kommentars ist <strong>[[+id]]</strong> im Thread "[[+thread]]".</p>
 
 <p>
 Danke,<br />
