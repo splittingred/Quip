@@ -30,11 +30,11 @@
  */
 $_lang['quip'] = 'Quip';
 $_lang['quip_desc'] = 'Eine einfache Kommentarkomponente.';
-$_lang['quip.ago'] = ' bevor';
-$_lang['quip.ago_days'] = '[[+days]] Tage';
+$_lang['quip.ago'] = ' vor';
+$_lang['quip.ago_days'] = '[[+days]] Tagen';
 $_lang['quip.ago_hours'] = '[[+hours]] Stunden';
-$_lang['quip.ago_minutes'] = '[[+minutes]] Min';
-$_lang['quip.ago_seconds'] = '[[+seconds]] Sek';
+$_lang['quip.ago_minutes'] = '[[+minutes]] Minuten';
+$_lang['quip.ago_seconds'] = '[[+seconds]] Sekunden';
 $_lang['quip.approve_selected'] = 'Ausgewählte genehmigen';
 $_lang['quip.approved'] = 'Genehmigt';
 $_lang['quip.allowed_tags'] = 'Erlaubte Tags: [[+tags]]';
