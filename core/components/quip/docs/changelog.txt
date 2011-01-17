@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 1.2.5
+======================================
+- [#3521] Ensure dateFormat is respected in comment preview
+
 Quip 1.2.4
 ======================================
 - [#46] Add check for proper access when deleting/reporting comments via FE

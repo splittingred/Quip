@@ -72,7 +72,7 @@ if (empty($errors)) {
     $preview = array_merge($fields,array(
         'body' => $body,
         'comment' => $formattedBody,
-        'createdon' => strftime('%b %d, %Y at %I:%M %p',time()),
+        'createdon' => strftime($dateFormat,time()),
     ));
     if ($modx->getOption('useGravatar',$scriptProperties,true)) {
         $preview['md5email'] = md5($_POST['email']);

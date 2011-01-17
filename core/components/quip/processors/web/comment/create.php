@@ -77,6 +77,7 @@ if (!empty($errors)) return $errors;
 $comment = $modx->newObject('quipComment');
 $comment->fromArray($_POST);
 $comment->set('ip',$_SERVER['REMOTE_ADDR']);
+$comment->set('createdon',strftime('%b %d, %Y at %I:%M %p',time()));
 
 /* if moderation is on, don't auto-approve comments */
 if ($modx->getOption('moderate',$scriptProperties,false)) {
