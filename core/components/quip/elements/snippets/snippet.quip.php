@@ -131,7 +131,7 @@ unset($threadPK);
 $removeAction = $modx->getOption('removeAction',$scriptProperties,'quip_remove');
 $reportAction = $modx->getOption('reportAction',$scriptProperties,'quip_report');
 $isModerator = $thread->checkPolicy('moderate');
-$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false) || empty($requireAuth);
+$hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false);
 if (!empty($requireUsergroups)) {
     $requireUsergroups = explode(',',$requireUsergroups);
     $hasAuth = $modx->user->isMember($requireUsergroups);
