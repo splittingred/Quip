@@ -332,12 +332,13 @@ foreach ($comments as $comment) {
     }
 
     if ($threaded && $stillOpen && $comment->get('depth') < $maxDepth && $comment->get('approved')
-        && $hasAuth && !$modx->getOption('closed',$scriptProperties,false)) {
-
-        $params = $modx->request->getParameters();
-        $params['quip_thread'] = $comment->get('thread');
-        $params['quip_parent'] = $comment->get('id');
-        $commentArray['replyUrl'] = $modx->makeUrl($replyResourceId,'',$params);
+        && !$modx->getOption('closed',$scriptProperties,false)) {
+        if (!$requireAuth || $hasAuth) {
+            $params = $modx->request->getParameters();
+            $params['quip_thread'] = $comment->get('thread');
+            $params['quip_parent'] = $comment->get('id');
+            $commentArray['replyUrl'] = $modx->makeUrl($replyResourceId,'',$params);
+        }
     }
     $commentList[] = $commentArray;
     $alt = !$alt;

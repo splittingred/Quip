@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 2.0.0
+======================================
+- Fixed bug with replyUrl in threaded comments and requireAuth
+
 Quip 1.2.5
 ======================================
 - Fix issue where remove comment link was visible for non-authed users
