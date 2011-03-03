@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
+ * Copyright 2010-11 by Shaun McCormick <shaun@modx.com>
  *
  * This file is part of Quip.
  *

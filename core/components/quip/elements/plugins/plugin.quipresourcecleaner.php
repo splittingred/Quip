@@ -2,9 +2,9 @@
 /**
  * Quip
  *
- * Copyright 2010 by Shaun McCormick <shaun@modx.com>
+ * Copyright 2010-11 by Shaun McCormick <shaun@modx.com>
  *
- * This file is part of Quip, a simpel commenting component for MODx Revolution.
+ * This file is part of Quip, a simple commenting component for MODx Revolution.
  *
  * Quip is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software

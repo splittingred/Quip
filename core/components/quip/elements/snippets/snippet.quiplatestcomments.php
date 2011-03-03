@@ -2,9 +2,9 @@
 /**
  * Quip
  *
- * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
+ * Copyright 2010-11 by Shaun McCormick <shaun@modx.com>
  *
- * This file is part of Quip, a simpel commenting component for MODx Revolution.
+ * This file is part of Quip, a simple commenting component for MODx Revolution.
  *
  * Quip is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -27,7 +27,7 @@
  * Gets latest comments in a thread or by a user.
  *
  * @name QuipLatestComments
- * @author Shaun McCormick <shaun@modxcms.com>
+ * @author Shaun McCormick <shaun@modx.com>
  * @package quip
  */
 $quip = $modx->getService('quip','Quip',$modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/quip/',$scriptProperties);
