@@ -336,4 +336,45 @@ class Quip {
         }
         return $output;
     }
+
+    public function getNonce($prefix = 'quip-') {
+        return base64_encode($prefix.$this->modx->resource->get('id').'-'.session_id());
+    }
+    public function checkNonce($nonce,$prefix = 'quip-') {
+        $nonceKey = $this->getNonce($prefix);
+        $nonceCache = $this->modx->cacheManager->get('quip/'.$nonceKey);
+        $passedNonce = false;
+        if ($nonceCache && $nonceCache['value'] == $nonce) {
+            $passedNonce = true;
+        }
+        return $passedNonce;
+    }
+    public function createNonce($prefix = 'quip-') {
+        $nonceKey = $this->getNonce($prefix);
+        $nonce = uniqid($prefix.$this->modx->resource->get('id'));
+        $nonceCache = array('value' => $nonce);
+        $this->modx->cacheManager->set('quip/'.$nonceKey,$nonceCache,600);
+        return $nonce;
+    }
+
+    public function cleanse($body,array $scriptProperties = array()) {
+        $allowedTags = $this->modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
+        $autoConvertLinks = $this->modx->getOption('autoConvertLinks',$scriptProperties,true);
+
+        /* strip tags */
+        $body = preg_replace("/<script(.*)<\/script>/i",'',$body);
+        $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
+        $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
+        $body = strip_tags($body,$allowedTags);
+        $body = str_replace(array('"',"'"),array('&quot;','&apos;'),$body);
+        /* replace MODx tags with entities */
+        $body = str_replace(array('[',']'),array('&#91;','&#93;'),$body);
+
+        /* auto-convert links to tags */
+        if ($autoConvertLinks) {
+            $pattern = "@\b(https?://)?(([0-9a-zA-Z_!~*'().&=+$%-]+:)?[0-9a-zA-Z_!~*'().&=+$%-]+\@)?(([0-9]{1,3}\.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+\.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z]\.[a-zA-Z]{2,6})(:[0-9]{1,4})?((/[0-9a-zA-Z_!~*'().;?:\@&=+$,%#-]+)*/?)@";
+            $body = preg_replace($pattern, '<a href="\0">\0</a>',$body);
+        }
+        return $body;
+    }
 }

@@ -61,6 +61,10 @@ $addCommentTpl = $modx->getOption('tplAddComment',$scriptProperties,'quipAddComm
 $loginToCommentTpl = $modx->getOption('tplLoginToComment',$scriptProperties,'quipLoginToComment');
 $previewTpl = $modx->getOption('tplPreview',$scriptProperties,'quipPreviewComment');
 $closeAfter = $modx->getOption('closeAfter',$scriptProperties,14);
+$requirePreview = $modx->getOption('requirePreview',$scriptProperties,false);
+$previewAction = $modx->getOption('previewAction',$scriptProperties,'quip-preview');
+$postAction = $modx->getOption('postAction',$scriptProperties,'quip-post');
+$allowedTags = $modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
 
 /* get parent and auth */
 $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
@@ -80,17 +84,16 @@ $placeholders['url'] = $modx->makeUrl($modx->resource->get('id'),'',$p);
 $placeholders['idprefix'] = $thread->get('idprefix');
 
 /* handle POST */
+$fields = array();
+$hasPreview = false;
 if (!empty($_POST)) {
     foreach ($_POST as $k => $v) {
-        $_POST[$k] = str_replace(array('[',']'),array('&#91;','&#93;'),$v);
+        $fields[$k] = str_replace(array('[',']'),array('&#91;','&#93;'),$v);
     }
-    $previewAction = $modx->getOption('previewAction',$scriptProperties,'quip-preview');
-    $postAction = $modx->getOption('postAction',$scriptProperties,'quip-post');
-    $allowedTags = $modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
     
-    $_POST['name'] = strip_tags($_POST['name']);
-    $_POST['email'] = strip_tags($_POST['email']);
-    $_POST['website'] = strip_tags($_POST['website']);
+    $fields['name'] = strip_tags($fields['name']);
+    $fields['email'] = strip_tags($fields['email']);
+    $fields['website'] = strip_tags($fields['website']);
     
     if (!empty($_POST[$postAction])) {
         $comment = include_once $quip->config['processorsPath'].'web/comment/create.php';
@@ -109,10 +112,10 @@ if (!empty($_POST)) {
             $modx->sendRedirect($url);
         }
         $placeholders['error'] = implode("<br />\n",$errors);
-        $_POST[$previewAction] = true;
+        $fields[$previewAction] = true;
     }
     /* handle preview */
-    if (!empty($_POST[$previewAction])) {
+    else if (!empty($fields[$previewAction])) {
         $errors = include_once $quip->config['processorsPath'].'web/comment/preview.php';
     }
 }
@@ -121,8 +124,9 @@ if (isset($_GET['quip_approved']) && $_GET['quip_approved'] == 0) {
 }
 
 /* if using recaptcha, load recaptcha html if user is not logged in */
-$disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
-if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
+$disableRecaptchaWhenLoggedIn = (boolean)$modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
+$useRecaptcha = (boolean)$modx->getOption('recaptcha',$scriptProperties,false);
+if ($useRecaptcha && !($disableRecaptchaWhenLoggedIn && $hasAuth) && !$hasPreview) {
     $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['modelPath'].'recaptcha/');
     if ($recaptcha instanceof reCaptcha) {
         $recaptchaTheme = $modx->getOption('recaptchaTheme',$scriptProperties,'clean');
@@ -145,10 +149,18 @@ if ($hasAuth && $stillOpen) {
     /* prefill fields */
     $profile = $modx->user->getOne('Profile');
     if ($profile) {
-        $phs['name'] = !empty($_POST['name']) ? $_POST['name'] : $profile->get('fullname');
-        $phs['email'] = !empty($_POST['email']) ? $_POST['email'] : $profile->get('email');
-        $phs['website'] = !empty($_POST['website']) ? $_POST['website'] : $profile->get('website');
+        $phs['name'] = !empty($fields['name']) ? $fields['name'] : $profile->get('fullname');
+        $phs['email'] = !empty($fields['email']) ? $fields['email'] : $profile->get('email');
+        $phs['website'] = !empty($fields['website']) ? $fields['website'] : $profile->get('website');
     }
+
+    /* if requirePreview == false, auto-can post */
+    if (!$requirePreview) {
+        $phs['can_post'] = true;
+    }
+    $phs['post_action'] = $postAction;
+    $phs['preview_action'] = $previewAction;
+    $phs['allowed_tags'] = $allowedTags;
 
     $replyForm = $quip->getChunk($addCommentTpl,$phs);
 } else if (!$stillOpen) {

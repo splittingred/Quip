@@ -45,6 +45,14 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'requirePreview',
+        'desc' => 'quip.prop_reply_requirepreview_desc',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+        'lexicon' => 'quip:properties',
+    ),
+    array(
         'name' => 'closed',
         'desc' => 'quip.prop_reply_closed_desc',
         'type' => 'combo-boolean',

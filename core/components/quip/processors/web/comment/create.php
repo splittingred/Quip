@@ -29,20 +29,43 @@
  */
 $errors = array();
 /* verify a message was posted */
-if (empty($_POST['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
-if (empty($_POST['name'])) $errors[] = $modx->lexicon('quip.name_err_ns');
-if (empty($_POST['email'])) $errors[] = $modx->lexicon('quip.email_err_ns');
+if (empty($fields['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
+if (empty($fields['name'])) $errors[] = $modx->lexicon('quip.name_err_ns');
+if (empty($fields['email'])) $errors[] = $modx->lexicon('quip.email_err_ns');
 
-/* prevent spambots, author spoofing, greasemonkey kiddos, etc */
-if ($requireAuth && $_POST['author'] != $modx->user->get('id')) {
-    $errors['message'] = $modx->lexicon('quip.err_fraud_attempt');
-    return $errors;
+/* if using reCaptcha */
+$disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
+if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
+    if (isset($fields['auth_nonce']) && !empty($fields['preview_mode'])) {
+        /* if already passed reCaptcha via preview mode, verify nonce to prevent spam/fraud attacks */
+        $passedNonce = $quip->checkNonce($fields['auth_nonce'],'quip-form-');
+        if (!$passedNonce) {
+            $errors['message'] = $modx->lexicon('quip.err_fraud_attempt');
+            return $errors;
+        }
+    } else {
+        /* otherwise validate reCaptcha */
+        $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['modelPath'].'recaptcha/');
+        if (!($recaptcha instanceof reCaptcha)) {
+            $errors['recaptcha'] = $modx->lexicon('quip.recaptcha_err_load');
+        } elseif (empty($recaptcha->config[reCaptcha::OPT_PRIVATE_KEY])) {
+            $errors['recaptcha'] = $modx->lexicon('recaptcha.no_api_key');
+        } else {
+            $response = $recaptcha->checkAnswer($_SERVER['REMOTE_ADDR'],$fields['recaptcha_challenge_field'],$fields['recaptcha_response_field']);
+
+            if (!$response->is_valid) {
+                $errors['recaptcha'] = $modx->lexicon('recaptcha.incorrect',array(
+                    'error' => $response->error != 'incorrect-captcha-sol' ? $response->error : '',
+                ));
+            }
+        }
+    }
 }
 
 /* verify against spam */
 if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],true,true)) {
     $sfspam = new StopForumSpam($modx);
-    $spamResult = $sfspam->check($_SERVER['REMOTE_ADDR'],$_POST['email']);
+    $spamResult = $sfspam->check($_SERVER['REMOTE_ADDR'],$fields['email']);
     if (!empty($spamResult)) {
         $spamFields = implode($modx->lexicon('quip.spam_marked')."\n<br />",$spamResult);
         $errors['email'] = $modx->lexicon('quip.spam_blocked',array(
@@ -53,31 +76,20 @@ if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],tr
     $modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Couldnt load StopForumSpam class.');
 }
 
-/* sanity checks - strip out iframe/javascript */
-$body = $_POST['comment'];
-$body = preg_replace("/<script(.*)<\/script>/i",'',$body);
-$body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
-$body = preg_replace("/<iframe(.*)\/>/i",'',$body);
-$body = strip_tags($body,$allowedTags);
+/* cleanse body from XSS and other junk */
+$body = $quip->cleanse($fields['comment']);
+if (empty($body)) $errors[] = $modx->lexicon('quip.message_err_ns');
 $body = str_replace(array('<br><br>','<br /><br />'),'',nl2br($body));
-/* replace MODx tags with entities */
-$body = str_replace(array('[',']'),array('&#91;','&#93;'),$body);
-
-/* auto-convert links to tags */
-if ($modx->getOption('autoConvertLinks',$scriptProperties,true)) {
-    $pattern = "@\b(https?://)?(([0-9a-zA-Z_!~*'().&=+$%-]+:)?[0-9a-zA-Z_!~*'().&=+$%-]+\@)?(([0-9]{1,3}\.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+\.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z]\.[a-zA-Z]{2,6})(:[0-9]{1,4})?((/[0-9a-zA-Z_!~*'().;?:\@&=+$,%#-]+)*/?)@";
-    $body = preg_replace($pattern, '<a href="\0">\0</a>',$body);
-}
-
 
 /* if no errors, save comment */
 if (!empty($errors)) return $errors;
 
 
 $comment = $modx->newObject('quipComment');
-$comment->fromArray($_POST);
+$comment->fromArray($fields);
 $comment->set('ip',$_SERVER['REMOTE_ADDR']);
 $comment->set('createdon',strftime('%b %d, %Y at %I:%M %p',time()));
+$comment->set('body',$body);
 
 /* if moderation is on, don't auto-approve comments */
 if ($modx->getOption('moderate',$scriptProperties,false)) {
@@ -113,9 +125,9 @@ $comment->set('body',$body);
 /* URL preservation information
  * @deprecated 0.5.0, this now goes on the Thread, will remove code in 0.5.1
  */
-if (!empty($_POST['parent'])) {
+if (!empty($fields['parent'])) {
     /* for threaded comments, persist the parents URL */
-    $parentComment = $modx->getObject('quipComment',$_POST['parent']);
+    $parentComment = $modx->getObject('quipComment',$fields['parent']);
     if ($parentComment) {
         $comment->set('resource',$parentComment->get('resource'));
         $comment->set('idprefix',$parentComment->get('idprefix'));
@@ -137,9 +149,9 @@ if ($comment->save() == false) {
     /* if successful and requireAuth is true, update user profile */
     $profile = $modx->user->getOne('Profile');
     if ($profile) {
-        if (!empty($_POST['name'])) $profile->set('fullname',$_POST['name']);
-        if (!empty($_POST['email'])) $profile->set('email',$_POST['email']);
-        $profile->set('website',$_POST['website']);
+        if (!empty($fields['name'])) $profile->set('fullname',$fields['name']);
+        if (!empty($fields['email'])) $profile->set('email',$fields['email']);
+        $profile->set('website',$fields['website']);
         $profile->save();
     }
 }
@@ -161,15 +173,15 @@ if ($comment->get('approved')) {
 }
 
 /* if notify is set to true, add user to quipCommentNotify table */
-if (!empty($_POST['notify'])) {
+if (!empty($fields['notify'])) {
     $quipCommentNotify = $modx->getObject('quipCommentNotify',array(
         'thread' => $comment->get('thread'),
-        'email' => $_POST['email'],
+        'email' => $fields['email'],
     ));
     if (empty($quipCommentNotify)) {
         $quipCommentNotify = $modx->newObject('quipCommentNotify');
         $quipCommentNotify->set('thread',$comment->get('thread'));
-        $quipCommentNotify->set('email',$_POST['email']);
+        $quipCommentNotify->set('email',$fields['email']);
         $quipCommentNotify->save();
     }
 }

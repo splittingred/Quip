@@ -6,15 +6,13 @@
  * @subpackage processors
  */
 $errors = array();
-$fields = $_POST;
-
 /* make sure not empty */
 if (empty($fields['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
 
 /* verify against spam */
 if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],true,true)) {
     $sfspam = new StopForumSpam($modx);
-    $spamResult = $sfspam->check($_SERVER['REMOTE_ADDR'],$_POST['email']);
+    $spamResult = $sfspam->check($_SERVER['REMOTE_ADDR'],$fields['email']);
     if (!empty($spamResult)) {
         $spamFields = implode($modx->lexicon('quip.spam_marked')."\n<br />",$spamResult);
         $errors['email'] = $modx->lexicon('quip.spam_blocked',array(
@@ -34,38 +32,32 @@ if ($requireAuth && !$hasAuth) {
 /* if using reCaptcha */
 $disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
 if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
-    $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['modelPath'].'recaptcha/');
-    if (!($recaptcha instanceof reCaptcha)) {
-        $errors['recaptcha'] = $modx->lexicon('quip.recaptcha_err_load');
-    } elseif (empty($recaptcha->config[reCaptcha::OPT_PRIVATE_KEY])) {
-        $errors['recaptcha'] = $modx->lexicon('recaptcha.no_api_key');
-    } else {
-        $response = $recaptcha->checkAnswer($_SERVER['REMOTE_ADDR'],$_POST['recaptcha_challenge_field'],$_POST['recaptcha_response_field']);
+    /* prevent having to do recaptcha more than once */
+    $passedNonce = false;
+    if (!empty($fields['auth_nonce'])) {
+        $passedNonce = $quip->checkNonce($fields['auth_nonce'],'quip-form-');
+    }
+    if (!$passedNonce) {
+        $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['modelPath'].'recaptcha/');
+        if (!($recaptcha instanceof reCaptcha)) {
+            $errors['recaptcha'] = $modx->lexicon('quip.recaptcha_err_load');
+        } elseif (empty($recaptcha->config[reCaptcha::OPT_PRIVATE_KEY])) {
+            $errors['recaptcha'] = $modx->lexicon('recaptcha.no_api_key');
+        } else {
+            $response = $recaptcha->checkAnswer($_SERVER['REMOTE_ADDR'],$fields['recaptcha_challenge_field'],$fields['recaptcha_response_field']);
 
-        if (!$response->is_valid) {
-            $errors['recaptcha'] = $modx->lexicon('recaptcha.incorrect',array(
-                'error' => $response->error != 'incorrect-captcha-sol' ? $response->error : '',
-            ));
+            if (!$response->is_valid) {
+                $errors['recaptcha'] = $modx->lexicon('recaptcha.incorrect',array(
+                    'error' => $response->error != 'incorrect-captcha-sol' ? $response->error : '',
+                ));
+            }
         }
     }
 }
 
 /* strip tags */
-$body = $fields['comment'];
-$body = preg_replace("/<script(.*)<\/script>/i",'',$body);
-$body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
-$body = preg_replace("/<iframe(.*)\/>/i",'',$body);
-$body = strip_tags($body,$allowedTags);
-$body = str_replace(array('"',"'"),array('&quot;','&apos;'),$body);
-/* replace MODx tags with entities */
-$body = str_replace(array('[',']'),array('&#91;','&#93;'),$body);
+$body = $quip->cleanse($fields['comment']);
 $formattedBody = nl2br($body);
-
-/* auto-convert links to tags */
-if ($modx->getOption('autoConvertLinks',$scriptProperties,true)) {
-    $pattern = "@\b(https?://)?(([0-9a-zA-Z_!~*'().&=+$%-]+:)?[0-9a-zA-Z_!~*'().&=+$%-]+\@)?(([0-9]{1,3}\.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+\.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z]\.[a-zA-Z]{2,6})(:[0-9]{1,4})?((/[0-9a-zA-Z_!~*'().;?:\@&=+$,%#-]+)*/?)@";
-    $formattedBody = preg_replace($pattern, '<a href="\0">\0</a>',$formattedBody);
-}
 
 /* if no errors, add preview field */
 if (empty($errors)) {
@@ -75,7 +67,7 @@ if (empty($errors)) {
         'createdon' => strftime($dateFormat,time()),
     ));
     if ($modx->getOption('useGravatar',$scriptProperties,true)) {
-        $preview['md5email'] = md5($_POST['email']);
+        $preview['md5email'] = md5($fields['email']);
         $preview['gravatarIcon'] = $modx->getOption('gravatarIcon',$scriptProperties,'identicon');
         $preview['gravatarSize'] = $modx->getOption('gravatarSize',$scriptProperties,'50');
         $urlsep = $modx->getOption('xhtml_urls',$scriptProperties,true) ? '&amp;' : '&';
@@ -97,11 +89,22 @@ if (empty($errors)) {
         $preview['username'] = $preview['name'];
     }
     $placeholders['preview'] = $quip->getChunk($previewTpl,$preview);
+    $placeholders['can_post'] = true;
+    $hasPreview = true;
+    
+    /* make nonce value to prevent middleman/spam/hijack attacks */
+    $nonce = $quip->createNonce('quip-form-');
 } else {
     $placeholders['error'] = implode("<br />\n",$errors);
 }
 
 $placeholders = array_merge($placeholders,$fields);
+if (!empty($nonce)) {
+    $placeholders['auth_nonce'] = $nonce;
+}
+if (!empty($hasPreview)) {
+    $placeholders['preview_mode'] = 1;
+}
 $placeholders['comment'] = $body;
 
 

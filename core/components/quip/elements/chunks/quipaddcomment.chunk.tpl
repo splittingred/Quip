@@ -6,6 +6,8 @@
     <input type="hidden" name="nospam" value="" />
     <input type="hidden" name="thread" value="[[+thread]]" />
     <input type="hidden" name="parent" value="[[+parent]]" />
+    <input type="hidden" name="auth_nonce" value="[[+auth_nonce]]" />
+    <input type="hidden" name="preview_mode" value="[[+preview_mode]]" />
 
     <span class="quip-error">[[+error]]</span>
     
@@ -35,13 +37,15 @@
 
     <div class="quip-fld recaptcha">
     [[+quip.recaptcha_html]]
+    [[+error.recaptcha]]
     </div>
     
     
     <p><span class="quip-allowed-tags">[[%quip.allowed_tags? &tags=`[[++quip.allowed_tags:htmlent]]`]]</span>[[%quip.comment_add_new]] </p>
     <textarea name="comment" id="quip-comment-box-[[+idprefix]]" rows="5">[[+comment]]</textarea>
     
-    <button type="submit" name="quip-preview" value="1">[[%quip.preview]]</button>
+    <button type="submit" name="[[+preview_action]]" value="1">[[%quip.preview]]</button>
+    [[+can_post:is=`1`:then=`<button type="submit" name="[[+post_action]]" value="1">[[%quip.post]]</button>`]]
     
     <br class="clear" />
 </div>

@@ -117,6 +117,7 @@ $_lang['quip.prop_reply_previewaction_desc'] = 'The name of the submit field to 
 $_lang['quip.prop_reply_recaptcha_desc'] = 'If true, will enable reCaptcha support.';
 $_lang['quip.prop_reply_recaptchatheme_desc'] = 'If `recaptcha` is set to 1, this will select a theme for the reCaptcha widget.';
 $_lang['quip.prop_reply_requireauth_desc'] = 'If set to true, only logged-in users can post comments.';
+$_lang['quip.prop_reply_requirepreview_desc'] = 'If set to true, will require a user to preview their comment before posting.';
 $_lang['quip.prop_reply_requireusergroups_desc'] = 'Optional. A comma-separated list of User Groups to restrict commenting to.';
 $_lang['quip.prop_reply_tpladdcomment_desc'] = 'The add comment form. Can either be a chunk name or value. If set to a value, will override the chunk.';
 $_lang['quip.prop_reply_tpllogintocomment_desc'] = 'The portion to show when the user is not logged in. Can either be a chunk name or value. If set to a value, will override the chunk.';
