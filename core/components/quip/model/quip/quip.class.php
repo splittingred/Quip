@@ -310,6 +310,10 @@ class Quip {
 
     /**
      * Gets a proper array of time since a timestamp
+     *
+     * @access public
+     * @param string $input The time to get from
+     * @return array An array of times
      */
     public function timesince($input) {
         $output = '';
@@ -337,9 +341,42 @@ class Quip {
         return $output;
     }
 
+    /**
+     * Loads the Hooks class.
+     *
+     * @access public
+     * @param $type The type of hook to load.
+     * @param $config array An array of configuration parameters for the
+     * hooks class
+     * @return quipHooks An instance of the quipHooks class.
+     */
+    public function loadHooks($type = 'post',array $config = array()) {
+        if (!$this->modx->loadClass('quip.quipHooks',$this->config['modelPath'],true,true)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Could not load quipHooks class.');
+            return false;
+        }
+        $type = $type.'Hooks';
+        $this->$type = new quipHooks($this,$config);
+        return $this->$type;
+    }
+
+    /**
+     * Get a unique nonce value
+     *
+     * @access public
+     * @param string $prefix A prefix to append to the nonce.
+     * @return string The generated nonce.
+     */
     public function getNonce($prefix = 'quip-') {
         return base64_encode($prefix.$this->modx->resource->get('id').'-'.session_id());
     }
+    /**
+     * Verify that a passed nonce matches the cached nonce
+     * 
+     * @param string $nonce The nonce to check against
+     * @param string $prefix The prefix for the nonce
+     * @return bool True if passes
+     */
     public function checkNonce($nonce,$prefix = 'quip-') {
         $nonceKey = $this->getNonce($prefix);
         $nonceCache = $this->modx->cacheManager->get('quip/'.$nonceKey);
@@ -349,6 +386,13 @@ class Quip {
         }
         return $passedNonce;
     }
+    
+    /**
+     * Create a nonce to be used for verification and store in cache
+     *
+     * @param string $prefix The prefix for the nonce
+     * @return string The created nonce
+     */
     public function createNonce($prefix = 'quip-') {
         $nonceKey = $this->getNonce($prefix);
         $nonce = uniqid($prefix.$this->modx->resource->get('id'));
@@ -357,6 +401,13 @@ class Quip {
         return $nonce;
     }
 
+    /**
+     * Clean a string of tags and XSS attempts, and convert links to <a> tags
+     * 
+     * @param string $body The string to clean
+     * @param array $scriptProperties An array of options
+     * @return string The cleansed text
+     */
     public function cleanse($body,array $scriptProperties = array()) {
         $allowedTags = $this->modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
         $autoConvertLinks = $this->modx->getOption('autoConvertLinks',$scriptProperties,true);

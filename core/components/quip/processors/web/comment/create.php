@@ -73,19 +73,43 @@ if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],tr
 }
 
 /* cleanse body from XSS and other junk */
-$body = $quip->cleanse($fields['comment']);
-if (empty($body)) $errors['comment'] = $modx->lexicon('quip.message_err_ns');
-$body = str_replace(array('<br><br>','<br /><br />'),'',nl2br($body));
+$fields['body'] = $quip->cleanse($fields['comment']);
+if (empty($fields['body'])) $errors['comment'] = $modx->lexicon('quip.message_err_ns');
+$fields['body'] = str_replace(array('<br><br>','<br /><br />'),'',nl2br($fields['body']));
+
+
+/* run preHooks */
+$quip->loadHooks('pre');
+$quip->preHooks->loadMultiple($preHooks,$fields,array(
+    'hooks' => $preHooks,
+));
+
+/* if a prehook sets a field, do so here */
+if (!empty($quip->preHooks->fields)) {
+    $fs = $quip->preHooks->fields;
+    /* better handling of checkbox values when input name is an array[] */
+    foreach ($fs as $f => $v) {
+        if (is_array($v)) { implode(',',$v); }
+        $fs[$f] = $v;
+    }
+    /* assign new fields values */
+    $fields = $quip->preHooks->fields;
+}
+/* if any errors in preHooks */
+if (!empty($quip->preHooks->errors)) {
+    foreach ($quip->preHooks->errors as $key => $error) {
+        $errors[$key] = $error;
+    }
+}
 
 /* if no errors, save comment */
 if (!empty($errors)) return $errors;
-
 
 $comment = $modx->newObject('quipComment');
 $comment->fromArray($fields);
 $comment->set('ip',$_SERVER['REMOTE_ADDR']);
 $comment->set('createdon',strftime('%b %d, %Y at %I:%M %p',time()));
-$comment->set('body',$body);
+$comment->set('body',$fields['body']);
 
 /* if moderation is on, don't auto-approve comments */
 if ($modx->getOption('moderate',$scriptProperties,false)) {
@@ -114,9 +138,6 @@ if ($modx->getOption('moderate',$scriptProperties,false)) {
     }
     $comment->set('approved',$approved);
 }
-
-/* set body of comment */
-$comment->set('body',$body);
 
 /* URL preservation information
  * @deprecated 0.5.0, this now goes on the Thread, will remove code in 0.5.1
@@ -181,5 +202,12 @@ if (!empty($fields['notify'])) {
         $quipCommentNotify->save();
     }
 }
+
+/* run postHooks */
+$commentArray = $comment->toArray();
+$quip->loadHooks('post');
+$quip->postHooks->loadMultiple($postHooks,$commentArray,array(
+    'hooks' => $postHooks,
+));
 
 return $comment;

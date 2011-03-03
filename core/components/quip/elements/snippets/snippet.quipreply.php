@@ -65,6 +65,8 @@ $requirePreview = $modx->getOption('requirePreview',$scriptProperties,false);
 $previewAction = $modx->getOption('previewAction',$scriptProperties,'quip-preview');
 $postAction = $modx->getOption('postAction',$scriptProperties,'quip-post');
 $allowedTags = $modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
+$preHooks = $modx->getOption('preHooks',$scriptProperties,'');
+$postHooks = $modx->getOption('postHooks',$scriptProperties,'');
 
 /* get parent and auth */
 $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
@@ -115,6 +117,8 @@ if (!empty($_POST)) {
                 $url = str_replace('#'.$thread->get('idprefix').$comment->get('id'),'#quip-success-'.$thread->get('idprefix'),$url);
             }
             $modx->sendRedirect($url);
+        } else if (is_array($comment)) {
+            $errors = array_merge($errors,$comment);
         }
         $fields[$previewAction] = true;
     }
@@ -127,6 +131,7 @@ if (!empty($_POST)) {
         foreach ($errors as $k => $v) {
             $placeholders['error.'.$k] = $v;
         }
+        $placeholders = array_merge($placeholders,$fields);
     }
 }
 if (isset($_GET['quip_approved']) && $_GET['quip_approved'] == 0) {

@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 2.0.0
 ======================================
+- [#3519] Add pre and post Hooks to Quip
 - [#3523] Add field-specific error messages, ensure validation of those fields happens on first submit
 - [#3518] Enable one-click post options bypassing preview, and added requirePreview property to force preview if wanted
 - Fix bug with replyUrl in threaded comments and requireAuth
