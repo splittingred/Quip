@@ -28,10 +28,6 @@
  * @subpackage processors
  */
 $errors = array();
-/* verify a message was posted */
-if (empty($fields['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
-if (empty($fields['name'])) $errors[] = $modx->lexicon('quip.name_err_ns');
-if (empty($fields['email'])) $errors[] = $modx->lexicon('quip.email_err_ns');
 
 /* if using reCaptcha */
 $disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
@@ -40,7 +36,7 @@ if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptcha
         /* if already passed reCaptcha via preview mode, verify nonce to prevent spam/fraud attacks */
         $passedNonce = $quip->checkNonce($fields['auth_nonce'],'quip-form-');
         if (!$passedNonce) {
-            $errors['message'] = $modx->lexicon('quip.err_fraud_attempt');
+            $errors['comment'] = $modx->lexicon('quip.err_fraud_attempt');
             return $errors;
         }
     } else {
@@ -78,7 +74,7 @@ if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],tr
 
 /* cleanse body from XSS and other junk */
 $body = $quip->cleanse($fields['comment']);
-if (empty($body)) $errors[] = $modx->lexicon('quip.message_err_ns');
+if (empty($body)) $errors['comment'] = $modx->lexicon('quip.message_err_ns');
 $body = str_replace(array('<br><br>','<br /><br />'),'',nl2br($body));
 
 /* if no errors, save comment */

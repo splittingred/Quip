@@ -95,7 +95,12 @@ if (!empty($_POST)) {
     $fields['email'] = strip_tags($fields['email']);
     $fields['website'] = strip_tags($fields['website']);
     
-    if (!empty($_POST[$postAction])) {
+    /* verify a message was posted */
+    if (empty($fields['comment'])) $errors['comment'] = $modx->lexicon('quip.message_err_ns');
+    if (empty($fields['name'])) $errors['name'] = $modx->lexicon('quip.name_err_ns');
+    if (empty($fields['email'])) $errors['email'] = $modx->lexicon('quip.email_err_ns');
+    
+    if (!empty($_POST[$postAction]) && empty($errors)) {
         $comment = include_once $quip->config['processorsPath'].'web/comment/create.php';
         if (is_object($comment) && $comment instanceof quipComment) {
             $params = $modx->request->getParameters();
@@ -111,12 +116,17 @@ if (!empty($_POST)) {
             }
             $modx->sendRedirect($url);
         }
-        $placeholders['error'] = implode("<br />\n",$errors);
         $fields[$previewAction] = true;
     }
     /* handle preview */
-    else if (!empty($fields[$previewAction])) {
+    else if (!empty($fields[$previewAction]) && empty($errors)) {
         $errors = include_once $quip->config['processorsPath'].'web/comment/preview.php';
+    }
+    if (!empty($errors)) {
+        $placeholders['error'] = implode("<br />\n",$errors);
+        foreach ($errors as $k => $v) {
+            $placeholders['error.'.$k] = $v;
+        }
     }
 }
 if (isset($_GET['quip_approved']) && $_GET['quip_approved'] == 0) {

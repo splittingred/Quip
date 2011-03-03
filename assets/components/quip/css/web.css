@@ -55,7 +55,10 @@ ol.quip-children {
 }
 .quip-break { clear: left; }
 
-.quip-error { color: red; }
+.quip-error {
+    color: red;
+    font-size: .9em;
+}
 .quip-success {
     color: green;
 }

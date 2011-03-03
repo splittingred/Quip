@@ -7,7 +7,7 @@
  */
 $errors = array();
 /* make sure not empty */
-if (empty($fields['comment'])) $errors[] = $modx->lexicon('quip.message_err_ns');
+if (empty($fields['comment'])) $errors['comment'] = $modx->lexicon('quip.message_err_ns');
 
 /* verify against spam */
 if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],true,true)) {
@@ -25,7 +25,7 @@ if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],tr
 
 /* if requireAuth */
 if ($requireAuth && !$hasAuth) {
-    $errors['message'] = $modx->lexicon('quip.err_not_logged_in');
+    $errors['comment'] = $modx->lexicon('quip.err_not_logged_in');
     return $errors;
 }
 
@@ -94,8 +94,6 @@ if (empty($errors)) {
     
     /* make nonce value to prevent middleman/spam/hijack attacks */
     $nonce = $quip->createNonce('quip-form-');
-} else {
-    $placeholders['error'] = implode("<br />\n",$errors);
 }
 
 $placeholders = array_merge($placeholders,$fields);
