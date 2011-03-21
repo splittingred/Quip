@@ -202,7 +202,7 @@ if (!empty($limit)) {
 $c = $modx->newQuery('quipComment');
 $c->innerJoin('quipThread','Thread');
 $c->leftJoin('quipCommentClosure','Descendants');
-$c->leftJoin('quipCommentClosure','RootDescendant','`RootDescendant`.`descendant` = `quipComment`.`id` AND `RootDescendant`.`ancestor` = 0');
+$c->leftJoin('quipCommentClosure','RootDescendant','RootDescendant.descendant = quipComment.id AND RootDescendant.ancestor = 0');
 $c->leftJoin('quipCommentClosure','Ancestors');
 $c->leftJoin('modUser','Author');
 $c->leftJoin('modResource','Resource');

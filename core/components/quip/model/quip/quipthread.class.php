@@ -163,8 +163,8 @@ class quipThread extends xPDOObject {
         $moderatorGroup = $this->get('moderator_group');
         $c = $this->xpdo->newQuery('modUserProfile');
         $c->innerJoin('modUser','User');
-        $c->innerJoin('modUserGroupMember','UserGroupMembers','`User`.`id` = `UserGroupMembers`.`member`');
-        $c->innerJoin('modUserGroup','UserGroup','`UserGroup`.`id` = `UserGroupMembers`.`user_group`');
+        $c->innerJoin('modUserGroupMember','UserGroupMembers','User.id = UserGroupMembers.member');
+        $c->innerJoin('modUserGroup','UserGroup','UserGroup.id = UserGroupMembers.user_group');
         $c->where(array(
             'UserGroup.name' => $moderatorGroup,
         ));

@@ -99,7 +99,6 @@ class quipComment extends xPDOSimpleObject {
             }
 
             /* create closures and calculate rank */
-            $tableName = $this->xpdo->getTableName('quipCommentClosure');
             $c = $this->xpdo->newQuery('quipCommentClosure');
             $c->where(array(
                 'descendant' => $parent,

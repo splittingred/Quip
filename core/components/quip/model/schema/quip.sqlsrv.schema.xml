@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="quip" baseClass="xPDOObject" platform="sqlsrv" phpdoc-package="quip" phpdoc-subpackage="" version="1.1">
+    <!-- table for threads -->
+    <object class="quipThread" table="quip_threads" extends="xPDOObject">
+        <field key="name" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" index="pk" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="false" />
+
+        <field key="moderated" dbtype="bit" precision="1" phptype="boolean" attributes="unsigned" null="false" default="1" index="index" />
+        <field key="moderator_group" dbtype="nvarchar" precision="255" phptype="string" null="false" default="Administrator" index="index" />
+        <field key="moderators" dbtype="nvarchar" precision="max" phptype="string" default="" />
+        <field key="notify_emails" dbtype="nvarchar" precision="max" phptype="string" default="" />
+
+        <!-- These next 3 columns are needed since Quip doesn't tie a thread to
+        a specific page; you have to keep a map of the Resource's ID and any
+        REQUEST params that are used on that page to allow for proper URL
+        linking. Also, you need to keep the idprefix to allow for multiple Quip
+        instances per page. These are auto-generated on the load of the Quip
+        snippet, though, so if empty they will be auto-filled. Migrators from
+        other comment systems need not worry to fill these in. -->
+        <field key="resource" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="idprefix" dbtype="nvarchar" precision="255" phptype="string" null="false" default="qcom" />
+        <field key="existing_params" dbtype="nvarchar" precision="max" phptype="json" default="{}" />
+        <field key="quip_call_params" dbtype="nvarchar" precision="max" phptype="json" default="[]" />
+        <field key="quipreply_call_params" dbtype="nvarchar" precision="max" phptype="json" default="[]" />
+
+        <index alias="PRIMARY" name="PRIMARY" primary="true" unique="true" type="BTREE">
+            <column key="name" length="" collation="A" null="false" />
+        </index>
+        <index alias="moderated" name="moderated" primary="false" unique="true" type="BTREE">
+            <column key="moderated" length="" collation="A" null="false" />
+        </index>
+        <index alias="moderator_group" name="moderator_group" primary="false" unique="true" type="BTREE">
+            <column key="moderator_group" length="" collation="A" null="false" />
+        </index>
+        <index alias="resource" name="resource" primary="false" unique="true" type="BTREE">
+            <column key="resource" length="" collation="A" null="false" />
+        </index>
+
+        <aggregate alias="Resource" class="modResource" local="resource" foreign="id" cardinality="one" owner="foreign" />
+        <composite alias="Comments" class="quipComment" local="name" foreign="thread" cardinality="many" owner="local" />
+        <composite alias="Notifications" class="quipCommentNotify" local="name" foreign="thread" cardinality="many" owner="local" />
+    </object>
+
+    <!-- table for comments -->
+    <object class="quipComment" table="quip_comments" extends="xPDOSimpleObject">
+        <field key="thread" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" index="index" />
+        <field key="parent" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="rank" dbtype="nvarchar" precision="512" phptype="string" />
+
+        <field key="author" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="body" dbtype="nvarchar" precision="max" phptype="text" null="false" default="" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="approved" dbtype="bit" precision="1" phptype="boolean" attributes="unsigned" null="false" default="1" index="index" />
+        <field key="approvedon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="approvedby" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="name" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" />
+        <field key="email" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" />
+        <field key="website" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" />
+        <field key="ip" dbtype="nvarchar" precision="255" phptype="string" null="false" default="0.0.0.0" />
+
+        <field key="deleted" dbtype="bit" precision="1" phptype="boolean" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="deletedon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="deletedby" dbtype="integer" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+
+        <!-- deprecated in 0.5.0 -->
+        <field key="resource" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="index" />
+        <field key="idprefix" dbtype="nvarchar" precision="255" phptype="string" null="false" default="qcom" />
+        <field key="existing_params" dbtype="nvarchar" precision="max" phptype="json" default="[]" />
+
+        <index alias="thread" name="thread" primary="false" unique="true" type="BTREE">
+            <column key="thread" length="" collation="A" null="false" />
+        </index>
+        <index alias="parent" name="parent" primary="false" unique="true" type="BTREE">
+            <column key="parent" length="" collation="A" null="false" />
+        </index>
+        <index alias="author" name="author" primary="false" unique="true" type="BTREE">
+            <column key="author" length="" collation="A" null="false" />
+        </index>
+        <index alias="approved" name="approved" primary="false" unique="true" type="BTREE">
+            <column key="approved" length="" collation="A" null="false" />
+        </index>
+        <index alias="approvedby" name="approvedby" primary="false" unique="true" type="BTREE">
+            <column key="approvedby" length="" collation="A" null="false" />
+        </index>
+        <index alias="deleted" name="deleted" primary="false" unique="true" type="BTREE">
+            <column key="deleted" length="" collation="A" null="false" />
+        </index>
+        <index alias="deletedby" name="deletedby" primary="false" unique="true" type="BTREE">
+            <column key="deletedby" length="" collation="A" null="false" />
+        </index>
+        <index alias="resource" name="resource" primary="false" unique="true" type="BTREE">
+            <column key="resource" length="" collation="A" null="false" />
+        </index>
+        
+        <aggregate alias="Thread" class="quipThread" local="thread" foreign="name" cardinality="one" owner="foreign" />
+        <aggregate alias="Author" class="modUser" local="author" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Resource" class="modResource" local="resource" foreign="id" cardinality="one" owner="foreign" />
+
+        <aggregate alias="Parent" class="quipComment" local="parent" foreign="id" cardinality="one" owner="foreign" />
+        <composite alias="Children" class="quipComment" local="id" foreign="parent" cardinality="many" owner="local" />
+        <composite alias="Ancestors" class="quipCommentClosure" local="id" foreign="ancestor" cardinality="many" owner="local" />
+        <composite alias="Descendants" class="quipCommentClosure" local="id" foreign="descendant" cardinality="many" owner="local" />
+    </object>
+
+    <object class="quipCommentClosure" table="quip_comments_closure" extends="xPDOObject">
+        <field key="ancestor" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="pk" />
+        <field key="descendant" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" index="pk" />
+        <field key="depth" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+
+        <index alias="PRIMARY" name="PRIMARY" primary="true" unique="true" type="BTREE">
+            <column key="ancestor" length="" collation="A" null="false" />
+            <column key="descendant" length="" collation="A" null="false" />
+        </index>
+
+        <aggregate alias="Ancestor" class="quipComment" local="ancestor" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Descendant" class="quipComment" local="descendant" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+
+    <object class="quipCommentNotify" table="quip_comment_notify" extends="xPDOSimpleObject">
+        <field key="thread" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" index="index" />
+        <field key="email" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" />
+
+        <index alias="thread" name="thread" primary="false" unique="true" type="BTREE">
+            <column key="thread" length="" collation="A" null="false" />
+        </index>
+
+        <aggregate alias="Thread" class="quipThread" local="thread" foreign="name" cardinality="one" owner="foreign" />
+        <aggregate alias="Comments" class="quipComment" local="thread" foreign="thread" cardinality="many" owner="local" />
+    </object>
+</model>

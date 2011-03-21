@@ -58,6 +58,7 @@ class QuipTreeParser {
     private function _iterate($current){
         $depth = $current['depth'];
         $parent = $current['parent'];
+        $item = '';
 
         if (is_null($this->last)) {
             // Set first children in the tree

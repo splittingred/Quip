@@ -36,8 +36,6 @@ set_time_limit(0);
 /* define package name and sources */
 define('PKG_NAME','Quip');
 define('PKG_NAME_LOWER','quip');
-define('PKG_VERSION','0.4');
-define('PKG_RELEASE','rc1');
 
 $root = dirname(dirname(__FILE__)).'/';
 $sources = array(
@@ -50,6 +48,7 @@ $sources = array(
 /* load modx and configs */
 require_once dirname(__FILE__) . '/build.config.php';
 include_once MODX_CORE_PATH . 'model/modx/modx.class.php';
+require_once dirname(__FILE__) . '/build.properties.php';
 $modx= new modX();
 $modx->initialize('mgr');
 $modx->loadClass('transport.modPackageBuilder','',false, true);
@@ -57,10 +56,25 @@ echo '<pre>'; /* used for nice formatting of log messages */
 $modx->setLogLevel(modX::LOG_LEVEL_INFO);
 $modx->setLogTarget('ECHO');
 
-$manager= $modx->getManager();
-$generator= $manager->getGenerator();
 
-$generator->classTemplate= <<<EOD
+foreach (array('mysql', 'sqlsrv') as $driver) {
+    $xpdo= new xPDO(
+        $properties["{$driver}_string_dsn_nodb"],
+        $properties["{$driver}_string_username"],
+        $properties["{$driver}_string_password"],
+        $properties["{$driver}_array_options"],
+        $properties["{$driver}_array_driverOptions"]
+    );
+    $xpdo->setPackage('modx', dirname(XPDO_CORE_PATH) . '/model/');
+    $xpdo->setDebug(true);
+
+    $manager= $xpdo->getManager();
+    $generator= $manager->getGenerator();
+
+    $manager= $xpdo->getManager();
+    $generator= $manager->getGenerator();
+
+    $generator->classTemplate= <<<EOD
 <?php
 /**
  * Quip
@@ -90,7 +104,7 @@ $generator->classTemplate= <<<EOD
 class [+class+] extends [+extends+] {}
 ?>
 EOD;
-$generator->platformTemplate= <<<EOD
+    $generator->platformTemplate= <<<EOD
 <?php
 /**
  * Quip
@@ -121,7 +135,7 @@ require_once (strtr(realpath(dirname(dirname(__FILE__))), '\\\\', '/') . '/[+cla
 class [+class+]_[+platform+] extends [+class+] {}
 ?>
 EOD;
-$generator->mapHeader= <<<EOD
+    $generator->mapHeader= <<<EOD
 <?php
 /**
  * Quip
@@ -149,7 +163,8 @@ $generator->mapHeader= <<<EOD
  * [+phpdoc-package+]
  */
 EOD;
-$generator->parseSchema($sources['model'] . 'schema/'.PKG_NAME_LOWER.'.mysql.schema.xml', $sources['model']);
+    $generator->parseSchema($sources['model'] . 'schema/'.PKG_NAME_LOWER.'.'.$driver.'.schema.xml', $sources['model']);
+}
 
 
 $mtime= microtime();
