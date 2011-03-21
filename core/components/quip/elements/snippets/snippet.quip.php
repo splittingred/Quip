@@ -50,7 +50,9 @@ if (empty($thread)) return '';
 
 /* get thread */
 $threadPK = $thread;
-$thread = $modx->getObject('quipThread',$threadPK);
+$thread = $modx->getObject('quipThread',array(
+    'name' => $threadPK,
+));
 if ($thread) {
     $ps = $thread->get('quip_call_params');
     if (!empty($ps)) {

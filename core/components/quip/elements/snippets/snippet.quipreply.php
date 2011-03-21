@@ -36,7 +36,7 @@ if (!($quip instanceof Quip)) return '';
 /* get thread */
 $thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$scriptProperties,''));
 if (empty($thread)) return '';
-$thread = $modx->getObject('quipThread',$thread);
+$thread = $modx->getObject('quipThread',array('name' => $thread));
 if (!$thread) return '';
 
 /* sync properties with thread row values */
