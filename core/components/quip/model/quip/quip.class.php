@@ -402,7 +402,7 @@ class Quip {
     }
 
     /**
-     * Clean a string of tags and XSS attempts, and convert links to <a> tags
+     * Clean a string of tags and XSS attempts
      * 
      * @param string $body The string to clean
      * @param array $scriptProperties An array of options
@@ -410,7 +410,6 @@ class Quip {
      */
     public function cleanse($body,array $scriptProperties = array()) {
         $allowedTags = $this->modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
-        $autoConvertLinks = $this->modx->getOption('autoConvertLinks',$scriptProperties,true);
 
         /* strip tags */
         $body = preg_replace("/<script(.*)<\/script>/i",'',$body);
@@ -421,10 +420,26 @@ class Quip {
         /* replace MODx tags with entities */
         $body = str_replace(array('[',']'),array('&#91;','&#93;'),$body);
 
+        return $body;
+    }
+
+    /**
+     * Convert links to <a> tags and add rel="nofollow"
+     *
+     * @param string $body The string to parse
+     * @param array $scriptProperties An array of options
+     * @return string The parsed text
+     */
+    public function parseLinks($body,array $scriptProperties = array()) {
         /* auto-convert links to tags */
+        $autoConvertLinks = $this->modx->getOption('autoConvertLinks',$scriptProperties,true);
         if ($autoConvertLinks) {
+            $extraAutoLinksAttributes = $this->modx->getOption('extraAutoLinksAttributes',$scriptProperties,'');
+            if (!empty($extraAutoLinksAttributes) && substr($extraAutoLinksAttributes,0,1) != ' ') {
+                $extraAutoLinksAttributes = ' '.$extraAutoLinksAttributes;
+            }
             $pattern = "@\b(https?://)?(([0-9a-zA-Z_!~*'().&=+$%-]+:)?[0-9a-zA-Z_!~*'().&=+$%-]+\@)?(([0-9]{1,3}\.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+\.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z]\.[a-zA-Z]{2,6})(:[0-9]{1,4})?((/[0-9a-zA-Z_!~*'().;?:\@&=+$,%#-]+)*/?)@";
-            $body = preg_replace($pattern, '<a href="\0">\0</a>',$body);
+            $body = preg_replace($pattern, '<a href="\0" rel="nofollow"'.$extraAutoLinksAttributes.'>\0</a>',$body);
         }
         return $body;
     }

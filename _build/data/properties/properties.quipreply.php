@@ -178,6 +178,14 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'extraAutoLinksAttributes',
+        'desc' => 'quip.prop_reply_extraautolinksattributes_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
         'name' => 'useGravatar',
         'desc' => 'quip.prop_reply_usegravatar_desc',
         'type' => 'combo-boolean',

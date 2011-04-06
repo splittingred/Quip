@@ -74,9 +74,9 @@ if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],tr
 
 /* cleanse body from XSS and other junk */
 $fields['body'] = $quip->cleanse($fields['comment']);
+$fields['body'] = $quip->parseLinks($fields['body']);
 if (empty($fields['body'])) $errors['comment'] = $modx->lexicon('quip.message_err_ns');
 $fields['body'] = str_replace(array('<br><br>','<br /><br />'),'',nl2br($fields['body']));
-
 
 /* run preHooks */
 $quip->loadHooks('pre');

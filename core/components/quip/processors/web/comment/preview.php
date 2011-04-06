@@ -88,6 +88,7 @@ if (empty($errors)) {
     } else {
         $preview['username'] = $preview['name'];
     }
+    $preview['comment'] = $quip->parseLinks($preview['comment'],$scriptProperties);
     $placeholders['preview'] = $quip->getChunk($previewTpl,$preview);
     $placeholders['can_post'] = true;
     $hasPreview = true;

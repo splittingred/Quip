@@ -103,6 +103,7 @@ $_lang['quip.prop_reply_debuguser_desc'] = 'If debug is on, will set the usernam
 $_lang['quip.prop_reply_debuguserid_desc'] = 'If debug is on, will set the id of $modx->user to this value.';
 $_lang['quip.prop_reply_disablerecaptchawhenloggedin_desc'] = 'If the user is logged in, do not use reCaptcha.';
 $_lang['quip.prop_reply_dontmoderatemanagerusers_desc'] = 'Never moderate users that are logged into the Revolution Manager.';
+$_lang['quip.prop_reply_extraautolinksattributes_desc'] = 'Any extra HTML attributes to add to auto-converted links, if autoConvertLinks is set to 1.';
 $_lang['quip.prop_reply_gravataricon_desc'] = 'The default Gravatar icon to load if none is found for a user.';
 $_lang['quip.prop_reply_gravatarsize_desc'] = 'The size, in pixels, of the Gravatar.';
 $_lang['quip.prop_reply_idprefix_desc'] = 'If you want to use multiple Quip instances on a page, change this ID prefix.';

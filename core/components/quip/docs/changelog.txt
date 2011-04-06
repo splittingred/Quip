@@ -2,6 +2,8 @@ Changelog for Quip.
 
 Quip 2.0.0
 ======================================
+- Add extraAutoLinksAttributes property for specifying attributes to add to auto-converted links
+- Add rel-nofollow to any links parsed in comments
 - Add sqlsrv support for Revolution 2.1+ installs
 - [#4124] Add fix for threads that have complex names
 - [#3519] Add pre and post Hooks to Quip
