@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 2.0.1
+======================================
+- [#4063] Add unsubscribe option for logged-in users who have subscribed to a thread
+
 Quip 2.0.0
 ======================================
 - Add extraAutoLinksAttributes property for specifying attributes to add to auto-converted links

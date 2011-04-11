@@ -28,8 +28,10 @@
     </div>
 
     <div class="quip-fld">
+        [[+unsubscribe:default=`
         <label for="quip-comment-notify-[[+idprefix]]">[[%quip.notify_me]]:<span class="quip-error">[[+error.notify]]</span></label>
-        <input type="checkbox" value="1" name="notify" id="quip-comment-notify-[[+idprefix]]" [[+notify:if=`[[+notify]]`:eq=`1`:then=`checked="checked"`]] />
+        <input type="checkbox" value="1" name="notify" id="quip-comment-notify-[[+idprefix]]" [[+notifyChecked]] />
+        `]]
         <br />
     </div>
 

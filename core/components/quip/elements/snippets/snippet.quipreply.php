@@ -67,6 +67,7 @@ $postAction = $modx->getOption('postAction',$scriptProperties,'quip-post');
 $allowedTags = $modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
 $preHooks = $modx->getOption('preHooks',$scriptProperties,'');
 $postHooks = $modx->getOption('postHooks',$scriptProperties,'');
+$unsubscribeAction = $modx->getOption('unsubscribeAction',$scriptProperties,'quip_unsubscribe');
 
 /* get parent and auth */
 $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
@@ -134,8 +135,23 @@ if (!empty($_POST)) {
         $placeholders = array_merge($placeholders,$fields);
     }
 }
+/* display moderated success message */
 if (isset($_GET['quip_approved']) && $_GET['quip_approved'] == 0) {
     $placeholders['successMsg'] = $modx->lexicon('quip.comment_will_be_moderated');
+}
+
+/* handle unsubscribing from thread */
+if (!empty($_GET[$unsubscribeAction]) && $modx->user->hasSessionContext($modx->context->get('key'))) {
+    $profile = $modx->user->getOne('Profile');
+    if ($profile) {
+        $notify = $modx->getObject('quipCommentNotify',array(
+            'email' => $profile->get('email'),
+            'thread' => $thread,
+        ));
+        if ($notify && $notify->remove()) {
+            $placeholders['successMsg'] = $modx->lexicon('quip.unsubscribed');
+        }
+    }
 }
 
 /* if using recaptcha, load recaptcha html if user is not logged in */
@@ -160,6 +176,7 @@ if ($hasAuth && $stillOpen) {
     $phs = array_merge($placeholders,array(
         'username' => $modx->user->get('username'),
     ));
+    $phs['unsubscribe'] = '';
 
     /* prefill fields */
     $profile = $modx->user->getOne('Profile');
@@ -167,6 +184,21 @@ if ($hasAuth && $stillOpen) {
         $phs['name'] = !empty($fields['name']) ? $fields['name'] : $profile->get('fullname');
         $phs['email'] = !empty($fields['email']) ? $fields['email'] : $profile->get('email');
         $phs['website'] = !empty($fields['website']) ? $fields['website'] : $profile->get('website');
+
+        /* allow for unsubscribing for logged-in users */
+        if ($modx->user->hasSessionContext($modx->context->get('key'))) {
+            $notify = $modx->getObject('quipCommentNotify',array(
+                'email' => $profile->get('email'),
+                'thread' => $thread,
+            ));
+            if ($notify) {
+                $phs['notifyId'] = $notify->get('id');
+                $phs['unsubscribe'] = $quip->getChunk('quipUnsubscribe',$phs);
+                $params = $modx->request->getParameters();
+                $params[$unsubscribeAction] = 1;
+                $phs['unsubscribeUrl'] = $modx->makeUrl($modx->resource->get('id'),'',$params);
+            }
+        }
     }
 
     /* if requirePreview == false, auto-can post */
@@ -176,6 +208,7 @@ if ($hasAuth && $stillOpen) {
     $phs['post_action'] = $postAction;
     $phs['preview_action'] = $previewAction;
     $phs['allowed_tags'] = $allowedTags;
+    $phs['notifyChecked'] = !empty($fields['notify']) ? ' checked="checked"' : '';
 
     $replyForm = $quip->getChunk($addCommentTpl,$phs);
 } else if (!$stillOpen) {
