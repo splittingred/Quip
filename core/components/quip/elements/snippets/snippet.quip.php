@@ -227,8 +227,8 @@ if (!empty($ids)) {
         'Descendants.ancestor:IN' => $ids
     ));
 }
+$c->select($modx->getSelectColumns('quipComment','quipComment'));
 $c->select(array(
-    'quipComment.*',
     'Thread.resource',
     'Thread.idprefix',
     'Thread.existing_params',
@@ -249,15 +249,14 @@ $idx = 0;
 $commentList = array();
 foreach ($comments as $comment) {
     $commentArray = $comment->toArray();
+    $commentArray['children'] = '';
     $commentArray['alt'] = $alt ? $altRowCss : '';
     $commentArray['createdon'] = strftime($dateFormat,strtotime($comment->get('createdon')));
     $commentArray['url'] = $comment->makeUrl();
     $commentArray['idx'] = $idx;
     $commentArray['threaded'] = $threaded;
     $commentArray['depth'] = $comment->get('depth');
-    if ($useMargins) {
-        $commentArray['depth_margin'] = (int)($threadedPostMargin * $comment->get('depth'))+7;
-    }
+    $commentArray['depth_margin'] = $useMargins ? (int)($threadedPostMargin * $comment->get('depth'))+7 : 0;
     $commentArray['cls'] = $rowCss.($comment->get('approved') ? '' : ' '.$unapprovedCls);
     $commentArray['olCls'] = $olCss;
     if ($useGravatar) {
@@ -266,6 +265,8 @@ foreach ($comments as $comment) {
         $commentArray['gravatarSize'] = $gravatarSize;
         $urlsep = $modx->getOption('xhtml_urls',$scriptProperties,true) ? '&amp;' : '&';
         $commentArray['gravatarUrl'] = $gravatarUrl.$commentArray['md5email'].'?s='.$commentArray['gravatarSize'].$urlsep.'d='.$commentArray['gravatarIcon'];
+    } else {
+        $commentArray['gravatarUrl'] = '';
     }
 
     /* check for auth */
@@ -314,6 +315,7 @@ foreach ($comments as $comment) {
     /* get author display name */
     $authorTpl = $modx->getOption('authorTpl',$scriptProperties,'quipAuthorTpl');
     $nameField = $modx->getOption('nameField',$scriptProperties,'username');
+    $commentArray['authorName'] = '';
     if (empty($commentArray[$nameField])) {
         $commentArray['authorName'] = $quip->getChunk($authorTpl,array(
             'name' => $modx->getOption('showAnonymousName',$scriptProperties,false)
@@ -328,7 +330,7 @@ foreach ($comments as $comment) {
 
     if ($showWebsite && !empty($commentArray['website'])) {
         $commentArray['authorName'] = $quip->getChunk($authorTpl,array(
-            'name' => $commentArray['authorName'],
+            'name' => $commentArray[$nameField],
             'url' => $commentArray['website'],
         ));
     }
@@ -341,6 +343,8 @@ foreach ($comments as $comment) {
             $params['quip_parent'] = $comment->get('id');
             $commentArray['replyUrl'] = $modx->makeUrl($replyResourceId,'',$params);
         }
+    } else {
+        $commentArray['replyUrl'] = '';
     }
     $commentList[] = $commentArray;
     $alt = !$alt;
