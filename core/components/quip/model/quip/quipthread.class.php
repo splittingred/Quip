@@ -38,7 +38,7 @@ class quipThread extends xPDOObject {
         if ($this->get('moderated')) {
             $moderatorGroups = $this->trimArray($this->get('moderator_group'));
             $moderators = $this->trimArray($this->get('moderators'));
-            $inModeratorGroup = !empty($moderatorGroups) ? $this->xpdo->user->isMember($moderatorGroups) : false;
+            $inModeratorGroup = !empty($moderatorGroups) && !empty($this->xpdo->user) ? $this->xpdo->user->isMember($moderatorGroups) : false;
             $access = $inModeratorGroup || in_array($this->xpdo->user->get('username'),$moderators);
         }
 
@@ -69,6 +69,10 @@ class quipThread extends xPDOObject {
 
     /**
      * Trims an array's values to remove whitespaces. If value passed is a string, explodes it first.
+     *
+     * @param array $array
+     * @param string $delimiter
+     * @return string
      */
     protected function trimArray($array,$delimiter = ',') {
         if (!is_array($array)) {
@@ -81,7 +85,14 @@ class quipThread extends xPDOObject {
         return $ret;
     }
     
-    
+    /**
+     * Make the URL of the Quip thread for easy reference
+     *
+     * @param int $resource The ID of the resource to make from
+     * @param array $params Any params to add to the URL
+     * @param array $options An array of options for URL building
+     * @return string The created URL
+     */
     public function makeUrl($resource = 0,$params = array(),array $options = array()) {
         if (empty($resource)) $resource = $this->get('resource');
         if (empty($params)) $params = $this->get('existing_params');
@@ -91,14 +102,19 @@ class quipThread extends xPDOObject {
         return $this->xpdo->makeUrl($resource,'',$params,$scheme);
     }
 
-    
+    /**
+     * Sync the thread object
+     *
+     * @param array $scriptProperties
+     * @return bool True if changed
+     */
     public function sync(array $scriptProperties = array()) {
         $changed = false;
         $scriptProperties['idPrefix'] = $this->xpdo->getOption('idPrefix',$scriptProperties,'qcom');
 
         /* change idPrefix if set */
         if (!empty($scriptProperties['idPrefix']) && $this->get('idprefix') != $scriptProperties['idPrefix']) {
-            $this->set('idprefix',$idPrefix);
+            $this->set('idprefix',$scriptProperties['idPrefix']);
             $changed = true;
         }
         /* change moderate if diff */
@@ -181,6 +197,7 @@ class quipThread extends xPDOObject {
     /**
      * Sends notification to all watchers of this thread saying a new post has been made.
      *
+     * @param quipComment $comment A reference to the actual comment
      * @return boolean True if successful
      */
     public function notify(quipComment &$comment) {
@@ -227,10 +244,16 @@ class quipThread extends xPDOObject {
         if (!empty($emails)) {
             $this->sendEmail($subject,$body,$emails);
         }
-        return true;
+        return $success;
     }
 
-
+    /**
+     * Sends an email for this thread
+     * @param string $subject
+     * @param string $body
+     * @param string $to
+     * @return bool
+     */
     protected function sendEmail($subject,$body,$to) {
         if (!$this->_loadLexicon()) return false;
         $this->xpdo->lexicon->load('quip:emails');
