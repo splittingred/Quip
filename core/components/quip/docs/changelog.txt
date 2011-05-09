@@ -1,5 +1,10 @@
 Changelog for Quip.
 
+Quip 2.0.2
+======================================
+- [#4673], [#4596] Fix issue of 2.1 compatibility due to nested placeholder issue
+- [#4492] Add sanity check for contexts without load permission
+
 Quip 2.0.1
 ======================================
 - [#4063] Add unsubscribe option for logged-in users who have subscribed to a thread
