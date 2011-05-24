@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 2.0.3
+======================================
+- [#4823] Fix issue with sqlsrv schema and installs
+
 Quip 2.0.2
 ======================================
 - [#4673], [#4596] Fix issue of 2.1 compatibility due to nested placeholder issue
