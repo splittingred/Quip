@@ -1,7 +1,8 @@
 Changelog for Quip.
 
-Quip 2.0.3
+Quip 2.0.4
 ======================================
+- [#4805] Fix issue with depth_margin in default comment tpl
 - Abstract resolver SQL
 - [#4878] Fix issue with sqlsrv ints and bits in schema
 
