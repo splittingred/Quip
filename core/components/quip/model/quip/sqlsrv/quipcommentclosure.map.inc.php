@@ -39,7 +39,6 @@ $xpdo_meta_map['quipCommentClosure']= array (
     'ancestor' => 
     array (
       'dbtype' => 'int',
-      'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
       'default' => 0,
@@ -48,7 +47,6 @@ $xpdo_meta_map['quipCommentClosure']= array (
     'descendant' => 
     array (
       'dbtype' => 'int',
-      'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
       'default' => 0,
@@ -57,7 +55,6 @@ $xpdo_meta_map['quipCommentClosure']= array (
     'depth' => 
     array (
       'dbtype' => 'int',
-      'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
       'default' => 0,

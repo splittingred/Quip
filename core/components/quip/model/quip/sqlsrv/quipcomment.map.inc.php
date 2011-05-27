@@ -65,7 +65,6 @@ $xpdo_meta_map['quipComment']= array (
     'parent' => 
     array (
       'dbtype' => 'integer',
-      'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
       'default' => '0',
@@ -80,7 +79,6 @@ $xpdo_meta_map['quipComment']= array (
     'author' => 
     array (
       'dbtype' => 'integer',
-      'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
       'default' => '0',
@@ -109,7 +107,6 @@ $xpdo_meta_map['quipComment']= array (
     'approved' => 
     array (
       'dbtype' => 'bit',
-      'precision' => '1',
       'phptype' => 'boolean',
       'null' => false,
       'default' => 1,
@@ -124,7 +121,6 @@ $xpdo_meta_map['quipComment']= array (
     'approvedby' => 
     array (
       'dbtype' => 'integer',
-      'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
       'default' => '0',
@@ -165,7 +161,6 @@ $xpdo_meta_map['quipComment']= array (
     'deleted' => 
     array (
       'dbtype' => 'bit',
-      'precision' => '1',
       'phptype' => 'boolean',
       'null' => false,
       'default' => 0,
@@ -180,7 +175,6 @@ $xpdo_meta_map['quipComment']= array (
     'deletedby' => 
     array (
       'dbtype' => 'integer',
-      'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
       'default' => '0',
@@ -189,7 +183,6 @@ $xpdo_meta_map['quipComment']= array (
     'resource' => 
     array (
       'dbtype' => 'int',
-      'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
       'default' => 0,

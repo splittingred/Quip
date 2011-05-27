@@ -62,7 +62,6 @@ $xpdo_meta_map['quipThread']= array (
     'moderated' => 
     array (
       'dbtype' => 'bit',
-      'precision' => '1',
       'phptype' => 'boolean',
       'null' => false,
       'default' => 1,
@@ -94,7 +93,6 @@ $xpdo_meta_map['quipThread']= array (
     'resource' => 
     array (
       'dbtype' => 'int',
-      'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
       'default' => 0,

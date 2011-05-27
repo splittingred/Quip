@@ -35,36 +35,37 @@ if ($object->xpdo) {
             $modelPath = $modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/';
             $modx->addPackage('quip',$modelPath);
 
-            /* add name,email,website fields */
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `name` VARCHAR(255) NOT NULL default ''");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `email` VARCHAR(255) NOT NULL default ''");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `website` VARCHAR(255) NOT NULL default ''");
+            $manager = $modx->getManager();
 
-            /* make sure approved default is 1 */
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} CHANGE `approved` `approved` TINYINT(1) UNSIGNED NOT NULL DEFAULT  '1'");
+            $manager->addField('quipComment','name');
+            $manager->addField('quipComment','email');
+            $manager->addField('quipComment','website');
+
+            /* alter approved field */
+            $manager->alterField('quipComment','approved');
 
             /* add resource mapping changes */
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `resource` INT(10) unsigned NOT NULL default '0'");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `idprefix` VARCHAR(255) NOT NULL default 'qcom'");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `existing_params` TEXT");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `resource` (`resource`)");
+            $manager->addField('quipComment','resource');
+            $manager->addField('quipComment','idprefix');
+            $manager->addField('quipComment','existing_params');
+            $manager->addIndex('quipComment','resource');
 
             /* add threaded changes */
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `ip` VARCHAR(255) NOT NULL default '0.0.0.0' AFTER `website`");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `rank` TINYTEXT AFTER `parent`");
+            $manager->addField('quipComment','ip',array('after' => 'website'));
+            $manager->addField('quipComment','rank',array('after' => 'parent'));
 
             /* add approval/deleted changes */
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `approvedby` INT(10) unsigned NOT NULL default '0' AFTER `approvedon`");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `deleted` TINYINT(1) unsigned NOT NULL default '0' AFTER `ip`");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `deletedon` DATETIME AFTER `deleted`");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD `deletedby` INT(10) unsigned NOT NULL default '0' AFTER `deletedon`");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `approvedby` (`approvedby`)");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `deleted` (`deleted`)");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipComment')} ADD INDEX `deletedby` (`deletedby`)");
+            $manager->addField('quipComment','approvedby',array('after' => 'approvedon'));
+            $manager->addField('quipComment','deleted',array('after' => 'ip'));
+            $manager->addField('quipComment','deletedon',array('after' => 'deleted'));
+            $manager->addField('quipComment','deletedby',array('after' => 'deletedon'));
+            $manager->addIndex('quipComment','approvedby');
+            $manager->addIndex('quipComment','deleted');
+            $manager->addIndex('quipComment','deletedby');
 
             /* add call_params to quipThread */
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipThread')} ADD `quip_call_params` TEXT AFTER `existing_params`");
-            $modx->exec("ALTER TABLE {$modx->getTableName('quipThread')} ADD `quipreply_call_params` TEXT AFTER `quip_call_params`");
+            $manager->addField('quipThread','quip_call_params');
+            $manager->addField('quipThread','quipreply_call_params');
 
             /* create thread objects for comments if they dont exist */
             $c = $modx->newQuery('quipComment');
