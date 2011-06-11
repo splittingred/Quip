@@ -49,6 +49,9 @@ $stripTags = $modx->getOption('stripTags',$scriptProperties,true);
 $bodyLimit = $modx->getOption('bodyLimit',$scriptProperties,30);
 $contexts = $modx->getOption('contexts',$scriptProperties,'');
 
+if(isset($scriptProperties['suffix'])) $quip->config['suffix'] = $scriptProperties['suffix'];
+if(isset($scriptProperties['chunksPath'])) $quip->config['chunksPath'] = $scriptProperties['chunksPath'];
+
 /* build query by type */
 $c = $modx->newQuery('quipComment');
 $c->select(array(

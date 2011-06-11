@@ -69,6 +69,9 @@ $preHooks = $modx->getOption('preHooks',$scriptProperties,'');
 $postHooks = $modx->getOption('postHooks',$scriptProperties,'');
 $unsubscribeAction = $modx->getOption('unsubscribeAction',$scriptProperties,'quip_unsubscribe');
 
+if(isset($scriptProperties['suffix'])) $quip->config['suffix'] = $scriptProperties['suffix'];
+if(isset($scriptProperties['chunksPath'])) $quip->config['chunksPath'] = $scriptProperties['chunksPath'];
+
 /* get parent and auth */
 $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$scriptProperties,0));
 $hasAuth = $modx->user->hasSessionContext($modx->context->get('key')) || $modx->getOption('debug',$scriptProperties,false) || empty($requireAuth);
