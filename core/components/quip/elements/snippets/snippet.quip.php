@@ -105,6 +105,9 @@ $sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
 $limit = $modx->getOption('quip_limit',$_REQUEST,$modx->getOption('limit',$scriptProperties,0));
 $start = $modx->getOption('quip_start',$_REQUEST,$modx->getOption('offset',$scriptProperties,0));
 
+if(isset($scriptProperties['suffix'])) $quip->config['suffix'] = $scriptProperties['suffix'];
+if(isset($scriptProperties['chunksPath'])) $quip->config['chunksPath'] = $scriptProperties['chunksPath'];
+
 /* ensure thread exists, set thread properties if changed
  * (prior to 0.5.0 threads will be handled in install resolver) */
 if (!$thread) {
