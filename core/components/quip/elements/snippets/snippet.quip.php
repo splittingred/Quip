@@ -187,7 +187,7 @@ if (!empty($limit)) {
         ));
     }
 
-    $c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
+    $c->sortby($sortByAlias.'.'.$sortBy,$sortDir);
     $placeholders['rootTotal'] = $modx->getCount('quipComment',$c);
     $c->limit($limit,$start);
     $comments = $modx->getCollection('quipComment',$c);

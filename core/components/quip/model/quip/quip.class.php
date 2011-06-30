@@ -416,7 +416,8 @@ class Quip {
         $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
         $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
         $body = strip_tags($body,$allowedTags);
-        $body = str_replace(array('"',"'"),array('&quot;','&apos;'),$body);
+        // this causes double quotes on a href tags; commenting out for now
+        //$body = str_replace(array('"',"'"),array('&quot;','&apos;'),$body);
         /* replace MODx tags with entities */
         $body = str_replace(array('[',']'),array('&#91;','&#93;'),$body);
 
