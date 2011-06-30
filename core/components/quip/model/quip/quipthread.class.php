@@ -40,6 +40,8 @@ class quipThread extends xPDOObject {
             $moderators = $this->trimArray($this->get('moderators'));
             $inModeratorGroup = !empty($moderatorGroups) && !empty($this->xpdo->user) ? $this->xpdo->user->isMember($moderatorGroups) : false;
             $access = $inModeratorGroup || in_array($this->xpdo->user->get('username'),$moderators);
+        } else {
+            $access = $this->xpdo->user->isMember('Administrator');
         }
 
         /* now check global access */

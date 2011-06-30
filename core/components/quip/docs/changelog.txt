@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 2.0.4
 ======================================
+- [#5032] Fix issue with permissions on comments and removal
 - [#5033] Ensure author is set on new comments
 - [#5143] Ensure autoConvertLinks is respected in a post
 - [#5144] Fix issue with double quotes in a tags in the comment body
