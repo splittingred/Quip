@@ -1,4 +1,4 @@
-<li class="[[+cls]]" id="[[+idprefix]][[+id]]" [[+depth_margin:is=`0`:then=``:else=`style="padding-left: [[+depth_margin]]px"`]]>
+<li class="[[+cls]]" id="[[+idprefix]][[+id]]" [[+depth_margin:notempty=`style="padding-left: [[+depth_margin]]px"`]]>
 <div id="[[+idprefix]][[+id]]-div" class="quip-comment-body [[+alt]]">
     <div class="quip-comment-right">
         [[+gravatarUrl:notempty=`<img src="[[+gravatarUrl]]" class="quip-avatar" alt="" />`]]
