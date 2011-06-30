@@ -160,6 +160,11 @@ if (!empty($fields['parent'])) {
     $comment->set('existing_params',$p);
 }
 
+/* ensure author is set */
+if ($hasAuth) {
+    $comment->set('author', $modx->user->get('id'));
+}
+
 if ($comment->save() == false) {
     $errors['message'] = $modx->lexicon('quip.comment_err_save');
 } elseif ($requireAuth) {
