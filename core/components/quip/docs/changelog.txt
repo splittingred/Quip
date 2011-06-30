@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 2.0.4
 ======================================
+- [#4998] Fix bug with QuipLatestComments and family filter type
 - [#5032] Fix issue with permissions on comments and removal
 - [#5033] Ensure author is set on new comments
 - [#5143] Ensure autoConvertLinks is respected in a post

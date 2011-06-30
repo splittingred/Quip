@@ -51,10 +51,8 @@ $contexts = $modx->getOption('contexts',$scriptProperties,'');
 
 /* build query by type */
 $c = $modx->newQuery('quipComment');
-$c->select(array(
-    'quipComment.*',
-    'Resource.pagetitle',
-));
+$c->select($modx->getSelectColumns('quipComment','quipComment'));
+$c->select($modx->getSelectColumns('modResource','Resource','',array('pagetitle')));
 $c->leftJoin('modUser','Author');
 $c->leftJoin('modResource','Resource');
 $c->where(array(
@@ -89,7 +87,7 @@ switch ($type) {
         if (empty($scriptProperties['family'])) return '';
         $c = $modx->newQuery('quipComment');
         $c->where(array(
-            'quipComment.thread:LIKE' => $scriptProperties['family'],
+            'quipComment.thread:LIKE' => '%'.$scriptProperties['family'].'%',
         ));
         break;
     case 'all':
