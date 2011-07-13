@@ -146,6 +146,11 @@ class quipThread extends xPDOObject {
         return $changed;
     }
 
+    /**
+     * Ensure that the Lexicon is loaded for the modX instance
+     * 
+     * @return bool True if loaded
+     */
     protected function _loadLexicon() {
         if (!$this->xpdo->lexicon) {
             $this->xpdo->lexicon = $this->xpdo->getService('lexicon','modLexicon');

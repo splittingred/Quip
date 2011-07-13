@@ -23,6 +23,7 @@
  */
 /**
  * @package quip
+ * @subpackage mysql
  */
 $xpdo_meta_map['quipCommentNotify']= array (
   'package' => 'quip',

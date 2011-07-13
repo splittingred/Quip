@@ -100,6 +100,7 @@ foreach (array('mysql', 'sqlsrv') as $driver) {
  */
 /**
  * [+phpdoc-package+]
+ * [+phpdoc-subpackage+]
  */
 class [+class+] extends [+extends+] {}
 ?>
@@ -130,6 +131,7 @@ EOD;
  */
 /**
  * [+phpdoc-package+]
+ * [+phpdoc-subpackage+]
  */
 require_once (strtr(realpath(dirname(dirname(__FILE__))), '\\\\', '/') . '/[+class-lowercase+].class.php');
 class [+class+]_[+platform+] extends [+class+] {}
@@ -161,6 +163,7 @@ EOD;
  */
 /**
  * [+phpdoc-package+]
+ * [+phpdoc-subpackage+]
  */
 EOD;
     $generator->parseSchema($sources['model'] . 'schema/'.PKG_NAME_LOWER.'.'.$driver.'.schema.xml', $sources['model']);

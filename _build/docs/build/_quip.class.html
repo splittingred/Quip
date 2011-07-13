@@ -1,0 +1,791 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Quip API Documentation</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta><link rel="stylesheet" href="css/black-tie/jquery-ui-1.8.2.custom.css" type="text/css"></link><link rel="stylesheet" href="css/jquery.treeview.css" type="text/css"></link><link rel="stylesheet" href="css/theme.css" type="text/css"></link><script type="text/javascript" src="js/jquery-1.4.2.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script><script type="text/javascript" src="js/jquery.cookie.js"></script><script type="text/javascript" src="js/jquery.treeview.js"></script><script type="text/javascript">
+            $(document).ready(function() {
+                $(".filetree").treeview({
+                    collapsed: true,
+                    persist: "cookie"
+                });
+
+                $("#accordion").accordion({
+                    collapsible: true,
+                    autoHeight:  false,
+                    fillSpace:   true
+                });
+
+                $(".tabs").tabs();
+            });
+        </script></head><body><div xmlns="" id="content">
+<script>
+      $(document).ready(function() {
+        $('dl.function-info, dl.constant-info, dl.property-info').prev().css('cursor', 'pointer');
+        $('dl.function-info, dl.constant-info, dl.property-info').prev().click(function() {
+          if ($(this).next().is(':hidden'))
+          {
+            $(this).children('img')[0].src = 'images/arrow_down.gif';
+          } else
+          {
+            $(this).children('img')[0].src = 'images/arrow_right.gif';
+          }
+          $(this).next().slideToggle();
+        });
+      $('dl.function-info, dl.constant-info, dl.property-info').hide();
+      $('dl.function-info img, dl.constant-info img, dl.property-info img').show();
+      });
+    </script><a name="top"></a><h1 class="file">quip.class.php</h1>
+<div class="file_menu">
+<a href="#classes">Classes</a> </div>
+<dl class="file-info">
+<dt>package</dt>
+<dd>quip</dd>
+<dt>Classes</dt>
+<dd><a class="class" href="#%5CQuip">Quip</a></dd>
+</dl>
+<h2>Description</h2>
+<p class="short-description">Quip</p>
+<div class="long-description"><p>Copyright 2010-11 by Shaun McCormick <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#104;&#x61;&#x75;&#x6e;&#x40;&#x6d;&#111;&#100;&#120;&#46;&#99;&#x6f;&#x6d;">&#115;&#104;&#x61;&#x75;&#x6e;&#x40;&#x6d;&#111;&#100;&#120;&#46;&#99;&#x6f;&#x6d;</a></p>
+
+<p>This file is part of Quip, a simple commenting component for MODx Revolution.</p>
+
+<p>Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.</p>
+
+<p>Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA</p>
+</div>
+<a name="classes"></a><a id="\Quip"></a><h2 class="class">\Quip<div class="to-top"><a href="#top">jump to top</a></div>
+</h2>
+<div class="class">
+<dl class="class-info">
+<dt>author</dt>
+<dd>Shaun McCormick &lt;shaun@modx.com&gt;</dd>
+<dt>copyright</dt>
+<dd>Copyright (C) 2010, Shaun McCormick &lt;shaun@modx.com&gt;</dd>
+<dt>license</dt>
+<dd>http://opensource.org/licenses/gpl-2.0.php GNU Public License v2</dd>
+<dt>package</dt>
+<dd>quip</dd>
+<dt>Properties</dt>
+<dd><a class="property protected" href="#%5CQuip::%24chunks">$chunks</a></dd>
+<dd><a class="property public" href="#%5CQuip::%24config">$config</a></dd>
+<dd><a class="property public" href="#%5CQuip::%24modx">$modx</a></dd>
+<dt>Methods</dt>
+<dd><a class="method public" href="#%5CQuip::__construct()">__construct</a></dd>
+<dd><a class="method private" href="#%5CQuip::_getTplChunk()">_getTplChunk</a></dd>
+<dd><a class="method public" href="#%5CQuip::buildPagination()">buildPagination</a></dd>
+<dd><a class="method public" href="#%5CQuip::checkNonce()">checkNonce</a></dd>
+<dd><a class="method public" href="#%5CQuip::cleanse()">cleanse</a></dd>
+<dd><a class="method public" href="#%5CQuip::createNonce()">createNonce</a></dd>
+<dd><a class="method public" href="#%5CQuip::getChunk()">getChunk</a></dd>
+<dd><a class="method public" href="#%5CQuip::getNonce()">getNonce</a></dd>
+<dd><a class="method public" href="#%5CQuip::getTimeAgo()">getTimeAgo</a></dd>
+<dd><a class="method public" href="#%5CQuip::initialize()">initialize</a></dd>
+<dd><a class="method public" href="#%5CQuip::loadHooks()">loadHooks</a></dd>
+<dd><a class="method public" href="#%5CQuip::parseLinks()">parseLinks</a></dd>
+<dd><a class="method public" href="#%5CQuip::timesince()">timesince</a></dd>
+</dl>
+<h3>Description</h3>
+<p class="short-description">This file is the main class file for Quip.</p>
+<div class="long-description">
+</div>
+<h3>Properties</h3>
+<div>
+<a id="\Quip::$chunks"></a><h4 class="property protected">$chunks<div class="to-top"><a href="#%5CQuip">jump to class</a></div>
+</h4>
+<div class="property">
+<code>array <span class="highlight">$chunks</span> = 'array'</code><p class="short-description"></p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h4 class="info">
+<img src="images/arrow_right.gif"> Details</h4>
+<dl class="property-info">
+<dt></dt>
+<dd>array<br><em>A collection of preprocessed chunk values.</em>
+</dd>
+<dt>visibility</dt>
+<dd>protected</dd>
+<dt>default</dt>
+<dd>array</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+<dt>access</dt>
+<dd>protected</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::$config"></a><h4 class="property public">$config<div class="to-top"><a href="#%5CQuip">jump to class</a></div>
+</h4>
+<div class="property">
+<code>array <span class="highlight">$config</span> = 'array'</code><p class="short-description"></p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h4 class="info">
+<img src="images/arrow_right.gif"> Details</h4>
+<dl class="property-info">
+<dt></dt>
+<dd>array<br><em>A collection of properties to adjust Quip behaviour.</em>
+</dd>
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>default</dt>
+<dd>array</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+<dt>access</dt>
+<dd>public</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::$modx"></a><h4 class="property public">$modx<div class="to-top"><a href="#%5CQuip">jump to class</a></div>
+</h4>
+<div class="property">
+<code>\modX <span class="highlight">$modx</span> = 'null'</code><p class="short-description"></p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h4 class="info">
+<img src="images/arrow_right.gif"> Details</h4>
+<dl class="property-info">
+<dt></dt>
+<dd>\modX<br><em>A reference to the modX object.</em>
+</dd>
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>default</dt>
+<dd>null</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+<dt>access</dt>
+<dd>public</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+</div>
+<h3>Methods</h3>
+<div>
+<a id="\Quip::__construct()"></a><h4 class="method public">__construct<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">__construct</span><span class="nb-faded-text">(
+          \modX $modx, array $config
+              =
+              array
+          )
+        </span>
+        :
+        <a href="_quip.class.html#%5CQuip">\Quip</a></code><p class="short-description">The Quip Constructor.</p>
+<div class="long-description"><p>This method is used to create a new Quip object.</p>
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$modx</dt>
+<dd>\modX<br><em>&amp;amp;$modx A reference to the modX object.</em>
+</dd>
+<dt>$config</dt>
+<dd>array<br><em>A collection of properties that modify Quip behaviour.</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt><a href="_quip.class.html#%5CQuip">\Quip</a></dt>
+<dd><em>A unique Quip instance.</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::_getTplChunk()"></a><h4 class="method private">_getTplChunk<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">_getTplChunk</span><span class="nb-faded-text">(
+          string $name, string $suffix
+              =
+              .chunk.tpl
+          )
+        </span>
+        :
+        \modChunk/boolean</code><p class="short-description">Returns a modChunk object from a template file.</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$name</dt>
+<dd>string<br><em>The name of the Chunk. Will parse to name.chunk.tpl</em>
+</dd>
+<dt>$suffix</dt>
+<dd>string<br><em>The suffix to postfix the chunk with</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>\modChunk/boolean</dt>
+<dd><em>Returns the modChunk object if found, otherwise false.</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>private</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+<dt>access</dt>
+<dd>private</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::buildPagination()"></a><h4 class="method public">buildPagination<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">buildPagination</span><span class="nb-faded-text">(
+          array $options
+              =
+              array
+          )
+        </span>
+        :
+        string</code><p class="short-description">Builds simple pagination markup. Not yet used.</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$options</dt>
+<dd>array<br><em>An array of options: - count The total number of records - limit The number to limit to - start The record to start on - url The URL to prefix pagination urls with</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>string</dt>
+<dd><em>The rendered template.</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+<dt>access</dt>
+<dd>public</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::checkNonce()"></a><h4 class="method public">checkNonce<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">checkNonce</span><span class="nb-faded-text">(
+          string $nonce, string $prefix
+              =
+              quip-
+          )
+        </span>
+        :
+        bool</code><p class="short-description">Verify that a passed nonce matches the cached nonce</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$nonce</dt>
+<dd>string<br><em>The nonce to check against</em>
+</dd>
+<dt>$prefix</dt>
+<dd>string<br><em>The prefix for the nonce</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>bool</dt>
+<dd><em>True if passes</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::cleanse()"></a><h4 class="method public">cleanse<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">cleanse</span><span class="nb-faded-text">(
+          string $body, array $scriptProperties
+              =
+              array
+          )
+        </span>
+        :
+        string</code><p class="short-description">Clean a string of tags and XSS attempts</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$body</dt>
+<dd>string<br><em>The string to clean</em>
+</dd>
+<dt>$scriptProperties</dt>
+<dd>array<br><em>An array of options</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>string</dt>
+<dd><em>The cleansed text</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::createNonce()"></a><h4 class="method public">createNonce<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">createNonce</span><span class="nb-faded-text">(
+          string $prefix
+              =
+              quip-
+          )
+        </span>
+        :
+        string</code><p class="short-description">Create a nonce to be used for verification and store in cache</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$prefix</dt>
+<dd>string<br><em>The prefix for the nonce</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>string</dt>
+<dd><em>The created nonce</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::getChunk()"></a><h4 class="method public">getChunk<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">getChunk</span><span class="nb-faded-text">(
+          string $name, array $properties
+              =
+              array
+          )
+        </span>
+        :
+        string</code><p class="short-description">Gets a Chunk and caches it; also falls back to file-based templates
+for easier debugging.</p>
+<div class="long-description"><p>Will always use the file-based chunk if $debug is set to true.</p>
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$name</dt>
+<dd>string<br><em>The name of the Chunk</em>
+</dd>
+<dt>$properties</dt>
+<dd>array<br><em>The properties for the Chunk</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>string</dt>
+<dd><em>The processed content of the Chunk</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+<dt>access</dt>
+<dd>public</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::getNonce()"></a><h4 class="method public">getNonce<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">getNonce</span><span class="nb-faded-text">(
+          string $prefix
+              =
+              quip-
+          )
+        </span>
+        :
+        string</code><p class="short-description">Get a unique nonce value</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$prefix</dt>
+<dd>string<br><em>A prefix to append to the nonce.</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>string</dt>
+<dd><em>The generated nonce.</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+<dt>access</dt>
+<dd>public</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::getTimeAgo()"></a><h4 class="method public">getTimeAgo<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">getTimeAgo</span><span class="nb-faded-text">(
+          string $time
+          )
+        </span>
+        :
+        string</code><p class="short-description">Gets a properly formatted "time ago" from a specified timestamp. Copied
+from MODx core output filters.</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$time</dt>
+<dd>string<br><em></em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>string</dt>
+<dd><em></em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::initialize()"></a><h4 class="method public">initialize<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">initialize</span><span class="nb-faded-text">(
+          string $ctx
+              =
+              mgr
+          )
+        </span>
+        :
+        string</code><p class="short-description">Initializes Quip based on a specific context.</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$ctx</dt>
+<dd>string<br><em>The context to initialize in.</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>string</dt>
+<dd><em>The processed content.</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+<dt>access</dt>
+<dd>public</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::loadHooks()"></a><h4 class="method public">loadHooks<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">loadHooks</span><span class="nb-faded-text">(
+          string $type
+              =
+              post, array $config
+              =
+              array
+          )
+        </span>
+        :
+        <a href="_quiphooks.class.html#%5CquipHooks">\quipHooks</a></code><p class="short-description">Loads the Hooks class.</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$type</dt>
+<dd>string<br><em>The type of hook to load.</em>
+</dd>
+<dt>$config</dt>
+<dd>array<br><em>An array of configuration parameters for the hooks class</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt><a href="_quiphooks.class.html#%5CquipHooks">\quipHooks</a></dt>
+<dd><em>An instance of the quipHooks class.</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::parseLinks()"></a><h4 class="method public">parseLinks<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">parseLinks</span><span class="nb-faded-text">(
+          string $body, array $scriptProperties
+              =
+              array
+          )
+        </span>
+        :
+        string</code><p class="short-description">Convert links to &lt;a&gt; tags and add rel="nofollow"</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$body</dt>
+<dd>string<br><em>The string to parse</em>
+</dd>
+<dt>$scriptProperties</dt>
+<dd>array<br><em>An array of options</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>string</dt>
+<dd><em>The parsed text</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+<a id="\Quip::timesince()"></a><h4 class="method public">timesince<div class="to-top"><a href="#Quip">jump to class</a></div>
+</h4>
+<div class="method">
+<code><span class="highlight">timesince</span><span class="nb-faded-text">(
+          string $input
+          )
+        </span>
+        :
+        array</code><p class="short-description">Gets a proper array of time since a timestamp</p>
+<div class="long-description">
+</div>
+<div class="api-section">
+<h5 class="arguments">Arguments</h5>
+<dl class="argument-info">
+<dt>$input</dt>
+<dd>string<br><em>The time to get from</em>
+</dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="output">Output</h5>
+<dl class="return-info">
+<dt>array</dt>
+<dd><em>An array of times</em></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<div class="api-section">
+<h5 class="info">
+<img src="images/arrow_right.gif"> Details</h5>
+<dl class="function-info">
+<dt>visibility</dt>
+<dd>public</dd>
+<dt>final</dt>
+<dd>false</dd>
+<dt>static</dt>
+<dd>false</dd>
+<dt>access</dt>
+<dd>public</dd>
+</dl>
+<div class="clear"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<small xmlns="" class="footer">Documentation was generated by <a href="http://docblox-project.org">DocBlox 0.11.2</a>.
+    </small></body></html>

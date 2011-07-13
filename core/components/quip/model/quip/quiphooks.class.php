@@ -57,9 +57,8 @@ class quipHooks {
     /**
      * The constructor for the quipHooks class
      *
-     * @param Quip &$quip A reference to the Quip class instance.
+     * @param Quip $quip A reference to the Quip class instance.
      * @param array $config Optional. An array of configuration parameters.
-     * @return fiHooks
      */
     function __construct(Quip &$quip,array $config = array()) {
         $this->quip =& $quip;

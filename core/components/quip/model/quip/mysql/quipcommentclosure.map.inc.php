@@ -23,6 +23,7 @@
  */
 /**
  * @package quip
+ * @subpackage mysql
  */
 $xpdo_meta_map['quipCommentClosure']= array (
   'package' => 'quip',

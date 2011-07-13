@@ -1,0 +1,1973 @@
+<?xml version="1.0"?>
+<project version="0.11.2" title="Quip API Documentation">
+  <file path="mysql/quipcomment.class.php" hash="2e359e8de3a1d2c64e17e7c4ef8f2b96">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <include type="Require Once" line="24">
+      <name>Unknown</name>
+    </include>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>quipComment_mysql</name>
+      <extends>\quipComment</extends>
+      <full_name>\quipComment_mysql</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="25"/>
+        <tag name="subpackage" description="mysql" line="25"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="mysql/quipcommentclosure.class.php" hash="7fbc3444761e6fd1a69ba8b0adb176b5">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <include type="Require Once" line="24">
+      <name>Unknown</name>
+    </include>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>quipCommentClosure_mysql</name>
+      <extends>\quipCommentClosure</extends>
+      <full_name>\quipCommentClosure_mysql</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="25"/>
+        <tag name="subpackage" description="mysql" line="25"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="mysql/quipcommentnotify.class.php" hash="38f33bf37fa3523a07ac651f202beb67">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <include type="Require Once" line="24">
+      <name>Unknown</name>
+    </include>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>quipCommentNotify_mysql</name>
+      <extends>\quipCommentNotify</extends>
+      <full_name>\quipCommentNotify_mysql</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="25"/>
+        <tag name="subpackage" description="mysql" line="25"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="mysql/quipthread.class.php" hash="8a0893e6404c2601e17b0a939caf4630">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <include type="Require Once" line="24">
+      <name>Unknown</name>
+    </include>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>quipThread_mysql</name>
+      <extends>\quipThread</extends>
+      <full_name>\quipThread_mysql</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="25"/>
+        <tag name="subpackage" description="mysql" line="25"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="quip.class.php" hash="b52acea874dac162cf099b2d8b6ceed0">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <class final="false" abstract="false" line="32" namespace="default">
+      <name>Quip</name>
+      <extends/>
+      <full_name>\Quip</full_name>
+      <docblock>
+        <description>This file is the main class file for Quip.</description>
+        <long-description>
+</long-description>
+        <tag name="copyright" description="Copyright (C) 2010, Shaun McCormick &amp;lt;shaun@modx.com&amp;gt;" line="24"/>
+        <tag name="author" description="Shaun McCormick &amp;lt;shaun@modx.com&amp;gt;" line="24"/>
+        <tag name="license" description="http://opensource.org/licenses/gpl-2.0.php GNU Public License v2" line="24"/>
+        <tag name="package" description="quip" line="24"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="37">
+        <name>$chunks</name>
+        <default>array</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="access" description="protected" line="33"/>
+          <tag name="var" description="A collection of preprocessed chunk values." type="array" line="33">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="42">
+        <name>$modx</name>
+        <default>null</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="38"/>
+          <tag name="var" description="A reference to the modX object." type="\modX" line="38">
+            <type by_reference="false">\modX</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="47">
+        <name>$config</name>
+        <default>array</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="43"/>
+          <tag name="var" description="A collection of properties to adjust Quip behaviour." type="array" line="43">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" line="59">
+        <name>__construct</name>
+        <docblock>
+          <description>The Quip Constructor.</description>
+          <long-description>&lt;p&gt;This method is used to create a new Quip object.&lt;/p&gt;
+</long-description>
+          <tag name="param" description="&amp;amp;$modx A reference to the modX object." type="\modX" variable="$modx" line="49">
+            <type by_reference="false">\modX</type>
+          </tag>
+          <tag name="param" description="A collection of properties that modify Quip behaviour." type="array" variable="$config" line="49">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="A unique Quip instance." type="\Quip" line="49">
+            <type by_reference="false">\Quip</type>
+          </tag>
+        </docblock>
+        <argument line="59">
+          <name>$modx</name>
+          <default/>
+          <type>modX</type>
+        </argument>
+        <argument line="59">
+          <name>$config</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="121">
+        <name>initialize</name>
+        <docblock>
+          <description>Initializes Quip based on a specific context.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="114"/>
+          <tag name="param" description="The context to initialize in." type="string" variable="$ctx" line="114">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="The processed content." type="string" line="114">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="121">
+          <name>$ctx</name>
+          <default>mgr</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="146">
+        <name>getChunk</name>
+        <docblock>
+          <description>Gets a Chunk and caches it; also falls back to file-based templates
+for easier debugging.</description>
+          <long-description>&lt;p&gt;Will always use the file-based chunk if $debug is set to true.&lt;/p&gt;
+</long-description>
+          <tag name="access" description="public" line="135"/>
+          <tag name="param" description="The name of the Chunk" type="string" variable="$name" line="135">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="The properties for the Chunk" type="array" variable="$properties" line="135">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="The processed content of the Chunk" type="string" line="135">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="146">
+          <name>$name</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="146">
+          <name>$properties</name>
+          <default>array</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" line="174">
+        <name>_getTplChunk</name>
+        <docblock>
+          <description>Returns a modChunk object from a template file.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="private" line="165"/>
+          <tag name="param" description="The name of the Chunk. Will parse to name.chunk.tpl" type="string" variable="$name" line="165">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="The suffix to postfix the chunk with" type="string" variable="$suffix" line="165">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="Returns the modChunk object if found, otherwise false." type="\modChunk/boolean" line="165">
+            <type by_reference="false">\modChunk/boolean</type>
+          </tag>
+        </docblock>
+        <argument line="174">
+          <name>$name</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="174">
+          <name>$suffix</name>
+          <default>.chunk.tpl</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="199">
+        <name>buildPagination</name>
+        <docblock>
+          <description>Builds simple pagination markup. Not yet used.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="188"/>
+          <tag name="param" description="An array of options: - count The total number of records - limit The number to limit to - start The record to start on - url The URL to prefix pagination urls with" type="array" variable="$options" line="188">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="The rendered template." type="string" line="188">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="199">
+          <name>$options</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="244">
+        <name>getTimeAgo</name>
+        <docblock>
+          <description>Gets a properly formatted "time ago" from a specified timestamp. Copied
+from MODx core output filters.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="string" variable="$time" line="237">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="" type="string" line="237">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="244">
+          <name>$time</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="321">
+        <name>timesince</name>
+        <docblock>
+          <description>Gets a proper array of time since a timestamp</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="314"/>
+          <tag name="param" description="The time to get from" type="string" variable="$input" line="314">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="An array of times" type="array" line="314">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="321">
+          <name>$input</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="355">
+        <name>loadHooks</name>
+        <docblock>
+          <description>Loads the Hooks class.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The type of hook to load." type="string" variable="$type" line="347">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="An array of configuration parameters for the hooks class" type="array" variable="$config" line="347">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="An instance of the quipHooks class." type="\quipHooks" line="347">
+            <type by_reference="false">\quipHooks</type>
+          </tag>
+        </docblock>
+        <argument line="355">
+          <name>$type</name>
+          <default>post</default>
+          <type/>
+        </argument>
+        <argument line="355">
+          <name>$config</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="372">
+        <name>getNonce</name>
+        <docblock>
+          <description>Get a unique nonce value</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="365"/>
+          <tag name="param" description="A prefix to append to the nonce." type="string" variable="$prefix" line="365">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="The generated nonce." type="string" line="365">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="372">
+          <name>$prefix</name>
+          <default>quip-</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="383">
+        <name>checkNonce</name>
+        <docblock>
+          <description>Verify that a passed nonce matches the cached nonce</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The nonce to check against" type="string" variable="$nonce" line="376">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="The prefix for the nonce" type="string" variable="$prefix" line="376">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="True if passes" type="bool" line="376">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="383">
+          <name>$nonce</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="383">
+          <name>$prefix</name>
+          <default>quip-</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="399">
+        <name>createNonce</name>
+        <docblock>
+          <description>Create a nonce to be used for verification and store in cache</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The prefix for the nonce" type="string" variable="$prefix" line="393">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="The created nonce" type="string" line="393">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="399">
+          <name>$prefix</name>
+          <default>quip-</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="414">
+        <name>cleanse</name>
+        <docblock>
+          <description>Clean a string of tags and XSS attempts</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The string to clean" type="string" variable="$body" line="407">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="An array of options" type="array" variable="$scriptProperties" line="407">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="The cleansed text" type="string" line="407">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="414">
+          <name>$body</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="414">
+          <name>$scriptProperties</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="437">
+        <name>parseLinks</name>
+        <docblock>
+          <description>Convert links to &lt;a&gt; tags and add rel="nofollow"</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The string to parse" type="string" variable="$body" line="430">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="An array of options" type="array" variable="$scriptProperties" line="430">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="The parsed text" type="string" line="430">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="437">
+          <name>$body</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="437">
+          <name>$scriptProperties</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="quipcomment.class.php" hash="2fb9b41913e0f630be26ea0aef571f5a">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <class final="false" abstract="false" line="27" namespace="default">
+      <name>quipComment</name>
+      <extends>\xPDOSimpleObject</extends>
+      <full_name>\quipComment</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="24"/>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" line="37">
+        <name>makeUrl</name>
+        <docblock>
+          <description>Make a custom URL For this comment.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="Optional. The ID of the resource to generate the comment for. Defaults to the Thread&amp;#039;s resource." type="int" variable="$resource" line="28">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag name="param" description="Optional. An array of REQUEST parameters to add to the URL." type="array" variable="$params" line="28">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="param" description="Optional. An array of options, which can include &amp;#039;scheme&amp;#039; and &amp;#039;idprefix&amp;#039;." type="array" variable="$options" line="28">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="param" description="Whether or not to add the idprefix+id as an anchor tag to the URL" type="boolean" variable="$addAnchor" line="28">
+            <type by_reference="false">boolean</type>
+          </tag>
+          <tag name="return" description="The generated URL" type="string" line="28">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="37">
+          <name>$resource</name>
+          <default>0</default>
+          <type/>
+        </argument>
+        <argument line="37">
+          <name>$params</name>
+          <default>array</default>
+          <type/>
+        </argument>
+        <argument line="37">
+          <name>$options</name>
+          <default>array</default>
+          <type/>
+        </argument>
+        <argument line="37">
+          <name>$addAnchor</name>
+          <default>true</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="54">
+        <name>getDescendants</name>
+        <docblock>
+          <description>Grabs all descendants of this post.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="47"/>
+          <tag name="param" description="If set, will limit to specified depth" type="int" variable="$depth" line="47">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag name="return" description="A collection of quipComment objects." type="array" line="47">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="54">
+          <name>$depth</name>
+          <default>0</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="80">
+        <name>save</name>
+        <docblock>
+          <description>Overrides xPDOObject::save to handle closure table edits.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="boolean" variable="$cacheFlag" line="74">
+            <type by_reference="false">boolean</type>
+          </tag>
+          <tag name="return" description="" type="boolean" line="74">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="80">
+          <name>$cacheFlag</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="150">
+        <name>_loadLexicon</name>
+        <docblock>
+          <description>Load the modLexicon service</description>
+          <long-description>
+</long-description>
+          <tag name="return" description="" type="boolean" line="145">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="169">
+        <name>sendEmail</name>
+        <docblock>
+          <description>Send an email</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The subject of the email" type="string" variable="$subject" line="161">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="The body of the email to send" type="string" variable="$body" line="161">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="The email address to send to" type="string" variable="$to" line="161">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="" type="boolean" line="161">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="169">
+          <name>$subject</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="169">
+          <name>$body</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="169">
+          <name>$to</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="209">
+        <name>approve</name>
+        <docblock>
+          <description>Approves comment and sends out notification to poster and watchers</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="array" variable="$options" line="203">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="True if successful" type="boolean" line="203">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="209">
+          <name>$options</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="239">
+        <name>reject</name>
+        <docblock>
+          <description>Reject a comment</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="array" variable="$options" line="233">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="True if successful" type="boolean" line="233">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="239">
+          <name>$options</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="252">
+        <name>notifyModerators</name>
+        <docblock>
+          <description>Sends notification email to moderators telling them the comment is awaiting approval.</description>
+          <long-description>
+</long-description>
+          <tag name="return" description="True if successful" type="boolean" line="247">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="quipcommentclosure.class.php" hash="6cd903dcd450149b981fb313f3346cea">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <class final="false" abstract="false" line="27" namespace="default">
+      <name>quipCommentClosure</name>
+      <extends>\xPDOObject</extends>
+      <full_name>\quipCommentClosure</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="24"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="quipcommentnotify.class.php" hash="6300ad9c7c33daffe5821e198a265a1e">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <class final="false" abstract="false" line="27" namespace="default">
+      <name>quipCommentNotify</name>
+      <extends>\xPDOSimpleObject</extends>
+      <full_name>\quipCommentNotify</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="24"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="quiphooks.class.php" hash="716ff21110b165509d6bd7407dce3f64">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>quipHooks</name>
+      <extends/>
+      <full_name>\quipHooks</full_name>
+      <docblock>
+        <description>Base Hooks handling class</description>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="24"/>
+      </docblock>
+      <property final="false" static="false" visibility="public" line="34">
+        <name>$errors</name>
+        <default>array</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="var" description="A collection of all the processed errors so far." type="array" line="30">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="access" description="public" line="30"/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="39">
+        <name>$hooks</name>
+        <default>array</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="var" description="A collection of all the processed hooks so far." type="array" line="35">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="access" description="public" line="35"/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="44">
+        <name>$modx</name>
+        <default>null</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="var" description="A reference to the modX instance." type="\modX" line="40">
+            <type by_reference="false">\modX</type>
+          </tag>
+          <tag name="access" description="public" line="40"/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="49">
+        <name>$quip</name>
+        <default>null</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="var" description="A reference to the Quip instance." type="\Quip" line="45">
+            <type by_reference="false">\Quip</type>
+          </tag>
+          <tag name="access" description="public" line="45"/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="55">
+        <name>$redirectUrl</name>
+        <default>null</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="var" description="If a hook redirects, it needs to set this var to use proper order of execution on redirects/stores" type="string" line="50">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="access" description="public" line="50"/>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" line="63">
+        <name>__construct</name>
+        <docblock>
+          <description>The constructor for the quipHooks class</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="A reference to the Quip class instance." type="\Quip" variable="$quip" line="57">
+            <type by_reference="false">\Quip</type>
+          </tag>
+          <tag name="param" description="Optional. An array of configuration parameters." type="array" variable="$config" line="57">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="63">
+          <name>$quip</name>
+          <default/>
+          <type>Quip</type>
+        </argument>
+        <argument line="63">
+          <name>$config</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="79">
+        <name>loadMultiple</name>
+        <docblock>
+          <description>Loads an array of hooks. If one fails, will not proceed.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="70"/>
+          <tag name="param" description="The hooks to run." type="array" variable="$hooks" line="70">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="param" description="The fields and values of the form" type="array" variable="$fields" line="70">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="param" description="Any other custom properties to load into a custom hook" type="array" variable="$customProperties" line="70">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="An array of field name =&amp;gt; value pairs." type="array" line="70">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="79">
+          <name>$hooks</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="79">
+          <name>$fields</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+        <argument line="79">
+          <name>$customProperties</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="103">
+        <name>load</name>
+        <docblock>
+          <description>Load a hook. Stores any errors for the hook to $this-&gt;errors.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="94"/>
+          <tag name="param" description="The name of the hook. May be a Snippet name." type="string" variable="$hook" line="94">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="The fields and values of the form." type="array" variable="$fields" line="94">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="param" description="Any other custom properties to load into a custom hook." type="array" variable="$customProperties" line="94">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="True if hook was successful." type="boolean" line="94">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="103">
+          <name>$hook</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="103">
+          <name>$fields</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+        <argument line="103">
+          <name>$customProperties</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="145">
+        <name>getErrorMessage</name>
+        <docblock>
+          <description>Gets the error messages compiled into a single string.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="138"/>
+          <tag name="param" description="The delimiter between each message." type="string" variable="$delim" line="138">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="The concatenated error message" type="string" line="138">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="145">
+          <name>$delim</name>
+          <default>\n</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="157">
+        <name>addError</name>
+        <docblock>
+          <description>Adds an error to the stack.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="private" line="149"/>
+          <tag name="param" description="The field to add the error to." type="string" variable="$key" line="149">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="The error message." type="string" variable="$value" line="149">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="The added error message with the error wrapper." type="string" line="149">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="157">
+          <name>$key</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="157">
+          <name>$value</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="169">
+        <name>setValue</name>
+        <docblock>
+          <description>Sets the value of a field.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The field name to set." type="string" variable="$key" line="162">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="The value to set to the field." type="mixed" variable="$value" line="162">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag name="return" description="The set value." type="mixed" line="162">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="169">
+          <name>$key</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="169">
+          <name>$value</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="179">
+        <name>setValues</name>
+        <docblock>
+          <description>Sets an associative array of field name and values.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="A key/name pair of fields and values to set." type="array" variable="$values" line="174">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="179">
+          <name>$values</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="191">
+        <name>getValue</name>
+        <docblock>
+          <description>Gets the value of a field.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The field name to get." type="string" variable="$key" line="185">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="The value of the key, or null if non-existent." type="mixed" line="185">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="191">
+          <name>$key</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="203">
+        <name>getValues</name>
+        <docblock>
+          <description>Gets an associative array of field name and values.</description>
+          <long-description>
+</long-description>
+          <tag name="return" description="$values A key/name pair of fields and values." type="array" line="198">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="212">
+        <name>testFail</name>
+        <docblock>
+          <description>Used for debugging to test preHooks.</description>
+          <long-description>
+</long-description>
+          <tag name="return" description="Always false" type="bool" line="208">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="226">
+        <name>redirect</name>
+        <docblock>
+          <description>Redirect to a specified URL.</description>
+          <long-description>&lt;p&gt;Properties needed:
+- redirectTo - the ID of the Resource to redirect to.&lt;/p&gt;
+</long-description>
+          <tag name="param" description="An array of cleaned POST fields" type="array" variable="$fields" line="217">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="False if unsuccessful." type="boolean" line="217">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="226">
+          <name>$fields</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="248">
+        <name>_process</name>
+        <docblock>
+          <description>Processes string and sets placeholders</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The string to process" type="string" variable="$str" line="241">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="An array of placeholders to replace with values" type="array" variable="$placeholders" line="241">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="The parsed string" type="string" line="241">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="248">
+          <name>$str</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="248">
+          <name>$placeholders</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="260">
+        <name>setRedirectUrl</name>
+        <docblock>
+          <description>Set a URL to redirect to after all hooks run successfully.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The URL to redirect to after all hooks execute" type="string" variable="$url" line="255">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="260">
+          <name>$url</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="271">
+        <name>math</name>
+        <docblock>
+          <description>Math field hook for anti-spam math input field.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="264"/>
+          <tag name="param" description="An array of cleaned POST fields" type="array" variable="$fields" line="264">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="True if email was successfully sent." type="boolean" line="264">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="271">
+          <name>$fields</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="quipthread.class.php" hash="efdb47fb7707d534432e8a47a4ab3e65">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <class final="false" abstract="false" line="27" namespace="default">
+      <name>quipThread</name>
+      <extends>\xPDOObject</extends>
+      <full_name>\quipThread</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="24"/>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" line="34">
+        <name>checkPolicy</name>
+        <docblock>
+          <description>Checks whether or not the user has access to the specified permission.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="string" variable="$permission" line="28">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="True if user has permission" type="boolean" line="28">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="34">
+          <name>$permission</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="79">
+        <name>trimArray</name>
+        <docblock>
+          <description>Trims an array's values to remove whitespaces. If value passed is a string, explodes it first.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="array" variable="$array" line="72">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="param" description="" type="string" variable="$delimiter" line="72">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="" type="string" line="72">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="79">
+          <name>$array</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="79">
+          <name>$delimiter</name>
+          <default>,</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="98">
+        <name>makeUrl</name>
+        <docblock>
+          <description>Make the URL of the Quip thread for easy reference</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The ID of the resource to make from" type="int" variable="$resource" line="90">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag name="param" description="Any params to add to the URL" type="array" variable="$params" line="90">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="param" description="An array of options for URL building" type="array" variable="$options" line="90">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="The created URL" type="string" line="90">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="98">
+          <name>$resource</name>
+          <default>0</default>
+          <type/>
+        </argument>
+        <argument line="98">
+          <name>$params</name>
+          <default>array</default>
+          <type/>
+        </argument>
+        <argument line="98">
+          <name>$options</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="113">
+        <name>sync</name>
+        <docblock>
+          <description>Sync the thread object</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="array" variable="$scriptProperties" line="107">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="True if changed" type="bool" line="107">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="113">
+          <name>$scriptProperties</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="154">
+        <name>_loadLexicon</name>
+        <docblock>
+          <description>Ensure that the Lexicon is loaded for the modX instance</description>
+          <long-description>
+</long-description>
+          <tag name="return" description="True if loaded" type="bool" line="149">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="170">
+        <name>getModeratorEmails</name>
+        <docblock>
+          <description>Gets an array of emails for all moderators of this thread</description>
+          <long-description>
+</long-description>
+          <tag name="return" description="" type="array" line="165">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="210">
+        <name>notify</name>
+        <docblock>
+          <description>Sends notification to all watchers of this thread saying a new post has been made.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="A reference to the actual comment" type="\quipComment" variable="$comment" line="204">
+            <type by_reference="false">\quipComment</type>
+          </tag>
+          <tag name="return" description="True if successful" type="boolean" line="204">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="210">
+          <name>$comment</name>
+          <default/>
+          <type>quipComment</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="264">
+        <name>sendEmail</name>
+        <docblock>
+          <description>Sends an email for this thread</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="string" variable="$subject" line="257">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="" type="string" variable="$body" line="257">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="" type="string" variable="$to" line="257">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="" type="bool" line="257">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="264">
+          <name>$subject</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="264">
+          <name>$body</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="264">
+          <name>$to</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="304">
+        <name>checkIfStillOpen</name>
+        <docblock>
+          <description>Checks to see if the thread has been auto-closed after a specified number of days.</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The number of days to close the thread after." type="integer" variable="$closeAfter" line="298">
+            <type by_reference="false">integer</type>
+          </tag>
+          <tag name="return" description="True if still open" type="boolean" line="298">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="304">
+          <name>$closeAfter</name>
+          <default>14</default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="quiptreeparser.class.php" hash="fac4b303fba5113a73b070bee10da9f2">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>QuipTreeParser</name>
+      <extends/>
+      <full_name>\QuipTreeParser</full_name>
+      <docblock>
+        <description>Handles row-parsing of naive tree data.</description>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="24"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="34">
+        <name>$last</name>
+        <default/>
+        <docblock>
+          <description>The last node output</description>
+          <long-description>
+</long-description>
+          <tag name="var" description="" type="string" line="30">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="39">
+        <name>$openThread</name>
+        <default>array</default>
+        <docblock>
+          <description>The current open thread node</description>
+          <long-description>
+</long-description>
+          <tag name="var" description="" type="array" line="35">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="44">
+        <name>$output</name>
+        <default/>
+        <docblock>
+          <description>The current collected output</description>
+          <long-description>
+</long-description>
+          <tag name="var" description="" type="string" line="40">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="49">
+        <name>$tpl</name>
+        <default/>
+        <docblock>
+          <description>The chunk tpl to use for each node</description>
+          <long-description>
+</long-description>
+          <tag name="var" description="" type="string" line="45">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" line="55">
+        <name>__construct</name>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="param" description="A reference to the Quip instance" type="\Quip" variable="$quip" line="51">
+            <type by_reference="false">\Quip</type>
+          </tag>
+          <tag name="param" description="An array of configuration options" type="array" variable="$config" line="51">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="55">
+          <name>$quip</name>
+          <default/>
+          <type>Quip</type>
+        </argument>
+        <argument line="55">
+          <name>$config</name>
+          <default>array</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="67">
+        <name>parse</name>
+        <docblock>
+          <description>Parse the array in tree iteration</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The array of nodes to parse" type="array" variable="$array" line="60">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="param" description="The chunk to use for each node" type="string" variable="$tpl" line="60">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="The outputted content" type="string" line="60">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="67">
+          <name>$array</name>
+          <default/>
+          <type>array</type>
+        </argument>
+        <argument line="67">
+          <name>$tpl</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" line="92">
+        <name>_iterate</name>
+        <docblock>
+          <description>Iterate across the current node</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="array" variable="$current" line="86">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag name="return" description="" type="string" line="86">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="92">
+          <name>$current</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="147">
+        <name>setOpenThread</name>
+        <docblock>
+          <description>Set the current open thread node</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="string" variable="$string" line="141">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="param" description="" type="int" variable="$depth" line="141">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag name="return" description="" type="void" line="141">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="147">
+          <name>$string</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="147">
+          <name>$depth</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="161">
+        <name>setOpenThreadChildren</name>
+        <docblock>
+          <description>Set the current open thread node's children</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="The current depth" type="int" variable="$depth" line="155">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag name="param" description="The children data to set" type="string" variable="$string" line="155">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag name="return" description="" type="void" line="155">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="161">
+          <name>$depth</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="161">
+          <name>$string</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="170">
+        <name>getOpenThread</name>
+        <docblock>
+          <description>Get the current open thread parsed</description>
+          <long-description>
+</long-description>
+          <tag name="param" description="" type="int" variable="$depth" line="165">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag name="return" description="" type="string" line="165">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="170">
+          <name>$depth</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="request/quipcontrollerrequest.class.php" hash="78c145f8c0f3b5f85dbfd2f6609bf80e">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <include type="Require Once" line="24">
+      <name>model/modx/modrequest.class.php</name>
+    </include>
+    <class final="false" abstract="false" line="32" namespace="default">
+      <name>QuipControllerRequest</name>
+      <extends>\modRequest</extends>
+      <full_name>\QuipControllerRequest</full_name>
+      <docblock>
+        <description>Encapsulates the interaction of MODx manager with an HTTP request.</description>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="25"/>
+        <tag name="subpackage" description="request" line="25"/>
+        <tag name="extends" description="modRequest" line="25"/>
+      </docblock>
+      <property final="false" static="false" visibility="public" line="37">
+        <name>$quip</name>
+        <default>null</default>
+        <docblock>
+          <description>A reference to the Quip instance</description>
+          <long-description>
+</long-description>
+          <tag name="var" description="" type="\Quip" line="33">
+            <type by_reference="false">\Quip</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="42">
+        <name>$actionVar</name>
+        <default>action</default>
+        <docblock>
+          <description>The action key to use</description>
+          <long-description>
+</long-description>
+          <tag name="var" description="" type="string" line="38">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="47">
+        <name>$defaultAction</name>
+        <default>home</default>
+        <docblock>
+          <description>The default controller to load if none is specified</description>
+          <long-description>
+</long-description>
+          <tag name="var" description="" type="string" line="43">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="52">
+        <name>$action</name>
+        <default/>
+        <docblock>
+          <description>The currently loaded action</description>
+          <long-description>
+</long-description>
+          <tag name="var" description="" type="string" line="48">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" line="57">
+        <name>__construct</name>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag name="param" description="A reference to the Quip instance" type="\Quip" variable="$quip" line="54">
+            <type by_reference="false">\Quip</type>
+          </tag>
+        </docblock>
+        <argument line="57">
+          <name>$quip</name>
+          <default/>
+          <type>Quip</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="68">
+        <name>handleRequest</name>
+        <docblock>
+          <description>Extends modRequest::handleRequest and loads the proper error handler and
+actionVar value.</description>
+          <long-description>
+</long-description>
+          <tag name="return" description="" type="string" line="62">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" line="83">
+        <name>_respond</name>
+        <docblock>
+          <description>Prepares the MODx response to a mgr request that is being handled.</description>
+          <long-description>
+</long-description>
+          <tag name="access" description="public" line="77"/>
+          <tag name="return" description="True if the response is properly prepared." type="boolean" line="77">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="sqlsrv/quipcomment.class.php" hash="2625e8783604a5046bb34cd6a769f94d">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <include type="Require Once" line="24">
+      <name>Unknown</name>
+    </include>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>quipComment_sqlsrv</name>
+      <extends>\quipComment</extends>
+      <full_name>\quipComment_sqlsrv</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="25"/>
+        <tag name="subpackage" description="sqlsrv" line="25"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="sqlsrv/quipcommentclosure.class.php" hash="d6c09ad8743243de81b170825567a2f5">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <include type="Require Once" line="24">
+      <name>Unknown</name>
+    </include>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>quipCommentClosure_sqlsrv</name>
+      <extends>\quipCommentClosure</extends>
+      <full_name>\quipCommentClosure_sqlsrv</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="25"/>
+        <tag name="subpackage" description="sqlsrv" line="25"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="sqlsrv/quipcommentnotify.class.php" hash="56ccf8ffbcb752692e4302300b7c474b">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <include type="Require Once" line="24">
+      <name>Unknown</name>
+    </include>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>quipCommentNotify_sqlsrv</name>
+      <extends>\quipCommentNotify</extends>
+      <full_name>\quipCommentNotify_sqlsrv</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="25"/>
+        <tag name="subpackage" description="sqlsrv" line="25"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="sqlsrv/quipthread.class.php" hash="3e7afe1db02c3ebc976079bff46904a8">
+    <docblock>
+      <description>Quip</description>
+      <long-description>&lt;p&gt;Copyright 2010-11 by Shaun McCormick &lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;"&gt;&amp;#115;&amp;#104;&amp;#x61;&amp;#x75;&amp;#x6e;&amp;#x40;&amp;#x6d;&amp;#111;&amp;#100;&amp;#120;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This file is part of Quip, a simple commenting component for MODx Revolution.&lt;/p&gt;
+
+&lt;p&gt;Quip is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.&lt;/p&gt;
+
+&lt;p&gt;Quip is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License along with
+Quip; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307 USA&lt;/p&gt;
+</long-description>
+      <tag name="package" description="quip"/>
+    </docblock>
+    <include type="Require Once" line="24">
+      <name>Unknown</name>
+    </include>
+    <class final="false" abstract="false" line="29" namespace="default">
+      <name>quipThread_sqlsrv</name>
+      <extends>\quipThread</extends>
+      <full_name>\quipThread_sqlsrv</full_name>
+      <docblock>
+        <description/>
+        <long-description>
+</long-description>
+        <tag name="package" description="quip" line="25"/>
+        <tag name="subpackage" description="sqlsrv" line="25"/>
+      </docblock>
+    </class>
+  </file>
+  <package name=""/>
+  <package name="quip">
+    <subpackage>mysql</subpackage>
+    <subpackage>request</subpackage>
+    <subpackage>sqlsrv</subpackage>
+  </package>
+  <namespace name="default"/>
+  <marker>todo</marker>
+  <marker>fixme</marker>
+</project>

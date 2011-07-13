@@ -27,6 +27,12 @@
 class quipComment extends xPDOSimpleObject {
     /**
      * Make a custom URL For this comment.
+     *
+     * @param int $resource Optional. The ID of the resource to generate the comment for. Defaults to the Thread's resource.
+     * @param array $params Optional. An array of REQUEST parameters to add to the URL.
+     * @param array $options Optional. An array of options, which can include 'scheme' and 'idprefix'.
+     * @param boolean $addAnchor Whether or not to add the idprefix+id as an anchor tag to the URL
+     * @return string The generated URL
      */
     public function makeUrl($resource = 0,$params = array(),$options = array(),$addAnchor = true) {
         if (empty($resource)) $resource = $this->get('resource');
@@ -68,7 +74,8 @@ class quipComment extends xPDOSimpleObject {
     /**
      * Overrides xPDOObject::save to handle closure table edits.
      *
-     * {@inheritDoc}
+     * @param boolean $cacheFlag
+     * @return boolean
      */
     public function save($cacheFlag = null) {
         $new = $this->isNew();
@@ -137,6 +144,8 @@ class quipComment extends xPDOSimpleObject {
 
     /**
      * Load the modLexicon service
+     *
+     * @return boolean
      */
     protected function _loadLexicon() {
         if (!$this->xpdo->lexicon) {
@@ -151,6 +160,11 @@ class quipComment extends xPDOSimpleObject {
 
     /**
      * Send an email
+     *
+     * @param string $subject The subject of the email
+     * @param string $body The body of the email to send
+     * @param string $to The email address to send to
+     * @return boolean
      */
     protected function sendEmail($subject,$body,$to) {
         if (!$this->_loadLexicon()) return false;

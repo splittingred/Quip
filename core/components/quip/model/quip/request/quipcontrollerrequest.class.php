@@ -25,16 +25,35 @@ require_once MODX_CORE_PATH . 'model/modx/modrequest.class.php';
 /**
  * Encapsulates the interaction of MODx manager with an HTTP request.
  *
- * {@inheritdoc}
- *
  * @package quip
+ * @subpackage request
  * @extends modRequest
  */
 class QuipControllerRequest extends modRequest {
+    /**
+     * A reference to the Quip instance
+     * @var Quip $quip
+     */
     public $quip = null;
+    /**
+     * The action key to use
+     * @var string $actionVar
+     */
     public $actionVar = 'action';
+    /**
+     * The default controller to load if none is specified
+     * @var string $defaultAction
+     */
     public $defaultAction = 'home';
+    /**
+     * The currently loaded action
+     * @var string $action
+     */
+    public $action = '';
 
+    /**
+     * @param Quip $quip A reference to the Quip instance
+     */
     function __construct(Quip &$quip) {
         parent :: __construct($quip->modx);
         $this->quip =& $quip;
@@ -44,7 +63,7 @@ class QuipControllerRequest extends modRequest {
      * Extends modRequest::handleRequest and loads the proper error handler and
      * actionVar value.
      *
-     * {@inheritdoc}
+     * @return string
      */
     public function handleRequest() {
         $this->loadErrorHandler();

@@ -21,8 +21,9 @@
  *
  * @package quip
  */
+require_once (strtr(realpath(dirname(dirname(__FILE__))), '\\', '/') . '/quipcommentclosure.class.php');
 /**
  * @package quip
+ * @subpackage sqlsrv
  */
-require_once (strtr(realpath(dirname(dirname(__FILE__))), '\\', '/') . '/quipcommentclosure.class.php');
 class quipCommentClosure_sqlsrv extends quipCommentClosure {}

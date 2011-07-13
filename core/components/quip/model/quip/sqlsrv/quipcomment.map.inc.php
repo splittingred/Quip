@@ -23,6 +23,7 @@
  */
 /**
  * @package quip
+ * @subpackage sqlsrv
  */
 $xpdo_meta_map['quipComment']= array (
   'package' => 'quip',

@@ -27,15 +27,43 @@
  * @package quip
  */
 class QuipTreeParser {
+    /**
+     * The last node output
+     * @var string $last
+     */
     protected $last = '';
+    /**
+     * The current open thread node
+     * @var array $openThread
+     */
     protected $openThread = array();
+    /**
+     * The current collected output
+     * @var string $output
+     */
     protected $output = '';
+    /**
+     * The chunk tpl to use for each node
+     * @var string $tpl
+     */
+    protected $tpl = '';
 
+    /**
+     * @param Quip $quip A reference to the Quip instance
+     * @param array $config An array of configuration options
+     */
     function __construct(Quip &$quip,array $config = array()) {
         $this->quip =& $quip;
         $this->config = $config;
     }
 
+    /**
+     * Parse the array in tree iteration
+     * 
+     * @param array $array The array of nodes to parse
+     * @param string $tpl The chunk to use for each node
+     * @return string The outputted content
+     */
     public function parse(array $array,$tpl = '') {
         /* set a value not possible in a LEVEL column to allow the
          * first row to know it's "firstness" */
@@ -55,6 +83,12 @@ class QuipTreeParser {
         return $output;
     }
 
+    /**
+     * Iterate across the current node
+     * 
+     * @param array $current
+     * @return string
+     */
     private function _iterate($current){
         $depth = $current['depth'];
         $parent = $current['parent'];
@@ -104,6 +138,12 @@ class QuipTreeParser {
         return $item;
     }
 
+    /**
+     * Set the current open thread node
+     * @param string $string
+     * @param int $depth
+     * @return void
+     */
     protected function setOpenThread($string, $depth) {
         if (!empty($this->openThread[$depth]) && $depth > 0) {
             $this->openThread[$depth - 1]['children'] .= $this->quip->getChunk($this->tpl, $this->openThread[$depth]);
@@ -112,10 +152,21 @@ class QuipTreeParser {
         $this->openThread[$depth] = $string;
     }
 
+    /**
+     * Set the current open thread node's children
+     * @param int $depth The current depth
+     * @param string $string The children data to set
+     * @return void
+     */
     protected function setOpenThreadChildren($depth, $string) {
         $this->openThread[$depth]['children'] .= $string;
     }
 
+    /**
+     * Get the current open thread parsed
+     * @param int $depth
+     * @return string
+     */
     protected function getOpenThread($depth) {
         $thread = $this->quip->getChunk($this->tpl, $this->openThread[$depth]);
         unset($this->openThread[$depth]);

@@ -237,6 +237,9 @@ class Quip {
     /**
      * Gets a properly formatted "time ago" from a specified timestamp. Copied
      * from MODx core output filters.
+     *
+     * @param string $time
+     * @return string
      */
     public function getTimeAgo($time = '') {
         if (empty($time)) return false;
@@ -344,9 +347,8 @@ class Quip {
     /**
      * Loads the Hooks class.
      *
-     * @access public
-     * @param $type The type of hook to load.
-     * @param $config array An array of configuration parameters for the
+     * @param string $type The type of hook to load.
+     * @param array $config An array of configuration parameters for the
      * hooks class
      * @return quipHooks An instance of the quipHooks class.
      */
@@ -370,6 +372,7 @@ class Quip {
     public function getNonce($prefix = 'quip-') {
         return base64_encode($prefix.$this->modx->resource->get('id').'-'.session_id());
     }
+    
     /**
      * Verify that a passed nonce matches the cached nonce
      * 

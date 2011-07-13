@@ -21,8 +21,9 @@
  *
  * @package quip
  */
+require_once (strtr(realpath(dirname(dirname(__FILE__))), '\\', '/') . '/quipcomment.class.php');
 /**
  * @package quip
+ * @subpackage mysql
  */
-require_once (strtr(realpath(dirname(dirname(__FILE__))), '\\', '/') . '/quipcomment.class.php');
 class quipComment_mysql extends quipComment {}
