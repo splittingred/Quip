@@ -93,7 +93,7 @@ class QuipLatestCommentsController extends QuipController {
         $placeholderPrefix = $this->getProperty('placeholderPrefix','quip.latest');
         $this->modx->toPlaceholders($pagePlaceholders,$placeholderPrefix);
 
-        $this->output($output);
+        return $this->output($output);
     }
 
     /**
