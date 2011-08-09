@@ -47,6 +47,14 @@ class Quip {
     public $config = array();
 
     /**
+     * @var QuipControllerRequest $request
+     */
+    public $request;
+
+    /** @var quipController $controller */
+    public $controller = null;
+    
+    /**
      * The Quip Constructor.
      *
      * This method is used to create a new Quip object.
@@ -93,8 +101,13 @@ class Quip {
         if ($this->modx->lexicon) {
             $this->modx->lexicon->load('quip:default');
         }
+        $this->initDebug();
+    }
 
-        /* load debugging settings */
+    /**
+     * Load debugging settings
+     */
+    public function initDebug() {
         if ($this->modx->getOption('debug',$this->config,false)) {
             error_reporting(E_ALL); ini_set('display_errors',true);
             $this->modx->setLogTarget('HTML');
@@ -177,6 +190,7 @@ class Quip {
         $f = $this->config['chunksPath'].strtolower($name).$suffix;
         if (file_exists($f)) {
             $o = file_get_contents($f);
+            /** @var modChunk $chunk */
             $chunk = $this->modx->newObject('modChunk');
             $chunk->set('name',$name);
             $chunk->setContent($o);
@@ -446,5 +460,25 @@ class Quip {
             $body = preg_replace($pattern, '<a href="\0" rel="nofollow"'.$extraAutoLinksAttributes.'>\0</a>',$body);
         }
         return $body;
+    }
+
+    public function loadController($controller) {
+        if ($this->modx->loadClass('quipController',$this->config['modelPath'].'quip/request/',true,true)) {
+            $classPath = $this->config['controllersPath'].'web/'.$controller.'.php';
+            if (file_exists($classPath)) {
+                $className = require_once $classPath;
+                if (empty($className)) $className = 'Quip'.$controller.'Controller';
+                if (class_exists($className)) {
+                    $this->controller = new $className($this,$this->config);
+                } else {
+                    $this->modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Could not load controller: '.$className);
+                }
+            } else {
+                $this->modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Could not load controller file: '.$classPath);
+            }
+        } else {
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Could not load quipController class.');
+        }
+        return $this->controller;
     }
 }

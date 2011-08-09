@@ -2,3 +2,5 @@ _build/build.config.php
 _build/build.properties.php
 config.core.php
 .idea
+core/components/quip/test/properties.inc.php
+core/components/quip/test/config.inc.php

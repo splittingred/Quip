@@ -25,6 +25,52 @@
  * @package quip
  */
 class quipComment extends xPDOSimpleObject {
+    public static function getThread(modX $modx,quipThread $thread,$parent = 0,$ids = '',$sortBy = 'rank',$sortByAlias = 'quipComment',$sortDir = 'ASC') {
+        $c = $modx->newQuery('quipComment');
+        $c->innerJoin('quipThread','Thread');
+        $c->leftJoin('quipCommentClosure','Descendants');
+        $c->leftJoin('quipCommentClosure','RootDescendant','RootDescendant.descendant = quipComment.id AND RootDescendant.ancestor = 0');
+        $c->leftJoin('quipCommentClosure','Ancestors');
+        $c->leftJoin('modUser','Author');
+        $c->leftJoin('modResource','Resource');
+        $c->where(array(
+            'quipComment.thread' => $thread->get('name'),
+            'quipComment.deleted' => false,
+        ));
+        if (!$thread->checkPolicy('moderate')) {
+            $c->andCondition(array(
+                'quipComment.approved' => true,
+                'OR:quipComment.author:=' => $modx->user->get('id'),
+            ),null,2);
+        }
+        if (!empty($parent)) {
+            $c->where(array(
+                'Ancestors.descendant' => $parent,
+            ));
+        }
+        $total = $modx->getCount('quipComment',$c);
+        if (!empty($ids)) {
+            $c->where(array(
+                'Descendants.ancestor:IN' => $ids
+            ));
+        }
+        $c->select($modx->getSelectColumns('quipComment','quipComment'));
+        $c->select(array(
+            'Thread.resource',
+            'Thread.idprefix',
+            'Thread.existing_params',
+            'RootDescendant.depth',
+            'Author.username',
+            'Resource.pagetitle',
+        ));
+        $c->sortby($modx->escape($sortByAlias).'.'.$modx->escape($sortBy),$sortDir);
+        $comments = $modx->getCollection('quipComment',$c);
+        return array(
+            'results' => $comments,
+            'total' => $total,
+        );
+    }
+
     /**
      * Make a custom URL For this comment.
      *

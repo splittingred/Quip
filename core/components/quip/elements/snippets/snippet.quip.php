@@ -26,14 +26,24 @@
  *
  * A simple comments component.
  *
+ * @var modX $modx
+ * @var array $scriptProperties
+ *
  * @name Quip
  * @author Shaun McCormick <shaun@modx.com>
  * @package quip
  */
+/** @var Quip $quip */
 $quip = $modx->getService('quip','Quip',$modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/quip/',$scriptProperties);
 if (!($quip instanceof Quip)) return '';
 
 $quip->initialize($modx->context->get('key'));
+
+$controller = $quip->loadController('Thread');
+$output = $controller->run($scriptProperties);
+return $output;
+
+
 
 $output = '';
 $placeholders = array(
@@ -48,8 +58,8 @@ $parent = $modx->getOption('quip_parent',$_REQUEST,$modx->getOption('parent',$sc
 $thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$scriptProperties,''));
 if (empty($thread)) return '';
 
-/* get thread */
 $threadPK = $thread;
+/** @var quipThread $thread */
 $thread = $modx->getObject('quipThread',array(
     'name' => $threadPK,
 ));
@@ -199,45 +209,9 @@ if (!empty($limit)) {
 }
 
 /* get comments */
-$c = $modx->newQuery('quipComment');
-$c->innerJoin('quipThread','Thread');
-$c->leftJoin('quipCommentClosure','Descendants');
-$c->leftJoin('quipCommentClosure','RootDescendant','RootDescendant.descendant = quipComment.id AND RootDescendant.ancestor = 0');
-$c->leftJoin('quipCommentClosure','Ancestors');
-$c->leftJoin('modUser','Author');
-$c->leftJoin('modResource','Resource');
-$c->where(array(
-    'quipComment.thread' => $thread->get('name'),
-    'quipComment.deleted' => false,
-));
-if (!$thread->checkPolicy('moderate')) {
-    $c->andCondition(array(
-        'quipComment.approved' => true,
-        'OR:quipComment.author:=' => $modx->user->get('id'),
-    ),null,2);
-}
-if (!empty($parent)) {
-    $c->where(array(
-        'Ancestors.descendant' => $parent,
-    ));
-}
-$placeholders['total'] = $modx->getCount('quipComment',$c);
-if (!empty($ids)) {
-    $c->where(array(
-        'Descendants.ancestor:IN' => $ids
-    ));
-}
-$c->select($modx->getSelectColumns('quipComment','quipComment'));
-$c->select(array(
-    'Thread.resource',
-    'Thread.idprefix',
-    'Thread.existing_params',
-    'RootDescendant.depth',
-    'Author.username',
-    'Resource.pagetitle',
-));
-$c->sortby($modx->escape($sortByAlias).'.'.$modx->escape($sortBy),$sortDir);
-$comments = $modx->getCollection('quipComment',$c);
+$result = quipComment::getThread($modx,$thread,$parent,$ids,$sortBy,$sortByAlias,$sortDir);
+$comments = $result['results'];
+$placeholders['total'] = $result['total'];
 
 $pagePlaceholders = array();
 
@@ -247,6 +221,7 @@ $placeholders['comments'] = '';
 $alt = false;
 $idx = 0;
 $commentList = array();
+/** @var quipComment $comment */
 foreach ($comments as $comment) {
     $commentArray = $comment->toArray();
     $commentArray['children'] = '';
