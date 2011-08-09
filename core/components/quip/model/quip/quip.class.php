@@ -31,28 +31,35 @@
  */
 class Quip {
     /**
-     * @access protected
-     * @var array A collection of preprocessed chunk values.
+     * A collection of preprocessed chunk values.
+     * @var array $chunks
      */
     protected $chunks = array();
     /**
-     * @access public
-     * @var modX A reference to the modX object.
+     * A reference to the modX object.
+     * @var modX $modx
      */
     public $modx = null;
     /**
-     * @access public
-     * @var array A collection of properties to adjust Quip behaviour.
+     * A collection of properties to adjust Quip behaviour.
+     * @var array $config
      */
     public $config = array();
-
     /**
+     * The request object for the current state
      * @var QuipControllerRequest $request
      */
     public $request;
-
-    /** @var quipController $controller */
+    /**
+     * The controller for the current request
+     * @var quipController $controller
+     */
     public $controller = null;
+    /**
+     * Whether or not Quip is in Test Mode for unit testing
+     * @var boolean $inTestMode
+     */
+    public $inTestMode = false;
     
     /**
      * The Quip Constructor.
@@ -462,6 +469,11 @@ class Quip {
         return $body;
     }
 
+    /**
+     * Load the appropriate controller
+     * @param string $controller
+     * @return null|quipController
+     */
     public function loadController($controller) {
         if ($this->modx->loadClass('quipController',$this->config['modelPath'].'quip/request/',true,true)) {
             $classPath = $this->config['controllersPath'].'web/'.$controller.'.php';
