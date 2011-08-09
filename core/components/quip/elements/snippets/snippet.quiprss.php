@@ -26,6 +26,10 @@
  *
  * Generates an RSS of latest comments for a thread or by a user.
  *
+ * @var Quip $quip
+ * @var modX $modx
+ * @var array $scriptProperties
+ * 
  * @name QuipRss
  * @author Shaun McCormick <shaun@modx.com>
  * @package quip
@@ -51,8 +55,8 @@ $pagetitle = $modx->getOption('pagetitle',$scriptProperties,'');
 
 /* build query by type */
 $c = $modx->newQuery('quipComment');
+$c->select($modx->getSelectColumns('quipComment','quipComment'));
 $c->select(array(
-    'quipComment.*',
     'Resource.pagetitle',
 ));
 $c->leftJoin('modUser','Author');
@@ -100,6 +104,8 @@ $comments = $modx->getCollection('quipComment',$c);
 $pagePlaceholders = array();
 $output = array();
 $alt = false;
+$commentArray = array();
+/** @var quipComment $comment */
 foreach ($comments as $comment) {
     $commentArray = $comment->toArray();
     $commentArray['bodyLimit'] = $bodyLimit;
