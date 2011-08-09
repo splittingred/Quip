@@ -26,6 +26,10 @@
  *
  * Gets the total # of comments in a thread or by a user.
  *
+ * @var modX $modx
+ * @var array $scriptProperties
+ * @var Quip $quip
+ *
  * @name QuipCount
  * @author Shaun McCormick <shaun@modx.com>
  * @package quip

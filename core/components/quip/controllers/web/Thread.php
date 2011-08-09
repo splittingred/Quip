@@ -72,7 +72,7 @@ class QuipThreadController extends QuipController {
             $this->setProperty('limit',$_REQUEST['quip_limit']);
         }
         if (!empty($_REQUEST['quip_start'])) {
-            $this->setProperty('offset',$_REQUEST['quip_start']);
+            $this->setProperty('start',$_REQUEST['quip_start']);
         }
         if (!empty($_REQUEST['quip_parent'])) {
             $this->setProperty('parent',$_REQUEST['quip_parent']);
@@ -369,116 +369,23 @@ class QuipThreadController extends QuipController {
         $commentList = array();
         /** @var quipComment $comment */
         foreach ($this->comments as $comment) {
-            $commentArray = $comment->toArray();
-            $commentArray['children'] = '';
-            $commentArray['alt'] = $alt ? $this->getProperty('altRowCss') : '';
-            $commentArray['createdon'] = strftime($this->getProperty('dateFormat'),strtotime($comment->get('createdon')));
-            $commentArray['url'] = $comment->makeUrl();
-            $commentArray['idx'] = $idx;
-            $commentArray['threaded'] = $this->getProperty('threaded',true);
-            $commentArray['depth'] = $comment->get('depth');
-            $commentArray['depth_margin'] = $this->getProperty('useMargins',false) ? (int)($this->getProperty('threadedPostMargin','15') * $comment->get('depth'))+7 : '';
-            $commentArray['cls'] = $this->getProperty('rowCss').($comment->get('approved') ? '' : ' '.$this->getProperty('unapprovedCls','quip-unapproved'));
-            $commentArray['olCls'] = $this->getProperty('olCss');
-            if ($this->getProperty('useGravatar',true)) {
-                $commentArray['md5email'] = md5($comment->get('email'));
-                $commentArray['gravatarIcon'] = $this->getProperty('gravatarIcon');
-                $commentArray['gravatarSize'] = $this->getProperty('gravatarSize');
-                $urlsep = $this->modx->getOption('xhtml_urls',null,true) ? '&amp;' : '&';
-                $commentArray['gravatarUrl'] = $this->getProperty('gravatarUrl').$commentArray['md5email'].'?s='.$commentArray['gravatarSize'].$urlsep.'d='.$commentArray['gravatarIcon'];
-            } else {
-                $commentArray['gravatarUrl'] = '';
-            }
-
-            /* check for auth */
-            if ($this->hasAuth) {
-                /* allow removing of comment if moderator or own comment */
-                $commentArray['allowRemove'] = $this->getProperty('allowRemove',true);
-                if ($commentArray['allowRemove']) {
-                    if ($this->isModerator) {
-                        /* Always allow remove for moderators */
-                        $commentArray['allowRemove'] = true;
-                    } else if ($comment->get('author') == $this->modx->user->get('id')) {
-                        /* if not moderator but author of post, check for remove
-                         * threshold, which prevents removing comments after X minutes
-                         */
-                        $removeThreshold = $this->getProperty('removeThreshold',3);
-                        if (!empty($removeThreshold)) {
-                            $diff = time() - strtotime($comment->get('createdon'));
-                            if ($diff > ($removeThreshold * 60)) $commentArray['allowRemove'] = false;
-                        }
-                    }
-                }
-
-                $commentArray['reported'] = !empty($_GET['reported']) && $_GET['reported'] == $comment->get('id') ? 1 : '';
-                if ($comment->get('author') == $this->modx->user->get('id') || $this->isModerator) {
-                    $params = $this->modx->request->getParameters();
-                    $params['quip_comment'] = $comment->get('id');
-                    $params[$this->getProperty('removeAction')] = true;
-                    $commentArray['removeUrl'] = $comment->makeUrl('',$params,null,false);
-                    $commentArray['options'] = $this->quip->getChunk($this->getProperty('tplCommentOptions'),$commentArray);
-                } else {
-                    $commentArray['options'] = '';
-                }
-
-                if ($this->getProperty('allowReportAsSpam',true)) {
-                    $params = $this->modx->request->getParameters();
-                    $params['quip_comment'] = $comment->get('id');
-                    $params[$this->getProperty('reportAction')] = true;
-                    $commentArray['reportUrl'] = $comment->makeUrl('',$params,null,false);
-                    $commentArray['report'] = $this->quip->getChunk($this->getProperty('tplReport'),$commentArray);
-                }
-            } else {
-                $commentArray['report'] = '';
-            }
-
-
-            /* get author display name */
-            $authorTpl = $this->getProperty('authorTpl','quipAuthorTpl');
-            $nameField = $this->getProperty('nameField','username');
-            $commentArray['authorName'] = '';
-            if (empty($commentArray[$nameField])) {
-                $commentArray['authorName'] = $this->quip->getChunk($authorTpl,array(
-                    'name' => $this->getProperty('showAnonymousName',false)
-                        ? $this->getProperty('anonymousName',$this->modx->lexicon('quip.anonymous'))
-                        : $commentArray['name'],
-                    'url' => '',
-                ));
-            } else {
-                $commentArray['authorName'] = $this->quip->getChunk($authorTpl,array(
-                    'name' => $commentArray[$nameField],
-                    'url' => '',
-                ));
-            }
-
-            if ($this->getProperty('showWebsite',true) && !empty($commentArray['website'])) {
-                $commentArray['authorName'] = $this->quip->getChunk($authorTpl,array(
-                    'name' => $commentArray[$nameField],
-                    'url' => $commentArray['website'],
-                ));
-            }
-
-            if ($this->getProperty('threaded') && $this->getProperty('stillOpen') && $comment->get('depth') < $this->getProperty('maxDepth') && $comment->get('approved')
-                && !$this->getProperty('closed',false)) {
-                if (!$this->getProperty('requireAuth',false) || $this->hasAuth) {
-                    $params = $this->modx->request->getParameters();
-                    $params['quip_thread'] = $comment->get('thread');
-                    $params['quip_parent'] = $comment->get('id');
-                    $commentArray['replyUrl'] = $this->modx->makeUrl($this->getProperty('replyResourceId'),'',$params);
-                }
-            } else {
-                $commentArray['replyUrl'] = '';
-            }
-            $commentList[] = $commentArray;
-            $alt = !$alt;
+            $comment->hasAuth = $this->hasAuth;
+            $comment->isModerator = $this->isModerator;
+            $commentArray = $comment->prepare($this->getProperties(),$idx);
             $idx++;
             $this->setPlaceholder('pagetitle',$commentArray['pagetitle']);
             $this->setPlaceholder('resource',$commentArray['resource']);
-            unset($commentArray);
+            $commentList[] = $commentArray;
+            continue;
+
         }
         return $commentList;
     }
 
+    /**
+     * @param array $comments
+     * @return string
+     */
     public function render(array $comments = array()) {
         $list = array();
         if ($this->getProperty('useMargins',false)) {

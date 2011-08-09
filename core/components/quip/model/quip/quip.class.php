@@ -60,6 +60,14 @@ class Quip {
      * @var boolean $inTestMode
      */
     public $inTestMode = false;
+    /**
+     * @var quipTreeParser $treeParser
+     */
+    public $treeParser;
+    /** @var quipHooks $preHooks */
+    public $preHooks;
+    /** @var quipHooks $postHooks */
+    public $postHooks;
     
     /**
      * The Quip Constructor.

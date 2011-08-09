@@ -25,6 +25,26 @@
  * @package quip
  */
 class quipComment extends xPDOSimpleObject {
+    /** @var modX|xPDO $xpdo */
+    public $xpdo;
+    /** @var boolean $isModerator */
+    public $isModerator;
+    /** @var boolean $hasAuth */
+    public $hasAuth;
+
+    /**
+     * Gets the current thread
+     * 
+     * @static
+     * @param modX $modx
+     * @param quipThread $thread
+     * @param int $parent
+     * @param string $ids
+     * @param string $sortBy
+     * @param string $sortByAlias
+     * @param string $sortDir
+     * @return array
+     */
     public static function getThread(modX $modx,quipThread $thread,$parent = 0,$ids = '',$sortBy = 'rank',$sortByAlias = 'quipComment',$sortDir = 'ASC') {
         $c = $modx->newQuery('quipComment');
         $c->innerJoin('quipThread','Thread');
@@ -99,8 +119,8 @@ class quipComment extends xPDOSimpleObject {
      */
     public function getDescendants($depth = 0) {
         $c = $this->xpdo->newQuery('quipComment');
+        $c->select($this->xpdo->getSelectColumns('quipComment','quipComment'));
         $c->select(array(
-            'quipComment.*',
             'Descendants.depth',
         ));
         $c->innerJoin('quipCommentClosure','Descendants');
@@ -162,8 +182,10 @@ class quipComment extends xPDOSimpleObject {
             $cgps = count($gparents);
             $gps = array();
             $i = $cgps;
+            /** @var quipCommentClosure $gparent */
             foreach ($gparents as $gparent) {
                 $gps[] = str_pad($gparent->get('ancestor'),10,'0',STR_PAD_LEFT);
+                /** @var quipCommentClosure $obj */
                 $obj = $this->xpdo->newObject('quipCommentClosure');
                 $obj->set('ancestor',$gparent->get('ancestor'));
                 $obj->set('descendant',$id);
@@ -174,6 +196,7 @@ class quipComment extends xPDOSimpleObject {
             $gps[] = str_pad($id,10,'0',STR_PAD_LEFT); /* add self closure too */
 
             /* add root closure */
+            /** @var quipCommentClosure $cl */
             $cl = $this->xpdo->newObject('quipCommentClosure');
             $cl->set('ancestor',0);
             $cl->set('descendant',$id);
@@ -272,6 +295,7 @@ class quipComment extends xPDOSimpleObject {
         $subject = $this->xpdo->lexicon('quip.email_comment_approved_subject');
         $this->sendEmail($subject,$body,$this->get('email'));
 
+        /** @var quipThread $thread */
         $thread = $this->getOne('Thread');
         return $thread ? $thread->notify($this) : true;
     }
@@ -298,13 +322,17 @@ class quipComment extends xPDOSimpleObject {
     public function notifyModerators() {
         if (!$this->_loadLexicon()) return false;
         $this->xpdo->lexicon->load('quip:emails');
+        /** @var quipThread $thread */
         $thread = $this->getOne('Thread');
         if (!$thread) return false;
         
         $properties = $this->toArray();
         $properties['url'] = $this->makeUrl('',array(),array('scheme' => 'full'));
 
-        /* get Quip action */
+        /**
+         * Get the Quip mgr action
+         * @var modAction $action
+         */
         $action = $this->xpdo->getObject('modAction',array(
             'controller' => 'index',
             'namespace' => 'quip',
@@ -328,4 +356,117 @@ class quipComment extends xPDOSimpleObject {
         return $success;
     }
 
+    /**
+     * Prepare the comment for rendering
+     * 
+     * @param array $properties
+     * @param int $idx
+     * @return array
+     */
+    public function prepare(array $properties = array(),$idx) {
+        $alt = $idx % 2;
+        $commentArray = $this->toArray();
+        $commentArray['children'] = '';
+        $commentArray['alt'] = $alt ? $this->getOption('altRowCss',$properties) : '';
+        $commentArray['createdon'] = strftime($this->getOption('dateFormat',$properties),strtotime($this->get('createdon')));
+        $commentArray['url'] = $this->makeUrl();
+        $commentArray['idx'] = $idx;
+        $commentArray['threaded'] = $this->getOption('threaded',$properties,true);
+        $commentArray['depth'] = $this->get('depth');
+        $commentArray['depth_margin'] = $this->getOption('useMargins',$properties,false) ? (int)($this->getOption('threadedPostMargin',$properties,'15') * $this->get('depth'))+7 : '';
+        $commentArray['cls'] = $this->getOption('rowCss',$properties,'').($this->get('approved') ? '' : ' '.$this->getOption('unapprovedCls',$properties,'quip-unapproved'));
+        $commentArray['olCls'] = $this->getOption('olCss',$properties,'');
+        if ($this->getOption('useGravatar',$properties,true)) {
+            $commentArray['md5email'] = md5($this->get('email'));
+            $commentArray['gravatarIcon'] = $this->getOption('gravatarIcon',$properties,'mm');
+            $commentArray['gravatarSize'] = $this->getOption('gravatarSize',$properties,60);
+            $urlsep = $this->xpdo->getOption('xhtml_urls',null,true) ? '&amp;' : '&';
+            $commentArray['gravatarUrl'] = $this->getOption('gravatarUrl',$properties).$commentArray['md5email'].'?s='.$commentArray['gravatarSize'].$urlsep.'d='.$commentArray['gravatarIcon'];
+        } else {
+            $commentArray['gravatarUrl'] = '';
+        }
+
+        /* check for auth */
+        if ($this->hasAuth) {
+            /* allow removing of comment if moderator or own comment */
+            $commentArray['allowRemove'] = $this->getOption('allowRemove',$properties,true);
+            if ($commentArray['allowRemove']) {
+                if ($this->isModerator) {
+                    /* Always allow remove for moderators */
+                    $commentArray['allowRemove'] = true;
+                } else if ($this->get('author') == $this->xpdo->user->get('id')) {
+                    /* if not moderator but author of post, check for remove
+                     * threshold, which prevents removing comments after X minutes
+                     */
+                    $removeThreshold = $this->getOption('removeThreshold',$properties,3);
+                    if (!empty($removeThreshold)) {
+                        $diff = time() - strtotime($this->get('createdon'));
+                        if ($diff > ($removeThreshold * 60)) $commentArray['allowRemove'] = false;
+                    }
+                }
+            }
+
+            $commentArray['reported'] = !empty($_GET['reported']) && $_GET['reported'] == $this->get('id') ? 1 : '';
+            if ($this->get('author') == $this->xpdo->user->get('id') || $this->isModerator) {
+                $params = $this->xpdo->request->getParameters();
+                $params['quip_comment'] = $this->get('id');
+                $params[$this->getOption('removeAction',$properties,'quip-remove')] = true;
+                $commentArray['removeUrl'] = $this->makeUrl('',$params,null,false);
+                $commentArray['options'] = $this->xpdo->quip->getChunk($this->getOption('tplCommentOptions',$properties),$commentArray);
+            } else {
+                $commentArray['options'] = '';
+            }
+
+            if ($this->getOption('allowReportAsSpam',$properties,true)) {
+                $params = $this->xpdo->request->getParameters();
+                $params['quip_comment'] = $this->get('id');
+                $params[$this->getOption('reportAction',$properties,'quip-report')] = true;
+                $commentArray['reportUrl'] = $this->makeUrl('',$params,null,false);
+                $commentArray['report'] = $this->xpdo->quip->getChunk($this->getOption('tplReport',$properties),$commentArray);
+            }
+        } else {
+            $commentArray['report'] = '';
+        }
+
+
+        /* get author display name */
+        $authorTpl = $this->getOption('authorTpl',$properties,'quipAuthorTpl');
+        $nameField = $this->getOption('nameField',$properties,'username');
+        $commentArray['authorName'] = '';
+        if (empty($commentArray[$nameField])) {
+            $commentArray['authorName'] = $this->xpdo->quip->getChunk($authorTpl,array(
+                'name' => $this->getOption('showAnonymousName',false)
+                    ? $this->getOption('anonymousName',$this->xpdo->lexicon('quip.anonymous'))
+                    : $commentArray['name'],
+                'url' => '',
+            ));
+        } else {
+            $commentArray['authorName'] = $this->xpdo->quip->getChunk($authorTpl,array(
+                'name' => $commentArray[$nameField],
+                'url' => '',
+            ));
+        }
+
+        if ($this->getOption('showWebsite',$properties,true) && !empty($commentArray['website'])) {
+            $commentArray['authorName'] = $this->xpdo->quip->getChunk($authorTpl,array(
+                'name' => $commentArray[$nameField],
+                'url' => $commentArray['website'],
+            ));
+        }
+
+        if ($this->getOption('threaded',$properties,true) && $this->getOption('stillOpen',$properties,true)
+            && $this->get('depth') < $this->getOption('maxDepth',$properties,10) && $this->get('approved')
+            && !$this->getOption('closed',$properties,false)) {
+
+            if (!$this->getOption('requireAuth',$properties,false) || $this->hasAuth) {
+                $params = $this->xpdo->request->getParameters();
+                $params['quip_thread'] = $this->get('thread');
+                $params['quip_parent'] = $this->get('id');
+                $commentArray['replyUrl'] = $this->xpdo->makeUrl($this->getOption('replyResourceId',$properties,1),'',$params);
+            }
+        } else {
+            $commentArray['replyUrl'] = '';
+        }
+        return $commentArray;
+    }
 }
