@@ -53,6 +53,10 @@ class quipHooks {
      * @access public
      */
     public $redirectUrl = null;
+    /**
+     * @var array
+     */
+    public $fields = array();
 
     /**
      * The constructor for the quipHooks class
@@ -212,6 +216,13 @@ class quipHooks {
     public function testFail() {
         $this->addError('comment','Fail!');
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields() {
+        return $this->fields;
     }
     
     /**

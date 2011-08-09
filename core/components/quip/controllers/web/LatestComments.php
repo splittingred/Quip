@@ -58,7 +58,7 @@ class QuipLatestCommentsController extends QuipController {
 
     /**
      * Get the latest comments and output
-     * @return void
+     * @return string
      */
     public function process() {
         $output = array();

@@ -24,23 +24,29 @@
 /**
  * Report a comment
  *
+ * @var Quip $quip
+ * @var modX $modx
+ * @var array $scriptProperties
+ * @var QuipThreadController $this
+ *
  * @package quip
  * @subpackage processors
  */
-if (empty($_POST['id'])) {
+$errors = array();
+if (empty($_REQUEST['quip_comment'])) {
     $errors['message'] = $modx->lexicon('quip.comment_err_ns');
     return $errors;
 }
 
+/* get comment */
 $c = $modx->newQuery('quipComment');
 $c->leftJoin('modUser','Author');
-$c->select('
-    `quipComment`.*,
-    `Author`.`username` AS `username`
-');
+$c->select($modx->getSelectColumns('quipComment','quipComment'));
+$c->select($modx->getSelectColumns('modUser','Author','',array('username')));
 $c->where(array(
-    'id' => $_POST['id'],
+    'id' => $_REQUEST['quip_comment'],
 ));
+/** @var quipComment $comment */
 $comment = $modx->getObject('quipComment',$c);
 if ($comment == null) {
     $errors['message'] = $modx->lexicon('quip.comment_err_nf');
@@ -58,11 +64,10 @@ $properties['url'] = $comment->makeUrl('','',array('scheme' => 'full'));
 if (empty($properties['username'])) $properties['username'] = $comment->get('name');
 $body = $modx->lexicon('quip.spam_email',$properties);
 
+/* send spam report */
 $modx->getService('mail', 'mail.modPHPMailer');
-
 $emailFrom = $modx->getOption('quip.emailsFrom',null,$emailTo);
 $emailReplyTo = $modx->getOption('quip.emailsReplyTo',null,$emailFrom);
-
 $modx->mail->set(modMail::MAIL_BODY, $body);
 $modx->mail->set(modMail::MAIL_FROM, $emailFrom);
 $modx->mail->set(modMail::MAIL_FROM_NAME, 'Quip');

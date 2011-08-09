@@ -22,9 +22,11 @@
  * @package quip
  */
 /**
- * QuipReply
- *
  * Displays a reply form for a thread
+ *
+ * @var modX $modx
+ * @var array $scriptProperties
+ * @var Quip $quip
  *
  * @name QuipReply
  * @author Shaun McCormick <shaun@modx.com>
@@ -32,6 +34,11 @@
  */
 $quip = $modx->getService('quip','Quip',$modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/quip/',$scriptProperties);
 if (!($quip instanceof Quip)) return '';
+
+$quip->initialize($modx->context->get('key'));
+$controller = $quip->loadController('ThreadReply');
+$output = $controller->run($scriptProperties);
+return $output;
 
 /* get thread */
 $thread = $modx->getOption('quip_thread',$_REQUEST,$modx->getOption('thread',$scriptProperties,''));

@@ -23,6 +23,11 @@
  */
 /**
  * Create a comment
+ * 
+ * @var Quip $quip
+ * @var modX $modx
+ * @var array $scriptProperties
+ * @var QuipThreadReplyController $this
  *
  * @package quip
  * @subpackage processors
@@ -30,24 +35,25 @@
 $errors = array();
 
 /* if using reCaptcha */
-$disableRecaptchaWhenLoggedIn = $modx->getOption('disableRecaptchaWhenLoggedIn',$scriptProperties,true);
-if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $hasAuth)) {
-    if (isset($fields['auth_nonce']) && !empty($fields['preview_mode'])) {
+$disableRecaptchaWhenLoggedIn = $this->getProperty('disableRecaptchaWhenLoggedIn',true);
+if ($this->getProperty('recaptcha',false) && !($disableRecaptchaWhenLoggedIn && $this->hasAuth)) {
+    if (isset($scriptProperties['auth_nonce']) && !empty($scriptProperties['preview_mode'])) {
         /* if already passed reCaptcha via preview mode, verify nonce to prevent spam/fraud attacks */
-        $passedNonce = $quip->checkNonce($fields['auth_nonce'],'quip-form-');
+        $passedNonce = $quip->checkNonce($scriptProperties['auth_nonce'],'quip-form-');
         if (!$passedNonce) {
             $errors['comment'] = $modx->lexicon('quip.err_fraud_attempt');
             return $errors;
         }
     } else {
         /* otherwise validate reCaptcha */
+        /** @var reCaptcha $recaptcha */
         $recaptcha = $modx->getService('recaptcha','reCaptcha',$quip->config['modelPath'].'recaptcha/');
         if (!($recaptcha instanceof reCaptcha)) {
             $errors['recaptcha'] = $modx->lexicon('quip.recaptcha_err_load');
         } elseif (empty($recaptcha->config[reCaptcha::OPT_PRIVATE_KEY])) {
             $errors['recaptcha'] = $modx->lexicon('recaptcha.no_api_key');
         } else {
-            $response = $recaptcha->checkAnswer($_SERVER['REMOTE_ADDR'],$fields['recaptcha_challenge_field'],$fields['recaptcha_response_field']);
+            $response = $recaptcha->checkAnswer($_SERVER['REMOTE_ADDR'],$scriptProperties['recaptcha_challenge_field'],$scriptProperties['recaptcha_response_field']);
 
             if (!$response->is_valid) {
                 $errors['recaptcha'] = $modx->lexicon('recaptcha.incorrect',array(
@@ -61,7 +67,7 @@ if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptcha
 /* verify against spam */
 if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],true,true)) {
     $sfspam = new StopForumSpam($modx);
-    $spamResult = $sfspam->check($_SERVER['REMOTE_ADDR'],$fields['email']);
+    $spamResult = $sfspam->check($_SERVER['REMOTE_ADDR'],$scriptProperties['email']);
     if (!empty($spamResult)) {
         $spamFields = implode($modx->lexicon('quip.spam_marked')."\n<br />",$spamResult);
         $errors['email'] = $modx->lexicon('quip.spam_blocked',array(
@@ -73,27 +79,27 @@ if ($modx->loadClass('stopforumspam.StopForumSpam',$quip->config['modelPath'],tr
 }
 
 /* cleanse body from XSS and other junk */
-$fields['body'] = $quip->cleanse($fields['comment'],$scriptProperties);
-$fields['body'] = $quip->parseLinks($fields['body'],$scriptProperties);
-if (empty($fields['body'])) $errors['comment'] = $modx->lexicon('quip.message_err_ns');
-$fields['body'] = str_replace(array('<br><br>','<br /><br />'),'',nl2br($fields['body']));
+$scriptProperties['body'] = $quip->cleanse($scriptProperties['comment'],$scriptProperties);
+$scriptProperties['body'] = $quip->parseLinks($scriptProperties['body'],$scriptProperties);
+if (empty($scriptProperties['body'])) $errors['comment'] = $modx->lexicon('quip.message_err_ns');
+$scriptProperties['body'] = str_replace(array('<br><br>','<br /><br />'),'',nl2br($scriptProperties['body']));
 
 /* run preHooks */
 $quip->loadHooks('pre');
-$quip->preHooks->loadMultiple($preHooks,$fields,array(
-    'hooks' => $preHooks,
+$quip->preHooks->loadMultiple($this->getProperty('preHooks',''),$scriptProperties,array(
+    'hooks' => $this->getProperty('preHooks',''),
 ));
 
 /* if a prehook sets a field, do so here */
-if (!empty($quip->preHooks->fields)) {
-    $fs = $quip->preHooks->fields;
+$fs = $quip->preHooks->getFields();
+if (!empty($fs)) {
     /* better handling of checkbox values when input name is an array[] */
     foreach ($fs as $f => $v) {
         if (is_array($v)) { implode(',',$v); }
         $fs[$f] = $v;
     }
     /* assign new fields values */
-    $fields = $quip->preHooks->fields;
+    $scriptProperties = $quip->preHooks->getFields();
 }
 /* if any errors in preHooks */
 if (!empty($quip->preHooks->errors)) {
@@ -105,27 +111,28 @@ if (!empty($quip->preHooks->errors)) {
 /* if no errors, save comment */
 if (!empty($errors)) return $errors;
 
+/** @var quipComment $comment */
 $comment = $modx->newObject('quipComment');
-$comment->fromArray($fields);
+$comment->fromArray($scriptProperties);
 $comment->set('ip',$_SERVER['REMOTE_ADDR']);
 $comment->set('createdon',strftime('%b %d, %Y at %I:%M %p',time()));
-$comment->set('body',$fields['body']);
+$comment->set('body',$scriptProperties['body']);
 
 /* if moderation is on, don't auto-approve comments */
-if ($modx->getOption('moderate',$scriptProperties,false)) {
+if ($this->getProperty('moderate',false)) {
     /* by default moderate, unless special cases pass */
     $approved = false;
 
     /* never moderate mgr users */
-    if ($modx->user->hasSessionContext('mgr') && $modx->getOption('dontModerateManagerUsers',$scriptProperties,true)) {
+    if ($modx->user->hasSessionContext('mgr') && $this->getProperty('dontModerateManagerUsers',true)) {
         $approved = true;
     /* check logged in status in current context*/
     } else if ($modx->user->hasSessionContext($modx->context->get('key'))) {
         /* if moderating only anonymous users, go ahead and approve since the user is logged in */
-        if ($modx->getOption('moderateAnonymousOnly',$scriptProperties,false)) {
+        if ($this->getProperty('moderateAnonymousOnly',false)) {
             $approved = true;
 
-        } else if ($modx->getOption('moderateFirstPostOnly',$scriptProperties,true)) {
+        } else if ($this->getProperty('moderateFirstPostOnly',true)) {
             /* if moderating only first post, check to see if user has posted and been approved elsewhere.
              * Note that this only works with logged in users.
              */
@@ -142,17 +149,18 @@ if ($modx->getOption('moderate',$scriptProperties,false)) {
 /* URL preservation information
  * @deprecated 0.5.0, this now goes on the Thread, will remove code in 0.5.1
  */
-if (!empty($fields['parent'])) {
+if (!empty($scriptProperties['parent'])) {
     /* for threaded comments, persist the parents URL */
-    $parentComment = $modx->getObject('quipComment',$fields['parent']);
+    /** @var quipComment $parentComment */
+    $parentComment = $modx->getObject('quipComment',$scriptProperties['parent']);
     if ($parentComment) {
         $comment->set('resource',$parentComment->get('resource'));
         $comment->set('idprefix',$parentComment->get('idprefix'));
         $comment->set('existing_params',$parentComment->get('existing_params'));
     }
 } else {
-    $comment->set('resource',$modx->getOption('resource',$scriptProperties,$modx->resource->get('id')));
-    $comment->set('idprefix',$modx->getOption('idPrefix',$scriptProperties,'qcom'));
+    $comment->set('resource',$this->getProperty('resource',$modx->resource->get('id')));
+    $comment->set('idprefix',$this->getProperty('idPrefix','qcom'));
 
     /* save existing parameters to comment to preserve URLs */
     $p = $modx->request->getParameters();
@@ -161,25 +169,29 @@ if (!empty($fields['parent'])) {
 }
 
 /* ensure author is set */
-if ($hasAuth) {
+if ($this->hasAuth) {
     $comment->set('author', $modx->user->get('id'));
 }
 
+
+/* save comment */
 if ($comment->save() == false) {
     $errors['message'] = $modx->lexicon('quip.comment_err_save');
-} elseif ($requireAuth) {
+    return $errors;
+} elseif ($this->getProperty('requireAuth',false)) {
     /* if successful and requireAuth is true, update user profile */
     $profile = $modx->user->getOne('Profile');
     if ($profile) {
-        if (!empty($fields['name'])) $profile->set('fullname',$fields['name']);
-        if (!empty($fields['email'])) $profile->set('email',$fields['email']);
-        $profile->set('website',$fields['website']);
+        if (!empty($scriptProperties['name'])) $profile->set('fullname',$scriptProperties['name']);
+        if (!empty($scriptProperties['email'])) $profile->set('email',$scriptProperties['email']);
+        $profile->set('website',$scriptProperties['website']);
         $profile->save();
     }
 }
 
 /* if comment is approved, send emails */
 if ($comment->get('approved')) {
+    /** @var quipThread $thread */
     $thread = $comment->getOne('Thread');
     if ($thread) {
         if ($thread->notify($comment) == false) {
@@ -195,15 +207,16 @@ if ($comment->get('approved')) {
 }
 
 /* if notify is set to true, add user to quipCommentNotify table */
-if (!empty($fields['notify'])) {
+if (!empty($scriptProperties['notify'])) {
+    /** @var quipCommentNotify $quipCommentNotify */
     $quipCommentNotify = $modx->getObject('quipCommentNotify',array(
         'thread' => $comment->get('thread'),
-        'email' => $fields['email'],
+        'email' => $scriptProperties['email'],
     ));
     if (empty($quipCommentNotify)) {
         $quipCommentNotify = $modx->newObject('quipCommentNotify');
         $quipCommentNotify->set('thread',$comment->get('thread'));
-        $quipCommentNotify->set('email',$fields['email']);
+        $quipCommentNotify->set('email',$scriptProperties['email']);
         $quipCommentNotify->save();
     }
 }
@@ -211,8 +224,8 @@ if (!empty($fields['notify'])) {
 /* run postHooks */
 $commentArray = $comment->toArray();
 $quip->loadHooks('post');
-$quip->postHooks->loadMultiple($postHooks,$commentArray,array(
-    'hooks' => $postHooks,
+$quip->postHooks->loadMultiple($this->getProperty('postHooks',''),$commentArray,array(
+    'hooks' => $this->getProperty('postHooks',''),
 ));
 
 return $comment;

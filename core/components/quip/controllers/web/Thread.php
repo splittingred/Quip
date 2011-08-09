@@ -88,6 +88,9 @@ class QuipThreadController extends QuipController {
             'limit' => 0,
             'offset' => 0,
 
+            'removeAction' => 'quip-remove',
+            'reportAction' => 'quip-report',
+
             'parent' => 0,
             'thread' => '',
         ));
@@ -278,7 +281,7 @@ class QuipThreadController extends QuipController {
      */
     public function handleActions() {
         /* handle remove post */
-        $removeAction = $this->getProperty('removeAction','quip_remove');
+        $removeAction = $this->getProperty('removeAction','quip-remove');
         if (!empty($_REQUEST[$removeAction]) && $this->hasAuth && $this->isModerator) {
             $this->removeComment();
         }
@@ -294,10 +297,10 @@ class QuipThreadController extends QuipController {
      * @return void
      */
     public function removeComment() {
-        $errors = include_once $this->quip->config['processorsPath'].'web/comment/remove.php';
+        $errors = $this->runProcessor('web/comment/remove',$_POST);
         if (empty($errors)) {
             $params = $this->modx->request->getParameters();
-            unset($params[$removeAction],$params['quip_comment']);
+            unset($params[$this->getProperty('removeAction','quip-remove')],$params['quip_comment']);
             $url = $this->modx->makeUrl($this->modx->resource->get('id'),'',$params);
             $this->modx->sendRedirect($url);
         }
@@ -309,11 +312,11 @@ class QuipThreadController extends QuipController {
      * @return void
      */
     public function reportCommentAsSpam() {
-        $errors = include_once $this->quip->config['processorsPath'].'web/comment/report.php';
+        $errors = $this->runProcessor('web/comment/report',$_POST);
         if (empty($errors)) {
             $params = $this->modx->request->getParameters();
-            unset($params[$reportAction],$params['quip_comment']);
-            $params['reported'] = $_POST['id'];
+            unset($params[$this->getProperty('reportAction','quip-report')],$params['quip_comment']);
+            $params['reported'] = $_REQUEST['quip_comment'];
             $url = $this->modx->makeUrl($this->modx->resource->get('id'),'',$params);
             $this->modx->sendRedirect($url);
         }
@@ -388,7 +391,6 @@ class QuipThreadController extends QuipController {
      * @return array
      */
     public function prepareComments() {
-        $alt = false;
         $idx = 0;
         $commentList = array();
         /** @var quipComment $comment */

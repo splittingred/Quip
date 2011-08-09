@@ -63,6 +63,10 @@ abstract class QuipController {
         }
     }
 
+    /**
+     * Return an array of REQUEST options
+     * @return array
+     */
     public function getProperties() {
         return $this->scriptProperties;
     }
@@ -105,5 +109,28 @@ abstract class QuipController {
     }
     public function getPlaceholders() {
         return $this->placeholders;
+    }
+
+
+    /**
+     * @param string $processor
+     * @param array $scriptProperties
+     * @return mixed|string
+     */
+    public function runProcessor($processor,array $scriptProperties = array()) {
+        $output = '';
+        $processorFile = $this->config['processorsPath'].$processor.'.php';
+        if (!file_exists($processorFile)) {
+            return $output;
+        }
+
+        $modx =& $this->modx;
+        $quip =& $this->quip;
+        try {
+            $output = include $processorFile;
+        } catch (Exception $e) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'[Quip] '.$e->getMessage());
+        }
+        return $output;
     }
 }

@@ -24,6 +24,11 @@
 /**
  * Remove a comment
  *
+ * @var Quip $quip
+ * @var modX $modx
+ * @var array $scriptProperties
+ * @var QuipThreadController $this
+ * 
  * @package quip
  * @subpackage processors
  */
@@ -33,11 +38,15 @@ if (empty($_REQUEST['quip_comment'])) {
     return $errors;
 }
 
+/** @var quipComment $comment */
 $comment = $modx->getObject('quipComment',$_REQUEST['quip_comment']);
-if (empty($comment)) { $errors['message'] = $modx->lexicon('quip.comment_err_nf'); return $errors; }
+if (empty($comment)) {
+    $errors['message'] = $modx->lexicon('quip.comment_err_nf');
+    return $errors;
+}
 
 /* only allow authors or moderators to remove comments */
-if ($comment->get('author') != $modx->user->get('id') && !$isModerator) {
+if ($comment->get('author') != $modx->user->get('id') && !$this->isModerator) {
     $errors['message'] = $modx->lexicon('quip.comment_err_nf');
     return $errors;
 }

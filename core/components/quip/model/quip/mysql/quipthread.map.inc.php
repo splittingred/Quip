@@ -57,7 +57,7 @@ $xpdo_meta_map['quipThread']= array (
     array (
       'dbtype' => 'datetime',
       'phptype' => 'datetime',
-      'null' => false,
+      'null' => true,
     ),
     'moderated' => 
     array (
