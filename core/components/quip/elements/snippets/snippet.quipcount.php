@@ -36,54 +36,7 @@
  */
 $quip = $modx->getService('quip','Quip',$modx->getOption('quip.core_path',null,$modx->getOption('core_path').'components/quip/').'model/quip/',$scriptProperties);
 if (!($quip instanceof Quip)) return '';
-
-$type = $modx->getOption('type',$scriptProperties,'thread');
-$type = explode(',',$type);
-
-$total = 0;
-$c = $modx->newQuery('quipComment');
-
-/* filter by user */
-if (in_array('user',$type)) {
-    if (empty($scriptProperties['user'])) return 0;
-
-    $c->innerJoin('modUser','Author');
-    if (is_numeric($scriptProperties['user'])) {
-        $c->where(array(
-            'Author.id' => $scriptProperties['user'],
-        ));
-    } else {
-        $c->where(array(
-            'Author.username' => $scriptProperties['user'],
-        ));
-    }
-}
-/* filter by thread */
-if (in_array('thread',$type)) {
-    if (empty($scriptProperties['thread'])) return 0;
-
-    $c->where(array(
-        'thread' => $scriptProperties['thread'],
-    ));
-}
-/* filter by family */
-if (in_array('family',$type)) {
-    if (empty($scriptProperties['family'])) return 0;
-    $c->where(array(
-        'quipComment.thread:LIKE' => $scriptProperties['family'],
-    ));
-}
-
-$c->where(array(
-    'quipComment.approved' => true,
-    'quipComment.deleted' => false,
-));
-$output = $modx->getCount('quipComment',$c);
-
-/* output */
-$toPlaceholder = $modx->getOption('toPlaceholder',$scriptProperties,false);
-if ($toPlaceholder) {
-    $modx->setPlaceholder($toPlaceholder,$output);
-    return '';
-}
+$quip->initialize($modx->context->get('key'));
+$controller = $quip->loadController('ThreadCount');
+$output = $controller->run($scriptProperties);
 return $output;
