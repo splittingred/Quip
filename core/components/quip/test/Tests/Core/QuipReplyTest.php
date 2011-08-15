@@ -182,4 +182,31 @@ class QuipReplyTest extends QuipTestCase {
             array(false,false),
         );
     }
+
+    /**
+     * Test check for moderated comment after post
+     * 
+     * @param boolean $shouldBeSet
+     * @param boolean $approved
+     * @return void
+     */
+    public function testCheckForModeration($shouldBeSet = true,$approved = false) {
+        $_GET['quip_approved'] = $approved;
+        $this->controller->checkForModeration();
+        if ($shouldBeSet) {
+            $this->assertArrayHasKey('successMsg',$this->controller->getPlaceholders());
+        } else {
+            $this->assertArrayNotHasKey('successMsg',$this->controller->getPlaceholders());
+        }
+        unset($_GET['quip_approved']);
+    }
+    /**
+     * @return array
+     */
+    public function providerCheckForModeration() {
+        return array(
+            array(true,false), /* comment moderated */
+            array(false,true), /* coment not moderated */
+        );
+    }
 }
