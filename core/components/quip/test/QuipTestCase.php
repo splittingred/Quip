@@ -29,6 +29,7 @@ class QuipTestCase extends PHPUnit_Framework_TestCase {
         $this->quip->inTestMode = true;
         /* make sure to reset MODX placeholders so as not to keep placeholder data across tests */
         $this->modx->placeholders = array();
+        $this->modx->quip =& $this->quip;
     }
 
     /**

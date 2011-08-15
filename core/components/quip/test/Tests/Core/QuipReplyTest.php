@@ -23,7 +23,6 @@ class QuipReplyTest extends QuipTestCase {
         parent::setUp();
         $this->controller = $this->quip->loadController('ThreadReply');
         $this->assertInstanceOf('QuipThreadReplyController',$this->controller);
-        error_reporting(E_ALL);
 
         $this->thread = $this->modx->newObject('quipThread');
         $this->thread->fromArray(array(
