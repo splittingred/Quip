@@ -103,9 +103,9 @@ class QuipThreadReplyController extends QuipController {
     public function checkPermissions() {
         /* get parent and auth */
         $this->parentThread = $this->modx->getOption('quip_parent',$_REQUEST,$this->getProperty('parent',0));
-        $this->hasAuth = $this->modx->user->hasSessionContext($this->modx->context->get('key')) || $this->getProperty('debug',false) || empty($requireAuth);
+        $this->hasAuth = $this->modx->user->hasSessionContext($this->modx->context->get('key')) || $this->getProperty('debug',false,'isset') || empty($requireAuth);
         if (!empty($requireUsergroups)) {
-            $requireUsergroups = explode(',',$this->getProperty('requireUsergroups',false));
+            $requireUsergroups = explode(',',$this->getProperty('requireUsergroups',false,'isset'));
             $this->hasAuth = $this->modx->user->isMember($requireUsergroups);
         }
         $this->isModerator = $this->thread->checkPolicy('moderate');
@@ -125,7 +125,6 @@ class QuipThreadReplyController extends QuipController {
         $this->setPlaceholder('idprefix',$this->thread->get('idprefix'));
         
         /* handle POST */
-        $fields = array();
         $this->hasPreview = false;
         if (!empty($_POST)) {
             $this->handlePost();
@@ -160,7 +159,7 @@ class QuipThreadReplyController extends QuipController {
     }
 
     public function isOpen() {
-        return $this->thread->checkIfStillOpen($this->getProperty('closeAfter',14,'isset')) && !$this->getProperty('closed',false);
+        return $this->thread->checkIfStillOpen($this->getProperty('closeAfter',14,'isset')) && !$this->getProperty('closed',false,'isset');
     }
 
     public function getReplyForm() {
@@ -177,7 +176,7 @@ class QuipThreadReplyController extends QuipController {
         }
 
         /* if requirePreview == false, auto-can post */
-        if (!$this->getProperty('requirePreview',false)) {
+        if (!$this->getProperty('requirePreview',false,'isset')) {
             $this->setPlaceholder('can_post',true);
         }
         $this->setPlaceholders(array(
@@ -266,8 +265,8 @@ class QuipThreadReplyController extends QuipController {
      * @return bool|string
      */
     public function loadReCaptcha() {
-        $disableRecaptchaWhenLoggedIn = (boolean)$this->getProperty('disableRecaptchaWhenLoggedIn',true);
-        $useRecaptcha = (boolean)$this->getProperty('recaptcha',false);
+        $disableRecaptchaWhenLoggedIn = (boolean)$this->getProperty('disableRecaptchaWhenLoggedIn',true,'isset');
+        $useRecaptcha = (boolean)$this->getProperty('recaptcha',false,'isset');
         if ($useRecaptcha && !($disableRecaptchaWhenLoggedIn && $this->hasAuth) && !$this->hasPreview) {
             /** @var reCaptcha $recaptcha */
             $recaptcha = $this->modx->getService('recaptcha','reCaptcha',$this->quip->config['modelPath'].'recaptcha/');

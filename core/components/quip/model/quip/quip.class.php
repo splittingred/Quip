@@ -485,13 +485,15 @@ class Quip {
     public function loadController($controller) {
         if ($this->modx->loadClass('quipController',$this->config['modelPath'].'quip/request/',true,true)) {
             $classPath = $this->config['controllersPath'].'web/'.$controller.'.php';
+            $className = 'Quip'.$controller.'Controller';
             if (file_exists($classPath)) {
-                $className = require_once $classPath;
-                if (empty($className)) $className = 'Quip'.$controller.'Controller';
+                if (!class_exists($className)) {
+                    $className = require_once $classPath;
+                }
                 if (class_exists($className)) {
                     $this->controller = new $className($this,$this->config);
                 } else {
-                    $this->modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Could not load controller: '.$className);
+                    $this->modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Could not load controller: '.$className.' at '.$classPath);
                 }
             } else {
                 $this->modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Could not load controller file: '.$classPath);
