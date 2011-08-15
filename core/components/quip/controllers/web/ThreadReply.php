@@ -102,6 +102,8 @@ class QuipThreadReplyController extends QuipController {
 
     public function checkPermissions() {
         /* get parent and auth */
+        $requireAuth = $this->getProperty('requireAuth',false,'isset');
+        $requireUsergroups = $this->getProperty('requireUsergroups',false,'isset');
         $this->parentThread = $this->modx->getOption('quip_parent',$_REQUEST,$this->getProperty('parent',0));
         $this->hasAuth = $this->modx->user->hasSessionContext($this->modx->context->get('key')) || $this->getProperty('debug',false,'isset') || empty($requireAuth);
         if (!empty($requireUsergroups)) {

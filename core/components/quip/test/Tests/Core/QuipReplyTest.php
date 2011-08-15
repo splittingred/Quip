@@ -14,11 +14,75 @@ class QuipReplyTest extends QuipTestCase {
      * @var QuipThreadReplyController $controller
      */
     public $controller;
+    /**
+     * @var quipThread $thread
+     */
+    public $thread;
 
     public function setUp() {
         parent::setUp();
         $this->controller = $this->quip->loadController('ThreadReply');
         $this->assertInstanceOf('QuipThreadReplyController',$this->controller);
+        error_reporting(E_ALL);
+
+        $this->thread = $this->modx->newObject('quipThread');
+        $this->thread->fromArray(array(
+            'name' => 'unit-test-thread',
+            'moderated' => true,
+            'moderator_group' => '',
+            'moderators' => '',
+            'notify_emails' => false,
+            'resource' => 1,
+            'idprefix' => 'qcom.',
+        ),'',true,true);
+        $this->thread->save();
+
+        $this->controller->setProperty('thread','unit-test-thread');
+    }
+
+    public function tearDown() {
+        parent::tearDown();
+        $this->thread->remove();
+    }
+
+
+    /**
+     * @param boolean $shouldHaveAuth
+     * @param boolean $shouldBeModerator
+     * @param boolean $requireAuth
+     * @param boolean $requireUserGroups
+     * @param int $parent
+     * @param boolean $debug
+     * @dataProvider providerCheckPermissions
+     */
+    public function testCheckPermissions($shouldHaveAuth = true,$shouldBeModerator = false,$requireAuth = false,$requireUserGroups = false,$parent = 0,$debug = false) {
+        $this->controller->setProperty('requireAuth',$requireAuth);
+        $this->controller->setProperty('requireUsergroups',$requireUserGroups);
+        $this->controller->setProperty('quip_parent',$parent);
+        $this->controller->setProperty('debug',$debug);
+
+        $this->controller->getThread();
+        $this->controller->checkPermissions();
+
+        if ($shouldBeModerator) {
+            $this->assertNotEmpty($this->controller->isModerator,'User is not a moderator when they should be.');
+        } else {
+            $this->assertEmpty($this->controller->isModerator,'User is a moderator when they should not be.');
+        }
+        if ($shouldHaveAuth) {
+            $this->assertNotEmpty($this->controller->hasAuth,'User is not authenticated when they should be.');
+        } else {
+            $this->assertEmpty($this->controller->hasAuth,'User is authenticated when they should not be.');
+        }
+    }
+    public function providerCheckPermissions() {
+        return array(
+            array(true,false,false,false), /* standard setup */
+            array(true,false,false,false,0,true), /* check debug mode */
+            array(true,false,true,false,0,true), /* check requireAuth pass w/ debug */
+            array(false,false,true,false), /* check requireAuth fail */
+            array(false,false,true,'FailGroup'), /* check requireUsergroups fail */
+        );
     }
 
     /**
@@ -57,23 +121,5 @@ class QuipReplyTest extends QuipTestCase {
             array(false,true,true,'clean',true),
             array(false,false),
         );
-    }
-
-
-    public function loadReCaptcha() {
-        $disableRecaptchaWhenLoggedIn = (boolean)$this->getProperty('disableRecaptchaWhenLoggedIn',true,'isset');
-        $useRecaptcha = (boolean)$this->getProperty('recaptcha',false,'isset');
-        if ($useRecaptcha && !($disableRecaptchaWhenLoggedIn && $this->hasAuth) && !$this->hasPreview) {
-            /** @var reCaptcha $recaptcha */
-            $recaptcha = $this->modx->getService('recaptcha','reCaptcha',$this->quip->config['modelPath'].'recaptcha/');
-            if ($recaptcha instanceof reCaptcha) {
-                $recaptchaTheme = $this->getProperty('recaptchaTheme','clean');
-                $html = $recaptcha->getHtml($recaptchaTheme);
-                $this->modx->setPlaceholder('quip.recaptcha_html',$html);
-            } else {
-                return $this->modx->lexicon('quip.recaptcha_err_load');
-            }
-        }
-        return true;
     }
 }
