@@ -45,6 +45,32 @@ class QuipReplyTest extends QuipTestCase {
         $this->thread->remove();
     }
 
+    /**
+     * Test getThread
+     * 
+     * @param bool $shouldPass
+     * @param string $threadName
+     * @dataProvider providerGetThread
+     */
+    public function testGetThread($shouldPass = true,$threadName = 'unit-test-thread') {
+        $this->controller->setProperty('thread',$threadName);
+        $thread = $this->controller->getThread();
+        if ($shouldPass) {
+            $this->assertNotEmpty($thread);
+            $this->assertInstanceOf('quipThread',$thread);
+        } else {
+            $this->assertEmpty($thread);
+        }
+    }
+    /**
+     * @return array
+     */
+    public function providerGetThread() {
+        return array(
+            array(true,'unit-test-thread'),
+            array(false,'unit-test-thread2'),
+        );
+    }
 
     /**
      * @param boolean $shouldHaveAuth
@@ -54,6 +80,7 @@ class QuipReplyTest extends QuipTestCase {
      * @param int $parent
      * @param boolean $debug
      * @dataProvider providerCheckPermissions
+     * @depends testGetThread
      */
     public function testCheckPermissions($shouldHaveAuth = true,$shouldBeModerator = false,$requireAuth = false,$requireUserGroups = false,$parent = 0,$debug = false) {
         $this->controller->setProperty('requireAuth',$requireAuth);
@@ -75,6 +102,9 @@ class QuipReplyTest extends QuipTestCase {
             $this->assertEmpty($this->controller->hasAuth,'User is authenticated when they should not be.');
         }
     }
+    /**
+     * @return array
+     */
     public function providerCheckPermissions() {
         return array(
             array(true,false,false,false), /* standard setup */
@@ -82,6 +112,36 @@ class QuipReplyTest extends QuipTestCase {
             array(true,false,true,false,0,true), /* check requireAuth pass w/ debug */
             array(false,false,true,false), /* check requireAuth fail */
             array(false,false,true,'FailGroup'), /* check requireUsergroups fail */
+        );
+    }
+
+    /**
+     * Test for openness of thread
+     * 
+     * @param boolean $shouldPass
+     * @param boolean $closed
+     * @param int $closeAfter
+     * @param int $setCreatedToDaysAway
+     * @dataProvider providerIsOpen
+     * @depends testGetThread
+     */
+    public function testIsOpen($shouldPass = true,$closed = false,$closeAfter = 14,$setCreatedToDaysAway = 0) {
+        $this->controller->setProperty('closed',$closed);
+        $this->controller->setProperty('closeAfter',$closeAfter);
+        $this->controller->getThread();
+        $secondsAway = $setCreatedToDaysAway * 24 * 60 * 60;
+        $this->controller->thread->set('createdon',(time() - $secondsAway));
+        $isOpen = $this->controller->isOpen();
+
+        $this->assertEquals($shouldPass,$isOpen);
+    }
+    public function providerIsOpen() {
+        return array(
+            array(true),
+            array(false,true), /* assert closed */
+            array(false,false,14,15), /* assert closeAfter fails after days */
+            array(true,false,14,13), /* assert closeAfter works if within */
+            array(true,false,0,21), /* assert closeAfter works if 0 */
         );
     }
 
