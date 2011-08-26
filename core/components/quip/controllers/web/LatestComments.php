@@ -127,29 +127,32 @@ class QuipLatestCommentsController extends QuipController {
         $type = $this->getProperty('type','thread');
         switch ($type) {
             case 'user':
-                if (empty($scriptProperties['user'])) return array();
-                if (is_numeric($scriptProperties['user'])) {
+                $user = $this->getProperty('user',0);
+                if (empty($user)) return array();
+                if (intval($user) > 0) {
                     $c->where(array(
-                        'Author.id' => $scriptProperties['user'],
+                        'Author.id' => $user,
                     ));
                 } else {
                     $c->where(array(
-                        'Author.username' => $scriptProperties['user'],
+                        'Author.username' => $user,
                     ));
                 }
                 break;
             case 'thread':
-                if (empty($scriptProperties['thread'])) return array();
+                $thread = $this->getProperty('thread','');
+                if (empty($thread)) return array();
                 $c = $this->modx->newQuery('quipComment');
                 $c->where(array(
-                    'quipComment.thread' => $scriptProperties['thread'],
+                    'quipComment.thread' => $thread,
                 ));
                 break;
             case 'family':
-                if (empty($scriptProperties['family'])) return array();
+                $family = $this->getProperty('family','');
+                if (empty($family)) return array();
                 $c = $this->modx->newQuery('quipComment');
                 $c->where(array(
-                    'quipComment.thread:LIKE' => '%'.$scriptProperties['family'].'%',
+                    'quipComment.thread:LIKE' => '%'.$family.'%',
                 ));
                 break;
             case 'all':
