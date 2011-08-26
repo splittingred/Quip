@@ -124,15 +124,6 @@ class QuipLatestCommentsController extends QuipController {
         $c->select($this->modx->getSelectColumns('modResource','Resource','',array('pagetitle')));
         $c->leftJoin('modUser','Author');
         $c->leftJoin('modResource','Resource');
-        $c->where(array(
-            'quipComment.approved' => true,
-        ));
-        $contexts = $this->getProperty('contexts','');
-        if (!empty($contexts)) {
-            $c->where(array(
-                'Resource.context_key:IN' => explode(',',$contexts),
-            ));
-        }
         $type = $this->getProperty('type','thread');
         switch ($type) {
             case 'user':
@@ -165,8 +156,15 @@ class QuipLatestCommentsController extends QuipController {
             default:
                 break;
         }
+        $contexts = $this->getProperty('contexts','');
+        if (!empty($contexts)) {
+            $c->where(array(
+                'Resource.context_key:IN' => explode(',',$contexts),
+            ));
+        }
         $c->where(array(
             'quipComment.deleted' => false,
+            'quipComment.approved' => true,
         ));
         $c->sortby($this->modx->escape($this->getProperty('sortByAlias','quipComment')).'.'.$this->modx->escape($this->getProperty('sortBy','createdon')),$this->getProperty('sortDir','DESC'));
         $c->limit($this->getProperty('limit',10),$this->getProperty('start',0));

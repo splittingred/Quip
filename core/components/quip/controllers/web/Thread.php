@@ -347,12 +347,12 @@ class QuipThreadController extends QuipController {
             $c->select($this->modx->getSelectColumns('quipComment','quipComment','',array('id')));
             $c->where(array(
                 'quipComment.thread' => $this->thread->get('name'),
-                'quipComment.deleted' => 0,
+                'quipComment.deleted' => false,
                 'quipComment.parent' => 0,
             ));
             if (!$this->thread->checkPolicy('moderate')) {
                 $c->where(array(
-                    'quipComment.approved' => 1,
+                    'quipComment.approved' => true,
                     'OR:quipComment.author:=' => $this->modx->user->get('id'),
                 ));
             }
@@ -380,6 +380,7 @@ class QuipThreadController extends QuipController {
         $sortBy = $this->getProperty('sortBy','rank');
         $sortByAlias = $this->getProperty('sortByAlias','quipComment');
         $sortDir = $this->getProperty('sortDir','ASC');
+        $this->modx->loadClass('quipComment');
         $result = quipComment::getThread($this->modx,$this->thread,$parent,$this->ids,$sortBy,$sortByAlias,$sortDir);
         
         $this->comments = $result['results'];

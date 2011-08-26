@@ -130,7 +130,9 @@ $_lang['quip.prop_reply_usegravatar_desc'] = 'If true, will attempt to use Grava
 /* QuipLatestComments */
 $_lang['quip.prop_late_altrowcss_desc'] = 'The CSS class to put on alternating comments.';
 $_lang['quip.prop_late_bodylimit_desc'] = 'The number of characters to limit the body field in the comment display to before adding an ellipsis.';
+$_lang['quip.prop_late_contexts_desc'] = 'A comma-separated list of Contexts to pull comments from. If not set, will grab comments from all Contexts.';
 $_lang['quip.prop_late_dateformat_desc'] = 'The format of the dates displayed for a comment.';
+$_lang['quip.prop_late_family_desc'] = 'The family of threads to pull from. Only if type is set to Family.';
 $_lang['quip.prop_late_limit_desc'] = 'The number of comments to pull.';
 $_lang['quip.prop_late_placeholderprefix_desc'] = 'The prefix for the global placeholders set by QuipLatestComments.';
 $_lang['quip.prop_late_rowcss_desc'] = 'The CSS class to put on each row.';
@@ -140,12 +142,10 @@ $_lang['quip.prop_late_sortdir_desc'] = 'The direction to sort by.';
 $_lang['quip.prop_late_start_desc'] = 'The start index of comments to pull from.';
 $_lang['quip.prop_late_striptags_desc'] = 'If set to true, tags will be stripped from the body text.';
 $_lang['quip.prop_late_thread_desc'] = 'The thread ID to pull from. Only if type is set to Thread.';
-$_lang['quip.prop_late_contexts_desc'] = 'A comma-separated list of Contexts to pull comments from. If not set, will grab comments from all Contexts.';
 $_lang['quip.prop_late_toplaceholder_desc'] = 'If set, will output the content to the placeholder specified in this property, rather than outputting the content directly.';
 $_lang['quip.prop_late_tpl_desc'] = 'The chunk tpl to use for each row.';
 $_lang['quip.prop_late_type_desc'] = 'Whether to grab a list from all comments, per thread, per family of threads, or per user.';
 $_lang['quip.prop_late_user_desc'] = 'The User ID or username to pull from. Only if type is set to User.';
-$_lang['quip.prop_late_family_desc'] = 'The family of threads to pull from. Only if type is set to Family.';
 
 /* QuipCount */
 $_lang['quip.prop_count_thread_desc'] = 'The thread ID to pull from. Only if type contains `thread`.';

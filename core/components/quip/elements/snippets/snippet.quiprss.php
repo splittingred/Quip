@@ -61,9 +61,6 @@ $c->select(array(
 ));
 $c->leftJoin('modUser','Author');
 $c->leftJoin('modResource','Resource');
-$c->where(array(
-    'quipComment.approved' => true,
-));
 switch ($type) {
     case 'user':
         if (empty($scriptProperties['user'])) return '';
@@ -93,8 +90,15 @@ switch ($type) {
     default:
         break;
 }
+$contexts = $modx->getOption('contexts',$scriptProperties,'');
+if (!empty($contexts)) {
+    $c->where(array(
+        'Resource.context_key:IN' => explode(',',$contexts),
+    ));
+}
 $c->where(array(
     'quipComment.deleted' => false,
+    'quipComment.approved' => true,
 ));
 $c->sortby('`'.$sortByAlias.'`.`'.$sortBy.'`',$sortDir);
 $c->limit($limit,$start);
