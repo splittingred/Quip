@@ -1,5 +1,12 @@
 Changelog for Quip.
 
+Quip 2.1.0
+======================================
+- Refactor Quip to be OOP, implement 'controller' classes, request handler
+- Add over 30 unit tests and 85 test assertions to Quip
+- Add generated API docs to build
+- [#5608] Fix issue where QuipLatestComments was not respecting approved status when &family was used
+
 Quip 2.0.4
 ======================================
 - [#4998] Fix bug with QuipLatestComments and family filter type

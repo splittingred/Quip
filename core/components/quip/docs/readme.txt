@@ -1,9 +1,9 @@
 --------------------
 Snippet: Quip
 --------------------
-Version: 2.0.0
+Version: 2.1
 First Released: May 26th, 2009
-Author: Shaun McCormick <shaun@modx.com>
+Author: Shaun McCormick <shaun+quip@modx.com>
 License: GNU GPLv2 (or later at your option)
 
 This component is a simple commenting system. It allows you to easily
@@ -32,4 +32,4 @@ http://rtfm.modx.com/display/ADDON/Quip
 
 Thanks for using Quip!
 Shaun McCormick
-shaun@modx.com
+shaun+quip@modx.com
