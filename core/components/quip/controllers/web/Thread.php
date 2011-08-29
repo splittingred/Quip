@@ -329,7 +329,7 @@ class QuipThreadController extends QuipController {
      */
     public function loadCss() {
         /* if css, output */
-        if ($this->getProperty('useCss',true)) {
+        if ($this->getProperty('useCss',true,'isset')) {
             $this->modx->regClientCSS($this->quip->config['cssUrl'].'web.css');
         }
     }
