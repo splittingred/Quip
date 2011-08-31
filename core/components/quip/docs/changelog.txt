@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 2.1.0
 ======================================
+- [#4356] Add &redirectTo and &redirectToUrl parameters to QuipReply for custom redirection after posting
 - [#5644] Fix issue with 2.1.0-rc1 that prevented new threads from being created
 - Refactor Quip to be OOP, implement 'controller' classes, request handler
 - Add over 30 unit tests and 85 test assertions to Quip

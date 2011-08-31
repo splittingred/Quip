@@ -266,6 +266,22 @@ $properties = array(
         'lexicon' => 'quip:properties',
     ),
     array(
+        'name' => 'redirectTo',
+        'desc' => 'quip.prop_reply_redirectto_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
+        'name' => 'redirectToUrl',
+        'desc' => 'quip.prop_reply_redirecttourl_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'quip:properties',
+    ),
+    array(
         'name' => 'debug',
         'desc' => 'quip.prop_reply_debug_desc',
         'type' => 'combo-boolean',

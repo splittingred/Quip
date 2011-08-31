@@ -248,7 +248,17 @@ class QuipThreadReplyController extends QuipController {
                 $params = $this->modx->request->getParameters();
                 unset($params[$this->getProperty('postAction')],$params['quip_parent'],$params['quip_thread']);
                 $params['quip_approved'] = $comment->get('approved') ? 1 : 0;
-                $url = $comment->makeUrl('',$params);
+                
+				/* redirect urls for custom FURL scheme  */
+				$redirectToUrl = $this->getProperty('redirectToUrl','');
+				$redirectTo = $this->getProperty('redirectTo','');
+				if (!empty($redirectToUrl)) {
+				    $url = $redirectToUrl.'?'.http_build_query($params);
+				} else if (!empty($redirectTo)) {
+				    $url = $this->modx->makeUrl($redirectTo,'',$params,'full');
+				} else {
+				    $url = $comment->makeUrl('',$params);
+				}
 
                 /* if not approved, remove # and replace with success message #
                  * since comment is not yet visible
