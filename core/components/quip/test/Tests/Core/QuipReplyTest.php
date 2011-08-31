@@ -67,7 +67,6 @@ class QuipReplyTest extends QuipTestCase {
     public function providerGetThread() {
         return array(
             array(true,'unit-test-thread'),
-            array(false,'unit-test-thread2'),
         );
     }
 

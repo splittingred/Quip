@@ -77,8 +77,20 @@ class QuipThreadReplyController extends QuipController {
      * @return boolean|quipThread
      */
     public function getThread() {
-        $this->thread = $this->modx->getObject('quipThread',array('name' => $this->getProperty('thread','')));
-        if (empty($this->thread)) return false;
+        $threadName = $this->getProperty('thread','');
+        if (empty($threadName)) return false;
+        $this->thread = $this->modx->getObject('quipThread',array('name' => $threadName));
+        if (empty($this->thread)) {
+            $this->thread = $this->modx->newObject('quipThread');
+            $this->thread->fromArray(array(
+                'name' => $threadName,
+                'createdon' => strftime('%Y-%m-%d %H:%M:%S',time()),
+                'moderated' => $this->getProperty('moderated',0),
+                'resource' => $this->modx->resource->get('id'),
+                'idprefix' => $this->getProperty('idprefix','qcom'),
+            ),'',true,true);
+            $this->thread->save();
+        }
 
         /* sync properties with thread row values */
         $this->thread->sync($this->getProperties());

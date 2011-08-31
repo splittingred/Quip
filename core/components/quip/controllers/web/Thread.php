@@ -121,6 +121,18 @@ class QuipThreadController extends QuipController {
         $this->thread = $this->modx->getObject('quipThread',array(
             'name' => $threadName,
         ));
+        if (!$this->thread) {
+            $this->thread = $this->modx->newObject('quipThread');
+            $this->thread->fromArray(array(
+                'name' => $threadName,
+                'createdon' => strftime('%Y-%m-%d %H:%M:%S',time()),
+                'moderated' => $this->getProperty('moderated',0),
+                'resource' => $this->modx->resource->get('id'),
+                'idprefix' => $this->getProperty('idprefix','qcom'),
+            ),'',true,true);
+            $this->thread->save();
+            $this->thread->sync($this->getProperties());
+        }
         if ($this->thread) {
             $closeAfter = (int)$this->getProperty('closeAfter',14,'isset');
             $open = $this->thread->checkIfStillOpen($closeAfter) && !$this->getProperty('closed',false);
