@@ -119,7 +119,7 @@ $comment->set('createdon',strftime('%b %d, %Y at %I:%M %p',time()));
 $comment->set('body',$scriptProperties['body']);
 
 /* if moderation is on, don't auto-approve comments */
-if ($this->getProperty('moderate',false)) {
+if ($this->getProperty('moderate',false,'isset')) {
     /* by default moderate, unless special cases pass */
     $approved = false;
 
@@ -144,6 +144,9 @@ if ($this->getProperty('moderate',false)) {
         }
     }
     $comment->set('approved',$approved);
+    if ($approved) {
+        $comment->set('approvedon',strftime('%Y-%m-%d %H:%M:%S',time()));
+    }
 }
 
 /* URL preservation information

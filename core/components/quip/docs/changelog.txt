@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 2.1.1
+======================================
+- [#5650] Fix issue with moderated comments in certain edge situations
+
 Quip 2.1.0
 ======================================
 - [#4356] Add &redirectTo and &redirectToUrl parameters to QuipReply for custom redirection after posting

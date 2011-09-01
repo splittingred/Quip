@@ -126,7 +126,7 @@ class QuipThreadController extends QuipController {
             $this->thread->fromArray(array(
                 'name' => $threadName,
                 'createdon' => strftime('%Y-%m-%d %H:%M:%S',time()),
-                'moderated' => $this->getProperty('moderated',0),
+                'moderated' => $this->getProperty('moderate',0,'isset'),
                 'resource' => $this->modx->resource->get('id'),
                 'idprefix' => $this->getProperty('idprefix','qcom'),
             ),'',true,true);
