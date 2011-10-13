@@ -291,7 +291,8 @@ class QuipThreadReplyController extends QuipController {
     public function loadReCaptcha() {
         $disableRecaptchaWhenLoggedIn = (boolean)$this->getProperty('disableRecaptchaWhenLoggedIn',true,'isset');
         $useRecaptcha = (boolean)$this->getProperty('recaptcha',false,'isset');
-        if ($useRecaptcha && !($disableRecaptchaWhenLoggedIn && $this->hasAuth) && !$this->hasPreview) {
+        $isLoggedIn = $this->modx->user->hasSessionContext($this->modx->context->get('key'));
+        if ($useRecaptcha && !($disableRecaptchaWhenLoggedIn && $isLoggedIn) && !$this->hasPreview) {
             /** @var reCaptcha $recaptcha */
             $recaptcha = $this->modx->getService('recaptcha','reCaptcha',$this->quip->config['modelPath'].'recaptcha/');
             if ($recaptcha instanceof reCaptcha) {

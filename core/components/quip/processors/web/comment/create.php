@@ -35,8 +35,9 @@
 $errors = array();
 
 /* if using reCaptcha */
-$disableRecaptchaWhenLoggedIn = $this->getProperty('disableRecaptchaWhenLoggedIn',true);
-if ($this->getProperty('recaptcha',false) && !($disableRecaptchaWhenLoggedIn && $this->hasAuth)) {
+$disableRecaptchaWhenLoggedIn = $this->getProperty('disableRecaptchaWhenLoggedIn',true,'isset');
+$isLoggedIn = $modx->user->hasSessionContext($modx->context->get('key'));
+if ($this->getProperty('recaptcha',false) && !($disableRecaptchaWhenLoggedIn && $isLoggedIn)) {
     if (isset($scriptProperties['auth_nonce']) && !empty($scriptProperties['preview_mode'])) {
         /* if already passed reCaptcha via preview mode, verify nonce to prevent spam/fraud attacks */
         $passedNonce = $quip->checkNonce($scriptProperties['auth_nonce'],'quip-form-');
