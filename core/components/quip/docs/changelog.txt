@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 2.1.2
 ======================================
+- [#4395] Fix issue with improper name in mail_sender for emails
 - [#4346] Fix issues with loading reCaptcha when not logged in
 
 Quip 2.1.1

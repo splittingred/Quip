@@ -283,7 +283,7 @@ class quipThread extends xPDOObject {
             $this->xpdo->mail->set(modMail::MAIL_BODY,$body);
             $this->xpdo->mail->set(modMail::MAIL_FROM,$emailFrom);
             $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,$this->xpdo->getOption('quip.emails_from_name',null,'Quip'));
-            $this->xpdo->mail->set(modMail::MAIL_SENDER,$this->xpdo->getOption('quip.emails_from_name',null,'Quip'));
+            $this->xpdo->mail->set(modMail::MAIL_SENDER,$emailFrom);
             $this->xpdo->mail->set(modMail::MAIL_SUBJECT,$subject);
             $this->xpdo->mail->address('to',$emailAddress);
             $this->xpdo->mail->address('reply-to',$emailReplyTo);
