@@ -7,7 +7,8 @@ Quip.grid.Comments = function(config) {
         url: Quip.config.connector_url
         ,baseParams: { 
             action: 'mgr/comment/getList'
-            ,thread: config.thread
+            ,thread: config.thread || null
+            ,family: config.family || null
         }
         ,fields: ['id','author','username','body','createdon','name','approved','deleted','ip','url','pagetitle','comments','website','email','cls']
         ,paging: true

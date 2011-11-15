@@ -38,6 +38,8 @@ $sort = $modx->getOption('sort',$scriptProperties,'createdon');
 $dir = $modx->getOption('dir',$scriptProperties,'DESC');
 $deleted = $modx->getOption('deleted',$scriptProperties,0);
 $search = $modx->getOption('search',$scriptProperties,false);
+$family = $modx->getOption('family',$scriptProperties,false);
+$thread = $modx->getOption('thread',$scriptProperties,false);
 
 if (!empty($scriptProperties['thread'])) {
     $thread = $modx->getObject('quipThread',$scriptProperties['thread']);
@@ -49,10 +51,16 @@ if (!empty($scriptProperties['thread'])) {
 $c = $modx->newQuery('quipComment');
 $c->leftJoin('modUser','Author');
 $c->leftJoin('modResource','Resource');
-if ($thread) {
+if (!empty($thread)) {
     $c->where(array(
         'quipComment.thread' => $thread->get('name'),
     ));
+}
+if (!empty($family)) {
+    $c->where(array(
+        'quipComment.thread:LIKE' => '%'.$family.'%',
+    ));
+
 }
 $c->where(array(
     'quipComment.deleted' => $deleted,
