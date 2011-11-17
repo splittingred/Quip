@@ -72,23 +72,17 @@ Ext.extend(Quip.panel.Thread,MODx.FormPanel,{
             url: this.config.url
             ,params: {
                 action: 'mgr/thread/get'
-                ,thread: this.config.thread
+                ,name: this.config.thread
             }
             ,listeners: {
                 'success': {fn:function(r) {
                     this.getForm().setValues(r.object);
-                    /*var gf = Ext.getCmp('quip-grid-comments');
-                    if (r.object.comments.length != 0 && gf) {
-                        gf.getStore().loadData(r.object.comments);
-                    }
-                    */
                 },scope: this}
             }
         });
     }
     ,beforeSubmit: function(o) {
         Ext.apply(o.form.baseParams,{
-            //comments: Ext.getCmp('quip-grid-comments').encode()
         });
     }
     ,success: function(o) {

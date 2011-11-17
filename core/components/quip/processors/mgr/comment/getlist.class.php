@@ -57,7 +57,7 @@ class QuipCommentGetListProcessor extends modObjectGetListProcessor {
         if (!empty($thread)) {
             $this->thread = $this->modx->getObject('quipThread',$thread);
             if (empty($this->thread)) return $this->modx->lexicon('quip.thread_err_nf');
-            if (!$this->thread->checkPolicy('view')) $this->modx->lexicon('access_denied');
+            if (!$this->thread->checkPolicy('view')) return $this->modx->lexicon('access_denied');
         }
 
         return $initialized;

@@ -22,21 +22,15 @@
  * @package quip
  */
 /**
+ * Completely truncate a thread of comments.
+ *
  * @package quip
  * @subpackage processors
  */
-if (!$modx->hasPermission('quip.comment_remove')) return $modx->error->failure($modx->lexicon('access_denied'));
-
-if (empty($scriptProperties['id'])) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
+class QuipThreadRemoveProcessor extends modObjectRemoveProcessor {
+    public $classKey = 'quipThread';
+    public $languageTopics = array('quip:default');
+    public $permission = 'quip.thread_remove';
+    public $objectType = 'quip.thread';
 }
-$comment = $modx->getObject('quipComment',$scriptProperties['id']);
-if ($comment == null) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
-}
-
-if ($comment->remove() === false) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_remove'));
-}
-
-return $modx->error->success();
+return 'QuipThreadRemoveProcessor';

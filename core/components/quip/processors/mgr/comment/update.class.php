@@ -22,21 +22,28 @@
  * @package quip
  */
 /**
- * Update a thread.
+ * Update a comment
  *
  * @package quip
  * @subpackage processors
  */
-if (!$modx->hasPermission('quip.thread_view')) return $modx->error->failure($modx->lexicon('access_denied'));
+class QuipCommentUpdateProcessor extends modObjectUpdateProcessor {
+    public $classKey = 'quipComment';
+    public $languageTopics = array('quip:default');
+    public $permission = 'quip.comment_update';
+    public $objectType = 'quip.comment';
 
-if (empty($scriptProperties['name'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
-$thread = $modx->getObject('quipThread',$scriptProperties['name']);
-if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
+    public function beforeSave() {
+        /* sanity checks - strip out iframe/javascript */
+        $body = $this->getProperty('body');
+        $body = preg_replace("/<script(.*)<\/script>/i",'',$body);
+        $body = preg_replace("/<iframe(.*)<\/iframe>/i",'',$body);
+        $body = preg_replace("/<iframe(.*)\/>/i",'',$body);
+        $body = nl2br($body);
 
-$thread->fromArray($scriptProperties);
-
-if ($thread->save() == false) {
-    return $modx->error->failure($modx->lexicon('quip.thread_err_save'));
+        $this->object->set('editedon',strftime('%Y-%m-%d %H:%M:%S'));
+        $this->object->set('body',$body);
+        return parent::beforeSave();
+    }
 }
-
-return $modx->error->success('',$thread);
+return 'QuipCommentUpdateProcessor';
