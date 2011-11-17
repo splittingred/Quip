@@ -22,30 +22,33 @@
  * @package quip
  */
 /**
- * Approve multiple comments
+ * Approve a comment
  *
  * @package quip
  * @subpackage processors
  */
-if (!$modx->hasPermission('quip.comment_approve')) return $modx->error->failure($modx->lexicon('access_denied'));
-if (empty($scriptProperties['comments'])) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
-}
+class QuipCommentApproveProcessor extends modObjectProcessor {
+    public $classKey = 'quipComment';
+    public $permission = 'quip.comment_approve';
+    public $languageTopics = array('quip:default');
 
-$commentIds = explode(',',$scriptProperties['comments']);
+    /** @var quipComment $comment */
+    public $comment;
 
-foreach ($commentIds as $commentId) {
-    $comment = $modx->getObject('quipComment',$commentId);
-    if ($comment == null) continue;
-    if ($comment->get('approved')) continue;
+    public function initialize() {
+        $id = $this->getProperty('id');
+        if (empty($id)) return $this->modx->lexicon('quip.comment_err_ns');
+        $this->comment = $this->modx->getObject($this->classKey,$id);
+        if (empty($this->comment)) return $this->modx->lexicon('quip.comment_err_nf');
+        return parent::initialize();
+    }
 
-    $comment->set('approved',true);
-    $comment->set('approvedon',strftime('%Y-%m-%d %H:%M:%S'));
-    $comment->set('approvedby',$modx->user->get('id'));
+    public function process() {
+        if ($this->comment->approve() === false) {
+            return $this->failure($this->modx->lexicon('quip.comment_err_save'));
+        }
 
-    if ($comment->save() === false) {
-        return $modx->error->failure($modx->lexicon('quip.comment_err_save'));
+        return $this->success();
     }
 }
-
-return $modx->error->success();
+return 'QuipCommentApproveProcessor';

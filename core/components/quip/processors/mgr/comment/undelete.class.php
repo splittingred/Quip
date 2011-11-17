@@ -25,22 +25,28 @@
  * @package quip
  * @subpackage processors
  */
-if (!$modx->hasPermission('quip.comment_remove')) return $modx->error->failure($modx->lexicon('access_denied'));
+class QuipCommentUnDeleteProcessor extends modObjectProcessor {
+    public $classKey = 'quipComment';
+    public $permission = 'quip.comment_remove';
+    public $languageTopics = array('quip:default');
 
-if (empty($scriptProperties['id'])) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
+    /** @var quipComment $comment */
+    public $comment;
+
+    public function initialize() {
+        $id = $this->getProperty('id');
+        if (empty($id)) return $this->modx->lexicon('quip.comment_err_ns');
+        $this->comment = $this->modx->getObject($this->classKey,$id);
+        if (empty($this->comment)) return $this->modx->lexicon('quip.comment_err_nf');
+        return parent::initialize();
+    }
+
+    public function process() {
+        if ($this->comment->undelete() === false) {
+            return $this->failure($this->modx->lexicon('quip.comment_err_undelete'));
+        }
+
+        return $this->success();
+    }
 }
-$comment = $modx->getObject('quipComment',$scriptProperties['id']);
-if ($comment == null) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_nf'));
-}
-
-$comment->set('deleted',false);
-$comment->set('deletedon','0000-00-00 00:00:00');
-$comment->set('deletedby',0);
-
-if ($comment->save() === false) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_undelete'));
-}
-
-return $modx->error->success();
+return 'QuipCommentUnDeleteProcessor';

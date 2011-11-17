@@ -27,22 +27,29 @@
  * @package quip
  * @subpackage processors
  */
-if (empty($scriptProperties['threads'])) {
-    return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
-}
-
-$threads = explode(',',$scriptProperties['threads']);
-
-foreach ($threads as $threadName) {
-    /* make sure user can truncate thread */
-    $thread = $modx->getObject('quipThread',$threadName);
-    if (empty($thread)) {
-        $modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Thread not found to remove with name `'.$threadName.'`');
-        continue;
+class QuipThreadRemoveMultipleProcessor extends modProcessor {
+    public function initialize() {
+        $threads = $this->getProperty('threads');
+        if (empty($threads)) {
+            return $this->modx->lexicon('quip.thread_err_ns');
+        }
+        return parent::initialize();
     }
-    if (!$thread->checkPolicy('remove')) continue;
+    public function process() {
+        $threads = explode(',',$this->getProperty('threads'));
+        foreach ($threads as $threadName) {
+            /** @var $thread quipThread */
+            $thread = $this->modx->getObject('quipThread',$threadName);
+            if (empty($thread)) {
+                $this->modx->log(modX::LOG_LEVEL_ERROR,'[Quip] Thread not found to remove with name `'.$threadName.'`');
+                continue;
+            }
+            if ($thread->checkPolicy('remove')) {
+                $thread->remove();
+            }
+        }
 
-    $thread->remove();
+        return $this->success();
+    }
 }
-
-return $modx->error->success();
+return 'QuipThreadRemoveMultipleProcessor';

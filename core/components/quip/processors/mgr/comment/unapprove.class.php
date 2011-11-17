@@ -22,25 +22,33 @@
  * @package quip
  */
 /**
- * Permanently remove comments
+ * Unapprove a comment
  *
  * @package quip
  * @subpackage processors
  */
-if (!$modx->hasPermission('quip.comment_remove')) return $modx->error->failure($modx->lexicon('access_denied'));
-if (empty($scriptProperties['comments'])) {
-    return $modx->error->failure($modx->lexicon('quip.comment_err_ns'));
-}
+class QuipCommentUnApproveProcessor extends modObjectProcessor {
+    public $classKey = 'quipComment';
+    public $permission = 'quip.comment_approve';
+    public $languageTopics = array('quip:default');
 
-$commentIds = explode(',',$scriptProperties['comments']);
+    /** @var quipComment $comment */
+    public $comment;
 
-foreach ($commentIds as $commentId) {
-    $comment = $modx->getObject('quipComment',$commentId);
-    if ($comment == null) continue;
+    public function initialize() {
+        $id = $this->getProperty('id');
+        if (empty($id)) return $this->modx->lexicon('quip.comment_err_ns');
+        $this->comment = $this->modx->getObject($this->classKey,$id);
+        if (empty($this->comment)) return $this->modx->lexicon('quip.comment_err_nf');
+        return parent::initialize();
+    }
 
-    if ($comment->remove() === false) {
-        return $modx->error->failure($modx->lexicon('quip.comment_err_remove'));
+    public function process() {
+        if ($this->comment->unapprove() === false) {
+            return $this->failure($this->modx->lexicon('quip.comment_err_save'));
+        }
+
+        return $this->success();
     }
 }
-
-return $modx->error->success();
+return 'QuipCommentUnApproveProcessor';

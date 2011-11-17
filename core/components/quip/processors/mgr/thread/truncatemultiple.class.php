@@ -21,5 +21,31 @@
  *
  * @package quip
  */
-$o = include dirname(__FILE__).'/controllers/index.php';
-return $o;
+/**
+ * Completely truncate multiple threads of comments.
+ *
+ * @package quip
+ * @subpackage processors
+ */
+class QuipThreadTruncateMultipleProcessor extends modProcessor {
+    public function initialize() {
+        $threads = $this->getProperty('threads');
+        if (empty($threads)) {
+            return $this->modx->lexicon('quip.thread_err_ns');
+        }
+        return parent::initialize();
+    }
+    public function process() {
+        $threads = explode(',',$this->getProperty('threads'));
+        foreach ($threads as $threadName) {
+            /** @var $thread quipThread */
+            $thread = $this->modx->getObject('quipThread',$threadName);
+            if (empty($thread)) continue;
+            
+            $thread->truncate();
+        }
+
+        return $this->success();
+    }
+}
+return 'QuipThreadTruncateMultipleProcessor';

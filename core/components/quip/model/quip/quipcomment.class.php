@@ -315,6 +315,42 @@ class quipComment extends xPDOSimpleObject {
     }
 
     /**
+     * Unapprove a comment
+     * @param array $options
+     * @return bool
+     */
+    public function unapprove(array $options = array()) {
+        $this->set('approved',false);
+        $this->set('approvedon','0000-00-00 00:00:00');
+        $this->set('approvedby',0);
+        return $this->save();
+    }
+
+    /**
+     * "Delete" a comment
+     * @param array $options
+     * @return boolean
+     */
+    public function delete(array $options = array()) {
+        $this->set('deleted',true);
+        $this->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));
+        $this->set('deletedby',$this->xpdo->user->get('id'));
+        return $this->save();
+    }
+
+    /**
+     * "Undelete" a comment
+     * @param array $options
+     * @return boolean
+     */
+    public function undelete(array $options = array()) {
+        $this->set('deleted',false);
+        $this->set('deletedon','0000-00-00 00:00:00');
+        $this->set('deletedby',0);
+        return $this->save();
+    }
+
+    /**
      * Sends notification email to moderators telling them the comment is awaiting approval.
      *
      * @return boolean True if successful

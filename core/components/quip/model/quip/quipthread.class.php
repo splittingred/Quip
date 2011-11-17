@@ -305,4 +305,30 @@ class quipThread extends xPDOObject {
         if (empty($closeAfter)) return true;
         return ((time() - strtotime($this->get('createdon'))) / 60 / 60 / 24) <= $closeAfter;
     }
+
+    /**
+     * Truncates a thread.
+     * @return boolean
+     */
+    public function truncate() {
+        if (!$this->checkPolicy('truncate')) return false;
+        
+        $c = $this->xpdo->newQuery('quipComment');
+        $c->where(array(
+            'thread' => $this->get('name'),
+        ));
+        $comments = $this->xpdo->getCollection('quipComment',$c);
+
+        $truncated = true;
+        /** @var quipComment $comment */
+        foreach ($comments as $comment) {
+            $comment->set('deleted',true);
+            $comment->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));
+            if ($this->xpdo instanceof modX) {
+                $comment->set('deletedby',$this->xpdo->user->get('id'));
+            }
+            $truncated = $comment->save();
+        }
+        return $truncated;
+    }
 }

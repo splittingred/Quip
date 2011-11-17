@@ -27,26 +27,25 @@
  * @package quip
  * @subpackage processors
  */
-if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
+class QuipThreadTruncateProcessor extends modObjectProcessor {
+    public $classKey = 'quipThread';
+    public $permission = 'quip.thread_view';
+    public $languageTopics = array('quip:default');
 
-/* make sure user can truncate thread */
-if (empty($scriptProperties['thread'])) return $modx->error->failure($modx->lexicon('quip.thread_err_ns'));
-$thread = $modx->getObject('quipThread',$scriptProperties['thread']);
-if (empty($thread)) return $modx->error->failure($modx->lexicon('quip.thread_err_nf'));
-if (!$thread->checkPolicy('truncate')) return $modx->error->failure($modx->lexicon('access_denied'));
+    /** @var quipThread $thread */
+    public $thread;
 
-/* get all comments in thread */
-$c = $modx->newQuery('quipComment');
-$c->where(array(
-    'thread' => $scriptProperties['thread'],
-));
-$comments = $modx->getCollection('quipComment',$c);
-
-foreach ($comments as $comment) {
-    $comment->set('deleted',true);
-    $comment->set('deletedon',strftime('%Y-%m-%d %H:%M:%S'));
-    $comment->set('deletedby',$modx->user->get('id'));
-    $comment->save();
+    public function initialize() {
+        $thread = $this->getProperty('thread');
+        if (empty($thread)) return $this->modx->lexicon('quip.thread_err_ns');
+        $this->thread = $this->modx->getObject($this->classKey,$thread);
+        if (empty($this->thread)) return $this->modx->lexicon('quip.thread_err_nf');
+        if (!$this->thread->checkPolicy('truncate')) return $this->modx->lexicon('access_denied');
+        return parent::initialize();
+    }
+    
+    public function process() {
+        return $this->thread->truncate() ? $this->success() : $this->failure('quip.thread_err_truncate');
+    }
 }
-
-return $modx->error->success();
+return 'QuipThreadTruncateProcessor';

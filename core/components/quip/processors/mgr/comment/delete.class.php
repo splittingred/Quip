@@ -23,8 +23,30 @@
  */
 /**
  * @package quip
- * @subpackage controllers
+ * @subpackage processors
  */
-require_once dirname(dirname(__FILE__)).'/model/quip/quip.class.php';
-$quip = new Quip($modx);
-return $quip->initialize('mgr');
+class QuipCommentDeleteProcessor extends modObjectProcessor {
+    public $classKey = 'quipComment';
+    public $permission = 'quip.comment_remove';
+    public $languageTopics = array('quip:default');
+
+    /** @var quipComment $comment */
+    public $comment;
+
+    public function initialize() {
+        $id = $this->getProperty('id');
+        if (empty($id)) return $this->modx->lexicon('quip.comment_err_ns');
+        $this->comment = $this->modx->getObject($this->classKey,$id);
+        if (empty($this->comment)) return $this->modx->lexicon('quip.comment_err_nf');
+        return parent::initialize();
+    }
+
+    public function process() {
+        if ($this->comment->delete() === false) {
+            return $this->failure($this->modx->lexicon('quip.comment_err_delete'));
+        }
+
+        return $this->success();
+    }
+}
+return 'QuipCommentDeleteProcessor';
