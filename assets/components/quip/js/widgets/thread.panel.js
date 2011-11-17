@@ -3,6 +3,7 @@ Quip.panel.Thread = function(config) {
     Ext.applyIf(config,{
         id: 'quip-panel-thread'
         ,url: Quip.config.connector_url
+        ,cls: 'container form-with-labels'
         ,baseParams: {}
         ,items: [{
             html: '<h2>'+_('quip.thread')+': '+config.thread+'</h2>'

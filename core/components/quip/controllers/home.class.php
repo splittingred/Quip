@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2010-11 by Shaun McCormick <shaun@modx.com>
+ * Copyright 2010-11 by Shaun McCormick <shaun+quip@modx.com>
  *
  * This file is part of Quip, a simple commenting component for MODx Revolution.
  *
@@ -21,15 +21,16 @@
  *
  * @package quip
  */
-/**
- * Loads the thread editing page.
- *
- * @package quip
- * @subpackage controllers
- */
-$modx->regClientStartupScript($quip->config['jsUrl'].'widgets/comments.grid.js');
-$modx->regClientStartupScript($quip->config['jsUrl'].'widgets/thread.panel.js');
-$modx->regClientStartupScript($quip->config['jsUrl'].'sections/thread.js');
-$output = '<div id="quip-panel-thread-div"></div>';
+class QuipHomeManagerController extends QuipManagerController {
 
-return $output;
+    public function process(array $scriptProperties = array()) {
+        
+    }
+    public function getPageTitle() { return $this->modx->lexicon('quip'); }
+    public function loadCustomCssJs() {
+        $this->addJavascript($this->quip->config['jsUrl'].'widgets/comments.grid.js');
+        $this->addJavascript($this->quip->config['jsUrl'].'widgets/threads.panel.js');
+        $this->addLastJavascript($this->quip->config['jsUrl'].'sections/home.js');
+    }
+    public function getTemplateFile() { return $this->quip->config['templatesPath'].'home.tpl'; }
+}

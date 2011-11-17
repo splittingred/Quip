@@ -94,6 +94,7 @@ class Quip {
             'modelPath' => $corePath.'model/',
             'processorsPath' => $corePath.'processors/',
             'controllersPath' => $corePath.'controllers/',
+            'templatesPath' => $corePath.'templates/',
             'chunksPath' => $corePath.'elements/chunks/',
             'snippetsPath' => $corePath.'elements/snippets/',
 
