@@ -113,10 +113,13 @@ class QuipCommentGetListProcessor extends modObjectGetListProcessor {
         $subc->prepare();
         $commentsSql = $subc->toSql();
 
-        $c->select(array('quipComment.*','Author.username','Resource.pagetitle'));
-        $c->select('
-            ('.$commentsSql.') AS `comments`
-        ');
+        $c->select($this->modx->getSelectColumns('quipComment','quipComment'));
+        $c->select(array(
+            'Author.username',
+            'Resource.pagetitle',
+            'Resource.context_key',
+            '('.$commentsSql.') AS comments',
+        ));
         return $c;
     }
 

@@ -37,7 +37,7 @@ $errors = array();
 /* if using reCaptcha */
 $disableRecaptchaWhenLoggedIn = $this->getProperty('disableRecaptchaWhenLoggedIn',true,'isset');
 $isLoggedIn = $modx->user->hasSessionContext($modx->context->get('key'));
-if ($this->getProperty('recaptcha',false) && !($disableRecaptchaWhenLoggedIn && $isLoggedIn)) {
+if ($this->getProperty('recaptcha',false,'isset') && !($disableRecaptchaWhenLoggedIn && $isLoggedIn)) {
     if (isset($scriptProperties['auth_nonce']) && !empty($scriptProperties['preview_mode'])) {
         /* if already passed reCaptcha via preview mode, verify nonce to prevent spam/fraud attacks */
         $passedNonce = $quip->checkNonce($scriptProperties['auth_nonce'],'quip-form-');
@@ -125,15 +125,15 @@ if ($this->getProperty('moderate',false,'isset')) {
     $approved = false;
 
     /* never moderate mgr users */
-    if ($modx->user->hasSessionContext('mgr') && $this->getProperty('dontModerateManagerUsers',true)) {
+    if ($modx->user->hasSessionContext('mgr') && $this->getProperty('dontModerateManagerUsers',true,'isset')) {
         $approved = true;
     /* check logged in status in current context*/
     } else if ($modx->user->hasSessionContext($modx->context->get('key'))) {
         /* if moderating only anonymous users, go ahead and approve since the user is logged in */
-        if ($this->getProperty('moderateAnonymousOnly',false)) {
+        if ($this->getProperty('moderateAnonymousOnly',false,'isset')) {
             $approved = true;
 
-        } else if ($this->getProperty('moderateFirstPostOnly',true)) {
+        } else if ($this->getProperty('moderateFirstPostOnly',true,'isset')) {
             /* if moderating only first post, check to see if user has posted and been approved elsewhere.
              * Note that this only works with logged in users.
              */

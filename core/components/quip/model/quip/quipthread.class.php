@@ -25,6 +25,8 @@
  * @package quip
  */
 class quipThread extends xPDOObject {
+    /** @var modX $xpdo */
+    public $xpdo;
     /**
      * Checks whether or not the user has access to the specified permission.
      * 

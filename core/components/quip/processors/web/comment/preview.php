@@ -35,7 +35,7 @@ if ($this->getProperty('requireAuth',false) && !$this->hasAuth) {
 }
 
 /* if using reCaptcha */
-$disableRecaptchaWhenLoggedIn = $this->getProperty('disableRecaptchaWhenLoggedIn',true);
+$disableRecaptchaWhenLoggedIn = $this->getProperty('disableRecaptchaWhenLoggedIn',true,'isset');
 if ($modx->getOption('recaptcha',$scriptProperties,false) && !($disableRecaptchaWhenLoggedIn && $this->hasAuth)) {
     /* prevent having to do recaptcha more than once */
     $passedNonce = false;
@@ -79,7 +79,7 @@ if (empty($errors)) {
         $gravatarUrl = $modx->getOption('gravatarUrl',$scriptProperties,'http://www.gravatar.com/avatar/');
         $preview['gravatarUrl'] = $gravatarUrl.$preview['md5email'].'?s='.$preview['gravatarSize'].$urlsep.'d='.$preview['gravatarIcon'];
     }
-    if (!$modx->user->hasSessionContext($modx->context->get('key')) && !$this->getProperty('requireAuth',false)) {
+    if (!$modx->user->hasSessionContext($modx->context->get('key')) && !$this->getProperty('requireAuth',false,'isset')) {
         $preview['author'] = 0;
     } else {
         $preview['author'] = $modx->user->get('id');

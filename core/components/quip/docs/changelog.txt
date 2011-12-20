@@ -1,5 +1,11 @@
 Changelog for Quip.
 
+Quip 2.2.0
+======================================
+- MODX Revo 2.2 support
+- Better handling of other context comments
+- [#6249] Fix issue with moderation of comments always moderated on FE
+
 Quip 2.1.2
 ======================================
 - [#4395] Fix issue with improper name in mail_sender for emails

@@ -89,7 +89,7 @@ class QuipLatestCommentsController extends QuipController {
         /* set page placeholders */
         $pagePlaceholders = array();
         $pagePlaceholders['resource'] = $commentArray['resource'];
-        $pagePlaceholders['pagetitle'] = $commentArray['pagetitle'];
+        $pagePlaceholders['pagetitle'] = !empty($commentArray['pagetitle']) ? $commentArray['pagetitle'] : '';
         $placeholderPrefix = $this->getProperty('placeholderPrefix','quip.latest');
         $this->modx->toPlaceholders($pagePlaceholders,$placeholderPrefix);
 

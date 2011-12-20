@@ -82,6 +82,7 @@ class quipComment extends xPDOSimpleObject {
             'RootDescendant.depth',
             'Author.username',
             'Resource.pagetitle',
+            'Resource.context_key',
         ));
         $c->sortby($modx->escape($sortByAlias).'.'.$modx->escape($sortBy),$sortDir);
         $comments = $modx->getCollection('quipComment',$c);
@@ -104,10 +105,16 @@ class quipComment extends xPDOSimpleObject {
         if (empty($resource)) $resource = $this->get('resource');
         if (empty($params)) $params = $this->get('existing_params');
         if (empty($params)) $params = array();
+        if (empty($options['context_key'])) {
+            $options['context_key'] = $this->get('context_key');
+            if (empty($options['context_key'])) {
+                $options['context_key'] = $this->xpdo->context->get('key');
+            }
+        }
 
         $scheme= $this->xpdo->getOption('scheme',$options,'');
         $idprefix = $this->xpdo->getOption('idprefix',$options,$this->get('idprefix'));
-        return $this->xpdo->makeUrl($resource,'',$params,$scheme).($addAnchor ? '#'.$idprefix.$this->get('id') : '');
+        return $this->xpdo->makeUrl($resource,$options['context_key'],$params,$scheme).($addAnchor ? '#'.$idprefix.$this->get('id') : '');
     }
 
     /**
