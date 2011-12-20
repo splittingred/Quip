@@ -10,7 +10,6 @@ Quip.panel.Threads = function(config) {
             ,cls: 'modx-page-header'
         },{
             xtype: 'modx-tabs'
-            ,bodyStyle: 'padding: 10px'
             ,defaults: { border: false ,autoHeight: true }
             ,border: true
             ,stateful: true
@@ -25,9 +24,10 @@ Quip.panel.Threads = function(config) {
                 ,items: [{
                     html: '<p>'+_('quip.intro_msg')+'</p>'
                     ,border: false
-                    ,bodyStyle: 'padding: 10px'
+                    ,bodyCssClass: 'panel-desc'
                 },{
                     xtype: 'quip-grid-thread'
+                    ,cls: 'main-wrapper'
                     ,preventRender: true
                 }]
             },{
@@ -36,9 +36,10 @@ Quip.panel.Threads = function(config) {
                 ,items: [{
                     html: '<p>'+_('quip.unapproved_comments_msg')+'</p>'
                     ,border: false
-                    ,bodyStyle: 'padding: 10px'
+                    ,bodyCssClass: 'panel-desc'
                 },{
                     xtype: 'quip-grid-comments'
+                    ,cls: 'main-wrapper'
                     ,preventRender: true
                     ,baseParams: {
                         action: 'mgr/comment/getUnapproved'
@@ -50,10 +51,10 @@ Quip.panel.Threads = function(config) {
                 ,items: [{
                     html: '<p>'+_('quip.latest_comments_msg')+'</p>'
                     ,border: false
-                    ,bodyStyle: 'padding: 10px'
+                    ,bodyCssClass: 'panel-desc'
                 },{
                     xtype: 'quip-grid-comments'
-                    ,cls: 'quip-thread-grid'
+                    ,cls: 'main-wrapper quip-thread-grid'
                     ,preventRender: true
                 }]
             }]
@@ -103,6 +104,7 @@ Quip.grid.Thread = function(config) {
 };
 Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
     _renderUrl: function(v,md,rec) {
+        if (!rec.data.pagetitle) return '';
         return '<a href="'+v+'" target="_blank">'+rec.data.pagetitle+'</a>';
     }
     ,verifyPerm: function(perm,rs) {

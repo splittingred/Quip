@@ -101,9 +101,15 @@ class quipThread extends xPDOObject {
         if (empty($resource)) $resource = $this->get('resource');
         if (empty($params)) $params = $this->get('existing_params');
         if (empty($params)) $params = array();
+        if (empty($options['context_key'])) {
+            $options['context_key'] = $this->get('context_key');
+            if (empty($options['context_key'])) {
+                $options['context_key'] = $this->xpdo->context->get('key');
+            }
+        }
 
         $scheme= $this->xpdo->getOption('scheme',$options,'');
-        return $this->xpdo->makeUrl($resource,'',$params,$scheme);
+        return $this->xpdo->makeUrl($resource,$options['context_key'],$params,$scheme);
     }
 
     /**

@@ -65,8 +65,9 @@ class QuipThreadGetListProcessor extends modObjectGetListProcessor {
         $c->select($this->modx->getSelectColumns('quipThread','quipThread'));
         $c->select(array(
             'Resource.pagetitle',
-            '('.$approvedCommentsSql.') AS `comments`',
-            '('.$unapprovedCommentsSql.') AS `unapproved_comments`',
+            'Resource.context_key',
+            '('.$approvedCommentsSql.') AS comments',
+            '('.$unapprovedCommentsSql.') AS unapproved_comments',
         ));
         return $c;
     }
@@ -78,7 +79,10 @@ class QuipThreadGetListProcessor extends modObjectGetListProcessor {
     public function prepareRow(xPDOObject $object) {
         if (!$object->checkPolicy('view')) return false;
         $threadArray = $object->toArray();
-        $threadArray['url'] = $object->makeUrl();
+        $resourceTitle = $object->get('pagetitle');
+        if (!empty($resourceTitle)) {
+            $threadArray['url'] = $object->makeUrl();
+        }
 
         $cls = '';
         $cls .= $object->checkPolicy('truncate') ? ' ptruncate' : '';

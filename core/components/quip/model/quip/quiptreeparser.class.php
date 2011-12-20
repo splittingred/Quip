@@ -90,8 +90,8 @@ class QuipTreeParser {
      * @return string
      */
     private function _iterate($current){
-        $depth = $current['depth'];
-        $parent = $current['parent'];
+        $depth = isset($current['depth']) ? $current['depth'] : null;
+        $parent = isset($current['parent']) ? $current['parent'] : null;
         $item = '';
 
         if (is_null($this->last)) {
@@ -146,6 +146,7 @@ class QuipTreeParser {
      */
     protected function setOpenThread($string, $depth) {
         if (!empty($this->openThread[$depth]) && $depth > 0) {
+            if (empty($this->openThread[$depth-1])) $this->openThread[$depth-1] = array('children' => '');
             $this->openThread[$depth - 1]['children'] .= $this->quip->getChunk($this->tpl, $this->openThread[$depth]);
         }
         unset($this->openThread[$depth]);

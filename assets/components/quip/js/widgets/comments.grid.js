@@ -2,6 +2,7 @@
 Quip.grid.Comments = function(config) {
     config = config || {};
     this.sm = new Ext.grid.CheckboxSelectionModel();
+    this.ident = config.ident || 'quip-'+Ext.id();
 
     Ext.applyIf(config,{
         url: Quip.config.connector_url
@@ -78,7 +79,7 @@ Quip.grid.Comments = function(config) {
         },'->',{
             xtype: 'textfield'
             ,name: 'search'
-            ,id: 'quip-tf-search'
+            ,id: this.ident+'-tf-search'
             ,emptyText: _('search')+'...'
             ,listeners: {
                 'change': {fn: this.search, scope: this}
@@ -95,7 +96,7 @@ Quip.grid.Comments = function(config) {
             }
         },{
             xtype: 'button'
-            ,id: 'modx-filter-clear'
+            ,id: this.ident+'-filter-clear'
             ,text: _('filter_clear')
             ,listeners: {
                 'click': {fn: this.clearFilter, scope: this}
@@ -113,7 +114,7 @@ Ext.extend(Quip.grid.Comments,MODx.grid.Grid,{
     ,clearFilter: function() {
     	var s = this.getStore();
         s.baseParams.search = '';
-        Ext.getCmp('quip-tf-search').reset();
+        Ext.getCmp(this.ident+'-tf-search').reset();
     	this.getBottomToolbar().changePage(1);
         this.refresh();
     }
