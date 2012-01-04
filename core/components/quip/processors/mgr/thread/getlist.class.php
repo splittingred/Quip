@@ -36,6 +36,15 @@ class QuipThreadGetListProcessor extends modObjectGetListProcessor {
 
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $c->leftJoin('modResource','Resource');
+
+        $search = $this->getProperty('search');
+        if ($search) {
+            $c->where(array(
+                'quipThread.name:LIKE' => '%'.$search.'%',
+                'OR:quipThread.moderator_group:LIKE' => '%'.$search.'%',
+                'OR:Resource.pagetitle:LIKE' => '%'.$search.'%',
+            ),null,2);
+        }
         return $c;
     }
 

@@ -62,6 +62,9 @@ class quipComment extends xPDOSimpleObject {
                 'quipComment.approved' => true,
                 'OR:quipComment.author:=' => $modx->user->get('id'),
             ),null,2);
+            $c->andCondition(array(
+                'quipComment.author:!=' => 0,
+            ),null,3);
         }
         if (!empty($parent)) {
             $c->where(array(
