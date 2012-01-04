@@ -5,6 +5,7 @@ Quip 2.2.0
 - MODX Revo 2.2 support
 - [#6064] Fix issues with unapproved comments displaying on complex threads
 - [#6468] Fix issues with bulk actions on grids
+- Fix issue with removing a thread directly
 - Add search to Quip threads grid
 - Better handling of other context comments
 - [#6086] Fix issue where remove thread was not available

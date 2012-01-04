@@ -32,5 +32,6 @@ class QuipThreadRemoveProcessor extends modObjectRemoveProcessor {
     public $languageTopics = array('quip:default');
     public $permission = 'quip.thread_remove';
     public $objectType = 'quip.thread';
+    public $primaryKeyField = 'name';
 }
 return 'QuipThreadRemoveProcessor';

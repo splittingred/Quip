@@ -232,7 +232,7 @@ Ext.extend(Quip.grid.Thread,MODx.grid.Grid,{
             ,url: this.config.url
             ,params: {
                 action: 'mgr/thread/remove'
-                ,thread: this.menu.record.name
+                ,name: this.menu.record.name
             }
             ,listeners: {
                 'success': {fn:this.refresh,scope:this}
