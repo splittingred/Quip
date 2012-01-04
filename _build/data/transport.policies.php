@@ -43,7 +43,7 @@ $policies[1]->fromArray(array (
   'parent' => 0,
   'class' => '',
   'lexicon' => 'quip:permissions',
-  'data' => '{"quip.comment_approve":true,"quip.comment_list":true,"quip.comment_list_unapproved":true,"quip.comment_remove":true,"quip.comment_update":true,"quip.thread_list":true,"quip.thread_manage":true,"quip.thread_truncate":true,"quip.thread_view":true,"quip.thread_update":true}',
+  'data' => '{"quip.comment_approve":true,"quip.comment_list":true,"quip.comment_list_unapproved":true,"quip.comment_remove":true,"quip.comment_update":true,"quip.thread_list":true,"quip.thread_manage":true,"quip.thread_remove":true,"quip.thread_truncate":true,"quip.thread_view":true,"quip.thread_update":true}',
 ), '', true, true);
 
 return $policies;

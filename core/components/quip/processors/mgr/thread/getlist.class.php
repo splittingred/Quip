@@ -85,8 +85,8 @@ class QuipThreadGetListProcessor extends modObjectGetListProcessor {
         }
 
         $cls = '';
-        $cls .= $object->checkPolicy('truncate') ? ' ptruncate' : '';
-        $cls .= $object->checkPolicy('remove') ? ' premove' : '';
+        $cls .= $object->checkPolicy('truncate') ? ' truncate' : '';
+        $cls .= $object->checkPolicy('remove') ? ' remove' : '';
         $threadArray['perm'] = $cls;
 
         return $threadArray;
