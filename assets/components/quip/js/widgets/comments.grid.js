@@ -3,7 +3,6 @@ Quip.grid.Comments = function(config) {
     config = config || {};
     this.sm = new Ext.grid.CheckboxSelectionModel();
     this.ident = config.ident || 'quip-'+Ext.id();
-
     Ext.applyIf(config,{
         url: Quip.config.connector_url
         ,baseParams: { 
@@ -15,7 +14,6 @@ Quip.grid.Comments = function(config) {
         ,paging: true
         ,autosave: false
         ,remoteSort: true
-        ,primaryKey: 'thread'
         ,autoExpandColumn: 'body'
         ,sm: this.sm
         ,columns: [this.sm,{

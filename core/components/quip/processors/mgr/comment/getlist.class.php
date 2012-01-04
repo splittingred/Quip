@@ -70,6 +70,7 @@ class QuipCommentGetListProcessor extends modObjectGetListProcessor {
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $c->leftJoin('modUser','Author');
         $c->leftJoin('modResource','Resource');
+        $thread = $this->getProperty('thread');
         if (!empty($thread)) {
             $c->where(array(
                 'quipComment.thread' => $this->thread->get('name'),

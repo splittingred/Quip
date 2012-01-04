@@ -12,15 +12,14 @@ Quip.panel.Thread = function(config) {
             ,cls: 'modx-page-header'
         },{
             layout: 'form'
-            ,defaults: {
-                style: 'padding: 15px 10px 5px;'
-            }
             ,border: true
             ,items: [{
                 html: '<p>'+_('quip.thread_msg')+'</p>'
                 ,border: false
+                ,bodyCssClass: 'panel-desc'
             },{
                 layout: 'form'
+                ,bodyCssClass: 'main-wrapper'
                 ,labelWidth: 150
                 ,border: false
                 ,items: [{
@@ -50,11 +49,10 @@ Quip.panel.Thread = function(config) {
                 }]
             },{
                 xtype: 'quip-grid-comments'
-                ,cls: 'quip-thread-grid'
+                ,cls: 'quip-thread-grid main-wrapper'
                 ,thread: config.thread
                 ,preventRender: true
                 ,width: '98%'
-                ,bodyStyle: 'padding: 0'
             }]
         }]
         ,listeners: {
