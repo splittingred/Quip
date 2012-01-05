@@ -26,7 +26,7 @@
  *
  * @var Quip $quip
  * @var modX $modx
- * @var array $scriptProperties
+ * @var array $fields
  * @var QuipThreadController $this
  * 
  * @package quip

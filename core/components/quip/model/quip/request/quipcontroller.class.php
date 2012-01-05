@@ -114,10 +114,10 @@ abstract class QuipController {
 
     /**
      * @param string $processor
-     * @param array $scriptProperties
+     * @param array $fields
      * @return mixed|string
      */
-    public function runProcessor($processor,array $scriptProperties = array()) {
+    public function runProcessor($processor,array $fields = array()) {
         $output = '';
         $processorFile = $this->config['processorsPath'].$processor.'.php';
         if (!file_exists($processorFile)) {
