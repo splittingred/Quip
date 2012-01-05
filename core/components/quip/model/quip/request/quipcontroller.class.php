@@ -77,7 +77,7 @@ abstract class QuipController {
      * @param string $method
      * @return mixed
      */
-    public function getProperty($key,$default = null,$method = '!empty') {
+    public function getProperty($key,$default = null,$method = 'isset') {
         $v = $default;
         switch ($method) {
             case 'empty':
@@ -88,7 +88,7 @@ abstract class QuipController {
                 break;
             case 'isset':
             default:
-                if (isset($this->scriptProperties[$key])) {
+                if (array_key_exists($key,$this->scriptProperties)) {
                     $v = $this->scriptProperties[$key];
                 }
                 break;

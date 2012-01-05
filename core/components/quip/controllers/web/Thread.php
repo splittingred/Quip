@@ -135,7 +135,7 @@ class QuipThreadController extends QuipController {
         }
         if ($this->thread) {
             $closeAfter = (int)$this->getProperty('closeAfter',14,'isset');
-            $open = $this->thread->checkIfStillOpen($closeAfter) && !$this->getProperty('closed',false);
+            $open = $this->thread->checkIfStillOpen($closeAfter) && !$this->getProperty('closed',false,'isset');
             $this->setProperty('stillOpen',$open);
         }
         return $this->thread;
@@ -313,7 +313,7 @@ class QuipThreadController extends QuipController {
         if (empty($errors)) {
             $params = $this->modx->request->getParameters();
             unset($params[$this->getProperty('removeAction','quip-remove')],$params['quip_comment']);
-            $url = $this->modx->makeUrl($this->modx->resource->get('id'),'',$params);
+            $url = $this->modx->makeUrl($this->modx->resource->get('id'),'',$params,'full');
             $this->modx->sendRedirect($url);
         }
         $this->setPlaceholder('error',implode("<br />\n",$errors));
@@ -329,7 +329,7 @@ class QuipThreadController extends QuipController {
             $params = $this->modx->request->getParameters();
             unset($params[$this->getProperty('reportAction','quip-report')],$params['quip_comment']);
             $params['reported'] = $_REQUEST['quip_comment'];
-            $url = $this->modx->makeUrl($this->modx->resource->get('id'),'',$params);
+            $url = $this->modx->makeUrl($this->modx->resource->get('id'),'',$params,'full');
             $this->modx->sendRedirect($url);
         }
         $this->setPlaceholder('error',implode("<br />\n",$errors));
