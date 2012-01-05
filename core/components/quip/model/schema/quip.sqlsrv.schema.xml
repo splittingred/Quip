@@ -3,7 +3,7 @@
     <!-- table for threads -->
     <object class="quipThread" table="quip_threads" extends="xPDOObject">
         <field key="name" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" index="pk" />
-        <field key="createdon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true" />
 
         <field key="moderated" dbtype="bit" phptype="boolean" null="false" default="1" index="index" />
         <field key="moderator_group" dbtype="nvarchar" precision="255" phptype="string" null="false" default="Administrator" index="index" />
@@ -49,10 +49,10 @@
 
         <field key="author" dbtype="integer" phptype="integer" null="false" default="0" index="index" />
         <field key="body" dbtype="nvarchar" precision="max" phptype="text" null="false" default="" />
-        <field key="createdon" dbtype="datetime" phptype="datetime" null="false" />
-        <field key="editedon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="true" />
         <field key="approved" dbtype="bit" phptype="boolean" null="false" default="1" index="index" />
-        <field key="approvedon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="approvedon" dbtype="datetime" phptype="datetime" null="true" />
         <field key="approvedby" dbtype="integer" phptype="integer" null="false" default="0" index="index" />
         <field key="name" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" />
         <field key="email" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" />
@@ -60,7 +60,7 @@
         <field key="ip" dbtype="nvarchar" precision="255" phptype="string" null="false" default="0.0.0.0" />
 
         <field key="deleted" dbtype="bit" phptype="boolean" null="false" default="0" index="index" />
-        <field key="deletedon" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="deletedon" dbtype="datetime" phptype="datetime" null="true" />
         <field key="deletedby" dbtype="integer" phptype="integer" null="false" default="0" index="index" />
 
         <!-- deprecated in 0.5.0 -->

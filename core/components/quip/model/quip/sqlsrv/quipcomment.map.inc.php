@@ -97,13 +97,13 @@ $xpdo_meta_map['quipComment']= array (
     array (
       'dbtype' => 'datetime',
       'phptype' => 'datetime',
-      'null' => false,
+      'null' => true,
     ),
     'editedon' => 
     array (
       'dbtype' => 'datetime',
       'phptype' => 'datetime',
-      'null' => false,
+      'null' => true,
     ),
     'approved' => 
     array (
@@ -117,7 +117,7 @@ $xpdo_meta_map['quipComment']= array (
     array (
       'dbtype' => 'datetime',
       'phptype' => 'datetime',
-      'null' => false,
+      'null' => true,
     ),
     'approvedby' => 
     array (
@@ -171,7 +171,7 @@ $xpdo_meta_map['quipComment']= array (
     array (
       'dbtype' => 'datetime',
       'phptype' => 'datetime',
-      'null' => false,
+      'null' => true,
     ),
     'deletedby' => 
     array (

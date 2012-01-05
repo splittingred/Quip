@@ -3,6 +3,7 @@ Changelog for Quip.
 Quip 2.2.0
 ======================================
 - MODX Revo 2.2 support
+- [#5364] Fix insert issue for sqlsrv installations
 - [#6064] Fix issues with unapproved comments displaying on complex threads
 - [#6468] Fix issues with bulk actions on grids
 - Fix issue with removing a thread directly
