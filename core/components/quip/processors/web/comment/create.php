@@ -221,6 +221,7 @@ if (!empty($fields['notify'])) {
         $quipCommentNotify = $modx->newObject('quipCommentNotify');
         $quipCommentNotify->set('thread',$comment->get('thread'));
         $quipCommentNotify->set('email',$fields['email']);
+        $quipCommentNotify->set('user',$isLoggedIn ? $modx->user->get('id') : 0);
         $quipCommentNotify->save();
     }
 }

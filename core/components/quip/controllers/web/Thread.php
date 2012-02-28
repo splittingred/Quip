@@ -93,6 +93,8 @@ class QuipThreadController extends QuipController {
 
             'parent' => 0,
             'thread' => '',
+
+            'unsubscribeSecretHash' => 'One sees great things from the valley, only small things from the peak.',
         ));
 
         if (!empty($_REQUEST['quip_limit'])) {
@@ -106,6 +108,12 @@ class QuipThreadController extends QuipController {
         }
         if (!empty($_REQUEST['quip_thread'])) {
             $this->setProperty('thread',$_REQUEST['quip_thread']);
+        }
+        if (!empty($_REQUEST['quip_uhsh'])) {
+            $this->setProperty('quip_uhsh',$_REQUEST['quip_uhsh']);
+        }
+        if (!empty($_REQUEST['quip_unsub'])) {
+            $this->setProperty('quip_unsub',$_REQUEST['quip_unsub']);
         }
     }
 
@@ -158,6 +166,8 @@ class QuipThreadController extends QuipController {
         $this->handleActions();
         $this->loadCss();
 
+        $this->checkForUnsubscription();
+
         /* set idprefix */
         $this->setPlaceholder('idprefix',$this->thread->get('idprefix'));
 
@@ -171,6 +181,35 @@ class QuipThreadController extends QuipController {
         $content = $this->wrap($content);
 
         return $this->output($content);
+    }
+
+    /**
+     * Check for any unsubscriptions to this thread
+     *
+     * @return boolean
+     */
+    public function checkForUnsubscription() {
+        $unsubscribed = false;
+        $email = urldecode($this->getProperty('quip_unsub'));
+        $hash = urldecode($this->getProperty('quip_uhsh'));
+        if (!empty($email) && !empty($hash)) {
+            $unsubscribeSecretHash = $this->getProperty('unsubscribeSecretHash');
+            /** @var quipCommentNotify $notification */
+            $notification = $this->modx->getObject('quipCommentNotify',array(
+                'thread' => $this->thread->get('name'),
+                'email' => $email,
+            ));
+            if ($notification) {
+                $expectedHash = md5('quip.'.$unsubscribeSecretHash.$email.$notification->get('createdon'));
+                if (strcmp($expectedHash,$hash) == 0) {
+                    if ($notification->remove()) {
+                        $this->modx->setPlaceholder('successMsg',$this->modx->lexicon('quip.unsubscribed'));
+                        $unsubscribed = true;
+                    }
+                }
+            }
+        }
+        return $unsubscribed;
     }
 
     /**

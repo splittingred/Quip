@@ -33,6 +33,7 @@ $xpdo_meta_map['quipCommentNotify']= array (
   array (
     'thread' => '',
     'email' => '',
+    'createdon' => NULL,
   ),
   'fieldMeta' => 
   array (
@@ -52,6 +53,12 @@ $xpdo_meta_map['quipCommentNotify']= array (
       'phptype' => 'string',
       'null' => false,
       'default' => '',
+    ),
+    'createdon' => 
+    array (
+      'dbtype' => 'datetime',
+      'phptype' => 'datetime',
+      'null' => true,
     ),
   ),
   'indexes' => 

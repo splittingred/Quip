@@ -49,6 +49,8 @@ $_lang['quip.email_notify'] = '<p>Hello,</p>
 <p>This is an automated email. Please do not reply directly. The
 comment\'s ID is: <strong>[[+id]]</strong> on the thread "[[+thread]]".</p>
 
+[[+unsubscribeText]]
+
 <p>
 Thanks,<br />
 <em>Quip</em></p>';
@@ -74,3 +76,6 @@ comment\'s ID is: <strong>[[+id]]</strong> on the thread "[[+thread]]".</p>
 Thanks,<br />
 <em>Quip</em></p>';
 $_lang['quip.email_moderate_subject'] = '[Quip] New Post in Need of Moderation';
+$_lang['quip.unsubscribe_text'] = '<p>If you would like to unsubscribe from these emails, please click here:</p>
+
+<p><a href="[[+unsubscribeUrl]]">[[+unsubscribeUrl]]</a></p>';

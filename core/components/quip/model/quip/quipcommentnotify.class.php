@@ -24,4 +24,58 @@
 /**
  * @package quip
  */
-class quipCommentNotify extends xPDOSimpleObject {}
+class quipCommentNotify extends xPDOSimpleObject {
+    /** @var modX $modx */
+    public $xpdo;
+
+    public function save($cacheFlag= null) {
+        if ($this->isNew()) {
+            $this->set('createdon',strftime('%Y-%m-%d %H:%M:%S'));
+        }
+        return parent::save($cacheFlag);
+    }
+
+    /**
+     * Send the notification
+     *
+     * @param quipComment $comment
+     * @param array $properties
+     * @return boolean
+     */
+    public function send(quipComment $comment,array $properties = array()) {
+        $this->xpdo->getService('mail', 'mail.modPHPMailer');
+        if (!$this->xpdo->mail) return false;
+        $email = $this->get('email');
+
+        /* set unsubscription link */
+        $unsubscribeSecretHash = 'One sees great things from the valley, only small things from the peak.';
+        $hash = md5('quip.'.$unsubscribeSecretHash.$email.$this->get('createdon'));
+        $properties['unsubscribeUrl'] = $comment->makeUrl('',array(
+            'quip_unsub' => $email,
+            'quip_uhsh' => $hash,
+        ),array(
+            'scheme' => 'full',
+        ),false).'#quip-success-'.$comment->get('idprefix');
+        $properties['unsubscribeText'] = $this->xpdo->lexicon('quip.unsubscribe_text',array(
+            'unsubscribeUrl' => $properties['unsubscribeUrl'],
+        ));
+
+        $body = $this->xpdo->lexicon('quip.email_notify',$properties);
+        $subject = $this->xpdo->lexicon('quip.email_notify_subject');
+        $emailFrom = $this->xpdo->getOption('quip.emailsFrom',null,$this->xpdo->getOption('emailsender'));
+        $emailReplyTo = $this->xpdo->getOption('quip.emailsReplyTo',null,$this->xpdo->getOption('emailsender'));
+        if (empty($email) || strpos($email,'@') == false) return false;
+
+        $this->xpdo->mail->set(modMail::MAIL_BODY,$body);
+        $this->xpdo->mail->set(modMail::MAIL_FROM,$emailFrom);
+        $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,$this->xpdo->getOption('quip.emails_from_name',null,'Quip'));
+        $this->xpdo->mail->set(modMail::MAIL_SENDER,$emailFrom);
+        $this->xpdo->mail->set(modMail::MAIL_SUBJECT,$subject);
+        $this->xpdo->mail->address('to',$email);
+        $this->xpdo->mail->address('reply-to',$emailReplyTo);
+        $this->xpdo->mail->setHTML(true);
+        $success = $this->xpdo->mail->send();
+        $this->xpdo->mail->reset();
+        return $success;
+    }
+}

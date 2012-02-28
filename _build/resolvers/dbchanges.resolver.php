@@ -24,6 +24,9 @@
 /**
  * Resolves db changes
  *
+ * @var xPDOObject $object
+ * @var array $options
+ *
  * @package quip
  * @subpackage build
  */
@@ -71,8 +74,10 @@ if ($object->xpdo) {
             $c = $modx->newQuery('quipComment');
             $c->sortby('createdon','DESC');
             $comments = $modx->getCollection('quipComment',$c);
+            /** @var quipComment $comment */
             foreach ($comments as $comment) {
                 $thread = $comment->getOne('Thread');
+                /** @var quipThread $thread */
                 if (empty($thread)) {
                     $thread = $modx->newObject('quipThread');
                     $thread->set('name',$comment->get('thread'));
@@ -86,6 +91,10 @@ if ($object->xpdo) {
                 unset($thread);
             }
             unset($comments,$comment,$c);
+
+            /* add createdon, user to quipNotifyComment */
+            $manager->addField('quipNotifyComment','createdon');
+            $manager->addField('quipNotifyComment','user');
 
             break;
     }

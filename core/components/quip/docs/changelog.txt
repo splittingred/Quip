@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 2.3.0
 ======================================
+- [#6997] Add ability for all users (authed or not) to unsubscribe from the thread via email link
 - [#6961] Add ability to manage subscriptions to a thread from the manager
 - [#7208] Fix warning of zero division in pagination
 

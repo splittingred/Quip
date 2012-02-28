@@ -240,25 +240,29 @@ class quipThread extends xPDOObject {
         $notifyEmails = $this->get('notify_emails');
         $emails = explode(',',$notifyEmails);
 
+        /* send notifications to notify_emails subjects */
+        if (!empty($emails)) {
+            $this->sendEmail($subject,$body,$emails);
+        }
+
+        /* now send to notified users */
         $notifiees = $this->getMany('Notifications');
-        foreach ($notifiees as $notified) {
-            $email = $notified->get('email');
+        /** @var quipCommentNotify $notification */
+        foreach ($notifiees as $notification) {
+            $email = $notification->get('email');
             /* remove invalid emails */
             if (empty($email) || strpos($email,'@') == false) {
-                $notified->remove();
+                $notification->remove();
                 continue;
             }
             /* don't notify the poster, since they posted the comment. */
             if ($posterEmail == $email) {
                 continue;
             }
-            array_push($emails,$email);
+
+            $notification->send($comment,$properties);
         }
 
-        /* send notifications */
-        if (!empty($emails)) {
-            $this->sendEmail($subject,$body,$emails);
-        }
         return $success;
     }
 

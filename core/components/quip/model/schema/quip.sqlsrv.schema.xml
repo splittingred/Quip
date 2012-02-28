@@ -120,9 +120,14 @@
     <object class="quipCommentNotify" table="quip_comment_notify" extends="xPDOSimpleObject">
         <field key="thread" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" index="index" />
         <field key="email" dbtype="nvarchar" precision="255" phptype="string" null="false" default="" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="user" dbtype="integer" phptype="integer" null="false" default="0" index="index" />
 
         <index alias="thread" name="thread" primary="false" unique="true" type="BTREE">
             <column key="thread" length="" collation="A" null="false" />
+        </index>
+        <index alias="user" name="user" primary="false" unique="true" type="BTREE">
+            <column key="user" length="" collation="A" null="false" />
         </index>
 
         <aggregate alias="Thread" class="quipThread" local="thread" foreign="name" cardinality="one" owner="foreign" />
