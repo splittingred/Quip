@@ -9,7 +9,7 @@ Quip.grid.Notification = function(config) {
             action: 'mgr/thread/notification/getList'
             ,thread: config.thread || null
         }
-        ,fields: ['id','thread','email','cls']
+        ,fields: ['id','thread','email','createdon','cls']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
@@ -18,9 +18,13 @@ Quip.grid.Notification = function(config) {
         ,columns: [this.sm,{
             header: _('quip.email')
             ,dataIndex: 'email'
-            ,sortable: false
-            ,editable: false
-            ,width: 120
+            ,sortable: true
+            ,width: 400
+        },{
+            header: _('quip.subscribed_on')
+            ,dataIndex: 'createdon'
+            ,sortable: true
+            ,width: 150
         }]
         ,tbar: [{
             text: _('quip.bulk_actions')

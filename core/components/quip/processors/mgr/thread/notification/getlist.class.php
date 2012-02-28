@@ -64,6 +64,7 @@ class QuipThreadNotificationGetListProcessor extends modObjectGetListProcessor {
     public function prepareRow(xPDOObject $object) {
         $notifyArray = $object->toArray();
         $notifyArray['cls'] = '';
+        $notifyArray['createdon'] = !empty($notifyArray['createdon']) ? strftime('%b %d, %Y %H:%M %p',strtotime($notifyArray['createdon'])) : '';
         return $notifyArray;
     }
 }

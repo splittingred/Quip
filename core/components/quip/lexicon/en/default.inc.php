@@ -129,6 +129,7 @@ Thanks,<br />
 </p>';
 $_lang['quip.spam_email_subject'] = '[Quip] Comment Spam Reported';
 $_lang['quip.spam_marked'] = ' - marked as spam.';
+$_lang['quip.subscribed_on'] = 'Subscribed On';
 $_lang['quip.thread'] = 'Thread';
 $_lang['quip.thread_autoclosed'] = 'This thread has been closed from taking new comments.';
 $_lang['quip.thread_err_ns'] = 'No thread specified.';
