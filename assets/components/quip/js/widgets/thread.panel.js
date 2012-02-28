@@ -23,7 +23,6 @@ Quip.panel.Thread = function(config) {
             ,items: [{
                 layout: 'form'
                 ,title: _('quip.thread')
-                ,border: true
                 ,items: [{
                     html: '<p>'+_('quip.thread_msg')+'</p>'
                     ,border: false

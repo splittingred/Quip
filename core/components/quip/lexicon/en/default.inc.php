@@ -94,6 +94,7 @@ $_lang['quip.name_err_ns'] = 'Please specify a name.';
 $_lang['quip.no_email_to_specified'] = 'Quip cannot send a spam report email because no admin email was specified.';
 $_lang['quip.notify_me'] = 'Notify of New Replies';
 $_lang['quip.notification'] = 'Notification';
+$_lang['quip.notification_create'] = 'Add Notification';
 $_lang['quip.notification_err_nf'] = 'Notification not found!';
 $_lang['quip.notification_err_ns'] = 'Notification not specified!';
 $_lang['quip.notification_remove'] = 'Remove Notification';

@@ -29,6 +29,10 @@ Quip.grid.Notification = function(config) {
                 ,handler: this.removeSelected
                 ,scope: this
             }]
+        },{
+            text: _('quip.notification_create')
+            ,handler: this.addNotification
+            ,scope: this
         },'->',{
             xtype: 'textfield'
             ,name: 'search'
@@ -80,6 +84,23 @@ Ext.extend(Quip.grid.Notification,MODx.grid.Grid,{
     }
     ,_renderUrl: function(v,md,rec) {
         return '<a href="'+rec.data.url+'" target="_blank">'+rec.data.pagetitle+'</a>';
+    }
+
+    ,addNotification: function(btn,e) {
+        var r = this.menu.record || {};
+        r.thread = this.config.thread;
+        if (!this.createNotificationWindow) {
+            this.createNotificationWindow = MODx.load({
+                xtype: 'quip-window-notification-create'
+                ,record: r
+                ,listeners: {
+                    'success': {fn:this.refresh,scope:this}
+                }
+            });
+        }
+        this.createNotificationWindow.reset();
+        this.createNotificationWindow.setValues(r);
+        this.createNotificationWindow.show(e.target);
     }
 
     ,removeSelected: function(btn,e) {
@@ -146,3 +167,30 @@ Ext.extend(Quip.grid.Notification,MODx.grid.Grid,{
     }
 });
 Ext.reg('quip-grid-notification',Quip.grid.Notification);
+
+
+
+Quip.window.CreateNotification = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        title: _('quip.notification_create')
+        ,url: Quip.config.connector_url
+        ,baseParams: {
+            action: 'mgr/thread/notification/create'
+        }
+        ,width: 600
+        ,fields: [{
+            xtype: 'hidden'
+            ,name: 'thread'
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('quip.email')
+            ,name: 'email'
+            ,anchor: '100%'
+        }]
+        ,keys: []
+    });
+    Quip.window.CreateNotification.superclass.constructor.call(this,config);
+};
+Ext.extend(Quip.window.CreateNotification,MODx.Window);
+Ext.reg('quip-window-notification-create',Quip.window.CreateNotification);
