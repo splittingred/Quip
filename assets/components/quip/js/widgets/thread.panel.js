@@ -11,48 +11,73 @@ Quip.panel.Thread = function(config) {
             ,id: 'rm-package-name'
             ,cls: 'modx-page-header'
         },{
-            layout: 'form'
+            xtype: 'modx-tabs'
+            ,defaults: { border: false ,autoHeight: true }
             ,border: true
+            ,stateful: true
+            ,stateId: 'quip-home-tabpanel'
+            ,stateEvents: ['tabchange']
+            ,getState:function() {
+                return {activeTab:MODx.request.quip_unapproved ? 1 : this.items.indexOf(this.getActiveTab())};
+            }
             ,items: [{
-                html: '<p>'+_('quip.thread_msg')+'</p>'
-                ,border: false
-                ,bodyCssClass: 'panel-desc'
-            },{
                 layout: 'form'
-                ,bodyCssClass: 'main-wrapper'
-                ,labelWidth: 150
-                ,border: false
+                ,title: _('quip.thread')
+                ,border: true
                 ,items: [{
-                    xtype: 'hidden'
-                    ,name: 'name'
+                    html: '<p>'+_('quip.thread_msg')+'</p>'
+                    ,border: false
+                    ,bodyCssClass: 'panel-desc'
                 },{
-                    xtype: 'statictextfield'
-                    ,fieldLabel: _('quip.moderated')
-                    ,description: _('quip.moderated_desc')
-                    ,name: 'moderated'
-                    ,width: 300
-                    ,allowBlank: true
+                    layout: 'form'
+                    ,bodyCssClass: 'main-wrapper'
+                    ,labelWidth: 150
+                    ,border: false
+                    ,items: [{
+                        xtype: 'hidden'
+                        ,name: 'name'
+                    },{
+                        xtype: 'statictextfield'
+                        ,fieldLabel: _('quip.moderated')
+                        ,description: _('quip.moderated_desc')
+                        ,name: 'moderated'
+                        ,width: 300
+                        ,allowBlank: true
+                    },{
+                        xtype: 'statictextfield'
+                        ,fieldLabel: _('quip.moderators')
+                        ,description: _('quip.moderators_desc')
+                        ,name: 'moderators'
+                        ,width: 300
+                        ,allowBlank: true
+                    },{
+                        xtype: 'statictextfield'
+                        ,fieldLabel: _('quip.moderator_group')
+                        ,description: _('quip.moderator_group_desc')
+                        ,name: 'moderator_group'
+                        ,width: 300
+                        ,allowBlank: true
+                    }]
                 },{
-                    xtype: 'statictextfield'
-                    ,fieldLabel: _('quip.moderators')
-                    ,description: _('quip.moderators_desc')
-                    ,name: 'moderators'
-                    ,width: 300
-                    ,allowBlank: true
-                },{
-                    xtype: 'statictextfield'
-                    ,fieldLabel: _('quip.moderator_group')
-                    ,description: _('quip.moderator_group_desc')
-                    ,name: 'moderator_group'
-                    ,width: 300
-                    ,allowBlank: true
+                    xtype: 'quip-grid-comments'
+                    ,cls: 'quip-thread-grid main-wrapper'
+                    ,thread: config.thread
+                    ,preventRender: true
+                    ,width: '98%'
                 }]
             },{
-                xtype: 'quip-grid-comments'
-                ,cls: 'quip-thread-grid main-wrapper'
-                ,thread: config.thread
-                ,preventRender: true
-                ,width: '98%'
+                title: _('quip.notifications')
+                ,defaults: { autoHeight: true }
+                ,items: [{
+                    html: '<p>'+_('quip.notifications.intro_msg')+'</p>'
+                    ,border: false
+                    ,bodyCssClass: 'panel-desc'
+                },{
+                    xtype: 'quip-grid-notification'
+                    ,cls: 'main-wrapper'
+                    ,thread: config.thread
+                    ,preventRender: true
+                }]
             }]
         }]
         ,listeners: {

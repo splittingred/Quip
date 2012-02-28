@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 2.3.0
+======================================
+- [#6961] Add ability to manage subscriptions to a thread from the manager
+
 Quip 2.2.0
 ======================================
 - MODX Revo 2.2 support

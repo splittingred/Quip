@@ -2,7 +2,7 @@
 /**
  * Quip
  *
- * Copyright 2010-11 by Shaun McCormick <shaun+quip@modx.com>
+ * Copyright 2010-11 by Shaun McCormick <shaun@modx.com>
  *
  * This file is part of Quip, a simple commenting component for MODx Revolution.
  *
@@ -21,17 +21,15 @@
  *
  * @package quip
  */
-class QuipThreadManagerController extends QuipManagerController {
-
-    public function process(array $scriptProperties = array()) {
-        
-    }
-    public function getPageTitle() { return $this->modx->lexicon('quip'); }
-    public function loadCustomCssJs() {
-        $this->addJavascript($this->quip->config['jsUrl'].'widgets/comments.grid.js');
-        $this->addJavascript($this->quip->config['jsUrl'].'widgets/notifications.grid.js');
-        $this->addJavascript($this->quip->config['jsUrl'].'widgets/thread.panel.js');
-        $this->addLastJavascript($this->quip->config['jsUrl'].'sections/thread.js');
-    }
-    public function getTemplateFile() { return $this->quip->config['templatesPath'].'thread.tpl'; }
+/**
+ * Completely remove a thread notification.
+ *
+ * @package quip
+ * @subpackage processors
+ */
+class QuipThreadNotificationRemoveProcessor extends modObjectRemoveProcessor {
+    public $classKey = 'quipCommentNotify';
+    public $languageTopics = array('quip:default');
+    public $objectType = 'quip.notification';
 }
+return 'QuipThreadNotificationRemoveProcessor';
