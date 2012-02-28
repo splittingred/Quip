@@ -3,6 +3,7 @@ Changelog for Quip.
 Quip 2.3.0
 ======================================
 - [#6961] Add ability to manage subscriptions to a thread from the manager
+- [#7208] Fix warning of zero division in pagination
 
 Quip 2.2.0
 ======================================

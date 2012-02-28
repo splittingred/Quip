@@ -227,8 +227,8 @@ class Quip {
      * @return string The rendered template.
      */
     public function buildPagination(array $options = array()) {
-        $pageCount = $options['count'] / $options['limit'];
-        $curPage = $options['start'] / $options['limit'];
+        $pageCount = $options['count'] / (!empty($options['limit']) ? $options['limit'] : 1);
+        $curPage = $options['start'] / (!empty($options['limit']) ? $options['limit'] : 1);
         $pages = '';
 
         $params = $this->modx->request->getParameters();
