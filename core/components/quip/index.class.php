@@ -22,10 +22,6 @@
  * @package quip
  */
 require_once dirname(__FILE__) . '/model/quip/quip.class.php';
-class IndexManagerController extends modExtraManagerController {
-    public static function getDefaultController() { return 'home'; }
-}
-
 abstract class QuipManagerController extends modExtraManagerController {
     /** @var Quip $quip */
     public $quip;
@@ -88,4 +84,11 @@ abstract class QuipManagerController extends modExtraManagerController {
             }
         }
     }
+}
+/**
+ * @package quip
+ * @subpackage controllers
+ */
+class IndexManagerController extends QuipManagerController {
+    public static function getDefaultController() { return 'home'; }
 }
