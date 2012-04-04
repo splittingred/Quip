@@ -26,7 +26,7 @@ class IndexManagerController extends modExtraManagerController {
     public static function getDefaultController() { return 'home'; }
 }
 
-abstract class QuipManagerController extends modManagerController {
+abstract class QuipManagerController extends modExtraManagerController {
     /** @var Quip $quip */
     public $quip;
     public function initialize() {
