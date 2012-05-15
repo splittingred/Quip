@@ -452,7 +452,7 @@ class Quip {
         // this causes double quotes on a href tags; commenting out for now
         //$body = str_replace(array('"',"'"),array('&quot;','&apos;'),$body);
         /* replace MODx tags with entities */
-        $body = str_replace(array('[',']'),array('&#91;','&#93;'),$body);
+        $body = str_replace(array('[',']','`'),array('&#91;','&#93;','&#96;'),$body);
 
         return $body;
     }
