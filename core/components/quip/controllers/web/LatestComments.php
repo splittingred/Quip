@@ -67,32 +67,38 @@ class QuipLatestCommentsController extends QuipController {
         $altRowCss = $this->getProperty('altRowCss','quip-latest-comment-alt');
         $bodyLimit = $this->getProperty('bodyLimit',30);
         $tpl = $this->getProperty('tpl','quipLatestComment');
-        
+
+        /* Initialize page placeholders */
+        $pagePlaceholders = array();
+        $pagePlaceholders['resource'] = '';
+        $pagePlaceholders['pagetitle'] = '';
+        $placeholderPrefix = $this->getProperty('placeholderPrefix','quip.latest');
+
+        /* Add the comments */
         $comments = $this->getComments();
-        $commentArray = array();
-        /** @var quipComment $comment */
-        foreach ($comments as $comment) {
-            $commentArray = $comment->toArray();
-            $commentArray['bodyLimit'] = $bodyLimit;
-            $commentArray['cls'] = $rowCss;
-            if ($altRowCss && $alt) $commentArray['alt'] = ' '.$altRowCss;
-            $commentArray['url'] = $comment->makeUrl();
+        if (!empty($comments)) {
+            $commentArray = array();
+            /** @var quipComment $comment */
+            foreach ($comments as $comment) {
+                $commentArray = $comment->toArray();
+                $commentArray['bodyLimit'] = $bodyLimit;
+                $commentArray['cls'] = $rowCss;
+                if ($altRowCss && $alt) $commentArray['alt'] = ' '.$altRowCss;
+                $commentArray['url'] = $comment->makeUrl();
 
-            if (!empty($stripTags)) { $commentArray['body'] = strip_tags($commentArray['body']); }
+                if (!empty($stripTags)) {
+                    $commentArray['body'] = strip_tags($commentArray['body']);
+                    $commentArray['ago'] = $this->quip->getTimeAgo($commentArray['createdon']);
+                    $output[] = $this->quip->getChunk($tpl,$commentArray);
+                    $alt = !$alt;
+                }
+            }
 
-            $commentArray['ago'] = $this->quip->getTimeAgo($commentArray['createdon']);
-
-            $output[] = $this->quip->getChunk($tpl,$commentArray);
-            $alt = !$alt;
+            $pagePlaceholders['resource'] = $commentArray['resource'];
+            $pagePlaceholders['pagetitle'] = !empty($commentArray['pagetitle']) ? $commentArray['pagetitle'] : '';
         }
 
-        /* set page placeholders */
-        $pagePlaceholders = array();
-        $pagePlaceholders['resource'] = $commentArray['resource'];
-        $pagePlaceholders['pagetitle'] = !empty($commentArray['pagetitle']) ? $commentArray['pagetitle'] : '';
-        $placeholderPrefix = $this->getProperty('placeholderPrefix','quip.latest');
         $this->modx->toPlaceholders($pagePlaceholders,$placeholderPrefix);
-
         return $this->output($output);
     }
 
