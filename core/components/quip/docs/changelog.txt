@@ -2,7 +2,8 @@ Changelog for Quip.
 
 Quip 2.3.1
 ======================================
-- Updated Dutch translation
+- Added Czech translation
+- Added Dutch translation
 - [#7298] Fix bug where backtick is not escaped in comments
 - [#7372] Fix bug in unsubscribe notifications
 - [#7660] Fix E_NOTICE error in QuipLatestComments snippet
