@@ -64,7 +64,7 @@ class quipComment extends xPDOSimpleObject {
         }
         if (!empty($parent)) {
             $c->where(array(
-                'Ancestors.descendant' => $parent,
+                'Descendants.ancestor' => $parent,
             ));
         }
         $total = $modx->getCount('quipComment',$c);
@@ -107,7 +107,8 @@ class quipComment extends xPDOSimpleObject {
         if (empty($options['context_key'])) {
             $options['context_key'] = $this->get('context_key');
             if (empty($options['context_key'])) {
-                $options['context_key'] = $this->xpdo->context->get('key');
+                $modresource = $this->xpdo->getObject('modResource', $resource);
+                $options['context_key'] = $modresource->get('context_key');
             }
         }
 
