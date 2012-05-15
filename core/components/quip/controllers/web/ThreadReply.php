@@ -318,7 +318,7 @@ class QuipThreadReplyController extends QuipController {
                 /** @var quipCommentNotify $notify */
                 $notify = $this->modx->getObject('quipCommentNotify',array(
                     'email' => $profile->get('email'),
-                    'thread' => $this->thread,
+                    'thread' => $this->thread->get('name'),
                 ));
                 if ($notify && $notify->remove()) {
                     $unSubscribed = true;

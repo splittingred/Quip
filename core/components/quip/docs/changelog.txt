@@ -1,5 +1,11 @@
 Changelog for Quip.
 
+Quip 2.3.1
+======================================
+- [#7372] Fix bug in unsubscribe notifications
+- [#7660] Fix E_NOTICE error in QuipLatestComments snippet
+- [#3520] Fix issue with parents property in Quip snippet
+
 Quip 2.3.0
 ======================================
 - [#6997] Add ability for all users (authed or not) to unsubscribe from the thread via email link
