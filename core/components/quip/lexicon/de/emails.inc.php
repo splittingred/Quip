@@ -76,3 +76,6 @@ ID des Kommentars ist <strong>[[+id]]</strong> im Thread "[[+thread]]".</p>
 Danke,<br />
 <em>Quip</em></p>';
 $_lang['quip.email_moderate_subject'] = '[Quip] Neuer Kommentar wartet auf Moderation';
+$_lang['quip.unsubscribe_text'] = '<p>Wenn Sie diese E-Mails nicht mehr empfangen möchten, klicken Sie bitte hier:</p>
+
+<p><a href="[[+unsubscribeUrl]]">[[+unsubscribeUrl]]</a></p>';
