@@ -87,7 +87,7 @@ $fields['body'] = str_replace(array('<br><br>','<br /><br />'),'',nl2br($fields[
 
 /* run preHooks */
 $quip->loadHooks('pre');
-$quip->preHooks->loadMultiple($this->getProperty('preHooks',''),$this->getProperties(),array(
+$quip->preHooks->loadMultiple($this->getProperty('preHooks',''),$fields,array(
     'hooks' => $this->getProperty('preHooks',''),
 ));
 
