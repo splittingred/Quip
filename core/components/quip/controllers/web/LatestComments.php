@@ -88,10 +88,10 @@ class QuipLatestCommentsController extends QuipController {
 
                 if (!empty($stripTags)) {
                     $commentArray['body'] = strip_tags($commentArray['body']);
-                    $commentArray['ago'] = $this->quip->getTimeAgo($commentArray['createdon']);
-                    $output[] = $this->quip->getChunk($tpl,$commentArray);
-                    $alt = !$alt;
                 }
+                $commentArray['ago'] = $this->quip->getTimeAgo($commentArray['createdon']);
+                $output[] = $this->quip->getChunk($tpl,$commentArray);
+                $alt = !$alt;
             }
 
             $pagePlaceholders['resource'] = $commentArray['resource'];

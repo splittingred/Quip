@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 2.3.2
+======================================
+- [#8127] Fix latest comments bug due to fix in [#7660] (gh#64)
+
 Quip 2.3.1
 ======================================
 - Added Japanese translation
