@@ -2,6 +2,7 @@ Changelog for Quip.
 
 Quip 2.3.2
 ======================================
+- [#8368] Enable usage of MODX tags in email tpls
 - [#8127] Fix latest comments bug due to fix in [#7660] (gh#64)
 
 Quip 2.3.1

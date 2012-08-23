@@ -66,6 +66,13 @@ class quipCommentNotify extends xPDOSimpleObject {
         $emailReplyTo = $this->xpdo->getOption('quip.emailsReplyTo',null,$this->xpdo->getOption('emailsender'));
         if (empty($email) || strpos($email,'@') == false) return false;
 
+        if ($this->xpdo->parser) {
+            $this->xpdo->parser->processElementTags('',$body,true,false);
+            $this->xpdo->parser->processElementTags('',$subject,true,false);
+            $this->xpdo->parser->processElementTags('',$emailFrom,true,false);
+            $this->xpdo->parser->processElementTags('',$emailReplyTo,true,false);
+        }
+
         $this->xpdo->mail->set(modMail::MAIL_BODY,$body);
         $this->xpdo->mail->set(modMail::MAIL_FROM,$emailFrom);
         $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,$this->xpdo->getOption('quip.emails_from_name',null,'Quip'));
