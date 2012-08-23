@@ -62,8 +62,8 @@ class quipCommentNotify extends xPDOSimpleObject {
 
         $body = $this->xpdo->lexicon('quip.email_notify',$properties);
         $subject = $this->xpdo->lexicon('quip.email_notify_subject');
-        $emailFrom = $this->xpdo->getOption('quip.emailsFrom',null,$this->xpdo->getOption('emailsender'));
-        $emailReplyTo = $this->xpdo->getOption('quip.emailsReplyTo',null,$this->xpdo->getOption('emailsender'));
+        $emailFrom = $this->xpdo->context->getOption('quip.emailsFrom',$this->xpdo->context->getOption('emailsender'));
+        $emailReplyTo = $this->xpdo->context->getOption('quip.emailsReplyTo',$this->xpdo->context->getOption('emailsender'));
         if (empty($email) || strpos($email,'@') == false) return false;
 
         if ($this->xpdo->parser) {
@@ -75,7 +75,7 @@ class quipCommentNotify extends xPDOSimpleObject {
 
         $this->xpdo->mail->set(modMail::MAIL_BODY,$body);
         $this->xpdo->mail->set(modMail::MAIL_FROM,$emailFrom);
-        $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,$this->xpdo->getOption('quip.emails_from_name',null,'Quip'));
+        $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,$this->xpdo->context->getOption('quip.emails_from_name','Quip'));
         $this->xpdo->mail->set(modMail::MAIL_SENDER,$emailFrom);
         $this->xpdo->mail->set(modMail::MAIL_SUBJECT,$subject);
         $this->xpdo->mail->address('to',$email);

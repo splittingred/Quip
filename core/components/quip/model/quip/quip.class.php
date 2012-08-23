@@ -232,7 +232,7 @@ class Quip {
         $pages = '';
 
         $params = $this->modx->request->getParameters();
-        unset($params[$this->modx->getOption('request_param_alias',null,'q')]);
+        unset($params[$this->modx->context->getOption('request_param_alias','q')]);
 
         $tplItem = $this->modx->getOption('tplPaginationItem',$options,'quipPaginationItem');
         $tplCurrentItem = $this->modx->getOption('tplPaginationCurrentItem',$options,'quipPaginationCurrentItem');
@@ -442,7 +442,7 @@ class Quip {
      * @return string The cleansed text
      */
     public function cleanse($body,array $scriptProperties = array()) {
-        $allowedTags = $this->modx->getOption('quip.allowed_tags',$scriptProperties,'<br><b><i>');
+        $allowedTags = $this->modx->context->getOption('quip.allowed_tags','<br><b><i>',$scriptProperties);
 
         /* strip tags */
         $body = preg_replace("/<script(.*)<\/script>/i",'',$body);

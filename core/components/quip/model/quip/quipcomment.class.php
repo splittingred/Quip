@@ -112,8 +112,8 @@ class quipComment extends xPDOSimpleObject {
             }
         }
 
-        $scheme= $this->xpdo->getOption('scheme',$options,'');
-        $idprefix = $this->xpdo->getOption('idprefix',$options,$this->get('idprefix'));
+        $scheme= $this->xpdo->context->getOption('scheme','',$options);
+        $idprefix = $this->xpdo->context->getOption('idprefix',$this->get('idprefix'),$options);
         return $this->xpdo->makeUrl($resource,$options['context_key'],$params,$scheme).($addAnchor ? '#'.$idprefix.$this->get('id') : '');
     }
 
@@ -249,8 +249,8 @@ class quipComment extends xPDOSimpleObject {
         $this->xpdo->getService('mail', 'mail.modPHPMailer');
         if (!$this->xpdo->mail) return false;
         
-        $emailFrom = $this->xpdo->getOption('quip.emailsFrom',null,$this->xpdo->getOption('emailsender'));
-        $emailReplyTo = $this->xpdo->getOption('quip.emailsReplyTo',null,$this->xpdo->getOption('emailsender'));
+        $emailFrom = $this->xpdo->context->getOption('quip.emailsFrom',$this->xpdo->context->getOption('emailsender'));
+        $emailReplyTo = $this->xpdo->context->getOption('quip.emailsReplyTo',$this->xpdo->context->getOption('emailsender'));
 
         /* allow multiple to addresses */
         if (!is_array($to)) {
@@ -263,7 +263,7 @@ class quipComment extends xPDOSimpleObject {
             
             $this->xpdo->mail->set(modMail::MAIL_BODY,$body);
             $this->xpdo->mail->set(modMail::MAIL_FROM,$emailFrom);
-            $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,$this->xpdo->getOption('quip.emails_from_name',null,'Quip'));
+            $this->xpdo->mail->set(modMail::MAIL_FROM_NAME,$this->xpdo->context->getOption('quip.emails_from_name','Quip'));
             $this->xpdo->mail->set(modMail::MAIL_SENDER,$emailFrom);
             $this->xpdo->mail->set(modMail::MAIL_SUBJECT,$subject);
             $this->xpdo->mail->address('to',$emailAddress);
@@ -423,7 +423,7 @@ class quipComment extends xPDOSimpleObject {
             $commentArray['md5email'] = md5($this->get('email'));
             $commentArray['gravatarIcon'] = $this->getOption('gravatarIcon',$properties,'mm');
             $commentArray['gravatarSize'] = $this->getOption('gravatarSize',$properties,60);
-            $urlsep = $this->xpdo->getOption('xhtml_urls',null,true) ? '&amp;' : '&';
+            $urlsep = $this->xpdo->context->getOption('xhtml_urls',true) ? '&amp;' : '&';
             $commentArray['gravatarUrl'] = $this->getOption('gravatarUrl',$properties).$commentArray['md5email'].'?s='.$commentArray['gravatarSize'].$urlsep.'d='.$commentArray['gravatarIcon'];
         } else {
             $commentArray['gravatarUrl'] = '';
