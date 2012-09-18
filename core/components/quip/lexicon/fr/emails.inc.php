@@ -46,8 +46,10 @@ $_lang['quip.email_notify'] = '<p>Bonjour,</p>
 
 <p>----------------------------------------------------</p>
 
-<p>Ceci est un email automatique. Veuillez ne pas y répondre directement. 
+<p>Ceci est un email automatique. Veuillez ne pas y répondre directement.
 Le numéro du commentaire est : <strong>[[+id]]</strong> dans le sujet "[[+thread]]".</p>
+
+[[+unsubscribeText]]
 
 <p>
 Merci,<br />
@@ -67,10 +69,13 @@ $_lang['quip.email_moderate'] = '<p>Bonjour,</p>
 
 <p><a href="[[+approveUrl]]">Accepter le commentaire</a> | <a href="[[+rejectUrl]]">Supprimer le commentaire</a> | <a href="[[+unapprovedUrl]]">Commentaire non approuvés</a></p>
 
-<p>Ceci est un email automatique. Veuillez ne pas y répondre directement. 
+<p>Ceci est un email automatique. Veuillez ne pas y répondre directement.
 Le numéro du commentaire est : <strong>[[+id]]</strong> dans le sujet "[[+thread]]".</p>
 
 <p>
 Merci,<br />
 <em>Quip</em></p>';
 $_lang['quip.email_moderate_subject'] = '[Quip] Nouveau commentaire en attente de modération';
+$_lang['quip.unsubscribe_text'] = '<p>Si vous souhaitez ne plus recevoir ces emails, veuillez cliquer ci-dessous :</p>
+
+<p><a href="[[+unsubscribeUrl]]">[[+unsubscribeUrl]]</a></p>';
