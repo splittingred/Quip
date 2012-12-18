@@ -69,7 +69,7 @@ class QuipThreadReplyController extends QuipController {
         ));
 
         if (!empty($_REQUEST['quip_thread'])) {
-            $this->setProperty('thread',$_REQUEST['quip_thread']);
+            $this->setProperty('thread', strip_tags($_REQUEST['quip_thread']));
         }
     }
 
@@ -77,7 +77,7 @@ class QuipThreadReplyController extends QuipController {
      * @return boolean|quipThread
      */
     public function getThread() {
-        $threadName = $this->getProperty('thread','');
+        $threadName = strip_tags($this->getProperty('thread',''));
         if (empty($threadName)) return false;
         $this->thread = $this->modx->getObject('quipThread',array('name' => $threadName));
         if (empty($this->thread)) {
@@ -116,7 +116,7 @@ class QuipThreadReplyController extends QuipController {
         /* get parent and auth */
         $requireAuth = $this->getProperty('requireAuth',false,'isset');
         $requireUsergroups = $this->getProperty('requireUsergroups',false,'isset');
-        $this->parentThread = $this->modx->getOption('quip_parent',$_REQUEST,$this->getProperty('parent',0));
+        $this->parentThread = (integer) strip_tags($this->modx->getOption('quip_parent',$_REQUEST,$this->getProperty('parent',0)));
         $this->hasAuth = $this->modx->user->hasSessionContext($this->modx->context->get('key')) || $this->getProperty('debug',false,'isset') || empty($requireAuth);
         if (!empty($requireUsergroups)) {
             $requireUsergroups = explode(',',$this->getProperty('requireUsergroups',false,'isset'));
@@ -234,6 +234,8 @@ class QuipThreadReplyController extends QuipController {
         $fields['name'] = strip_tags($fields['name']);
         $fields['email'] = strip_tags($fields['email']);
         $fields['website'] = strip_tags($fields['website']);
+        if (isset($fields['parent'])) $fields['parent'] = $this->modx->sanitizeString($fields['parent']);
+        if (isset($fields['thread'])) $fields['thread'] = $this->modx->sanitizeString($fields['thread']);
 
         /* verify a message was posted */
         if (empty($fields['comment'])) $errors['comment'] = $this->modx->lexicon('quip.message_err_ns');
