@@ -27,16 +27,13 @@
  * @package quip
  * @subpackage build
  */
-$mtime = microtime();
-$mtime = explode(" ", $mtime);
-$mtime = $mtime[1] + $mtime[0];
-$tstart = $mtime;
+$tstart = microtime(true);
 set_time_limit(0);
 
 /* define package */
 define('PKG_NAME','Quip');
 define('PKG_NAME_LOWER','quip');
-define('PKG_VERSION','2.3.2');
+define('PKG_VERSION','2.3.3');
 define('PKG_RELEASE','pl');
 
 /* define sources */
@@ -67,7 +64,7 @@ require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
 $modx= new modX();
 $modx->initialize('mgr');
 $modx->setLogLevel(modX::LOG_LEVEL_INFO);
-$modx->setLogTarget('ECHO'); echo '<pre>'; flush();
+$modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML'); flush();
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
@@ -258,13 +255,10 @@ $modx->log(modX::LOG_LEVEL_INFO,'Packaged in package attributes.'); flush();
 $modx->log(modX::LOG_LEVEL_INFO,'Packing...'); flush();
 $builder->pack();
 
-$mtime= microtime();
-$mtime= explode(" ", $mtime);
-$mtime= $mtime[1] + $mtime[0];
-$tend= $mtime;
+$tend= microtime(true);
 $totalTime= ($tend - $tstart);
 $totalTime= sprintf("%2.4f s", $totalTime);
 
-$modx->log(modX::LOG_LEVEL_INFO,"\n<br />Package Built.<br />\nExecution time: {$totalTime}\n");
+$modx->log(modX::LOG_LEVEL_INFO,"Package built in {$totalTime}\n");
 
 exit ();

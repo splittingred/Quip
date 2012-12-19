@@ -1,7 +1,7 @@
 --------------------
 Snippet: Quip
 --------------------
-Version: 2.1
+Version: 2.2
 First Released: May 26th, 2009
 Author: Shaun McCormick <shaun+quip@modx.com>
 License: GNU GPLv2 (or later at your option)

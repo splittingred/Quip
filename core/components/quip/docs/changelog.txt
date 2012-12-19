@@ -1,5 +1,9 @@
 Changelog for Quip.
 
+Quip 2.3.3
+======================================
+- [#9323] Better sanitization of POST values in ThreadReply
+
 Quip 2.3.2
 ======================================
 - [#8367] Better respecting of Context Settings in setting references
