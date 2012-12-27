@@ -32,6 +32,7 @@ class QuipThreadManagerController extends QuipManagerController {
         $this->addJavascript($this->quip->config['jsUrl'].'widgets/notifications.grid.js');
         $this->addJavascript($this->quip->config['jsUrl'].'widgets/thread.panel.js');
         $this->addLastJavascript($this->quip->config['jsUrl'].'sections/thread.js');
+        $this->addHtml("<script>Ext.onReady(function() { MODx.load({xtype: 'quip-page-thread', thread: MODx.request.thread}) })</script>");
     }
     public function getTemplateFile() { return $this->quip->config['templatesPath'].'thread.tpl'; }
 }

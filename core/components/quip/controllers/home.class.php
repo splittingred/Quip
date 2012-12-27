@@ -31,6 +31,7 @@ class QuipHomeManagerController extends QuipManagerController {
         $this->addJavascript($this->quip->config['jsUrl'].'widgets/comments.grid.js');
         $this->addJavascript($this->quip->config['jsUrl'].'widgets/threads.panel.js');
         $this->addLastJavascript($this->quip->config['jsUrl'].'sections/home.js');
+        $this->addHtml("<script>Ext.onReady(function() { MODx.load({xtype: 'quip-page-home'}) })</script>");
     }
     public function getTemplateFile() { return $this->quip->config['templatesPath'].'home.tpl'; }
 }
