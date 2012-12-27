@@ -1,7 +1,3 @@
-Ext.onReady(function() {
-    MODx.load({ xtype: 'quip-page-home'});
-});
-
 Quip.page.Home = function(config) {
     config = config || {};
     Ext.applyIf(config,{

@@ -1,10 +1,3 @@
-Ext.onReady(function() {
-    MODx.load({ 
-        xtype: 'quip-page-thread'
-        ,thread: MODx.request.thread
-    });
-});
-
 Quip.page.Thread = function(config) {
     config = config || {};
     Ext.applyIf(config,{
