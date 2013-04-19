@@ -149,9 +149,15 @@ class QuipLatestCommentsController extends QuipController {
                 $thread = $this->getProperty('thread','');
                 if (empty($thread)) return array();
                 $c = $this->modx->newQuery('quipComment');
-                $c->where(array(
-                    'quipComment.thread' => $thread,
-                ));
+                if (strpos($thread,',')===false) {
+                    $c->where(array(
+                        'quipComment.thread' => $thread,
+                    ));
+                }else{
+                    $c->where(array(
+                        'quipComment.thread:IN' => explode(',', $thread),
+                    ));
+                }
                 break;
             case 'family':
                 $family = $this->getProperty('family','');
