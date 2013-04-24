@@ -212,7 +212,7 @@ class QuipThreadReplyController extends QuipController {
         /** @var quipCommentNotify $notify */
         $notify = $this->modx->getObject('quipCommentNotify',array(
             'email' => $this->modx->user->Profile->get('email'),
-            'thread' => $this->thread,
+            'thread' => $this->thread->get('name'),
         ));
         if ($notify) {
             $this->setPlaceholder('notifyId',$notify->get('id'));
