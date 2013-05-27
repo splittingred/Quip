@@ -24,7 +24,7 @@
  */
 /**
  * Returns the number of comments a given thread/user/family has
- * 
+ *
  * @package quip
  * @subpackage controllers
  */
@@ -133,25 +133,25 @@ class QuipThreadReplyController extends QuipController {
         $p = $this->modx->request->getParameters();
         unset($p['reported'],$p['quip_approved']);
         $this->setPlaceholder('url',$this->modx->makeUrl($this->modx->resource->get('id'),'',$p));
-        
+
         $this->setPlaceholder('parent',$this->parentThread);
         $this->setPlaceholder('thread',$this->thread->get('name'));
         $this->setPlaceholder('idprefix',$this->thread->get('idprefix'));
-        
+
         /* handle POST */
         $this->hasPreview = false;
         if (!empty($_POST)) {
             $this->handlePost();
         }
-        
+
         /* display moderated success message */
         $this->checkForModeration();
-        
+
         $this->checkForUnSubscribe();
-        
+
         /* if using recaptcha, load recaptcha html if user is not logged in */
         $this->loadReCaptcha();
-        
+
         /* build reply form */
         $isOpen = $this->isOpen();
         if ($this->hasAuth && $isOpen) {
@@ -161,7 +161,7 @@ class QuipThreadReplyController extends QuipController {
         } else {
             $replyForm = $this->quip->getChunk($this->getProperty('tplLoginToComment','quipLoginToComment'),$this->getPlaceholders());
         }
-        
+
         /* output or set to placeholder */
         $toPlaceholder = $this->getProperty('toPlaceholder',false);
         if ($toPlaceholder) {
@@ -179,6 +179,15 @@ class QuipThreadReplyController extends QuipController {
     public function getReplyForm() {
         $this->setPlaceholder('username',$this->modx->user->get('username'));
         $this->setPlaceholder('unsubscribe','');
+
+        $fields = array();
+        foreach ($_POST as $k => $v) {
+            $fields[$k] = str_replace(array('[',']'),array('&#91;','&#93;'),$v);
+        }
+
+        $fields['name']    = strip_tags($fields['name']);
+        $fields['email']   = strip_tags($fields['email']);
+        $fields['website'] = strip_tags($fields['website']);
 
         /* prefill fields */
         $profile = $this->modx->user->getOne('Profile');
@@ -250,7 +259,7 @@ class QuipThreadReplyController extends QuipController {
                 $params = $this->modx->request->getParameters();
                 unset($params[$this->getProperty('postAction')],$params['quip_parent'],$params['quip_thread']);
                 $params['quip_approved'] = $comment->get('approved') ? 1 : 0;
-                
+
                 /* redirect urls for custom FURL scheme  */
                 $redirectToUrl = $this->getProperty('redirectToUrl','');
                 $redirectTo = $this->getProperty('redirectTo','');
