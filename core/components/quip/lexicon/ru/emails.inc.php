@@ -14,7 +14,7 @@ $_lang['quip.email_comment_approved'] = '<p>Здравствуйте [[+name]],<
 $_lang['quip.email_comment_approved_subject'] = '[Quip] Ваш комментарий был одобрен';
 $_lang['quip.email_notify'] = '<p>Здравствуйте,</p>
 
-<p>Пользователь[[+name]] добавил новый комментарий:</p>
+<p>Пользователь [[+name]] добавил новый комментарий:</p>
 
 <p><a href="[[+url]]">[[+url]]</a></p>
 
@@ -42,7 +42,7 @@ $_lang['quip.email_moderate'] = '<p>Здравствуйте,</p>
 
 <p>----------------------------------------------------</p>
 
-<p><a href="[[+approveUrl]]">Approve Comment</a> | <a href="[[+rejectUrl]]">Delete Comment</a> | <a href="[[+unapprovedUrl]]">Unapproved Comments</a></p>
+<p><a href="[[+approveUrl]]">Утвердить комментарий</a> | <a href="[[+rejectUrl]]">Удалить комментарий</a> | <a href="[[+unapprovedUrl]]">Неутверждённые комментарии</a></p>
 
 <p>Это письмо сгенерировано автоматически. Пожалуйста не отвечайте на него. Идентификатор комментария: <strong>[[+id]]</strong> в теме "[[+thread]]".</p>
 
