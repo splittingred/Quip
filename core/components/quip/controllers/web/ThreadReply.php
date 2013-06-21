@@ -140,7 +140,7 @@ class QuipThreadReplyController extends QuipController {
         
         /* handle POST */
         $this->hasPreview = false;
-        if (!empty($_POST)) {
+        if (!empty($_POST) && !empty($_POST[$this->getProperty('postAction','quip-post')])) {
             $this->handlePost();
         }
         
