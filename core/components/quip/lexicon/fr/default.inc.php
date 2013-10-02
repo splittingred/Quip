@@ -93,14 +93,22 @@ $_lang['quip.name'] = 'Nom';
 $_lang['quip.name_err_ns'] = 'Veuillez indiquer un nom.';
 $_lang['quip.no_email_to_specified'] = 'Quip ne peut envoyer de rapport de spam parcequ\'aucune adresse email d\'administrateur n\'a été indiquée.';
 $_lang['quip.notify_me'] = 'Être informé des nouveaux messages';
+$_lang['quip.notification'] = 'Notification';
+$_lang['quip.notification_create'] = 'Ajouter une notification';
+$_lang['quip.notification_err_nf'] = 'Notification non trouvée!';
+$_lang['quip.notification_err_ns'] = 'Notification non indiquée!';
+$_lang['quip.notification_remove'] = 'Supprimer la notification';
+$_lang['quip.notification_remove_confirm'] = 'Êtes-vous sûr de vouloir désinscrire cet utilisateur de ce fil ?';
+$_lang['quip.notifications'] = 'Notifications';
+$_lang['quip.notifications.intro_msg'] = 'Liste des utilisateurs inscrits à ce fil.';
 $_lang['quip.post'] = 'Poster';
 $_lang['quip.posted'] = 'Posté';
 $_lang['quip.postedon'] = 'Posté le';
 $_lang['quip.preview'] = 'Aperçu';
 $_lang['quip.recaptcha_err_load'] = 'Impossible de charger la classe de service reCaptcha.';
 $_lang['quip.reply'] = 'Répondre';
-$_lang['quip.remove'] = 'Supprimer';
-$_lang['quip.remove_selected'] = 'Supprimer la sélection';
+$_lang['quip.remove'] = 'Détruire';
+$_lang['quip.remove_selected'] = 'Détruire la sélection';
 $_lang['quip.report_as_spam'] = 'Reporter comme spam';
 $_lang['quip.reported_as_spam'] = 'Reporté en tant que spam';
 $_lang['quip.sfs_err_load'] = 'Impossible de charger la classe StopForumSpam.';
@@ -112,7 +120,7 @@ $_lang['quip.spam_email'] = '<p>Bonjour,</p>
 
 <p><a href="[[+url]]">[[+url]]</a></p>
 
-<p>Ceci est un message automatique. Veuillez ne pas y répondre. l\'ID 
+<p>Ceci est un message automatique. Veuillez ne pas y répondre. l\'ID
 est: <strong>[[+id]]</strong></p>
 
 <p>
@@ -121,25 +129,28 @@ Merci,<br />
 </p>';
 $_lang['quip.spam_email_subject'] = '[Quip] commentaire rapporté comme spam';
 $_lang['quip.spam_marked'] = ' - marqué comme spam.';
-$_lang['quip.thread'] = 'Sujet(s)';
-$_lang['quip.thread_autoclosed'] = 'Les commentaires sur ce sujet ne sont plus acceptés.';
-$_lang['quip.thread_err_ns'] = 'Pas de sujet d\'indiqué.';
-$_lang['quip.thread_err_remove'] = 'Une erreur est survenue lors de la suppression de ce sujet.';
-$_lang['quip.thread_err_save'] = 'Une erreur est survenue lors de l\'enregistrement de ce sujet.';
-$_lang['quip.thread_manage'] = 'Gérer le sujet';
-$_lang['quip.thread_msg'] = 'Vous pouvez gérer ici tous les commentaires de ce sujet.';
-$_lang['quip.thread_remove'] = 'Supprimer le sujet';
-$_lang['quip.thread_remove_confirm'] = 'Êtes-vous sûr de vouloir entièrement supprimer ce sujet? Cette opération est irreverssible.';
-$_lang['quip.thread_remove_selected'] = 'Supprimer les sujets sélectionnés';
-$_lang['quip.thread_remove_selected_confirm'] = 'Êtes-vous sûr de vouloir entièrement supprimer ces sujets? Cette opération est irreverssible.';
-$_lang['quip.thread_truncate'] = 'Purger le sujet';
-$_lang['quip.thread_truncate_confirm'] = 'Êtes-vous sûr de vouloir supprimer tous les commentaires de ce sujet?';
-$_lang['quip.thread_truncate_selected'] = 'Purger les sujets sélectionnés';
-$_lang['quip.thread_truncate_selected_confirm'] = 'Êtes-vous sûr de vouloir supprimer tous les commentaires de ces sujets?';
-$_lang['quip.threads'] = 'Sujets';
-$_lang['quip.unapproved'] = 'Non publié(s)';
-$_lang['quip.unapproved_comments'] = 'Commentaires non publiés';
-$_lang['quip.unapproved_comments_msg'] = 'Modérer tous les commentaires non publiés ici.';
+$_lang['quip.subscribed_on'] = 'Inscrit le';
+$_lang['quip.thread'] = 'Fil';
+$_lang['quip.thread_autoclosed'] = 'Les commentaires sur ce fil ne sont plus acceptés.';
+$_lang['quip.thread_err_ns'] = 'Pas de fil d\'indiqué.';
+$_lang['quip.thread_err_remove'] = 'Une erreur est survenue lors de la suppression de ce fil.';
+$_lang['quip.thread_err_save'] = 'Une erreur est survenue lors de l\'enregistrement de ce fil.';
+$_lang['quip.thread_manage'] = 'Gérer le fil';
+$_lang['quip.thread_msg'] = 'Vous pouvez gérer ici tous les commentaires de ce fil.';
+$_lang['quip.thread_remove'] = 'Supprimer le fil';
+$_lang['quip.thread_remove_confirm'] = 'Êtes-vous sûr de vouloir entièrement supprimer ce fil ? Cette opération est irreverssible.';
+$_lang['quip.thread_remove_selected'] = 'Supprimer les fils sélectionnés';
+$_lang['quip.thread_remove_selected_confirm'] = 'Êtes-vous sûr de vouloir entièrement supprimer ces fils ? Cette opération est irreverssible.';
+$_lang['quip.thread_truncate'] = 'Purger le fil';
+$_lang['quip.thread_truncate_confirm'] = 'Êtes-vous sûr de vouloir supprimer tous les commentaires de ce fil ?';
+$_lang['quip.thread_truncate_selected'] = 'Purger les fils sélectionnés';
+$_lang['quip.thread_truncate_selected_confirm'] = 'Êtes-vous sûr de vouloir supprimer tous les commentaires de ces fils ?';
+$_lang['quip.threads'] = 'Fils';
+$_lang['quip.unapproved'] = 'Non approuvé(s)';
+$_lang['quip.unapproved_comments'] = 'Commentaires non approuvés';
+$_lang['quip.unapproved_comments_msg'] = 'Modérer tous les commentaires non approuvés ici.';
+$_lang['quip.unsubscribe_me'] = 'Me désinscrire de ce fil';
+$_lang['quip.unsubscribed'] = 'Vous avez été désinscrit de ce fil. Merci!';
 $_lang['quip.username_said'] = '<strong>[[+username]]</strong> a écrit :';
 $_lang['quip.view'] = 'Voir';
 $_lang['quip.website'] = 'Site internet';

@@ -25,13 +25,14 @@
  * @package quip
  * @subpackage lexicon
  */
-$_lang['perm.comment_approve'] = 'Approver un commentaire.';
-$_lang['perm.comment_list'] = 'Lister les commentaires d\'un sujet.';
+$_lang['perm.comment_approve'] = 'Approuver un commentaire.';
+$_lang['perm.comment_list'] = 'Lister les commentaires d\'un fil.';
 $_lang['perm.comment_list_unapproved'] = 'Lister les commentaires non approuvés.';
 $_lang['perm.comment_remove'] = 'Supprimer un commentaire.';
 $_lang['perm.comment_update'] = 'Mettre à jour un commentaire.';
-$_lang['perm.thread_list'] = 'Lister les sujets disponibles.';
-$_lang['perm.thread_manage'] = 'Gérer un sujet.';
-$_lang['perm.thread_truncate'] = 'Purger tous les commentaires du sujet.';
-$_lang['perm.thread_update'] = 'Mettre à jour un sujet.';
-$_lang['perm.thread_view'] = 'Voir un sujet.';
+$_lang['perm.thread_list'] = 'Lister les fils disponibles.';
+$_lang['perm.thread_manage'] = 'Gérer un fil.';
+$_lang['perm.thread_remove'] = 'Supprimer un fil.';
+$_lang['perm.thread_truncate'] = 'Purger tous les commentaires du fil.';
+$_lang['perm.thread_update'] = 'Mettre à jour un fil.';
+$_lang['perm.thread_view'] = 'Voir un fil.';
