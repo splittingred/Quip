@@ -108,6 +108,7 @@ class quipComment extends xPDOSimpleObject {
             $options['context_key'] = $this->get('context_key');
             if (empty($options['context_key'])) {
                 $modresource = $this->xpdo->getObject('modResource', $resource);
+                if (!$modresource) return "Javascript: alert('Commeted object is lost! You can delete this comment.')";
                 $options['context_key'] = $modresource->get('context_key');
             }
         }
