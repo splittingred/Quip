@@ -125,11 +125,21 @@ class Quip {
      */
     public function initDebug() {
         if ($this->modx->getOption('debug',$this->config,false)) {
-            error_reporting(E_ALL); ini_set('display_errors',true);
-            $this->modx->setLogTarget('HTML');
-            $this->modx->setLogLevel(modX::LOG_LEVEL_ERROR);
+            //error_reporting(E_ALL); 
+            //ini_set('display_errors',true);
+            //$this->modx->setLogTarget('HTML');
+            //$this->modx->setLogLevel(modX::LOG_LEVEL_ERROR);
 
-            $debugUser = $this->config['debugUser'] == '' ? $this->modx->user->get('username') : 'anonymous';
+            /* BUG: original code throws an error, when debugUser has not been set. Together with the (wrong) error 
+                reporting settings above this caused the manager to be unusable in debug mode
+            */
+            $debugUser = 'anonymous';
+            if (isset($this->config['debugUser'])) {
+                if ($this->config['debugUser'] == '') {
+                    $debugUser = $this->modx->user->get('username');
+                }
+            } 
+            
             $user = $this->modx->getObject('modUser',array('username' => $debugUser));
             if ($user == null) {
                 $this->modx->user->set('id',$this->modx->getOption('debugUserId',$this->config,1));
