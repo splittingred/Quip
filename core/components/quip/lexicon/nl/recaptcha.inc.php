@@ -30,7 +30,7 @@
 $_lang['recaptcha.empty_answer'] = 'Incorrecte captcha woorden. Controleer uw antwoord en probeer opnieuw.';
 $_lang['recaptcha.incorrect'] = 'De reCAPTCHA is niet correct ingevuld. Ga terug en probeer opnieuw. [[+error]]';
 $_lang['recaptcha.mailhide_no_mcrypt'] = 'Om reCAPTCHA Mailhide te gebruiken, dient u de mcrypt php module geinstalleerd te hebben.';
-$_lang['recaptcha.mailhide_no_api_key'] = 'Om reCAPTCHA Mailhide te gebruiken, moet u inschrijven voor een public en private key, dit kan bij: <a href="http://mailhide.recaptcha.net/apikey">http://mailhide.recaptcha.net/apikey</a>';
-$_lang['recaptcha.no_api_key'] = 'Om reCAPTCHA te gebruiken heeft u een API key nodig van: <a href="http://recaptcha.net/api/getkey">http://recaptcha.net/api/getkey</a>';
+$_lang['recaptcha.mailhide_no_api_key'] = 'Om reCAPTCHA Mailhide te gebruiken, moet u inschrijven voor een public en private key, dit kan bij: <a href="http://www.google.com/recaptcha/mailhide/apikey">http://www.google.com/recaptcha/mailhide/apikey</a>';
+$_lang['recaptcha.no_api_key'] = 'Om reCAPTCHA te gebruiken heeft u een API key nodig van: <a href="https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a>';
 $_lang['recaptcha.no_remote_ip'] = 'Voor veiligheids redenen dient u de remote ip te passeren naar reCAPTCHA';
 

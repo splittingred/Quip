@@ -32,7 +32,7 @@
 $_lang['recaptcha.empty_answer'] = 'Chybně opsaný text captcha. Prosím, zkontrolujte svoji odpověď a zkuste znovu.';
 $_lang['recaptcha.incorrect'] = 'Text reCAPTCHA nebyl zadán správně. Vraťte se zpět a zkuste to znovu. [[+error]]';
 $_lang['recaptcha.mailhide_no_mcrypt'] = 'Abyste mohli použít reCAPTCHA Mailhide, musíte mít instalován php modul mcrypt.';
-$_lang['recaptcha.mailhide_no_api_key'] = 'Abyste mohli použít reCAPTCHA Mailhide, musíte se zaregistrovat na <a href="http://mailhide.recaptcha.net/apikey">http://mailhide.recaptcha.net/apikey</a> a získat veřejný a soukromý klíč.';
-$_lang['recaptcha.no_api_key'] = 'Abyste mohli použít reCAPTCHA, musíte získat API klíč na <a href="http://recaptcha.net/api/getkey">http://recaptcha.net/api/getkey</a>.';
+$_lang['recaptcha.mailhide_no_api_key'] = 'Abyste mohli použít reCAPTCHA Mailhide, musíte se zaregistrovat na <a href="http://www.google.com/recaptcha/mailhide/apikey">http://www.google.com/recaptcha/mailhide/apikey</a> a získat veřejný a soukromý klíč.';
+$_lang['recaptcha.no_api_key'] = 'Abyste mohli použít reCAPTCHA, musíte získat API klíč na <a href="https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a>.';
 $_lang['recaptcha.no_remote_ip'] = 'Z důvodu zabezpečení musíte zpřístupnit IP adresu reCAPTCHA.'; // ???
 
