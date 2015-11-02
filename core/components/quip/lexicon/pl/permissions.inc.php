@@ -20,17 +20,20 @@
  * Suite 330, Boston, MA 02111-1307 USA
  *
  * @package quip
+ * Translated by Jakub Kalina <kuba.kalina@gmail.com>
  */
 /**
- * reCaptcha Lexicon Topic
- *
  * @package quip
  * @subpackage lexicon
  */
-$_lang['recaptcha.empty_answer'] = 'Incorrect captcha words. Please check your answer and try again.';
-$_lang['recaptcha.incorrect'] = 'The reCAPTCHA wasn\'t entered correctly. Go back and try it again. [[+error]]';
-$_lang['recaptcha.mailhide_no_mcrypt'] = 'To use reCAPTCHA Mailhide, you need to have the mcrypt php module installed.';
-$_lang['recaptcha.mailhide_no_api_key'] = 'To use reCAPTCHA Mailhide, you have to sign up for a public and private key, you can do so at <a href="http://www.google.com/recaptcha/mailhide/apikey">http://www.google.com/recaptcha/mailhide/apikey</a>';
-$_lang['recaptcha.no_api_key'] = 'To use reCAPTCHA you must get an API key from <a href="https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a>';
-$_lang['recaptcha.no_remote_ip'] = 'For security reasons, you must pass the remote ip to reCAPTCHA';
-
+$_lang['perm.comment_approve'] = 'Zatwierdź komentarz.';
+$_lang['perm.comment_list'] = 'Wyświetl komentarze do wątku.';
+$_lang['perm.comment_list_unapproved'] = 'Wyświetl niezatwierdzone komentarze.';
+$_lang['perm.comment_remove'] = 'Usuń komentarz.';
+$_lang['perm.comment_update'] = 'Aktualizuj komentarz.';
+$_lang['perm.thread_list'] = 'Wyświetl dostępne wątki.';
+$_lang['perm.thread_manage'] = 'Zarządzaj wątkiem.';
+$_lang['perm.thread_remove'] = 'Usuń wątek.';
+$_lang['perm.thread_truncate'] = 'Wyczyść wszystkie komentarze w wątku.';
+$_lang['perm.thread_update'] = 'Aktualizuj wątek.';
+$_lang['perm.thread_view'] = 'Wyświetl wątek.';

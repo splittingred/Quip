@@ -23,14 +23,15 @@
  */
 /**
  * reCaptcha Lexicon Topic
+ * Translated by Jakub Kalina <kuba.kalina@gmail.com>
  *
  * @package quip
  * @subpackage lexicon
  */
-$_lang['recaptcha.empty_answer'] = 'Incorrect captcha words. Please check your answer and try again.';
-$_lang['recaptcha.incorrect'] = 'The reCAPTCHA wasn\'t entered correctly. Go back and try it again. [[+error]]';
-$_lang['recaptcha.mailhide_no_mcrypt'] = 'To use reCAPTCHA Mailhide, you need to have the mcrypt php module installed.';
-$_lang['recaptcha.mailhide_no_api_key'] = 'To use reCAPTCHA Mailhide, you have to sign up for a public and private key, you can do so at <a href="http://www.google.com/recaptcha/mailhide/apikey">http://www.google.com/recaptcha/mailhide/apikey</a>';
-$_lang['recaptcha.no_api_key'] = 'To use reCAPTCHA you must get an API key from <a href="https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a>';
-$_lang['recaptcha.no_remote_ip'] = 'For security reasons, you must pass the remote ip to reCAPTCHA';
+$_lang['recaptcha.empty_answer'] = 'Niepoprawne słowa. Proszę sprawdzić odpowiedź i spróbować ponownie.';
+$_lang['recaptcha.incorrect'] = 'reCAPTCHA nie została poprawnie uzupełniona: [[+error]]';
+$_lang['recaptcha.mailhide_no_mcrypt'] = 'Aby używać reCAPTCHA Mailhide, musisz mieć zainstalowany moduł php mcrypt.';
+$_lang['recaptcha.mailhide_no_api_key'] = 'Aby używać reCAPTCHA Mailhide, musisz utworzyć klucze publiczny i prywatny, możesz to zrobić na stronie <a href="http://www.google.com/recaptcha/mailhide/apikey">http://www.google.com/recaptcha/mailhide/apikey</a>';
+$_lang['recaptcha.no_api_key'] = 'Aby używać reCAPTCHA musisz utworzyć klucze na stronie <a href="https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a>';
+$_lang['recaptcha.no_remote_ip'] = 'Ze względów bezpieczeństwa, musisz przekazać zdalne IP do reCAPTCHA';
 
