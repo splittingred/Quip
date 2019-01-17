@@ -48,7 +48,7 @@
         <field key="rank" dbtype="nvarchar" precision="512" phptype="string" />
 
         <field key="author" dbtype="integer" phptype="integer" null="false" default="0" index="index" />
-        <field key="body" dbtype="nvarchar" precision="max" phptype="text" null="false" default="" />
+        <field key="body" dbtype="nvarchar" precision="max" phptype="string" null="false" default="" />
         <field key="createdon" dbtype="datetime" phptype="datetime" null="true" />
         <field key="editedon" dbtype="datetime" phptype="datetime" null="true" />
         <field key="approved" dbtype="bit" phptype="boolean" null="false" default="1" index="index" />

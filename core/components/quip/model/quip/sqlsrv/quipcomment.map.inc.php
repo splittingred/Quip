@@ -89,7 +89,7 @@ $xpdo_meta_map['quipComment']= array (
     array (
       'dbtype' => 'nvarchar',
       'precision' => 'max',
-      'phptype' => 'text',
+      'phptype' => 'string',
       'null' => false,
       'default' => '',
     ),
