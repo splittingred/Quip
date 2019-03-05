@@ -333,7 +333,12 @@ class QuipThreadController extends QuipController {
     public function handleActions() {
         /* handle remove post */
         $removeAction = $this->getProperty('removeAction','quip-remove');
-        if (!empty($_REQUEST[$removeAction]) && $this->hasAuth && $this->isModerator) {
+
+        /* handle author remove their own comment even when they are not moderator */
+        $currentComment = $this->getComments()[(int)$_REQUEST['quip_comment']];
+
+        if (!empty($_REQUEST[$removeAction]) && $this->hasAuth && ($this->isModerator
+				|| (!empty($currentComment) && $currentComment->get('author') == $this->modx->user->get('id')))) {
             $this->removeComment();
         }
         /* handle report spam */
